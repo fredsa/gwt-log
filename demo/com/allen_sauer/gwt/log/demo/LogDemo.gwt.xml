@@ -1,0 +1,11 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.allen_sauer.gwt.log.Log'/>
+
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class='com.allen_sauer.gwt.log.demo.client.LogDemo'/>
+  
+  <stylesheet src='Log.css'/>
+
+</module>
