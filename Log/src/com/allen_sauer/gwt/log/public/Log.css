@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+
+.log-panel {
+  background-color: #E8EEF7;
+  border: 1px solid red;
+  padding: 0.2em;
+  margin: 0px;
+  z-index: 50;
+  font-family: monospace;
+  filter: alpha(opacity = 90);
+  opacity: 0.9;
+  -moz-opacity: 0.9;
+  z-index: 1000;
+}
+
+.log-header {
+  cursor: move;
+}
+
+.log-text-area {
+  white-space: nowrap;
+  color: red;
+  font-size: 10pt;
+}
+
+.log-scroll-panel {
+  background-color: white;
+  width: 700px;
+  height: 200px;
+}
