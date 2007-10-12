@@ -18,6 +18,7 @@
 }
 
 .log-text-area {
+  text-align: left;
   white-space: nowrap;
   color: red;
   font-size: 10pt;
