@@ -6,25 +6,28 @@
   padding: 0.2em;
   margin: 0px;
   z-index: 50;
-  font-family: monospace;
-  filter: alpha(opacity = 90);
+  filter: alpha(opacity =   90);
   opacity: 0.9;
   -moz-opacity: 0.9;
   z-index: 1000;
 }
 
-.log-header {
+.log-panel .log-header {
   cursor: move;
 }
 
-.log-text-area {
+.log-panel .log-text-area {
   text-align: left;
   white-space: nowrap;
   color: red;
   font-size: 10pt;
 }
 
-.log-scroll-panel {
+.log-panel .log-text-area * {
+  font-family: monospace;
+}
+
+.log-panel .log-scroll-panel {
   background-color: white;
   width: 700px;
   height: 200px;
