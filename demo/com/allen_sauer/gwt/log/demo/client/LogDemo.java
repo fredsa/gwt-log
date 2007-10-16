@@ -3,6 +3,7 @@ package com.allen_sauer.gwt.log.demo.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -25,6 +26,8 @@ public class LogDemo implements EntryPoint {
      return i_do_not_exist();
     }-*/;
   }
+
+  private static final String DEMO_MAIN_PANEL = "demo-main-panel";
 
   public void onModuleLoad() {
     // set uncaught exception handler
@@ -54,12 +57,14 @@ public class LogDemo implements EntryPoint {
   }-*/;
 
   private void onModuleLoad2() {
-
+    RootPanel mainPanel = RootPanel.get(DEMO_MAIN_PANEL);
+    DOM.setInnerHTML(mainPanel.getElement(), "");
+    
     // Hosted mode 1st time: ExceptionInInitializerError
     // Hosted mode Nth time: NoClassDefFoundError
     // Web mode: JavaScriptException
     Button clinitButton = new Button("test static (class) initialization failure");
-    RootPanel.get().add(clinitButton);
+    mainPanel.add(clinitButton);
     clinitButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         new Broken();
@@ -68,10 +73,10 @@ public class LogDemo implements EntryPoint {
 
     // JSNI tests
 
-    RootPanel.get().add(new HTML("<BR>"));
+    mainPanel.add(new HTML("<BR>"));
 
     Button jsniCatchButton = new Button("JSNI with try/catch");
-    RootPanel.get().add(jsniCatchButton);
+    mainPanel.add(jsniCatchButton);
     jsniCatchButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         jsniCatch();
@@ -79,17 +84,17 @@ public class LogDemo implements EntryPoint {
     });
 
     Button jsniNoCatchButton = new Button("JSNI without try/catch");
-    RootPanel.get().add(jsniNoCatchButton);
+    mainPanel.add(jsniNoCatchButton);
     jsniNoCatchButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         jsniNoCatch();
       }
     });
 
-    RootPanel.get().add(new HTML("<BR>"));
+    mainPanel.add(new HTML("<BR>"));
 
     Button debugButton = new Button("Log a 'DEBUG' message");
-    RootPanel.get().add(debugButton);
+    mainPanel.add(debugButton);
     debugButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         Log.debug("This is a 'DEBUG' test message");
@@ -97,7 +102,7 @@ public class LogDemo implements EntryPoint {
     });
 
     Button infoButton = new Button("Log a 'INFO' message");
-    RootPanel.get().add(infoButton);
+    mainPanel.add(infoButton);
     infoButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         Log.info("This is a 'INFO' test message");
@@ -105,7 +110,7 @@ public class LogDemo implements EntryPoint {
     });
 
     Button warnButton = new Button("Log a 'WARN' message");
-    RootPanel.get().add(warnButton);
+    mainPanel.add(warnButton);
     warnButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         Log.warn("This is a 'WARN' test message");
@@ -113,7 +118,7 @@ public class LogDemo implements EntryPoint {
     });
 
     Button errorButton = new Button("Log a 'ERROR' message");
-    RootPanel.get().add(errorButton);
+    mainPanel.add(errorButton);
     errorButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         Log.error("This is a 'ERROR' test message");
@@ -121,17 +126,17 @@ public class LogDemo implements EntryPoint {
     });
 
     Button fatalButton = new Button("Log a 'FATAL' message");
-    RootPanel.get().add(fatalButton);
+    mainPanel.add(fatalButton);
     fatalButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         Log.fatal("This is a 'FATAL' test message");
       }
     });
 
-    RootPanel.get().add(new HTML("<BR>"));
+    mainPanel.add(new HTML("<BR>"));
 
     Button clearButton = new Button("clear()");
-    RootPanel.get().add(clearButton);
+    mainPanel.add(clearButton);
     clearButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         Log.clear();

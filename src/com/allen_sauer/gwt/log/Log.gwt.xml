@@ -3,6 +3,7 @@
 	<!-- Inherit the core Web Toolkit stuff.                  -->
 	<inherits name='com.google.gwt.user.User'/>
 
+  <!-- Include CSS                                          -->
 	<stylesheet src='Log.css'/>
 	
 </module>
