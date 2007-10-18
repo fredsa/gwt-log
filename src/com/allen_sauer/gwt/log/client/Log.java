@@ -1,6 +1,7 @@
 package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.Window;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,16 +50,6 @@ public class Log {
     debug(message, (Throwable) null);
   }
 
-  public static void debug2(String message) {
-    if (COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_DEBUG) {
-      message = format(PREFIX_DEBUG, message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
-        logger.debug(message, null);
-      }
-    }
-  }
-
   public static void debug(String message, JavaScriptObject e) {
     debug(message, LogUtil.convertJavaScriptObjectToException(e));
   }
@@ -69,6 +60,16 @@ public class Log {
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = (Logger) iterator.next();
         logger.debug(message, e);
+      }
+    }
+  }
+
+  public static void debug2(String message) {
+    if (COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_DEBUG) {
+      message = format(PREFIX_DEBUG, message);
+      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
+        Logger logger = (Logger) iterator.next();
+        logger.debug(message, null);
       }
     }
   }
@@ -179,7 +180,12 @@ public class Log {
       addLogger(consoleLogger);
     }
 
-    addLogger(new DivLogger());
+    // During GWT development certain failures may prevent the DOM/UI from working
+    try {
+      addLogger(new DivLogger());
+    } catch (Throwable ex) {
+      Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to " + ex.toString());
+    }
     addLogger(new GWTLogger());
     addLogger(new SystemLogger());
 
