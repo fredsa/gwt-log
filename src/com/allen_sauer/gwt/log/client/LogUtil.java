@@ -19,10 +19,8 @@ import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
 
 class LogUtil {
-  static JavaScriptException convertJavaScriptObjectToException(
-      JavaScriptObject e) {
-     return new JavaScriptException(javaScriptExceptionName(e),
-        javaScriptExceptionDescription(e));
+  static JavaScriptException convertJavaScriptObjectToException(JavaScriptObject e) {
+    return new JavaScriptException(javaScriptExceptionName(e), javaScriptExceptionDescription(e));
   }
 
   private static native String javaScriptExceptionDescription(JavaScriptObject e)
