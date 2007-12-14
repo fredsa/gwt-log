@@ -1,10 +1,6 @@
 @CHARSET "UTF-8";
 
-IMG.demo-loading {
-  margin-left: 1em;
-  margin-right: 0.3em;
-}
-
-.demo-LogDemo {
-  margin: 0.5em;
+BUTTON {
+  display: inline;
+  margin: 3px;
 }
