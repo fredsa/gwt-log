@@ -35,13 +35,18 @@ public class Log {
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
   public static final int LOG_LEVEL_WARN = 30000;
 
-  private static final ArrayList loggers = new ArrayList();
+  private static ConsoleLogger consoleLogger;
 
+  private static DivLogger divLogger;
+  private static FirebugLogger firebugLogger;
+  private static GWTLogger gwtLogger;
+  private static final ArrayList loggers = new ArrayList();
   private static final String PREFIX_DEBUG = "[DEBUG]";
   private static final String PREFIX_ERROR = "[ERROR]";
   private static final String PREFIX_FATAL = "[FATAL]";
   private static final String PREFIX_INFO = "[INFO]";
   private static final String PREFIX_WARN = "[WARN]";
+  private static SystemLogger systemLogger;
 
   static {
     COMPILE_TIME_LOG_LEVEL = LOG_LEVEL_DEBUG;
@@ -125,6 +130,26 @@ public class Log {
     }
   }
 
+  public static ConsoleLogger getConsoleLogger() {
+    return consoleLogger;
+  }
+
+  public static DivLogger getDivLogger() {
+    return divLogger;
+  }
+
+  public static FirebugLogger getFirebugLogger() {
+    return firebugLogger;
+  }
+
+  public static GWTLogger getGwtLogger() {
+    return gwtLogger;
+  }
+
+  public static SystemLogger getSystemLogger() {
+    return systemLogger;
+  }
+
   public static void info(String message) {
     info(message, (Throwable) null);
   }
@@ -186,9 +211,8 @@ public class Log {
   }
 
   private static void initLoggers() {
-    ConsoleLogger consoleLogger = new ConsoleLogger();
-    FirebugLogger firebugLogger = new FirebugLogger();
-
+    consoleLogger = new ConsoleLogger();
+    firebugLogger = new FirebugLogger();
     if (firebugLogger.isSupported()) {
       addLogger(firebugLogger);
     } else if (consoleLogger.isSupported()) {
@@ -197,12 +221,13 @@ public class Log {
 
     // During GWT development certain failures may prevent the DOM/UI from working
     try {
-      addLogger(new DivLogger());
+      addLogger(divLogger = new DivLogger());
     } catch (Throwable ex) {
-      Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to " + ex.toString());
+      Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
+          + ex.toString());
     }
-    addLogger(new GWTLogger());
-    addLogger(new SystemLogger());
+    addLogger(gwtLogger = new GWTLogger());
+    addLogger(systemLogger = new SystemLogger());
 
     clear();
   }

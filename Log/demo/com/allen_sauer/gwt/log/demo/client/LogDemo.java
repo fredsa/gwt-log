@@ -20,6 +20,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HTML;
@@ -74,7 +75,11 @@ public class LogDemo implements EntryPoint {
   private void onModuleLoad2() {
     RootPanel mainPanel = RootPanel.get(DEMO_MAIN_PANEL);
     DOM.setInnerHTML(mainPanel.getElement(), "");
-    
+
+    mainPanel.add(new HTML(
+        "<div style='font-weight: bold; font-size: 1.2em;'><a href='http://code.google.com/p/gwt-log/'>gwt-log</a>"
+            + " - Runtime logging for your Google Web Toolkit projects.</div><br>"));
+
     // Hosted mode 1st time: ExceptionInInitializerError
     // Hosted mode Nth time: NoClassDefFoundError
     // Web mode: JavaScriptException
@@ -131,6 +136,7 @@ public class LogDemo implements EntryPoint {
         Log.warn("This is a 'WARN' test message");
       }
     });
+    mainPanel.add(new HTML(" "));
 
     Button errorButton = new Button("Log a 'ERROR' message");
     mainPanel.add(errorButton);
@@ -147,15 +153,26 @@ public class LogDemo implements EntryPoint {
         Log.fatal("This is a 'FATAL' test message");
       }
     });
-
     mainPanel.add(new HTML("<BR>"));
 
-    Button clearButton = new Button("clear()");
+    final Button clearButton = new Button("clear()");
     mainPanel.add(clearButton);
     clearButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         Log.clear();
       }
     });
+    mainPanel.add(new HTML("<BR>"));
+
+    new Timer() {
+      public void run() {
+        Log.getDivLogger().moveTo(10,
+            clearButton.getAbsoluteTop() + clearButton.getOffsetHeight() + 10);
+        Log.getDivLogger().info("This is the DivLogger panel, just one of the available loggers.",
+            null);
+        Log.getDivLogger().info(
+            "Click on the various buttons above to send test messages or trap exceptions.", null);
+      }
+    }.schedule(1000);
   }
 }
