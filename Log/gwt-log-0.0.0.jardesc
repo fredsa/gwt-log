@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-<jar path="/fred/java/lib/gwt-log/gwt-log.jar"/>
-<options buildIfNeeded="true" compress="false" descriptionLocation="/Log/gwt-log.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+<jar path="/fred/java/lib/gwt-log/gwt-log-0.0.0.jar"/>
+<options buildIfNeeded="true" compress="false" descriptionLocation="/Log/gwt-log-0.0.0.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
 <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
 <selectedProjects/>
 <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
 <javaElement handleIdentifier="=Log/src&lt;com.allen_sauer.gwt.log"/>
 <javaElement handleIdentifier="=Log/src&lt;com.allen_sauer.gwt.log.client"/>
+<javaElement handleIdentifier="=Log/src&lt;com.allen_sauer.gwt.log.client.impl"/>
 </selectedElements>
 </jardesc>
