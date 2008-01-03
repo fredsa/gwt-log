@@ -16,7 +16,6 @@
 package com.allen_sauer.gwt.log.demo.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
@@ -28,7 +27,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogUncaughtExceptionHandler;
 
 /**
  * Demonstrate Log capabilities.
@@ -43,11 +41,28 @@ public class LogDemo implements EntryPoint {
     }-*/;
   }
 
+  private static final String CSS_CURRENT = "current";
+
+  private static final String CSS_NOOP = "noop";
+
   private static final String DEMO_MAIN_PANEL = "demo-main-panel";
+  private static final int[] levels = {
+      Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN, Log.LOG_LEVEL_ERROR,
+      Log.LOG_LEVEL_FATAL, Log.LOG_LEVEL_OFF,};
+
+  private static final String[] levelTexts = {"DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF",};
+
+  private Button clinitButtonFatal;
+  private HTML currentLogLevelLabel = new HTML();
+  private Button jsniCatchButtonError;
+  private Button jsniNoCatchButtonFatal;
+  private Button levelButtons[] = new Button[levels.length];
+  private HTML lowestLogLevelLabel = new HTML();
+  private Button messageButtons[] = new Button[levels.length - 1];
 
   public void onModuleLoad() {
     // set uncaught exception handler
-    GWT.setUncaughtExceptionHandler(new LogUncaughtExceptionHandler());
+    Log.setUncaughtExceptionHandler();
 
     // use a deferred command so that the handler catches onModuleLoad2()
     // exceptions
@@ -57,6 +72,11 @@ public class LogDemo implements EntryPoint {
       }
     });
   }
+
+  private native String getPageURL()
+  /*-{
+    return $wnd.location.href.replace(/[\\?#].*$/, "");
+  }-*/;
 
   private native void jsniCatch()
   /*-{
@@ -76,103 +96,175 @@ public class LogDemo implements EntryPoint {
     RootPanel mainPanel = RootPanel.get(DEMO_MAIN_PANEL);
     DOM.setInnerHTML(mainPanel.getElement(), "");
 
-    mainPanel.add(new HTML(
-        "<div style='font-weight: bold; font-size: 1.2em;'><a href='http://code.google.com/p/gwt-log/'>gwt-log</a>"
-            + " - Runtime logging for your Google Web Toolkit projects.</div><br>"));
+    mainPanel.add(new HTML("Log a message:"));
 
-    // Hosted mode 1st time: ExceptionInInitializerError
-    // Hosted mode Nth time: NoClassDefFoundError
-    // Web mode: JavaScriptException
-    Button clinitButton = new Button("test static (class) initialization failure");
-    mainPanel.add(clinitButton);
-    clinitButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        new Broken();
-      }
-    });
-
-    // JSNI tests
+    for (int i = 0; i < levels.length - 1; i++) {
+      final int level = levels[i];
+      final String levelString = levelTexts[i];
+      messageButtons[i] = new Button("Log." + levelString.toLowerCase() + "(...)");
+      mainPanel.add(messageButtons[i]);
+      messageButtons[i].addClickListener(new ClickListener() {
+        public void onClick(Widget sender) {
+          String msg = "This is a '" + levelString + "' test message";
+          switch (level) {
+            case Log.LOG_LEVEL_DEBUG:
+              Log.debug(msg);
+              break;
+            case Log.LOG_LEVEL_INFO:
+              Log.info(msg);
+              break;
+            case Log.LOG_LEVEL_WARN:
+              Log.warn(msg);
+              break;
+            case Log.LOG_LEVEL_ERROR:
+              Log.error(msg);
+              break;
+            case Log.LOG_LEVEL_FATAL:
+              Log.fatal(msg);
+              break;
+          }
+        }
+      });
+    }
 
     mainPanel.add(new HTML("<BR>"));
+    mainPanel.add(new HTML("Catch some exceptions:"));
 
-    Button jsniCatchButton = new Button("JSNI with try/catch");
-    mainPanel.add(jsniCatchButton);
-    jsniCatchButton.addClickListener(new ClickListener() {
+    jsniCatchButtonError = new Button("JSNI with try/catch");
+    mainPanel.add(jsniCatchButtonError);
+    jsniCatchButtonError.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         jsniCatch();
       }
     });
 
-    Button jsniNoCatchButton = new Button("JSNI without try/catch");
-    mainPanel.add(jsniNoCatchButton);
-    jsniNoCatchButton.addClickListener(new ClickListener() {
+    jsniNoCatchButtonFatal = new Button("JSNI without try/catch");
+    mainPanel.add(jsniNoCatchButtonFatal);
+    jsniNoCatchButtonFatal.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         jsniNoCatch();
       }
     });
 
+    clinitButtonFatal = new Button("static (class) initialization failure");
+    mainPanel.add(clinitButtonFatal);
+    clinitButtonFatal.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        new Broken();
+      }
+    });
+
     mainPanel.add(new HTML("<BR>"));
+    mainPanel.add(new HTML("Clear log output (on supported destinations):"));
 
-    Button debugButton = new Button("Log a 'DEBUG' message");
-    mainPanel.add(debugButton);
-    debugButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        Log.debug("This is a 'DEBUG' test message");
-      }
-    });
-
-    Button infoButton = new Button("Log a 'INFO' message");
-    mainPanel.add(infoButton);
-    infoButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        Log.info("This is a 'INFO' test message");
-      }
-    });
-
-    Button warnButton = new Button("Log a 'WARN' message");
-    mainPanel.add(warnButton);
-    warnButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        Log.warn("This is a 'WARN' test message");
-      }
-    });
-    mainPanel.add(new HTML(" "));
-
-    Button errorButton = new Button("Log a 'ERROR' message");
-    mainPanel.add(errorButton);
-    errorButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        Log.error("This is a 'ERROR' test message");
-      }
-    });
-
-    Button fatalButton = new Button("Log a 'FATAL' message");
-    mainPanel.add(fatalButton);
-    fatalButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        Log.fatal("This is a 'FATAL' test message");
-      }
-    });
-    mainPanel.add(new HTML("<BR>"));
-
-    final Button clearButton = new Button("clear()");
+    Button clearButton = new Button("clear()");
     mainPanel.add(clearButton);
     clearButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         Log.clear();
       }
     });
+
     mainPanel.add(new HTML("<BR>"));
+    mainPanel.add(new HTML("Set runtime log level to:"));
+
+    for (int i = 0; i < levels.length; i++) {
+      final int level = levels[i];
+      levelButtons[i] = new Button(levelTexts[i]);
+      levelButtons[i].addClickListener(new ClickListener() {
+        public void onClick(Widget sender) {
+          Log.setCurrentLogLevel(level);
+          updateLogLevelLabels();
+        }
+      });
+      mainPanel.add(levelButtons[i]);
+    }
+
+    mainPanel.add(new HTML("<BR>"));
+    mainPanel.add(new HTML("Change the <code>log_level</code> URL parameter to:"));
+
+    for (int i = 0; i < levels.length; i++) {
+      final int level = levels[i];
+      final String url = getPageURL() + "?log_level=" + levelTexts[i];
+      Button button = new Button(levelTexts[i]);
+      button.addClickListener(new ClickListener() {
+        public void onClick(Widget sender) {
+          setLocation(url);
+        }
+      });
+      button.setTitle("Switch to '" + levelTexts[i] + "' compile time log level");
+      mainPanel.add(button);
+      if (level == Log.getLowestLogLevel()) {
+        button.addStyleDependentName(CSS_CURRENT);
+      }
+    }
+
+    mainPanel.add(new HTML("<BR>"));
+
+    mainPanel.add(currentLogLevelLabel);
+    mainPanel.add(lowestLogLevelLabel);
+    updateLogLevelLabels();
+
+    final Widget lastWidget = new HTML("<BR>");
+    mainPanel.add(lastWidget);
 
     new Timer() {
       public void run() {
-        Log.getDivLogger().moveTo(10,
-            clearButton.getAbsoluteTop() + clearButton.getOffsetHeight() + 10);
-        Log.getDivLogger().info("This is the DivLogger panel, just one of the available loggers.",
-            null);
-        Log.getDivLogger().info(
-            "Click on the various buttons above to send test messages or trap exceptions.", null);
+        if (Log.isLoggingEnabled()) {
+          Log.getDivLogger().moveTo(10,
+              lastWidget.getAbsoluteTop() + lastWidget.getOffsetHeight() + 10);
+          Log.getDivLogger().info(
+              "This is the DivLogger panel, just one of the available loggers.", null);
+          Log.getDivLogger().info(
+              "Click on the various buttons above to send tests or trap exceptions.", null);
+        }
       }
     }.schedule(1000);
+  }
+
+  private native void setLocation(String url)
+  /*-{
+    $wnd.location = url;
+  }-*/;
+
+  private void styleLevelButton(Button button, int buttonLogLevel, String levelText) {
+    if (buttonLogLevel < Log.getLowestLogLevel()) {
+      button.addStyleDependentName(CSS_NOOP);
+      button.setTitle("(Compile time log level prevents this runtime level)");
+    } else {
+      if (buttonLogLevel == Log.getCurrentLogLevel()) {
+        button.addStyleDependentName(CSS_CURRENT);
+        button.setTitle("(Already at this runtime log level)");
+      } else {
+        button.removeStyleDependentName(CSS_CURRENT);
+        button.setTitle("Set runtime log level to '" + levelText + "'");
+      }
+    }
+  }
+
+  private void styleMessageButton(Button button, int buttonLogLevel, String levelText) {
+    if (buttonLogLevel < Log.getCurrentLogLevel()) {
+      button.addStyleDependentName(CSS_NOOP);
+      button.setTitle("Currently has no effect");
+    } else {
+      button.removeStyleDependentName(CSS_NOOP);
+      button.setTitle("Send a '" + levelText + "' message");
+    }
+  }
+
+  private void updateLogLevelLabels() {
+    currentLogLevelLabel.setHTML("Current (runtime) log level = <code>"
+        + Log.getCurrentLogLevelString() + "</code>");
+    lowestLogLevelLabel.setHTML("Current lowest possible (compile time) log level = <code>"
+        + Log.getLowestLogLevelString() + "</code>");
+    for (int i = 0; i < messageButtons.length; i++) {
+      styleMessageButton(messageButtons[i], levels[i], levelTexts[i]);
+    }
+    for (int i = 0; i < levelButtons.length; i++) {
+      styleLevelButton(levelButtons[i], levels[i], levelTexts[i]);
+    }
+    styleMessageButton(clinitButtonFatal, Log.LOG_LEVEL_FATAL, "FATAL");
+    styleMessageButton(jsniNoCatchButtonFatal, Log.LOG_LEVEL_FATAL, "FATAL");
+    styleMessageButton(jsniCatchButtonError, Log.LOG_LEVEL_ERROR, "ERROR");
   }
 }

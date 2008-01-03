@@ -13,20 +13,28 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.log.client;
+package com.allen_sauer.gwt.log.client.impl;
 
-import com.google.gwt.core.client.GWT;
+import com.allen_sauer.gwt.log.client.Log;
 
-public class SystemLogger extends AbstractLogger {
-  public boolean isSupported() {
-    return !GWT.isScript();
+/**
+ * Implementation of {@link LogImpl} which attempts to compile out
+ * all code with a log level lower than {@link Log#LOG_LEVEL_ERROR}.
+ */
+public class LogImplError extends LogImplBase {
+  public final int getLowestLogLevel() {
+    return Log.LOG_LEVEL_ERROR;
   }
 
-  public void log(int logLevel, String message) {
-    if (logLevel >= Log.LOG_LEVEL_ERROR) {
-      System.err.println(message);
-    } else {
-      System.out.println(message);
-    }
+  public final boolean isDebugEnabled() {
+    return false;
+  }
+
+  public final boolean isInfoEnabled() {
+    return false;
+  }
+
+  public final boolean isWarnEnabled() {
+    return false;
   }
 }

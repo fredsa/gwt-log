@@ -13,15 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.log.client;
+package com.allen_sauer.gwt.log.client.impl;
 
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.allen_sauer.gwt.log.client.Log;
 
 /**
- * @deprecated Use {@link Log#setUncaughtExceptionHandler()} instead.
+ * Debugging implementation of {@link LogImpl} for the
+ * {@link Log#LOG_LEVEL_DEBUG} log level.
  */
-public class LogUncaughtExceptionHandler implements UncaughtExceptionHandler {
-  public void onUncaughtException(Throwable e) {
-    Log.fatal("Uncaught Exception:", e);
+public class LogImplDebug extends LogImplBase {
+  public final int getLowestLogLevel() {
+    return Log.LOG_LEVEL_DEBUG;
   }
 }

@@ -1,7 +1,10 @@
 <html>
 	<head>
 		<title>LogDemo</title>
-    <link rel="stylesheet" href="Log.css" type="text/css">
+
+    <!-- LogDemo defaults to (compile time) 'DEBUG' log level -->
+    <meta name="gwt:property" content="log_level=DEBUG">
+
     <script language='javascript' src='com.allen_sauer.gwt.log.demo.LogDemo.nocache.js'></script>
 	</head>
 	<body>
@@ -10,21 +13,37 @@
     <table border="0" style="width: 100%; height: 100%;">
       <tr style="vertical-align: top;">
         <td width="100%">
-
-          <div id="demo-main-panel" class="demo-main-panel">
-            <div style="padding: 5em 3em; margin: auto; text-align: center;">
-              <div style="font-weight: bold; font-size: 1.2em; margin-bottom: 3em;">
-                <a href="http://code.google.com/p/gwt-log/">gwt-log</a>
-                 - Runtime logging for your Google Web Toolkit projects.
-              </div>
-            
-              <div style="color: gray; white-space: nowrap">
-                <img src="images/preview61_cycle_eight_16-black-on-white.gif" style="vertical-align: middle;"> Loading demo. Please wait...
-              </div>
-      
+          <div style="font-weight: bold; font-size: 1.2em; margin: 0em 0em 1em;">
+            <a href="http://code.google.com/p/gwt-log/">gwt-log</a>
+             - Runtime logging for your Google Web Toolkit projects.
+          </div>
+          <div style="margin-bottom: 2em;">
+            <b>Features:</b>
+            <ul style="margin: 0em 0em 0em 1.8em;">
+              <li>Logging code is compiled out and introduces zero-overhead<sup>*</sup> due to
+                  GWT&nbsp;1.5 compiler dead code elimination when <code>log_level=OFF</code></li>
+              <li>Six out of the box log levels (<code>DEBUG</code>, <code>INFO</code>, 
+                  <code>WARN</code>, <code>ERROR</code>, <code>FATAL</code>, <code>OFF</code>),
+                  with the flexibility to add your own log levels</li>
+              <li>Log level can be controlle via <code>log_level</code> URL parameter,
+                  GWT <code>meta</code> tag in your HTML, or in your module <code>*.gwt.xml</code> file
+              <li>Wide variety of context sensitive log destinations: popup DIV, Firebug,
+                  <code>console.log()</code>, <code>GWT.log()</code>,
+                  <code>System.err()</code>/<code>System.out()</code></li>
+              <li>Ability to independently control compile time and runtime log levels</li>
+            </ul>
+            <br>
+            <sup>*&nbsp;<em>Unless your logging parameters are determined to have <em>side effects</em></sup>
+          </div>
+        
+          <b>Interactive Demo:</b><br>
+          <br>
+          <div id="demo-main-panel" style="margin-left: 0.5em;">
+            <div style="color: gray; white-space: nowrap">
+              <img src="images/preview61_cycle_eight_16-black-on-white.gif" style="vertical-align: middle;">
+              Loading demo. Please wait...
             </div>
           </div>
-
         </td>
         <td width="160">
 <script type="text/javascript"><!--

@@ -15,13 +15,18 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.core.client.GWT;
 
-/**
- * @deprecated Use {@link Log#setUncaughtExceptionHandler()} instead.
- */
-public class LogUncaughtExceptionHandler implements UncaughtExceptionHandler {
-  public void onUncaughtException(Throwable e) {
-    Log.fatal("Uncaught Exception:", e);
+public class LoggerSystem extends AbstractLogger {
+  public boolean isSupported() {
+    return !GWT.isScript();
+  }
+
+  public void log(int logLevel, String message) {
+    if (logLevel >= Log.LOG_LEVEL_ERROR) {
+      System.err.println(message);
+    } else {
+      System.out.println(message);
+    }
   }
 }
