@@ -196,7 +196,9 @@
 		<jar destfile="build/dist/${gwt-log.jar}">
 			<fileset dir="build/out/src" />
 		</jar>
+		<!--
 		<jar basedir="build/javadoc" destfile="build/dist/${gwt-log.javadoc-jar}" />
+    -->
 
 		<copy todir="${gwt-log.libdir}">
 			<fileset dir="build/dist" />
