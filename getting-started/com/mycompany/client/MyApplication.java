@@ -16,17 +16,15 @@
 package com.mycompany.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogUncaughtExceptionHandler;
 
 public class MyApplication implements EntryPoint {
   public void onModuleLoad() {
     // set uncaught exception handler
-    GWT.setUncaughtExceptionHandler(new LogUncaughtExceptionHandler());
+    Log.setUncaughtExceptionHandler();
 
     // use a deferred command so that the handler catches onModuleLoad2() exceptions
     DeferredCommand.addCommand(new Command() {

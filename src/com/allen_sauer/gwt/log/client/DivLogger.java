@@ -36,15 +36,15 @@ public class DivLogger extends AbstractLogger {
   private static final int UPDATE_INTERVAL_MILLIS = 500;
 
   private FlexTable debugTable = new FlexTable();
-  private String debugText = "";
-  private HTML debugTextArea = new HTML();
+  private HTML logTextArea = new HTML();
   private boolean dirty = false;
+  private String logText = "";
   private ScrollPanel scrollPanel = new ScrollPanel();
   private Timer timer;
 
   public DivLogger() {
     debugTable.addStyleName(STYLE_LOG_PANEL);
-    debugTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
+    logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
     scrollPanel.addStyleName(STYLE_LOG_SCROLL_PANEL);
 
     final Label header = new Label("LOG PANEL");
@@ -53,7 +53,7 @@ public class DivLogger extends AbstractLogger {
     debugTable.setWidget(1, 0, scrollPanel);
     debugTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
-    scrollPanel.setWidget(debugTextArea);
+    scrollPanel.setWidget(logTextArea);
 
     header.addMouseListener(new MouseListenerAdapter() {
       private boolean dragging = false;
@@ -81,24 +81,24 @@ public class DivLogger extends AbstractLogger {
       }
     });
 
+    debugTable.setVisible(false);
+    RootPanel.get().add(debugTable, 0, 0);
+
     timer = new Timer() {
       public void run() {
         dirty = false;
-        debugTextArea.setHTML(debugText);
+        logTextArea.setHTML(logText);
         DeferredCommand.addCommand(new Command() {
           public void execute() {
             scrollPanel.setScrollPosition(Integer.MAX_VALUE);
           }
         });
-        if (!debugTable.isAttached()) {
-          RootPanel.get().add(debugTable, 0, 0);
-        }
       }
     };
   }
 
   public void clear() {
-    setDebugText("");
+    setLogText("");
   }
 
   public boolean isSupported() {
@@ -111,7 +111,8 @@ public class DivLogger extends AbstractLogger {
     message = message.replaceAll("<", "&lt;");
     message = message.replaceAll(">", "&gt;");
     message = message.replaceAll("\r\n|\r|\n", "<BR>");
-    setDebugText(debugText + "<div style='color: " + getColor(logLevel) + ";'>" + message + "</div>");
+    setLogText(logText + "<div style='color: " + getColor(logLevel) + ";'>" + message + "</div>");
+    debugTable.setVisible(true);
   }
 
   public void moveTo(int x, int y) {
@@ -119,11 +120,11 @@ public class DivLogger extends AbstractLogger {
   }
 
   public void setPixelSize(int width, int height) {
-    debugTextArea.setPixelSize(width, height);
+    logTextArea.setPixelSize(width, height);
   }
 
   public void setSize(String width, String height) {
-    debugTextArea.setSize(width, height);
+    logTextArea.setSize(width, height);
   }
 
   private String getColor(int logLevel) {
@@ -142,8 +143,8 @@ public class DivLogger extends AbstractLogger {
     return "green";
   }
 
-  private void setDebugText(String debugText) {
-    this.debugText = debugText;
+  private void setLogText(String debugText) {
+    logText = debugText;
     if (!dirty) {
       dirty = true;
       timer.schedule(UPDATE_INTERVAL_MILLIS);

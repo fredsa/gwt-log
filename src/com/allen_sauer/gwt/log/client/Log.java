@@ -15,19 +15,12 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.user.client.Window;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import com.allen_sauer.gwt.log.client.impl.LogImpl;
 
-public class Log {
-
-  /**
-   * Current log level for this application with <code>final</code> qualifier
-   * to ensure GWT compiler optimization, including dead code removal.
-   */
-  public static final int COMPILE_TIME_LOG_LEVEL;
+public final class Log {
   public static final int LOG_LEVEL_DEBUG = 10000;
   public static final int LOG_LEVEL_ERROR = 40000;
   public static final int LOG_LEVEL_FATAL = 50000;
@@ -35,35 +28,14 @@ public class Log {
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
   public static final int LOG_LEVEL_WARN = 30000;
 
-  private static ConsoleLogger consoleLogger;
-
-  private static DivLogger divLogger;
-  private static FirebugLogger firebugLogger;
-  private static GWTLogger gwtLogger;
-  private static final ArrayList loggers = new ArrayList();
-  private static final String PREFIX_DEBUG = "[DEBUG]";
-  private static final String PREFIX_ERROR = "[ERROR]";
-  private static final String PREFIX_FATAL = "[FATAL]";
-  private static final String PREFIX_INFO = "[INFO]";
-  private static final String PREFIX_WARN = "[WARN]";
-  private static SystemLogger systemLogger;
-
-  static {
-    COMPILE_TIME_LOG_LEVEL = LOG_LEVEL_DEBUG;
-    initLoggers();
-  }
+  private static final LogImpl impl = (LogImpl) GWT.create(LogImpl.class);
 
   public static void addLogger(Logger logger) {
-    if (logger.isSupported()) {
-      loggers.add(logger);
-    }
+    impl.addLogger(logger);
   }
 
   public static void clear() {
-    for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = (Logger) iterator.next();
-      logger.clear();
-    }
+    impl.clear();
   }
 
   public static void debug(String message) {
@@ -71,27 +43,11 @@ public class Log {
   }
 
   public static void debug(String message, JavaScriptObject e) {
-    debug(message, LogUtil.convertJavaScriptObjectToException(e));
+    impl.debug(message, e);
   }
 
   public static void debug(String message, Throwable e) {
-    if (COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_DEBUG) {
-      message = format(PREFIX_DEBUG, message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
-        logger.debug(message, e);
-      }
-    }
-  }
-
-  public static void debug2(String message) {
-    if (COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_DEBUG) {
-      message = format(PREFIX_DEBUG, message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
-        logger.debug(message, null);
-      }
-    }
+    impl.debug(message, e);
   }
 
   public static void error(String message) {
@@ -99,17 +55,11 @@ public class Log {
   }
 
   public static void error(String message, JavaScriptObject e) {
-    error(message, LogUtil.convertJavaScriptObjectToException(e));
+    impl.error(message, e);
   }
 
   public static void error(String message, Throwable e) {
-    if (COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_ERROR) {
-      message = format(PREFIX_ERROR, message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
-        logger.error(message, e);
-      }
-    }
+    impl.error(message, e);
   }
 
   public static void fatal(String message) {
@@ -117,37 +67,47 @@ public class Log {
   }
 
   public static void fatal(String message, JavaScriptObject e) {
-    fatal(message, LogUtil.convertJavaScriptObjectToException(e));
+    impl.fatal(message, e);
   }
 
   public static void fatal(String message, Throwable e) {
-    if (COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_FATAL) {
-      message = format(PREFIX_FATAL, message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
-        logger.fatal(message, e);
-      }
-    }
+    impl.fatal(message, e);
   }
 
   public static ConsoleLogger getConsoleLogger() {
-    return consoleLogger;
+    return impl.getLoggerConsole();
+  }
+
+  public static int getCurrentLogLevel() {
+    return impl.getCurrentLogLevel();
+  }
+
+  public static String getCurrentLogLevelString() {
+    return impl.getCurrentLogLevelString();
   }
 
   public static DivLogger getDivLogger() {
-    return divLogger;
+    return impl.getLoggerDiv();
   }
 
   public static FirebugLogger getFirebugLogger() {
-    return firebugLogger;
+    return impl.getLoggerFirebug();
   }
 
   public static GWTLogger getGwtLogger() {
-    return gwtLogger;
+    return impl.getLoggerGWT();
   }
 
-  public static SystemLogger getSystemLogger() {
-    return systemLogger;
+  public static int getLowestLogLevel() {
+    return impl.getLowestLogLevel();
+  }
+
+  public static String getLowestLogLevelString() {
+    return impl.getLowestLogLevelString();
+  }
+
+  public static LoggerSystem getSystemLogger() {
+    return impl.getLoggerSystem();
   }
 
   public static void info(String message) {
@@ -155,37 +115,43 @@ public class Log {
   }
 
   public static void info(String message, JavaScriptObject e) {
-    info(message, LogUtil.convertJavaScriptObjectToException(e));
+    impl.info(message, e);
   }
 
   public static void info(String message, Throwable e) {
-    if (COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_INFO) {
-      message = format(PREFIX_INFO, message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
-        logger.info(message, e);
-      }
-    }
+    impl.info(message, e);
   }
 
-  public static boolean isDebugEnabled() {
-    return COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_DEBUG;
+  public static final boolean isDebugEnabled() {
+    return impl.isDebugEnabled();
   }
 
   public static boolean isErrorEnabled() {
-    return COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_ERROR;
+    return impl.isErrorEnabled();
   }
 
   public static boolean isFatalEnabled() {
-    return COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_FATAL;
+    return impl.isFatalEnabled();
   }
 
   public static boolean isInfoEnabled() {
-    return COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_INFO;
+    return impl.isInfoEnabled();
+  }
+
+  public static boolean isLoggingEnabled() {
+    return impl.isLoggingEnabled();
   }
 
   public static boolean isWarnEnabled() {
-    return COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_WARN;
+    return impl.isWarnEnabled();
+  }
+
+  public static final void setCurrentLogLevel(int level) {
+    impl.setCurrentLogLevel(level);
+  }
+
+  public static void setUncaughtExceptionHandler() {
+    impl.setUncaughtExceptionHandler();
   }
 
   public static void warn(String message) {
@@ -193,46 +159,14 @@ public class Log {
   }
 
   public static void warn(String message, JavaScriptObject e) {
-    warn(message, LogUtil.convertJavaScriptObjectToException(e));
+    impl.warn(message, e);
   }
 
   public static void warn(String message, Throwable e) {
-    if (COMPILE_TIME_LOG_LEVEL <= LOG_LEVEL_WARN) {
-      message = format(PREFIX_WARN, message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
-        logger.warn(message, e);
-      }
-    }
-  }
-
-  private static String format(String prefix, String message) {
-    return prefix + " " + message.replaceAll("\n", "\n" + prefix);
-  }
-
-  private static void initLoggers() {
-    consoleLogger = new ConsoleLogger();
-    firebugLogger = new FirebugLogger();
-    if (firebugLogger.isSupported()) {
-      addLogger(firebugLogger);
-    } else if (consoleLogger.isSupported()) {
-      addLogger(consoleLogger);
-    }
-
-    // During GWT development certain failures may prevent the DOM/UI from working
-    try {
-      addLogger(divLogger = new DivLogger());
-    } catch (Throwable ex) {
-      Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
-          + ex.toString());
-    }
-    addLogger(gwtLogger = new GWTLogger());
-    addLogger(systemLogger = new SystemLogger());
-
-    clear();
+    impl.warn(message, e);
   }
 
   public boolean removeLogger(Logger logger) {
-    return loggers.remove(logger);
+    return impl.removeLogger(logger);
   }
 }

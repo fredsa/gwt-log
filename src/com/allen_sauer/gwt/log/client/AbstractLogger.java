@@ -18,7 +18,7 @@ package com.allen_sauer.gwt.log.client;
 public abstract class AbstractLogger implements Logger {
 
   public void clear() {
-    debug("================================================", null);
+    info("================================================", null);
   }
 
   public void debug(String message, Throwable throwable) {
