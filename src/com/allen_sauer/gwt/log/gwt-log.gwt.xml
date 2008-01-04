@@ -18,7 +18,7 @@
   <!--
     There are a few ways to set the log_level:
     
-    1) At compile time via the 'log_level' Deferred Binding property.
+    1) At compile time via the 'log_level' deferred binding property.
 
        This speeds up compile time by reducing the number of compile time combinations.
        The 'log_level' property determines the minimum log level available at runtime.
