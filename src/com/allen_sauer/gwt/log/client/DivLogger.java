@@ -36,9 +36,9 @@ public class DivLogger extends AbstractLogger {
   private static final int UPDATE_INTERVAL_MILLIS = 500;
 
   private FlexTable debugTable = new FlexTable();
-  private HTML logTextArea = new HTML();
   private boolean dirty = false;
   private String logText = "";
+  private HTML logTextArea = new HTML();
   private ScrollPanel scrollPanel = new ScrollPanel();
   private Timer timer;
 
@@ -103,6 +103,10 @@ public class DivLogger extends AbstractLogger {
 
   public boolean isSupported() {
     return true;
+  }
+
+  public boolean isVisible() {
+    return debugTable.isAttached() && debugTable.isVisible();
   }
 
   public void log(int logLevel, String message) {
