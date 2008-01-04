@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -44,7 +44,7 @@ public abstract class AbstractLogger implements Logger {
       String text = "";
       while (throwable != null) {
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
-        text += new String(throwable.toString() + "\n");
+        text += throwable.toString() + "\n";
         for (int i = 0; i < stackTraceElements.length; i++) {
           text += "\tat " + stackTraceElements[i] + "\n";
         }

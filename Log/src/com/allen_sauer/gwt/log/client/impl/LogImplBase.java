@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,12 +36,6 @@ import java.util.Iterator;
  * i.e. all {@link LogImpl} subclasses except for {@link LogImplOff}).
  */
 public abstract class LogImplBase extends LogImpl {
-  private static ConsoleLogger loggerConsole;
-  private static DivLogger loggerDiv;
-  private static FirebugLogger loggerFirebug;
-  private static GWTLogger loggerGWT;
-  private static LoggerSystem loggerSystem;
-
   static {
     setVersion();
   }
@@ -82,8 +76,12 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   private int currentLogLevel = getLowestLogLevel();
-
+  private ConsoleLogger loggerConsole;
+  private DivLogger loggerDiv;
+  private FirebugLogger loggerFirebug;
+  private GWTLogger loggerGWT;
   private ArrayList loggers = new ArrayList();
+  private LoggerSystem loggerSystem;
 
   public LogImplBase() {
     loggerConsole = new ConsoleLogger();
@@ -236,7 +234,7 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   public boolean isLoggingEnabled() {
-    return getLowestLogLevel() != Log.LOG_LEVEL_OFF && getCurrentLogLevel() <= Log.LOG_LEVEL_OFF;
+    return getLowestLogLevel() != Log.LOG_LEVEL_OFF && getCurrentLogLevel() != Log.LOG_LEVEL_OFF;
   }
 
   public boolean isWarnEnabled() {
