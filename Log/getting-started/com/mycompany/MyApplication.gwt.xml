@@ -1,14 +1,20 @@
 <module>
 
-	<!-- Inherit the core Web Toolkit stuff.                  -->
-	<inherits name='com.google.gwt.user.User'/>
+	<!-- Inherit the core Web Toolkit stuff.-->
+	<inherits name="com.google.gwt.user.User"/>
 
-	<!-- Inherit logging support                              -->
-	<inherits name='com.allen_sauer.gwt.log.Log'/>
+	<!-- Inherit logging support                   -->
+	<inherits name="com.allen_sauer.gwt.log.gwt-log"/>
 		
-	<!-- Specify the app entry point class.                   -->
-	<entry-point class='com.mycompany.client.MyApplication'/>
+	<!-- Specify the app entry point class.               -->
+	<entry-point class="com.mycompany.client.MyApplication"/>
   
-  <stylesheet src='MyApplication.css'/>
+  <!-- Add our stylesheet           -->
+  <stylesheet src="MyApplication.css"/>
   
+  <!--
+  <set-property name="user.agent" value="ie6" />
+  <set-property name="log_level" value="OFF" />
+  -->
+   
 </module>
