@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,7 +24,7 @@ import com.allen_sauer.gwt.log.client.Log;
 public class MyApplication implements EntryPoint {
   /**
    * This field gets compiled out when <code>log_level=OFF</code>, or
-   * anything higher than <code>DEBUG</code>.
+   * any <code>log_level</code> higher than <code>DEBUG</code>.
    */
   private long startTimeMillis;
 
@@ -53,7 +53,7 @@ public class MyApplication implements EntryPoint {
     /* Use a <code>if (Log.isDebugEnabled()) {...}</code> guard to
      * ensure that <code>System.currentTimeMillis()</code>
      * is compiled out when <code>log_level=OFF</code>, or
-     * any log_level higher than <code>DEBUG</code>.
+     * any <code>log_level</code> higher than <code>DEBUG</code>.
      */
     if (Log.isDebugEnabled()) {
       startTimeMillis = System.currentTimeMillis();
