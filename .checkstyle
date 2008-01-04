@@ -3,4 +3,5 @@
     <fileset name="all" enabled="true" check-config-name="gwt-dnd Checks" local="false">
         <file-match-pattern match-pattern="." include-pattern="true"/>
     </fileset>
+    <filter name="FilesInSync2" enabled="true"/>
 </fileset-config>
