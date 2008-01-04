@@ -1,0 +1,1 @@
+@java -cp "%~dp0\src;%~dp0\getting-started;%~dp0\bin;%GWT_PLATFORM%/gwt-user.jar;%GWT_PLATFORM%/gwt-dev-windows.jar" com.google.gwt.dev.GWTShell -out "%~dp0\www" -style PRETTY %* com.mycompany.MyApplication/MyApplication.html
