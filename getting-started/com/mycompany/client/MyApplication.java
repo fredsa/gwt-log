@@ -22,11 +22,26 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.allen_sauer.gwt.log.client.Log;
 
 public class MyApplication implements EntryPoint {
+  /**
+   * This field gets compiled out when <code>log_level=OFF</code>, or
+   * anything higher than <code>DEBUG</code>.
+   */
+  private long startTimeMillis;
+
+  /**
+   * Note, we defer all application initialization code to
+   * {@link #onModuleLoad2()} so that the UncaughtExceptionHandler
+   * can catch any unexpected exceptions.
+   */
   public void onModuleLoad() {
-    // set uncaught exception handler
+    /* Install an UncaughtExceptionHandler which will
+     * produce <code>FATAL</code> log messages
+     */
     Log.setUncaughtExceptionHandler();
 
-    // use a deferred command so that the handler catches onModuleLoad2() exceptions
+    /* Use a deferred command so that the UncaughtExceptionHandler
+     * catches any exceptions in onModuleLoad2()
+     */
     DeferredCommand.addCommand(new Command() {
       public void execute() {
         onModuleLoad2();
@@ -35,10 +50,36 @@ public class MyApplication implements EntryPoint {
   }
 
   private void onModuleLoad2() {
+    /* Use a <code>if (Log.isDebugEnabled()) {...}</code> guard to
+     * ensure that <code>System.currentTimeMillis()</code>
+     * is compiled out when <code>log_level=OFF</code>, or
+     * any log_level higher than <code>DEBUG</code>.
+     */
+    if (Log.isDebugEnabled()) {
+      startTimeMillis = System.currentTimeMillis();
+    }
+
+    /* No guards necessary.
+     * Code will be compiled out when <code>log_level=OFF</code>
+     */
     Log.debug("This is a 'DEBUG' test message");
     Log.info("This is a 'INFO' test message");
     Log.warn("This is a 'WARN' test message");
     Log.error("This is a 'ERROR' test message");
     Log.fatal("This is a 'FATAL' test message");
+
+    /* Again, we need a guard here, otherwise <code>log_level=OFF</code>
+     * would still produce the following useless JavaScript:
+     * <pre>
+     *     var durationSeconds, endTimeMillis;
+     *     endTimeMillis = currentTimeMillis_0();
+     *     durationSeconds = (endTimeMillis - this$static.startTimeMillis) / 1000.0;
+     * </pre>
+     */
+    if (Log.isDebugEnabled()) {
+      long endTimeMillis = System.currentTimeMillis();
+      float durationSeconds = (endTimeMillis - startTimeMillis) / 1000F;
+      Log.debug("Duration: " + durationSeconds + " seconds");
+    }
   }
 }
