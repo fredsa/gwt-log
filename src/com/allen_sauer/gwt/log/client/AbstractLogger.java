@@ -15,10 +15,12 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import java.util.Date;
+
 public abstract class AbstractLogger implements Logger {
 
   public void clear() {
-    info("================================================", null);
+    info("======================" + new Date() + "======================", null);
   }
 
   public void debug(String message, Throwable throwable) {
