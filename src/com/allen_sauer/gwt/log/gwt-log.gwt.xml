@@ -36,12 +36,12 @@
        For example, during development you'll most likely want to enable logging at one of the
        first five log levels (e.g. DEBUG, INFO, WARN, ERROR, FATAL), e.g.
         
-           <set-property name="log_level" value="DEBUG"/>
+           <set-property name="log_level" value="DEBUG" />
      
        In production you can reinforce the default, which is to eliminate all logging related
        code (to the extent supported by the GWT Compiler):
      
-           <set-property name="log_level" value="OFF"/>
+           <set-property name="log_level" value="OFF" />
      
     b) Additional compile time log levels can be made available via 'extend-property'
     
@@ -51,7 +51,7 @@
        A common example is to create two versions of your application, one for development
        (DEBUG) and one for production (OFF):
     
-           <extend-property name="log_level" values="DEBUG,OFF"/>
+           <extend-property name="log_level" values="DEBUG,OFF" />
     
        In the extreme case, you could create separate pre-compiled versions for all six
        out-of-the-box log levels. If you really want to do this, and can afford the
