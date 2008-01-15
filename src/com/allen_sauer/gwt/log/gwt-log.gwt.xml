@@ -16,158 +16,147 @@
 <module>
 
   <!--
-    Log levels are controlled in two main ways:
+    Log levels are controlled in two main ways, at compile time and at runtime:
     
-    1) At Compile Time. The 'log_level' property controls the minimum log level available
-       at runtime. Code related to lower levels of logging are dead code eliminated by the
-       GWT Compiler, to the extent possible.
-
-       By default the compile time log_level property is set to a single value ('DEBUG'). This
-       property may be modified in several ways:
-          
-       a) Change the default value via 'set-property' in your module *.gwt.xml file
-       
-         This keeps compile time to a minimum, by preventing a multiplication of the number
-         of deferred binding combinations which must be compiled.
-          
-         During development you'll most likely want to choose from the various log levels (i.e
-         any level except for 'OFF').
-       
-         To reinforce the default case, use:
-          
-             <set-property name="log_level" value="DEBUG"/>
-       
-         Other debugging alternatives include:
-          
-             <set-property name="log_level" value="INFO"/>
-             <set-property name="log_level" value="WARN"/>
-             <set-property name="log_level" value="ERROR"/>
-             <set-property name="log_level" value="FATAL"/>
-       
-         In production you will mostly want to eliminate all logging code (to the extent
-         supported by the GWT Compiler):
-       
-             <set-property name="log_level" value="OFF"/>
-       
-      b) Expand the number of generated compile time log_level combinations.
-      
-         Note that this will increase the compile time by multiplying the number of deferred
-         binding combinations which must be generated.
+    At Compile Time
+    ===============
         
-         To compile two versions, a debug and production version, of your application, use:
-      
-             <extend-property name="log_level" values="DEBUG,OFF"/>
-      
-         In the extreme case, you could create separate pre-compiled versions for all six
-         out-of-the-box log_level values. In case you really want this, use:
-         
-             <extend-property name="log_level" values="DEBUG,INFO,WARN,ERROR,FATAL,OFF"/>
-         
-      c) Select any existing compile time log_level value via the 'log_level' URL parameter.
-      
-         For example, to select the INFO log level, use:
-         
-             http[s]://hostame:port/path/to/your/module/Module.html?log_level=INFO
-      
-      d) Select any existing compile time log_level via a GWT meta tag.
-      
-         For example, to select the DEBUG log level:
-         
-             <html>
-               <head>
-                 <meta name="gwt:property" content="log_level=DEBUG">
-                 <script language='javascript' src='com.example.gwt.YourModule.nocache.js'></script>
-               </head>
-               <body>
-                  ..
-               </body>
-             </html>    
-      
-      e) Define additional log levels in your *.gwt.xml module file.
-      
-         For example, to add a new 'MY_LEVEL' add:
-         
-             <extend-property name="log_level" values="MY_LEVEL"/>
+    The 'log_level' deferred binding property controls the compile time log leve, which is
+    the minimum log level available to client code at runtime. Client code related to lower
+    levels of logging is dead code eliminated by the GWT Compiler, to the extent possible.
 
+    By default the compile time log_level property is defined and set to a single value ('OFF').
+    However, the number of 'log_level' properties may be configured in a few ways:
+        
+    a) The default value may be overridden via a 'set-property' tag in your module *.gwt.xml file
+     
+       This keeps compile time to a minimum, by preventing a multiplication of the number
+       of deferred binding combinations which must be compiled.
+        
+       For example, during development you'll most likely want to enable logging at one of the
+       first five log levels (e.g. DEBUG, INFO, WARN, ERROR, FATAL), e.g.
+        
+           <set-property name="log_level" value="DEBUG"/>
+     
+       In production you can reinforce the default, which is to eliminate all logging related
+       code (to the extent supported by the GWT Compiler):
+     
+           <set-property name="log_level" value="OFF"/>
+     
+    b) Additional compile time log levels can be made available via 'extend-property'
+    
+       Note that this will increase the compile time by multiplying the number of deferred
+       binding combinations which must be generated.
+      
+       A common example is to create two versions of your application, one for development
+       (DEBUG) and one for production (OFF):
+    
+           <extend-property name="log_level" values="DEBUG,OFF"/>
+    
+       In the extreme case, you could create separate pre-compiled versions for all six
+       out-of-the-box log levels. If you really want to do this, and can afford the
+       increased compile time, add all six levels:
        
-    2) At Runtime the current log level can be adjusted programmatically via Log.setCurrentLogLevel(int level).
-       A JavaScript alert dialog box will be shown if you attempt to set a runtime log level lower than the
-       compile time log level. Note that raising the runtime log level does not eliminate all of the logging
-       overhead. Use the compile time 'log_level' to do that.
-          
-       For example, to temporarily turn off logging, call:
+           <extend-property name="log_level" values="DEBUG,INFO,WARN,ERROR,FATAL,OFF"/>
+       
+       
+    c) Define additional custom log levels in your *.gwt.xml module file.
+    
+       Please note that unless you add additional concrete deferred binding implementations of
+       LogImpl for your custom log levels, you will not see all the benefits of dead code
+       elimination by the GWT compiler.
+       
+       To add a new log level called 'MY_LEVEL', use:
+       
+           <extend-property name="log_level" values="MY_LEVEL"/>
 
-           Log.setCurrentLogLevel(Log.LOG_LEVEL_OFF);
 
-       To only see ERROR messages or higher, call:
 
-           Log.setCurrentLogLevel(Log.LOG_LEVEL_ERROR);
+    Once the list of valid compile time values has been configured, you have a couple of ways
+    to select one of those deferred binding combinations when you launch your application:
+    
+    a) Select any existing compile time log_level value via the 'log_level' URL parameter.
+    
+       For example, to select the INFO log level, use:
+       
+           http[s]://hostame:port/path/to/your/module/Module.html?log_level=INFO
+    
+    b) Select any existing compile time log_level via a GWT meta tag in your HTML file.
+    
+       For example, to select the DEBUG log level:
+       
+           <html>
+             <head>
+               <meta name="gwt:property" content="log_level=DEBUG">
+               <script language='javascript' src='com.example.gwt.YourModule.nocache.js'></script>
+             </head>
+             <body>
+                ..
+             </body>
+           </html>    
+    
+    
+     
+    At Runtime
+    ==========
+    
+    The current log level can be adjusted programmatically via Log.setCurrentLogLevel(int level).
+    A JavaScript alert dialog box will be shown if you attempt to set a runtime log level 
+    lower than the compile time log level. Note also, that raising the runtime log level
+    will not eliminate all of the logging overhead. Select a compile time 'log_level' to do that.
+      
+    To temporarily turn off logging, call:
+    
+       Log.setCurrentLogLevel(Log.LOG_LEVEL_OFF);
+    
+    To temporarily only see ERROR messages or higher, call:
+    
+       Log.setCurrentLogLevel(Log.LOG_LEVEL_ERROR);
     
   -->
   
 	<!-- Inherit the core Web Toolkit stuff.-->
-	<inherits name='com.google.gwt.user.User'/>
+	<inherits name="com.google.gwt.user.User"/>
 
   <!-- Include CSS        -->
-	<stylesheet src='Log.css'/>
+	<stylesheet src="Log.css"/>
 	
-  <!--
-      Define a default log level of 'DEBUG'.
-      Note: This should be kept in sync with the 'default_log_level' JavaScript variable in the below
-      'property-provider'.
-  -->
-  <define-property name="log_level" values="DEBUG"/>
+  <!-- Define a default log level of 'OFF' -->
+  <define-property name="log_level" values="OFF"/>
 
   <!--
-      Notes:
-      
-      1) This property provider is only used once the list of valid values for 'log_level' is expanded
-         to two or more via an extend-property tag.
-         
-      2) The 'default_log_level' variable should be kept in sync with the above 'define-property' value.
+      Note: This property provider will only used once the list of valid values for 'log_level'
+            is expanded, beyond the default 'OFF' value, via an 'extend-property' tag.
   -->
   <property-provider name="log_level">
     <![CDATA[
-      var default_log_level = "DEBUG";
-      var levels = ["DEBUG", "INFO", "WARN" , "ERROR", "FATAL", "OFF"];
+      var log_level;
       
-      try {
-          var log_level;
-          
-          // Look for the log_level as a url argument
-          if (log_level == null) {
-            var regex = new RegExp("[\\?&]log_level=([^&#]*)");
-            var results = regex.exec(location.search);
-            if (results != null) {
-              log_level = results[1];
-            }
-          }      
-          
-          // Look for GWT meta property
-          if (log_level == null) {  
-            log_level = __gwt_getMetaProperty("log_level")   
-          }
-           
-          // Resort to default value
-          if (log_level == null) {
-            log_level = default_log_level;
-          }
-
-          if (!__gwt_isKnownPropertyValue("log_level", log_level)) {
-            for (i in levels) {
-              if (__gwt_isKnownPropertyValue("log_level", levels[i])) {
-                alert("Invalid value '" + log_level + "' specified for 'log_level'; using '" + levels[i] + "' instead.");
-                log_level = levels[i];
-                break;
-              }
-            }
-          }
-
-          return log_level;
-        } catch(e){
-          alert("Unexpected exception in 'log_level' property-provider; Will attempt to use '" + default_log_level + "': " + e);
-          return default_log_level;
+      // Look for the log_level as a url argument
+      if (log_level == null) {
+        var regex = new RegExp("[\\?&]log_level=([^&#]*)");
+        var results = regex.exec(location.search);
+        if (results != null) {
+          log_level = results[1];
         }
+      }      
+      
+      // Look for GWT meta property
+      if (log_level == null) {  
+        log_level = __gwt_getMetaProperty("log_level")   
+      }
+       
+      if (!__gwt_isKnownPropertyValue("log_level", log_level)) {
+        var defaults = ["OFF", "FATAL", "ERROR", "WARN", "INFO", "DEBUG"];
+        for (i in defaults) {
+          if (__gwt_isKnownPropertyValue("log_level", defaults[i])) {
+            log_level = defaults[i];
+            break;
+          }
+        }
+      }
+
+      return log_level;
     ]]>
   </property-provider>
 
