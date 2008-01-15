@@ -24,4 +24,13 @@
   <!-- Include CSS             -->
   <stylesheet src='LogDemo.css' />
 
+  <!--
+      Extend property to include all six compile time log levels.
+      
+      Note: Normally you would not do this because this increases the number
+            of compile time combinations six fold. However, for this demo, we
+            do desire pre-compiled versions for all six levels.
+  -->
+  <extend-property name="log_level" values="DEBUG,INFO,WARN,ERROR,FATAL,OFF"/>
+  
 </module>
