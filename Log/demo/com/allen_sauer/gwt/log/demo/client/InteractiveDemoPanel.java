@@ -162,26 +162,30 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     add(lowestLogLevelLabel);
     updateLogLevelLabels();
 
-    Log.getDivLogger().moveTo(100, 100);
-    new Timer() {
-      public void run() {
-        if (Log.isLoggingEnabled()) {
-          DivLogger divLogger = Log.getDivLogger();
-          if (!divLogger.isVisible()) {
-            divLogger.info(
-                "This is the draggable 'DivLogger' panel, just one of the available loggers.", null);
-            divLogger.info(
-                "Click on the various buttons to send test messages or trap exceptions.", null);
-          }
-        }
-      }
-    }.schedule(3000);
+    if (Log.isLoggingEnabled()) {
+      initDivLogger();
+    }
   }
 
   private native String getPageURL()
   /*-{
     return $wnd.location.href.replace(/[\\?#].*$/, "");
   }-*/;
+
+  private void initDivLogger() {
+    final DivLogger divLogger = Log.getDivLogger();
+    divLogger.moveTo(100, 100);
+    new Timer() {
+      public void run() {
+        if (!divLogger.isVisible()) {
+          divLogger.info(
+              "This is the draggable 'DivLogger' panel, just one of the available loggers.", null);
+          divLogger.info("Click on the various buttons to send test messages or trap exceptions.",
+              null);
+        }
+      }
+    }.schedule(3000);
+  }
 
   private native void jsniCatch()
   /*-{
