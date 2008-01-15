@@ -16,13 +16,13 @@
 <module>
 
 	<!-- Inherit the core Web Toolkit stuff.       -->
-	<inherits name='com.allen_sauer.gwt.log.gwt-log'/>
+	<inherits name="com.allen_sauer.gwt.log.gwt-log"/>
 
 	<!-- Specify the app entry point class.                        -->
-	<entry-point class='com.allen_sauer.gwt.log.demo.client.LogDemo'/>
+	<entry-point class="com.allen_sauer.gwt.log.demo.client.LogDemo"/>
   
   <!-- Include CSS             -->
-  <stylesheet src='LogDemo.css' />
+  <stylesheet src="LogDemo.css" />
 
   <!--
       Extend property to include all six compile time log levels.
@@ -31,6 +31,6 @@
             of compile time combinations six fold. However, for this demo, we
             do desire pre-compiled versions for all six levels.
   -->
-  <extend-property name="log_level" values="DEBUG,INFO,WARN,ERROR,FATAL,OFF"/>
+  <extend-property name="log_level" values="DEBUG,INFO,WARN,ERROR,FATAL,OFF" />
   
 </module>
