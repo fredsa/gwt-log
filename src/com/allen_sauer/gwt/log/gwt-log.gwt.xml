@@ -23,7 +23,7 @@
        GWT Compiler, to the extent possible.
 
        By default the compile time log_level property is set to a single value ('DEBUG'). This
-       property may be modified as follows:
+       property may be modified in several ways:
           
        a) Change the default value via 'set-property' in your module *.gwt.xml file
        
