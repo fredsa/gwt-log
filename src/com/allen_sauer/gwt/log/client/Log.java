@@ -342,6 +342,10 @@ public final class Log {
     return impl.isWarnEnabled();
   }
 
+  public static boolean removeLogger(Logger logger) {
+    return impl.removeLogger(logger);
+  }
+
   public static final void setCurrentLogLevel(int level) {
     impl.setCurrentLogLevel(level);
   }
@@ -415,9 +419,5 @@ public final class Log {
    */
   public static void warn(String message, Throwable e) {
     impl.warn(message, e);
-  }
-
-  public boolean removeLogger(Logger logger) {
-    return impl.removeLogger(logger);
   }
 }
