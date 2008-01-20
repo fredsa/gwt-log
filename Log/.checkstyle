@@ -13,4 +13,5 @@
         <filter-data value="properties"/>
         <filter-data value="xml"/>
     </filter>
+    <filter name="FilesInSync2" enabled="true"/>
 </fileset-config>
