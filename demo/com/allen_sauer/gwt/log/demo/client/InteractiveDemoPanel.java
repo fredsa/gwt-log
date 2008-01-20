@@ -174,7 +174,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
 
   private void initDivLogger() {
     final DivLogger divLogger = Log.getDivLogger();
-    divLogger.moveTo(100, 100);
+    divLogger.moveTo(10, 10);
     new Timer() {
       public void run() {
         if (!divLogger.isVisible()) {

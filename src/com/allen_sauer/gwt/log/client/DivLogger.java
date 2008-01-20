@@ -19,6 +19,8 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -35,7 +37,26 @@ public class DivLogger extends AbstractLogger {
   private static final String STYLE_LOG_TEXT_AREA = "log-text-area";
   private static final int UPDATE_INTERVAL_MILLIS = 500;
 
-  private FlexTable debugTable = new FlexTable();
+  private FlexTable debugTable = new FlexTable() {
+    private WindowResizeListener windowResizeListener = new WindowResizeListener() {
+      public void onWindowResized(int width, int height) {
+        scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
+            (int) (Window.getClientHeight() * .3)));
+      }
+    };
+
+    protected void onLoad() {
+      super.onLoad();
+      windowResizeListener.onWindowResized(Window.getClientWidth(), Window.getClientHeight());
+      Window.addWindowResizeListener(windowResizeListener);
+    }
+
+    protected void onUnload() {
+      super.onUnload();
+      Window.removeWindowResizeListener(windowResizeListener);
+    }
+  };
+
   private boolean dirty = false;
   private String logText = "";
   private HTML logTextArea = new HTML();
@@ -119,7 +140,8 @@ public class DivLogger extends AbstractLogger {
     message = message.replaceAll("<", "&lt;");
     message = message.replaceAll(">", "&gt;");
     message = message.replaceAll("\r\n|\r|\n", "<BR>");
-    setLogText(logText + "<div style='color: " + getColor(logLevel) + ";'>" + message + "</div>");
+    setLogText(logText + "<div style='display:inline; color: " + getColor(logLevel) + ";'>"
+        + message + "</div>");
     debugTable.setVisible(true);
   }
 
