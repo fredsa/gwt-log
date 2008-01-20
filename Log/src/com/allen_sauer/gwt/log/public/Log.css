@@ -17,13 +17,15 @@
 
 .log-panel .log-text-area {
   text-align: left;
-  white-space: nowrap;
-  color: red;
-  font-size: 10pt;
+  font-size: 10pt; 
 }
 
 .log-panel .log-text-area * {
   font-family: monospace;
+}
+
+.log-panel .log-stacktrace {
+  white-space: nowrap;
 }
 
 .log-panel .log-scroll-panel {
