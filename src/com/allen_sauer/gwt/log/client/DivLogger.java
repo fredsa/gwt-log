@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DivLogger extends AbstractLogger {
+  private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
   private static final String STYLE_LOG_HEADER = "log-header";
   private static final String STYLE_LOG_PANEL = "log-panel";
   private static final String STYLE_LOG_SCROLL_PANEL = "log-scroll-panel";
@@ -158,12 +159,23 @@ public class DivLogger extends AbstractLogger {
   String formatThrowable(Throwable throwable) {
     String text = "";
     text += GWT.getTypeName(throwable) + ":<br><b>" + throwable.getMessage() + "</b>";
-    text += "<div class='log-stacktrace'>";
     StackTraceElement[] stackTraceElements = throwable.getStackTrace();
-    for (int i = 0; i < stackTraceElements.length; i++) {
-      text += "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;" + stackTraceElements[i] + "<br>";
+    if (stackTraceElements.length > 0) {
+      text += "<div class='log-collapsed' onmouseover='className=\"log-expanded\"'>";
+
+      // actual stack trace
+      text += "<div class='log-stacktrace'>";
+      for (int i = 0; i < stackTraceElements.length; i++) {
+        text += STACKTRACE_ELEMENT_PREFIX + stackTraceElements[i] + "<br>";
+      }
+      text += "</div>";
+
+      // ellipsis
+      text += "<div class='log-ellipsis'>" + STACKTRACE_ELEMENT_PREFIX + "...</div>";
+
+      text += "</div>";
     }
-    return text + "</div>";
+    return text;
   }
 
   void logRaw(int logLevel, String message) {

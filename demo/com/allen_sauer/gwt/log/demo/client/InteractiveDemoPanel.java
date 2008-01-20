@@ -46,7 +46,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
 
   private Button clinitButtonFatal;
   private HTML currentLogLevelLabel = new HTML();
-  private Button jsniCatchButtonError;
+  private Button jsniCatchButtonFatal;
   private Button jsniNoCatchButtonFatal;
   private Button levelButtons[] = new Button[levels.length];
   private HTML lowestLogLevelLabel = new HTML();
@@ -87,9 +87,9 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     add(new HTML("<BR>"));
     add(new HTML("Catch some exceptions:"));
 
-    jsniCatchButtonError = new Button("JSNI with try/catch");
-    add(jsniCatchButtonError);
-    jsniCatchButtonError.addClickListener(new ClickListener() {
+    jsniCatchButtonFatal = new Button("JSNI with try/catch");
+    add(jsniCatchButtonFatal);
+    jsniCatchButtonFatal.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         jsniCatch();
       }
@@ -192,7 +192,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     try {
       my_non_existant_variable.my_non_existant_method();
     } catch(e) {
-      @com.allen_sauer.gwt.log.client.Log::error(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
+      @com.allen_sauer.gwt.log.client.Log::fatal(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
     }
   }-*/;
 
@@ -244,7 +244,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     }
     styleMessageButton(clinitButtonFatal, Log.LOG_LEVEL_FATAL, "FATAL");
     styleMessageButton(jsniNoCatchButtonFatal, Log.LOG_LEVEL_FATAL, "FATAL");
-    styleMessageButton(jsniCatchButtonError, Log.LOG_LEVEL_ERROR, "ERROR");
+    styleMessageButton(jsniCatchButtonFatal, Log.LOG_LEVEL_FATAL, "FATAL");
   }
 
 }
