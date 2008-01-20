@@ -15,10 +15,11 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.google.gwt.core.client.GWT;
+
 import java.util.Date;
 
 public abstract class AbstractLogger implements Logger {
-
   public void clear() {
     info("======================" + new Date() + "======================", null);
   }
@@ -42,22 +43,18 @@ public abstract class AbstractLogger implements Logger {
   public abstract void log(int logLevel, String message);
 
   public void log(int logLevel, String message, Throwable throwable) {
+    String text = formatText(message);
     if (throwable != null) {
-      String text = "";
+      text += formatText("\n");
       while (throwable != null) {
-        StackTraceElement[] stackTraceElements = throwable.getStackTrace();
-        text += throwable.toString() + "\n";
-        for (int i = 0; i < stackTraceElements.length; i++) {
-          text += "\tat " + stackTraceElements[i] + "\n";
-        }
+        text += formatThrowable(throwable);
         throwable = throwable.getCause();
         if (throwable != null) {
-          text += "Caused by: ";
+          text += formatText("Caused by: ");
         }
       }
-      message = message + "\n" + text;
     }
-    log(logLevel, message);
+    logRaw(logLevel, text);
   }
 
   public final void warn(String message) {
@@ -66,5 +63,23 @@ public abstract class AbstractLogger implements Logger {
 
   public void warn(String message, Throwable throwable) {
     log(Log.LOG_LEVEL_WARN, message, throwable);
+  }
+
+  String formatText(String text) {
+    return text;
+  }
+
+  String formatThrowable(Throwable throwable) {
+    String text = "";
+    text += GWT.getTypeName(throwable) + ":\n" + throwable.getMessage() + "\n";
+    StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+    for (int i = 0; i < stackTraceElements.length; i++) {
+      text += "\tat " + stackTraceElements[i] + "\n";
+    }
+    return text;
+  }
+
+  void logRaw(int logLevel, String text) {
+    log(logLevel, text);
   }
 }

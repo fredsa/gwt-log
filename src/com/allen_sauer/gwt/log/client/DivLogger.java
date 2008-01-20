@@ -15,6 +15,7 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
@@ -139,10 +140,7 @@ public class DivLogger extends AbstractLogger {
     message = message.replaceAll(" ", "&nbsp;");
     message = message.replaceAll("<", "&lt;");
     message = message.replaceAll(">", "&gt;");
-    message = message.replaceAll("\r\n|\r|\n", "<BR>");
-    setLogText(logText + "<div style='display:inline; color: " + getColor(logLevel) + ";'>"
-        + message + "</div>");
-    debugTable.setVisible(true);
+    logRaw(logLevel, message);
   }
 
   public void moveTo(int x, int y) {
@@ -155,6 +153,23 @@ public class DivLogger extends AbstractLogger {
 
   public void setSize(String width, String height) {
     logTextArea.setSize(width, height);
+  }
+
+  String formatThrowable(Throwable throwable) {
+    String text = "";
+    text += GWT.getTypeName(throwable) + ":<br><b>" + throwable.getMessage() + "</b>";
+    text += "<div class='log-stacktrace'>";
+    StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+    for (int i = 0; i < stackTraceElements.length; i++) {
+      text += "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;" + stackTraceElements[i] + "<br>";
+    }
+    return text + "</div>";
+  }
+
+  void logRaw(int logLevel, String message) {
+    message = message.replaceAll("\r\n|\r|\n", "<BR>");
+    setLogText(logText + "<div style='color: " + getColor(logLevel) + "'>" + message + "</div>");
+    debugTable.setVisible(true);
   }
 
   private String getColor(int logLevel) {

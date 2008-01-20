@@ -289,7 +289,7 @@ public abstract class LogImplBase extends LogImpl {
       case Log.LOG_LEVEL_OFF:
         return LOG_LEVEL_TEXT_OFF;
       default:
-        return "[log_level=" + level + "]";
+        return "LOG_LEVEL_" + level;
     }
   }
 
