@@ -110,7 +110,8 @@ public class DivLogger extends AbstractLogger {
     timer = new Timer() {
       public void run() {
         dirty = false;
-        logTextArea.setHTML(logText);
+        logTextArea.setHTML(logTextArea.getHTML() + logText);
+        logText = "";
         DeferredCommand.addCommand(new Command() {
           public void execute() {
             scrollPanel.setScrollPosition(Integer.MAX_VALUE);
@@ -121,7 +122,7 @@ public class DivLogger extends AbstractLogger {
   }
 
   public void clear() {
-    setLogText("");
+    logTextArea.setHTML("");
   }
 
   public Widget getWidget() {
@@ -180,8 +181,16 @@ public class DivLogger extends AbstractLogger {
 
   void logRaw(int logLevel, String message) {
     message = message.replaceAll("\r\n|\r|\n", "<BR>");
-    setLogText(logText + "<div style='color: " + getColor(logLevel) + "'>" + message + "</div>");
+    addLogText("<div style='color: " + getColor(logLevel) + "'>" + message + "</div>");
     debugTable.setVisible(true);
+  }
+
+  private void addLogText(String debugText) {
+    logText += debugText;
+    if (!dirty) {
+      dirty = true;
+      timer.schedule(UPDATE_INTERVAL_MILLIS);
+    }
   }
 
   private String getColor(int logLevel) {
@@ -198,13 +207,5 @@ public class DivLogger extends AbstractLogger {
       return "#2B60DE"; // blue
     }
     return "green";
-  }
-
-  private void setLogText(String debugText) {
-    logText = debugText;
-    if (!dirty) {
-      dirty = true;
-      timer.schedule(UPDATE_INTERVAL_MILLIS);
-    }
   }
 }
