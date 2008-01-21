@@ -7,7 +7,6 @@
   margin: 0px;
   filter: alpha(opacity = 90);
   opacity: 0.9;
-  -moz-opacity: 0.9;
   z-index: 1000;
 }
 
@@ -26,22 +25,16 @@
 
 .log-panel .log-stacktrace {
   white-space: nowrap;
-  overflow: hidden;
 }
 
-.log-panel .log-expanded .log-ellipsis {
-  display: none;
+.log-panel .log-message {
+  cursor: help;
 }
 
-.log-panel .log-collapsed .log-stacktrace {
-  line-height: 1.2em;
-  height: 2.4em;
-}
-
-.log-panel .log-expanded .log-stacktrace {
-  height: auto;
+.log-panel .log-message-hover {
+  background-color: #EEE;
 }
 
 .log-panel .log-scroll-panel {
-  background-color: white;
+  background-color: #FFF;
 }

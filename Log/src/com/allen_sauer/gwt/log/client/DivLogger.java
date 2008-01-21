@@ -31,6 +31,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import com.allen_sauer.gwt.log.client.util.DOMUtil;
+
 public class DivLogger extends AbstractLogger {
   private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
   private static final String STYLE_LOG_HEADER = "log-header";
@@ -43,7 +45,7 @@ public class DivLogger extends AbstractLogger {
     private WindowResizeListener windowResizeListener = new WindowResizeListener() {
       public void onWindowResized(int width, int height) {
         scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
-            (int) (Window.getClientHeight() * .3)));
+            (int) (Window.getClientHeight() * .2)));
       }
     };
 
@@ -142,7 +144,35 @@ public class DivLogger extends AbstractLogger {
     message = message.replaceAll(" ", "&nbsp;");
     message = message.replaceAll("<", "&lt;");
     message = message.replaceAll(">", "&gt;");
-    logRaw(logLevel, message);
+    log(logLevel, message);
+  }
+
+  public void log(int logLevel, String message, Throwable throwable) {
+    String text = message;
+    String title = makeTitle(message, throwable);
+    if (throwable != null) {
+      text += "\n";
+      while (throwable != null) {
+        text += GWT.getTypeName(throwable) + ":<br><b>" + throwable.getMessage() + "</b>";
+        StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+        if (stackTraceElements.length > 0) {
+          text += "<div class='log-stacktrace'>";
+          for (int i = 0; i < stackTraceElements.length; i++) {
+            text += STACKTRACE_ELEMENT_PREFIX + stackTraceElements[i] + "<br>";
+          }
+          text += "</div>";
+        }
+        throwable = throwable.getCause();
+        if (throwable != null) {
+          text += "Caused by: ";
+        }
+      }
+    }
+    text = text.replaceAll("\r\n|\r|\n", "<BR>");
+    addLogText("<div class='log-message' onmouseover='className+=\" log-message-hover\"' "
+        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
+        + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
+    debugTable.setVisible(true);
   }
 
   public void moveTo(int x, int y) {
@@ -155,34 +185,6 @@ public class DivLogger extends AbstractLogger {
 
   public void setSize(String width, String height) {
     logTextArea.setSize(width, height);
-  }
-
-  String formatThrowable(Throwable throwable) {
-    String text = "";
-    text += GWT.getTypeName(throwable) + ":<br><b>" + throwable.getMessage() + "</b>";
-    StackTraceElement[] stackTraceElements = throwable.getStackTrace();
-    if (stackTraceElements.length > 0) {
-      text += "<div class='log-collapsed' onmouseover='className=\"log-expanded\"'>";
-
-      // actual stack trace
-      text += "<div class='log-stacktrace'>";
-      for (int i = 0; i < stackTraceElements.length; i++) {
-        text += STACKTRACE_ELEMENT_PREFIX + stackTraceElements[i] + "<br>";
-      }
-      text += "</div>";
-
-      // ellipsis
-      text += "<div class='log-ellipsis'>" + STACKTRACE_ELEMENT_PREFIX + "...</div>";
-
-      text += "</div>";
-    }
-    return text;
-  }
-
-  void logRaw(int logLevel, String message) {
-    message = message.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText("<div style='color: " + getColor(logLevel) + "'>" + message + "</div>");
-    debugTable.setVisible(true);
   }
 
   private void addLogText(String debugText) {
@@ -207,5 +209,14 @@ public class DivLogger extends AbstractLogger {
       return "#2B60DE"; // blue
     }
     return "green";
+  }
+
+  private String makeTitle(String message, Throwable throwable) {
+    if (throwable != null) {
+      message = throwable.getMessage().replaceAll(
+          GWT.getTypeName(throwable).replaceAll("^(.+\\.).+$", "$1"), "");
+    }
+    return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(
+        "'", "\"");
   }
 }
