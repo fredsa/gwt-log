@@ -115,18 +115,19 @@
     
   -->
   
-	<!-- Inherit the core Web Toolkit stuff.-->
-	<inherits name="com.google.gwt.user.User"/>
+	<!-- Inherit the core Web Toolkit stuff. -->
+	<inherits name="com.google.gwt.user.User" />
 
-  <!-- Include CSS        -->
-	<stylesheet src="Log.css"/>
+  <!-- Include CSS         -->
+	<stylesheet src="Log.css" />
 	
-  <!-- Define a default log level of 'OFF' -->
-  <define-property name="log_level" values="OFF"/>
+  <!-- Define a default log level of 'OFF'      -->
+  <define-property name="log_level" values="OFF" />
 
   <!--
-      Note: This property provider will only used once the list of valid values for 'log_level'
-            is expanded, beyond the default 'OFF' value, via an 'extend-property' tag.
+      Note: This property-provider will only used once the list of valid
+            values for 'log_level' is expanded, beyond the default 'OFF'
+            value, via an 'extend-property' tag.
   -->
   <property-provider name="log_level">
     <![CDATA[
@@ -160,34 +161,63 @@
     ]]>
   </property-provider>
 
+  <!--  Log level dependent implementations -->
+  
   <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplDebug">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl"/>
-    <when-property-is name="log_level" value="DEBUG"/>
+    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
+    <when-property-is name="log_level" value="DEBUG" />
   </replace-with>
-  
+
   <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplInfo">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl"/>
-    <when-property-is name="log_level" value="INFO"/>
+    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
+    <when-property-is name="log_level" value="INFO" />
   </replace-with>
-  
+
   <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplWarn">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl"/>
-    <when-property-is name="log_level" value="WARN"/>
+    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
+    <when-property-is name="log_level" value="WARN" />
   </replace-with>
-  
+
   <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplError">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl"/>
-    <when-property-is name="log_level" value="ERROR"/>
+    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
+    <when-property-is name="log_level" value="ERROR" />
   </replace-with>
-  
+
   <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplFatal">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl"/>
-    <when-property-is name="log_level" value="FATAL"/>
+    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
+    <when-property-is name="log_level" value="FATAL" />
   </replace-with>
-  
+
   <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplOff">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl"/>
-    <when-property-is name="log_level" value="OFF"/>
+    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
+    <when-property-is name="log_level" value="OFF" />
   </replace-with>
+
+  <!-- User agent dependent implementations -->
   
+  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplOpera">
+    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
+    <when-property-is name="user.agent" value="opera" />
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplSafari">
+    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
+    <when-property-is name="user.agent" value="safari" />
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplIE6">
+    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
+    <when-property-is name="user.agent" value="ie6" />
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplMozilla">
+    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
+    <when-property-is name="user.agent" value="gecko1_8" />
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplMozillaOld">
+    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
+    <when-property-is name="user.agent" value="gecko" />
+  </replace-with>
+
 </module>

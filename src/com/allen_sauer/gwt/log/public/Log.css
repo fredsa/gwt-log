@@ -7,7 +7,6 @@
   margin: 0px;
   filter: alpha(opacity = 90);
   opacity: 0.9;
-  -moz-opacity: 0.9;
   z-index: 1000;
 }
 
@@ -17,7 +16,7 @@
 
 .log-panel .log-text-area {
   text-align: left;
-  font-size: 10pt; 
+  font-size: 10pt;
 }
 
 .log-panel .log-text-area * {
@@ -28,6 +27,14 @@
   white-space: nowrap;
 }
 
+.log-panel .log-message {
+  cursor: help;
+}
+
+.log-panel .log-message-hover {
+  background-color: #F8F8F8;
+}
+
 .log-panel .log-scroll-panel {
-  background-color: white;
+  background-color: #FFF;
 }
