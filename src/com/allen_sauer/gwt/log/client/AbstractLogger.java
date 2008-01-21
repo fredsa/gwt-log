@@ -43,18 +43,24 @@ public abstract class AbstractLogger implements Logger {
   public abstract void log(int logLevel, String message);
 
   public void log(int logLevel, String message, Throwable throwable) {
-    String text = formatText(message);
+    String text = message;
     if (throwable != null) {
-      text += formatText("\n");
+      text += "\n";
       while (throwable != null) {
-        text += formatThrowable(throwable);
+        String text1 = "";
+        text1 += GWT.getTypeName(throwable) + ":\n" + throwable.getMessage() + "\n";
+        StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+        for (int i = 0; i < stackTraceElements.length; i++) {
+          text1 += "    at " + stackTraceElements[i] + "\n";
+        }
+        text += text1;
         throwable = throwable.getCause();
         if (throwable != null) {
-          text += formatText("Caused by: ");
+          text += "Caused by: ";
         }
       }
     }
-    logRaw(logLevel, text);
+    log(logLevel, text);
   }
 
   public final void warn(String message) {
@@ -63,23 +69,5 @@ public abstract class AbstractLogger implements Logger {
 
   public void warn(String message, Throwable throwable) {
     log(Log.LOG_LEVEL_WARN, message, throwable);
-  }
-
-  String formatText(String text) {
-    return text;
-  }
-
-  String formatThrowable(Throwable throwable) {
-    String text = "";
-    text += GWT.getTypeName(throwable) + ":\n" + throwable.getMessage() + "\n";
-    StackTraceElement[] stackTraceElements = throwable.getStackTrace();
-    for (int i = 0; i < stackTraceElements.length; i++) {
-      text += "\tat " + stackTraceElements[i] + "\n";
-    }
-    return text;
-  }
-
-  void logRaw(int logLevel, String text) {
-    log(logLevel, text);
   }
 }
