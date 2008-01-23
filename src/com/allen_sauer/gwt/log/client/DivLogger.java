@@ -213,8 +213,12 @@ public class DivLogger extends AbstractLogger {
 
   private String makeTitle(String message, Throwable throwable) {
     if (throwable != null) {
-      message = throwable.getMessage().replaceAll(
-          GWT.getTypeName(throwable).replaceAll("^(.+\\.).+$", "$1"), "");
+      if (throwable.getMessage() == null) {
+        message = GWT.getTypeName(throwable);
+      } else {
+        message = throwable.getMessage().replaceAll(
+            GWT.getTypeName(throwable).replaceAll("^(.+\\.).+$", "$1"), "");
+      }
     }
     return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(
         "'", "\"");

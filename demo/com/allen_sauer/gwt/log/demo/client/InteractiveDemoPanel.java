@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -45,6 +45,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   private static final String[] levelTexts = {"DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF",};
 
   private Button clinitButtonFatal;
+  private Button npeButtonFatal;
   private HTML currentLogLevelLabel = new HTML();
   private Button jsniCatchButtonFatal;
   private Button jsniNoCatchButtonFatal;
@@ -108,6 +109,14 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     clinitButtonFatal.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         new Broken();
+      }
+    });
+
+    npeButtonFatal = new Button("NullPointerException");
+    add(npeButtonFatal);
+    npeButtonFatal.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        throw new NullPointerException();
       }
     });
 
