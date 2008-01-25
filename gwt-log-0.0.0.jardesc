@@ -7,8 +7,6 @@
 <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
 <file path="/DragDrop/LICENSE"/>
 <file path="/DragDrop/NOTICE"/>
-<javaElement handleIdentifier="=Log/src&lt;com.allen_sauer.gwt.log"/>
-<javaElement handleIdentifier="=Log/src&lt;com.allen_sauer.gwt.log.client"/>
-<javaElement handleIdentifier="=Log/src&lt;com.allen_sauer.gwt.log.client.impl"/>
+<javaElement handleIdentifier="=Log/src"/>
 </selectedElements>
 </jardesc>
