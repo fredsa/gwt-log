@@ -242,7 +242,7 @@ public final class Log {
   /**
    * @deprecated Use {@link #getLogger(Class)} instead
    */
-  public static LoggerDIV getDivLogger() {
+  public static DivLogger getDivLogger() {
     return impl.getLoggerDiv();
   }
 
@@ -275,7 +275,7 @@ public final class Log {
   /**
    * @deprecated Use {@link #getLogger(Class)} instead
    */
-  public static LoggerSystem getSystemLogger() {
+  public static SystemLogger getSystemLogger() {
     return impl.getLoggerSystem();
   }
 

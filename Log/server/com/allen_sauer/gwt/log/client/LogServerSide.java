@@ -78,7 +78,7 @@ public class LogServerSide {
     return impl.getEffectiveLevel().toString();
   }
 
-  public static LoggerDIV getDivLogger() {
+  public static DivLogger getDivLogger() {
     throw new UnsupportedOperationException();
   }
 
@@ -98,7 +98,7 @@ public class LogServerSide {
     return Level.ALL.toString();
   }
 
-  public static LoggerSystem getSystemLogger() {
+  public static SystemLogger getSystemLogger() {
     throw new UnsupportedOperationException();
   }
 

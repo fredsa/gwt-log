@@ -21,8 +21,8 @@ import com.allen_sauer.gwt.log.client.ConsoleLogger;
 import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Logger;
-import com.allen_sauer.gwt.log.client.LoggerDIV;
-import com.allen_sauer.gwt.log.client.LoggerSystem;
+import com.allen_sauer.gwt.log.client.DivLogger;
+import com.allen_sauer.gwt.log.client.SystemLogger;
 
 public abstract class LogImpl {
   static final String LOG_LEVEL_TEXT_DEBUG = "DEBUG";
@@ -62,7 +62,7 @@ public abstract class LogImpl {
   /**
    * @deprecated Use {@link #getLogger(Class)} instead.
    */
-  public abstract LoggerDIV getLoggerDiv();
+  public abstract DivLogger getLoggerDiv();
 
   /**
    * @deprecated Use {@link #getLogger(Class)} instead.
@@ -77,7 +77,7 @@ public abstract class LogImpl {
   /**
    * @deprecated Use {@link #getLogger(Class)} instead.
    */
-  public abstract LoggerSystem getLoggerSystem();
+  public abstract SystemLogger getLoggerSystem();
 
   public abstract int getLowestLogLevel();
 
