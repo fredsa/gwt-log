@@ -22,8 +22,8 @@ import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.Logger;
-import com.allen_sauer.gwt.log.client.LoggerDIV;
-import com.allen_sauer.gwt.log.client.LoggerSystem;
+import com.allen_sauer.gwt.log.client.DivLogger;
+import com.allen_sauer.gwt.log.client.SystemLogger;
 
 /**
  * Implementation of {@link LogImpl} that is designed to be compiled out
@@ -70,7 +70,7 @@ public class LogImplOff extends LogImpl {
     return null;
   }
 
-  public LoggerDIV getLoggerDiv() {
+  public DivLogger getLoggerDiv() {
     return null;
   }
 
@@ -82,7 +82,7 @@ public class LogImplOff extends LogImpl {
     return null;
   }
 
-  public LoggerSystem getLoggerSystem() {
+  public SystemLogger getLoggerSystem() {
     return null;
   }
 

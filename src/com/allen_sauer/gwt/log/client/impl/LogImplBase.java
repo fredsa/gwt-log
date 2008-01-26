@@ -25,8 +25,8 @@ import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.Logger;
-import com.allen_sauer.gwt.log.client.LoggerDIV;
-import com.allen_sauer.gwt.log.client.LoggerSystem;
+import com.allen_sauer.gwt.log.client.DivLogger;
+import com.allen_sauer.gwt.log.client.SystemLogger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -80,15 +80,15 @@ public abstract class LogImplBase extends LogImpl {
 
   public LogImplBase() {
     addLogger(new GWTLogger());
-    addLogger(new LoggerSystem());
+    addLogger(new SystemLogger());
     addLogger(new FirebugLogger());
     addLogger(new ConsoleLogger());
 
     // GWT hacking may prevent the DOM/UI from working properly
     try {
-      addLogger(new LoggerDIV());
+      addLogger(new DivLogger());
     } catch (Throwable ex) {
-      Window.alert("WARNING: Unable to instantiate '" + LoggerDIV.class + "' due to "
+      Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
           + ex.toString());
     }
 
@@ -180,8 +180,8 @@ public abstract class LogImplBase extends LogImpl {
     return (ConsoleLogger) getLogger(ConsoleLogger.class);
   }
 
-  public LoggerDIV getLoggerDiv() {
-    return (LoggerDIV) getLogger(LoggerDIV.class);
+  public DivLogger getLoggerDiv() {
+    return (DivLogger) getLogger(DivLogger.class);
   }
 
   public FirebugLogger getLoggerFirebug() {
@@ -192,8 +192,8 @@ public abstract class LogImplBase extends LogImpl {
     return (GWTLogger) getLogger(GWTLogger.class);
   }
 
-  public LoggerSystem getLoggerSystem() {
-    return (LoggerSystem) getLogger(LoggerSystem.class);
+  public SystemLogger getLoggerSystem() {
+    return (SystemLogger) getLogger(SystemLogger.class);
   }
 
   public String getLowestLogLevelString() {

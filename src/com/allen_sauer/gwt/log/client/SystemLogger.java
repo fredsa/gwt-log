@@ -17,7 +17,7 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 
-public class LoggerSystem extends AbstractLogger {
+public class SystemLogger extends AbstractLogger {
   public boolean isSupported() {
     return !GWT.isScript();
   }

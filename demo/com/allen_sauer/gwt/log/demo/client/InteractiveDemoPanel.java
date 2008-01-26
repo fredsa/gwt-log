@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LoggerDIV;
+import com.allen_sauer.gwt.log.client.DivLogger;
 
 public class InteractiveDemoPanel extends AbsolutePanel {
   static class Broken {
@@ -182,14 +182,14 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   }-*/;
 
   private void initDivLogger() {
-    final LoggerDIV loggerDIV = (LoggerDIV) Log.getLogger(LoggerDIV.class);
-    loggerDIV.moveTo(10, 10);
+    final DivLogger divLogger = (DivLogger) Log.getLogger(DivLogger.class);
+    divLogger.moveTo(10, 10);
     new Timer() {
       public void run() {
-        if (!loggerDIV.isVisible()) {
-          loggerDIV.info(
+        if (!divLogger.isVisible()) {
+          divLogger.info(
               "This is the draggable 'DivLogger' panel, just one of the available loggers.", null);
-          loggerDIV.info("Click on the various buttons to send test messages or trap exceptions.",
+          divLogger.info("Click on the various buttons to send test messages or trap exceptions.",
               null);
         }
       }
