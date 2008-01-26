@@ -18,11 +18,11 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
-import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.Logger;
+import com.allen_sauer.gwt.log.client.LoggerDIV;
 import com.allen_sauer.gwt.log.client.LoggerSystem;
 
 /**
@@ -70,7 +70,7 @@ public class LogImplOff extends LogImpl {
     return null;
   }
 
-  public DivLogger getLoggerDiv() {
+  public LoggerDIV getLoggerDiv() {
     return null;
   }
 

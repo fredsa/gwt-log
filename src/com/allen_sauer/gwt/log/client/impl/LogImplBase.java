@@ -21,11 +21,11 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
-import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.Logger;
+import com.allen_sauer.gwt.log.client.LoggerDIV;
 import com.allen_sauer.gwt.log.client.LoggerSystem;
 
 import java.util.ArrayList;
@@ -84,11 +84,11 @@ public abstract class LogImplBase extends LogImpl {
     addLogger(new FirebugLogger());
     addLogger(new ConsoleLogger());
 
-    // During GWT development certain failures may prevent the DOM/UI from working
+    // GWT hacking may prevent the DOM/UI from working properly
     try {
-      addLogger(new DivLogger());
+      addLogger(new LoggerDIV());
     } catch (Throwable ex) {
-      Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
+      Window.alert("WARNING: Unable to instantiate '" + LoggerDIV.class + "' due to "
           + ex.toString());
     }
 
@@ -165,9 +165,11 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   public Logger getLogger(Class clazz) {
+    // TODO Replace string comparisons with Class expressions in GWT 1.5
+    String className = clazz.toString().replaceAll(".* ", "");
     for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
       Logger logger = (Logger) iterator.next();
-      if (logger.getClass().equals(clazz)) {
+      if (GWT.getTypeName(logger).equals(className)) {
         return logger;
       }
     }
@@ -178,8 +180,8 @@ public abstract class LogImplBase extends LogImpl {
     return (ConsoleLogger) getLogger(ConsoleLogger.class);
   }
 
-  public DivLogger getLoggerDiv() {
-    return (DivLogger) getLogger(DivLogger.class);
+  public LoggerDIV getLoggerDiv() {
+    return (LoggerDIV) getLogger(LoggerDIV.class);
   }
 
   public FirebugLogger getLoggerFirebug() {

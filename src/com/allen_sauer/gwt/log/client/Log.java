@@ -242,7 +242,7 @@ public final class Log {
   /**
    * @deprecated Use {@link #getLogger(Class)} instead
    */
-  public static DivLogger getDivLogger() {
+  public static LoggerDIV getDivLogger() {
     return impl.getLoggerDiv();
   }
 
