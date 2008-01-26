@@ -22,8 +22,8 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.DivLogger;
+import com.allen_sauer.gwt.log.client.Log;
 
 public class InteractiveDemoPanel extends AbsolutePanel {
   static class Broken {
@@ -112,6 +112,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       }
     });
 
+    add(new HTML("<BR>"));
     npeButtonFatal = new Button("NullPointerException");
     add(npeButtonFatal);
     npeButtonFatal.addClickListener(new ClickListener() {
