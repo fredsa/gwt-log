@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.log.client.util.DOMUtil;
 
-public class DivLogger extends AbstractLogger {
+public class LoggerDIV extends DivLogger {
   private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
   private static final String STYLE_LOG_HEADER = "log-header";
   private static final String STYLE_LOG_PANEL = "log-panel";
@@ -67,7 +67,7 @@ public class DivLogger extends AbstractLogger {
   private ScrollPanel scrollPanel = new ScrollPanel();
   private Timer timer;
 
-  public DivLogger() {
+  public LoggerDIV() {
     debugTable.addStyleName(STYLE_LOG_PANEL);
     logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
     scrollPanel.addStyleName(STYLE_LOG_SCROLL_PANEL);
