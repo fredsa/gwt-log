@@ -76,31 +76,21 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   private int currentLogLevel = getLowestLogLevel();
-  private ConsoleLogger loggerConsole;
-  private DivLogger loggerDiv;
-  private FirebugLogger loggerFirebug;
-  private GWTLogger loggerGWT;
   private ArrayList loggers = new ArrayList();
-  private LoggerSystem loggerSystem;
 
   public LogImplBase() {
-    loggerConsole = new ConsoleLogger();
-    loggerFirebug = new FirebugLogger();
-    if (loggerFirebug.isSupported()) {
-      addLogger(loggerFirebug);
-    } else if (loggerConsole.isSupported()) {
-      addLogger(loggerConsole);
-    }
+    addLogger(new GWTLogger());
+    addLogger(new LoggerSystem());
+    addLogger(new FirebugLogger());
+    addLogger(new ConsoleLogger());
 
     // During GWT development certain failures may prevent the DOM/UI from working
     try {
-      addLogger(loggerDiv = new DivLogger());
+      addLogger(new DivLogger());
     } catch (Throwable ex) {
       Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
           + ex.toString());
     }
-    addLogger(loggerGWT = new GWTLogger());
-    addLogger(loggerSystem = new LoggerSystem());
 
     clear();
   }
@@ -174,24 +164,34 @@ public abstract class LogImplBase extends LogImpl {
     return levelToString(getCurrentLogLevel());
   }
 
+  public Logger getLogger(Class clazz) {
+    for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = (Logger) iterator.next();
+      if (logger.getClass().equals(clazz)) {
+        return logger;
+      }
+    }
+    return null;
+  }
+
   public ConsoleLogger getLoggerConsole() {
-    return loggerConsole;
+    return (ConsoleLogger) getLogger(ConsoleLogger.class);
   }
 
   public DivLogger getLoggerDiv() {
-    return loggerDiv;
+    return (DivLogger) getLogger(DivLogger.class);
   }
 
   public FirebugLogger getLoggerFirebug() {
-    return loggerFirebug;
+    return (FirebugLogger) getLogger(FirebugLogger.class);
   }
 
   public GWTLogger getLoggerGWT() {
-    return loggerGWT;
+    return (GWTLogger) getLogger(GWTLogger.class);
   }
 
   public LoggerSystem getLoggerSystem() {
-    return loggerSystem;
+    return (LoggerSystem) getLogger(LoggerSystem.class);
   }
 
   public String getLowestLogLevelString() {
@@ -246,7 +246,12 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   public int setCurrentLogLevel(int level) {
-    currentLogLevel = super.setCurrentLogLevel(level);
+    if (level < getLowestLogLevel()) {
+      Window.alert("Unable to lower runtime log level to " + level
+          + " due to compile time minimum of " + getLowestLogLevel());
+      level = getLowestLogLevel();
+    }
+    currentLogLevel = level;
     return currentLogLevel;
   }
 
@@ -292,5 +297,4 @@ public abstract class LogImplBase extends LogImpl {
         return "LOG_LEVEL_" + level;
     }
   }
-
 }

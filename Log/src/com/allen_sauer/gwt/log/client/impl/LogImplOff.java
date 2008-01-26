@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -62,6 +62,10 @@ public class LogImplOff extends LogImpl {
     return LOG_LEVEL_TEXT_OFF;
   }
 
+  public Logger getLogger(Class clazz) {
+    return null;
+  }
+
   public ConsoleLogger getLoggerConsole() {
     return null;
   }
@@ -122,6 +126,10 @@ public class LogImplOff extends LogImpl {
 
   public boolean removeLogger(Logger logger) {
     return false;
+  }
+
+  public int setCurrentLogLevel(int level) {
+    return Log.LOG_LEVEL_OFF;
   }
 
   public void setUncaughtExceptionHandler() {
