@@ -20,6 +20,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import com.allen_sauer.gwt.log.client.impl.LogImpl;
 
+/**
+ * Static logging functions for client code.
+ */
 public final class Log {
   public static final int LOG_LEVEL_DEBUG = 10000;
   public static final int LOG_LEVEL_ERROR = 40000;
@@ -221,6 +224,9 @@ public final class Log {
     impl.fatal(message, e);
   }
 
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead
+   */
   public static ConsoleLogger getConsoleLogger() {
     return impl.getLoggerConsole();
   }
@@ -233,16 +239,29 @@ public final class Log {
     return impl.getCurrentLogLevelString();
   }
 
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead
+   */
   public static DivLogger getDivLogger() {
     return impl.getLoggerDiv();
   }
 
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead
+   */
   public static FirebugLogger getFirebugLogger() {
     return impl.getLoggerFirebug();
   }
 
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead
+   */
   public static GWTLogger getGwtLogger() {
     return impl.getLoggerGWT();
+  }
+
+  public static Logger getLogger(Class clazz) {
+    return impl.getLogger(clazz);
   }
 
   public static int getLowestLogLevel() {
@@ -253,6 +272,9 @@ public final class Log {
     return impl.getLowestLogLevelString();
   }
 
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead
+   */
   public static LoggerSystem getSystemLogger() {
     return impl.getLoggerSystem();
   }

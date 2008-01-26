@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,7 +16,6 @@
 package com.allen_sauer.gwt.log.client.impl;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.user.client.Window;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
 import com.allen_sauer.gwt.log.client.DivLogger;
@@ -53,14 +52,31 @@ public abstract class LogImpl {
 
   public abstract String getCurrentLogLevelString();
 
+  public abstract Logger getLogger(Class clazz);
+
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead.
+   */
   public abstract ConsoleLogger getLoggerConsole();
 
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead.
+   */
   public abstract DivLogger getLoggerDiv();
 
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead.
+   */
   public abstract FirebugLogger getLoggerFirebug();
 
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead.
+   */
   public abstract GWTLogger getLoggerGWT();
 
+  /**
+   * @deprecated Use {@link #getLogger(Class)} instead.
+   */
   public abstract LoggerSystem getLoggerSystem();
 
   public abstract int getLowestLogLevel();
@@ -85,14 +101,7 @@ public abstract class LogImpl {
 
   public abstract boolean removeLogger(Logger logger);
 
-  public int setCurrentLogLevel(int level) {
-    if (level < getLowestLogLevel()) {
-      Window.alert("Unable to lower runtime log level to " + level
-          + " due to compile time minimum of " + getLowestLogLevel());
-      level = getLowestLogLevel();
-    }
-    return level;
-  }
+  public abstract int setCurrentLogLevel(int level);
 
   public abstract void setUncaughtExceptionHandler();
 

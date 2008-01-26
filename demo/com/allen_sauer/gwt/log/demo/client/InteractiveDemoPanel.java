@@ -182,7 +182,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   }-*/;
 
   private void initDivLogger() {
-    final DivLogger divLogger = Log.getDivLogger();
+    final DivLogger divLogger = (DivLogger) Log.getLogger(DivLogger.class);
     divLogger.moveTo(10, 10);
     new Timer() {
       public void run() {

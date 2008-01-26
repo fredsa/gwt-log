@@ -44,7 +44,7 @@
 		<condition property="gwt.location.default" value="${env.GWT14_HOME}" else="">
 			<isset property="env.GWT14_HOME" />
 		</condition>
-		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT 1.4 install directory" />
+		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT 1.4 installation directory" />
 
 		<!-- gwt.tools property -->
 		<condition property="gwt.tools" value="${env.GWT_TOOLS}" else="${gwt.root}/../tools">
@@ -56,6 +56,9 @@
 		<property name="gwt.tools.lib" location="${gwt.tools}/lib" />
 		<property name="gwt.tools.antlib" location="${gwt.tools}/antlib" />
 
+		<!-- log4j stuff -->
+		<input addproperty="log4j.location" defaultvalue="${env.GWT_LIBS}/apache-log4j-1.2.15/log4j-1.2.15.jar" message="log4j location" />
+
 		<!-- javac defaults -->
 		<property name="javac.debug" value="true" />
 		<property name="javac.debuglevel" value="lines,vars,source" />
@@ -65,8 +68,9 @@
 		<property name="javac.target" value="1.4" />
 
 		<!-- gwt jars -->
-		<property name="gwt.user.jar" location="${gwt.location}/gwt-user.jar" />
-		<property name="gwt.dev.jar" location="${gwt.location}/gwt-dev-${build.host.platform}.jar" />
+		<property name="gwt-user.jar" location="${gwt.location}/gwt-user.jar" />
+		<property name="gwt-servlet.jar" location="${gwt.location}/gwt-servlet.jar" />
+		<property name="gwt-dev.jar" location="${gwt.location}/gwt-dev-${build.host.platform}.jar" />
 
 		<!-- Pulls in tasks defined in ant-contrib, i.e. foreach -->
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -76,10 +80,10 @@
 		</taskdef>
 
 		<!-- gwt-log.libdir property -->
-		<input addproperty="gwt-log.libdir" defaultvalue="/fred/java/lib/gwt-log" message="gwt-log library directory" />
+		<input addproperty="gwt-log.libdir" defaultvalue="/fred/java/lib/gwt-log" message="gwt-log destination directory" />
 
 		<!-- gwt-log.version property -->
-		<input addproperty="gwt-log.version" defaultvalue="0.0.0" message="gwt-log library version" />
+		<input addproperty="gwt-log.version" defaultvalue="0.0.0" message="gwt-log release version" />
 
 		<!-- gwt-log.jar property -->
 		<property name="gwt-log.jar" value="gwt-log-${gwt-log.version}.jar" />
@@ -106,6 +110,7 @@
 	<target name="filter" description="Filters distro files for versioning">
 		<mkdir dir="build/src" />
 		<mkdir dir="build/demo" />
+		<mkdir dir="build/server" />
 
 		<copy todir="build/src">
 			<fileset file="LICENSE" />
@@ -124,25 +129,25 @@
 			</filterset>
 		</copy>
 
+		<copy todir="build/server">
+			<fileset dir="server" />
+			<filterset>
+				<filter token="GWT_LOG_VERSION" value="${gwt-log.version}" />
+			</filterset>
+		</copy>
+
+		<replace dir="build/server" token="ServerSide" value="" />
+		<move file="build/server/com/allen_sauer/gwt/log/client/LogServerSide.java" tofile="build/server/com/allen_sauer/gwt/log/client/Log.java" />
+
 	</target>
 
 	<target name="build" depends="init,clean,filter">
-		<mkdir dir="build/out/src" />
-		<mkdir dir="build/out/demo" />
 
-		<javac compiler="javac1.4" listfiles="true" destdir="build/out/src" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
-			<src path="build/src" />
-			<classpath location="${gwt.location}/gwt-user.jar" />
-			<classpath location="${gwt.location}/gwt-dev-${build.host.platform}.jar" />
-		</javac>
+		<!-- compile src -->
 
-		<javac compiler="javac1.4" listfiles="true" destdir="build/out/demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
-			<src path="build/demo" />
-			<classpath location="${gwt.location}/gwt-user.jar" />
-			<classpath location="${gwt.location}/gwt-dev-${build.host.platform}.jar" />
-		</javac>
+		<mkdir dir="build/out/jar" />
 
-		<copy todir="build/out/src">
+		<copy todir="build/out/jar">
 			<fileset dir="build/src">
 				<include name="**/LICENSE" />
 				<include name="**/NOTICE" />
@@ -151,6 +156,40 @@
 				<include name="**/public/**" />
 			</fileset>
 		</copy>
+
+		<javac compiler="javac1.4" listfiles="false" destdir="build/out/jar" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+			<src path="build/src" />
+			<classpath location="${gwt-user.jar}" />
+			<classpath location="${gwt-dev.jar}" />
+		</javac>
+
+		<!-- compile server code -->
+
+		<mkdir dir="build/out/server" />
+
+		<javac compiler="javac1.4" listfiles="false" destdir="build/out/server" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+			<src path="build/server" />
+			<classpath location="${gwt-servlet.jar}" />
+			<classpath location="${log4j.location}" />
+		</javac>
+
+		<copy todir="build/out/jar">
+			<fileset dir="build/out/server">
+				<include name="**/*.class" />
+			</fileset>
+		</copy>
+
+		<delete dir="build/out/server" />
+
+		<!-- build demo files as a sanity check -->
+
+		<mkdir dir="build/out/demo" />
+
+		<javac compiler="javac1.4" listfiles="false" destdir="build/out/demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+			<src path="build/demo" />
+			<classpath location="${gwt-user.jar}" />
+			<classpath location="${gwt-dev.jar}" />
+		</javac>
 
 		<copy todir="build/out/demo">
 			<fileset dir="build/demo">
@@ -161,6 +200,8 @@
 				<include name="**/public/**" />
 			</fileset>
 		</copy>
+
+		<delete dir="build/out/demo" />
 
 		<antcall target="gwtc" />
 	</target>
@@ -180,9 +221,7 @@
 				<java dir="build" classname="com.google.gwt.dev.GWTCompiler" classpath="build/src:build/demo:${gwt.user.jar}:${gwt.dev.jar}" fork="yes" failonerror="true">
 					<arg value="-out" />
 					<arg path="build/www" />
-
 					<arg value="com.allen_sauer.gwt.log.demo.LogDemo" />
-
 					<arg value="-style" />
 					<arg value="PRETTY" />
 				</java>
@@ -210,7 +249,7 @@
 		<mkdir dir="build/dist" />
 
 		<jar destfile="build/dist/${gwt-log.jar}">
-			<fileset dir="build/out/src" />
+			<fileset dir="build/out/jar" />
 		</jar>
 		<!--
 		<jar basedir="build/javadoc" destfile="build/dist/${gwt-log.javadoc-jar}" />
