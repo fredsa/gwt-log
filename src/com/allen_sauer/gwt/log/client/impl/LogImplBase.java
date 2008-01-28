@@ -37,16 +37,12 @@ import java.util.Iterator;
  * i.e. all {@link LogImpl} subclasses except for {@link LogImplOff}).
  */
 public abstract class LogImplBase extends LogImpl {
-  static final String LOG_LEVEL_TEXT_DEBUG = "DEBUG";
-
-  static final String LOG_LEVEL_TEXT_ERROR = "ERROR";
-
-  static final String LOG_LEVEL_TEXT_FATAL = "FATAL";
-
-  //  static final String LOG_LEVEL_TEXT_INFO = "INFO";
-  static final String LOG_LEVEL_TEXT_OFF = "OFF";
-
-  static final String LOG_LEVEL_TEXT_WARN = "WARN";
+  static final String LOG_LEVEL_TEXT_DEBUG = LogUtil.levelToString(Log.LOG_LEVEL_DEBUG);
+  static final String LOG_LEVEL_TEXT_ERROR = LogUtil.levelToString(Log.LOG_LEVEL_ERROR);
+  static final String LOG_LEVEL_TEXT_FATAL = LogUtil.levelToString(Log.LOG_LEVEL_FATAL);
+  static final String LOG_LEVEL_TEXT_INFO = LogUtil.levelToString(Log.LOG_LEVEL_INFO);
+  static final String LOG_LEVEL_TEXT_OFF = LogUtil.levelToString(Log.LOG_LEVEL_OFF);
+  static final String LOG_LEVEL_TEXT_WARN = LogUtil.levelToString(Log.LOG_LEVEL_WARN);
 
   static {
     setVersion();
@@ -213,9 +209,7 @@ public abstract class LogImplBase extends LogImpl {
 
   public void info(String message, Throwable e) {
     if (isInfoEnabled()) {
-      // message = format(toPrefix(LOG_LEVEL_TEXT_INFO), message);
-      Window.setTitle("FRED");
-      message = format(toPrefix(LogUtil.levelToString(Log.LOG_LEVEL_INFO)), message);
+      message = format(toPrefix(LOG_LEVEL_TEXT_INFO), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = (Logger) iterator.next();
         logger.info(message, e);
