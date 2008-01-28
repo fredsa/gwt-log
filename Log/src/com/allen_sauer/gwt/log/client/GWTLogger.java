@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,11 +22,11 @@ public class GWTLogger extends AbstractLogger {
     return !GWT.isScript();
   }
 
-  public void log(int logLevel, String message) {
+  void log(int logLevel, String message) {
     GWT.log(message, null);
   }
 
-  public void log(int logLevel, String message, Throwable throwable) {
+  void log(int logLevel, String message, Throwable throwable) {
     GWT.log(message, throwable);
   }
 }

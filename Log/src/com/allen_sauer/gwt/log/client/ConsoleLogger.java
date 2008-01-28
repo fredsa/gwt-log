@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,7 +21,7 @@ public class ConsoleLogger extends AbstractLogger {
     return $wnd.console != null && typeof($wnd.console.log) == 'function';
   }-*/;
 
-  public native void log(int logLevel, String message)
+  native void log(int logLevel, String message)
   /*-{
     $wnd.console.log(message);
   }-*/;
