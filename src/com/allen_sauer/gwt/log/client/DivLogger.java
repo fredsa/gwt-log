@@ -151,19 +151,12 @@ public class DivLogger extends AbstractLogger {
     logTextArea.setSize(width, height);
   }
 
+  // Never called since {@link #log(int, String, Throwable)} is overridden
   void log(int logLevel, String message) {
-    String title = makeTitle(message, null);
-    message = message.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
-    message = message.replaceAll(" ", "&nbsp;");
-    message = message.replaceAll("<", "&lt;");
-    message = message.replaceAll(">", "&gt;");
-    message = message.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText("<div class='log-message' onmouseover='className+=\" log-message-hover\"' "
-        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
-        + getColor(logLevel) + "' title='" + title + "'>" + message + "</div>");
+    throw new UnsupportedOperationException();
   }
 
-  void log(int logLevel, String message, Throwable throwable) {
+  final void log(int logLevel, String message, Throwable throwable) {
     String text = message;
     String title = makeTitle(message, throwable);
     if (throwable != null) {
