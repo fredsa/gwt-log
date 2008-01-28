@@ -25,11 +25,6 @@ import com.allen_sauer.gwt.log.client.impl.LogImpl;
  */
 public final class Log {
   /**
-   * All log messages enabled. Equivalent to <CODE>Integer.MIN_VALUE</CODE>.
-   */
-  public static final int LOG_LEVEL_ALL = Integer.MIN_VALUE;
-
-  /**
    * Constant <code>int</code> value <CODE>10000</CODE>, representing <code>DEBUG</code> logging level,
    * to display debugging messages or higher.
    */
