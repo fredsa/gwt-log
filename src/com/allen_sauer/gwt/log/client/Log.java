@@ -24,11 +24,44 @@ import com.allen_sauer.gwt.log.client.impl.LogImpl;
  * Static logging functions for client code.
  */
 public final class Log {
+  /**
+   * All log messages enabled. Equivalent to <CODE>Integer.MIN_VALUE</CODE>.
+   */
+  public static final int LOG_LEVEL_ALL = Integer.MIN_VALUE;
+
+  /**
+   * Constant <code>int</code> value <CODE>10000</CODE>, representing <code>DEBUG</code> logging level,
+   * to display debugging messages or higher.
+   */
   public static final int LOG_LEVEL_DEBUG = 10000;
+
+  /**
+   * Constant <code>int</code> value <CODE>40000</CODE>, representing <code>ERROR</code> logging level,
+   * to display error messages or higher.
+   */
   public static final int LOG_LEVEL_ERROR = 40000;
+
+  /**
+   * Constant <code>int</code> value <CODE>50000</CODE>, representing <code>FATAL</code> logging level,
+   * to display fatal messages or higher.
+   */
   public static final int LOG_LEVEL_FATAL = 50000;
+
+  /**
+   * Constant <code>int</code> value <CODE>20000</CODE>, representing <code>INT</code> logging level,
+   * to display informational messages or higher.
+   */
   public static final int LOG_LEVEL_INFO = 20000;
+
+  /**
+   * Logging disabled. Equivalent to <CODE>Integer.MAX_VALUE</CODE>.
+   */
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
+
+  /**
+   * Constant <code>int</code> value <CODE>30000</CODE>, representing <code>WARN</code> logging level,
+   * to display warning messages or higher.
+   */
   public static final int LOG_LEVEL_WARN = 30000;
 
   private static final LogImpl impl = (LogImpl) GWT.create(LogImpl.class);

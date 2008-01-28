@@ -45,13 +45,13 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   private static final String[] levelTexts = {"DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF",};
 
   private Button clinitButtonFatal;
-  private Button npeButtonFatal;
   private HTML currentLogLevelLabel = new HTML();
   private Button jsniCatchButtonFatal;
   private Button jsniNoCatchButtonFatal;
   private Button levelButtons[] = new Button[levels.length];
   private HTML lowestLogLevelLabel = new HTML();
   private Button messageButtons[] = new Button[levels.length - 1];
+  private Button npeButtonFatal;
 
   public InteractiveDemoPanel() {
     add(new HTML("Log a message:"));

@@ -111,6 +111,7 @@
 		<mkdir dir="build/src" />
 		<mkdir dir="build/demo" />
 		<mkdir dir="build/server" />
+		<mkdir dir="build/server-demo" />
 
 		<copy todir="build/src">
 			<fileset file="LICENSE" />
@@ -136,8 +137,25 @@
 			</filterset>
 		</copy>
 
+		<copy todir="build/server-demo">
+			<fileset dir="build/server" />
+			<fileset dir="server-demo" />
+			<filterset>
+				<filter token="GWT_LOG_VERSION" value="${gwt-log.version}" />
+			</filterset>
+		</copy>
+
 		<replace dir="build/server" token="ServerSide" value="" />
-		<move file="build/server/com/allen_sauer/gwt/log/client/LogServerSide.java" tofile="build/server/com/allen_sauer/gwt/log/client/Log.java" />
+
+		<for param="file">
+			<path>
+				<fileset dir="build/server" />
+			</path>
+			<sequential>
+				<propertyregex override="yes" property="newfile" input="@{file}" regexp="(.*)ServerSide(.*)" replace="\1\2" defaultValue="@{file}" />
+				<move file="@{file}" tofile="${newfile}" />
+			</sequential>
+		</for>
 
 	</target>
 
@@ -173,13 +191,14 @@
 			<classpath location="${log4j.location}" />
 		</javac>
 
-		<copy todir="build/out/jar">
+		<copy todir="build/out/jar" overwrite="no">
 			<fileset dir="build/out/server">
 				<include name="**/*.class" />
 			</fileset>
+			<fileset dir="build/server">
+				<include name="**/*.java" />
+			</fileset>
 		</copy>
-
-		<delete dir="build/out/server" />
 
 		<!-- build demo files as a sanity check -->
 
@@ -201,7 +220,24 @@
 			</fileset>
 		</copy>
 
-		<delete dir="build/out/demo" />
+		<!-- build server-demo files as a sanity check -->
+
+		<mkdir dir="build/out/server-demo" />
+
+		<javac compiler="javac1.4" listfiles="false" destdir="build/out/server-demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+			<src path="build/server-demo" />
+			<classpath location="${gwt-servlet.jar}" />
+			<classpath location="${log4j.location}" />
+		</javac>
+
+		<copy todir="build/out/server-demo">
+			<fileset dir="build/server-demo">
+				<include name="**/LICENSE" />
+				<include name="**/NOTICE" />
+				<include name="**/*.java" />
+			</fileset>
+		</copy>
+
 
 		<antcall target="gwtc" />
 	</target>
@@ -211,14 +247,14 @@
 			<sourcefiles>
 				<fileset dir="build/src" />
 				<fileset dir="build/demo" />
-				<fileset file="${gwt.user.jar}" />
-				<fileset file="${gwt.dev.jar}" />
+				<fileset file="${gwt-user.jar}" />
+				<fileset file="${gwt-dev.jar}" />
 			</sourcefiles>
 
 			<targetfiles path="build/www/com.allen_sauer.gwt.log.demo.LogDemo/com.allen_sauer.gwt.log.demo.LogDemo.nocache.js" />
 			<sequential>
 				<mkdir dir="build/www" />
-				<java dir="build" classname="com.google.gwt.dev.GWTCompiler" classpath="build/src:build/demo:${gwt.user.jar}:${gwt.dev.jar}" fork="yes" failonerror="true">
+				<java dir="build" classname="com.google.gwt.dev.GWTCompiler" classpath="build/src:build/demo:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
 					<arg value="-out" />
 					<arg path="build/www" />
 					<arg value="com.allen_sauer.gwt.log.demo.LogDemo" />
@@ -230,7 +266,7 @@
 	</target>
 
 	<target name="javadoc">
-		<javadoc access="protected" classpath="${gwt.user.jar}:{gwt.dev.jar}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.4" sourcepath="build/demo" />
+		<javadoc access="protected" classpath="${gwt-user.jar}:{gwt-dev.jar}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.4" sourcepath="build/demo" />
 	</target>
 
 	<target name="tag">

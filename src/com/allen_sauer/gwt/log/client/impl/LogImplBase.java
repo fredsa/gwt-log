@@ -21,12 +21,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
+import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.Logger;
-import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
+import com.allen_sauer.gwt.log.client.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,6 +37,17 @@ import java.util.Iterator;
  * i.e. all {@link LogImpl} subclasses except for {@link LogImplOff}).
  */
 public abstract class LogImplBase extends LogImpl {
+  static final String LOG_LEVEL_TEXT_DEBUG = "DEBUG";
+
+  static final String LOG_LEVEL_TEXT_ERROR = "ERROR";
+
+  static final String LOG_LEVEL_TEXT_FATAL = "FATAL";
+
+  //  static final String LOG_LEVEL_TEXT_INFO = "INFO";
+  static final String LOG_LEVEL_TEXT_OFF = "OFF";
+
+  static final String LOG_LEVEL_TEXT_WARN = "WARN";
+
   static {
     setVersion();
   }
@@ -76,6 +88,7 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   private int currentLogLevel = getLowestLogLevel();
+
   private ArrayList loggers = new ArrayList();
 
   public LogImplBase() {
@@ -160,10 +173,6 @@ public abstract class LogImplBase extends LogImpl {
     return currentLogLevel;
   }
 
-  public String getCurrentLogLevelString() {
-    return levelToString(getCurrentLogLevel());
-  }
-
   public Logger getLogger(Class clazz) {
     // TODO Replace string comparisons with Class expressions in GWT 1.5
     String className = clazz.toString().replaceAll(".* ", "");
@@ -196,10 +205,6 @@ public abstract class LogImplBase extends LogImpl {
     return (SystemLogger) getLogger(SystemLogger.class);
   }
 
-  public String getLowestLogLevelString() {
-    return levelToString(getLowestLogLevel());
-  }
-
   public void info(String message, JavaScriptObject e) {
     if (isInfoEnabled()) {
       info(message, convertJavaScriptObjectToException(e));
@@ -208,7 +213,9 @@ public abstract class LogImplBase extends LogImpl {
 
   public void info(String message, Throwable e) {
     if (isInfoEnabled()) {
-      message = format(toPrefix(LOG_LEVEL_TEXT_INFO), message);
+      // message = format(toPrefix(LOG_LEVEL_TEXT_INFO), message);
+      Window.setTitle("FRED");
+      message = format(toPrefix(LogUtil.levelToString(Log.LOG_LEVEL_INFO)), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = (Logger) iterator.next();
         logger.info(message, e);
@@ -278,25 +285,6 @@ public abstract class LogImplBase extends LogImpl {
         Logger logger = (Logger) iterator.next();
         logger.warn(message, e);
       }
-    }
-  }
-
-  private String levelToString(int level) {
-    switch (level) {
-      case Log.LOG_LEVEL_DEBUG:
-        return LOG_LEVEL_TEXT_DEBUG;
-      case Log.LOG_LEVEL_INFO:
-        return LOG_LEVEL_TEXT_INFO;
-      case Log.LOG_LEVEL_WARN:
-        return LOG_LEVEL_TEXT_WARN;
-      case Log.LOG_LEVEL_ERROR:
-        return LOG_LEVEL_TEXT_ERROR;
-      case Log.LOG_LEVEL_FATAL:
-        return LOG_LEVEL_TEXT_FATAL;
-      case Log.LOG_LEVEL_OFF:
-        return LOG_LEVEL_TEXT_OFF;
-      default:
-        return "LOG_LEVEL_" + level;
     }
   }
 }
