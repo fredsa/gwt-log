@@ -82,6 +82,16 @@
 		<!-- gwt-log.libdir property -->
 		<input addproperty="gwt-log.libdir" defaultvalue="/fred/java/lib/gwt-log" message="gwt-log destination directory" />
 
+		<for param="file">
+			<fileset dir="${gwt-log.libdir}">
+        <include name="gwt-log-*.*.*.jar" />
+        <exclude name="gwt-log-*.*.*-*.jar" />
+			</fileset>
+			<sequential>
+				<echo message="@{file}" />
+			</sequential>
+		</for>
+
 		<!-- gwt-log.version property -->
 		<input addproperty="gwt-log.version" defaultvalue="0.0.0" message="gwt-log release version" />
 
