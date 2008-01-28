@@ -21,7 +21,7 @@
     At Compile Time
     ===============
         
-    The 'log_level' deferred binding property controls the compile time log leve, which is
+    The 'log_level' deferred binding property controls the compile time log level, which is
     the minimum log level available to client code at runtime. Client code related to lower
     levels of logging is dead code eliminated by the GWT Compiler, to the extent possible.
 
@@ -58,17 +58,6 @@
        increased compile time, add all six levels:
        
            <extend-property name="log_level" values="DEBUG,INFO,WARN,ERROR,FATAL,OFF"/>
-       
-       
-    c) Define additional custom log levels in your *.gwt.xml module file.
-    
-       Please note that unless you add additional concrete deferred binding implementations of
-       LogImpl for your custom log levels, you will not see all the benefits of dead code
-       elimination by the GWT compiler.
-       
-       To add a new log level called 'MY_LEVEL', use:
-       
-           <extend-property name="log_level" values="MY_LEVEL"/>
 
 
 
