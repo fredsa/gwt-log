@@ -34,7 +34,6 @@ public class ServerSideLog {
   static {
     if (impl == null) {
       try {
-        System.err.println("impl := log4j");
         impl = new ServerLogImplLog4J();
       } catch (Throwable e) {
       }
@@ -42,7 +41,6 @@ public class ServerSideLog {
 
     if (impl == null) {
       try {
-        System.err.println("impl := javautil");
         impl = new ServerLogImplJavaUtil();
       } catch (Throwable e) {
       }
@@ -51,9 +49,7 @@ public class ServerSideLog {
       System.err.println("ERROR: gwt-log failed to initialize valid server-side logging implementation");
     }
 
-    System.err.println("setCurrentLogLevel(DEBUG)...");
     setCurrentLogLevel(LOG_LEVEL_DEBUG);
-    System.err.println("...setCurrentLogLevel(DEBUG)");
   }
 
   public static final void addLogger(ServerSideLogger logger) {
