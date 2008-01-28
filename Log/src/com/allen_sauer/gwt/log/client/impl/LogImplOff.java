@@ -18,11 +18,11 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
+import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.Logger;
-import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
 
 /**
@@ -58,10 +58,6 @@ public class LogImplOff extends LogImpl {
     return Log.LOG_LEVEL_OFF;
   }
 
-  public String getCurrentLogLevelString() {
-    return LOG_LEVEL_TEXT_OFF;
-  }
-
   public Logger getLogger(Class clazz) {
     return null;
   }
@@ -88,10 +84,6 @@ public class LogImplOff extends LogImpl {
 
   public final int getLowestLogLevel() {
     return Log.LOG_LEVEL_OFF;
-  }
-
-  public String getLowestLogLevelString() {
-    return LOG_LEVEL_TEXT_OFF;
   }
 
   public void info(String message, JavaScriptObject e) {

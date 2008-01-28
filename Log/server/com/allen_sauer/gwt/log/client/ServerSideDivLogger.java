@@ -15,18 +15,26 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Widget;
 
-public class SystemLogger extends AbstractLogger {
-  public boolean isSupported() {
-    return !GWT.isScript();
+public class ServerSideDivLogger extends ServerSideAbstractLogger {
+  public Widget getWidget() {
+    throw new UnsupportedOperationException();
   }
 
-  public void log(int logLevel, String message) {
-    if (logLevel >= Log.LOG_LEVEL_ERROR) {
-      System.err.println(message);
-    } else {
-      System.out.println(message);
-    }
+  public boolean isVisible() {
+    throw new UnsupportedOperationException();
+  }
+
+  public void moveTo(int x, int y) {
+    throw new UnsupportedOperationException();
+  }
+
+  public void setPixelSize(int width, int height) {
+    throw new UnsupportedOperationException();
+  }
+
+  public void setSize(String width, String height) {
+    throw new UnsupportedOperationException();
   }
 }

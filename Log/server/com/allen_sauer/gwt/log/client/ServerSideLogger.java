@@ -15,18 +15,18 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-import com.google.gwt.core.client.GWT;
+public interface ServerSideLogger {
+  void clear();
 
-public class SystemLogger extends AbstractLogger {
-  public boolean isSupported() {
-    return !GWT.isScript();
-  }
+  void debug(String message, Throwable throwable);
 
-  public void log(int logLevel, String message) {
-    if (logLevel >= Log.LOG_LEVEL_ERROR) {
-      System.err.println(message);
-    } else {
-      System.out.println(message);
-    }
-  }
+  void error(String message, Throwable throwable);
+
+  void fatal(String message, Throwable throwable);
+
+  void info(String message, Throwable throwable);
+
+  boolean isSupported();
+
+  void warn(String message, Throwable throwable);
 }

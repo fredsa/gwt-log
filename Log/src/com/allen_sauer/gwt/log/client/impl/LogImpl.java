@@ -18,20 +18,14 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
+import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Logger;
-import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
+import com.allen_sauer.gwt.log.client.util.LogUtil;
 
 public abstract class LogImpl {
-  static final String LOG_LEVEL_TEXT_DEBUG = "DEBUG";
-  static final String LOG_LEVEL_TEXT_ERROR = "ERROR";
-  static final String LOG_LEVEL_TEXT_FATAL = "FATAL";
-  static final String LOG_LEVEL_TEXT_INFO = "INFO";
-  static final String LOG_LEVEL_TEXT_OFF = "OFF";
-  static final String LOG_LEVEL_TEXT_WARN = "WARN";
-
   public abstract void addLogger(Logger logger);
 
   public abstract void clear();
@@ -50,7 +44,9 @@ public abstract class LogImpl {
 
   public abstract int getCurrentLogLevel();
 
-  public abstract String getCurrentLogLevelString();
+  public final String getCurrentLogLevelString() {
+    return LogUtil.levelToString(getCurrentLogLevel());
+  }
 
   public abstract Logger getLogger(Class clazz);
 
@@ -81,7 +77,9 @@ public abstract class LogImpl {
 
   public abstract int getLowestLogLevel();
 
-  public abstract String getLowestLogLevelString();
+  public final String getLowestLogLevelString() {
+    return LogUtil.levelToString(getLowestLogLevel());
+  }
 
   public abstract void info(String message, JavaScriptObject e);
 
