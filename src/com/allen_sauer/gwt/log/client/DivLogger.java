@@ -139,15 +139,31 @@ public class DivLogger extends AbstractLogger {
     return debugTable.isAttached() && debugTable.isVisible();
   }
 
-  public void log(int logLevel, String message) {
+  public void moveTo(int x, int y) {
+    RootPanel.get().add(debugTable, x, y);
+  }
+
+  public void setPixelSize(int width, int height) {
+    logTextArea.setPixelSize(width, height);
+  }
+
+  public void setSize(String width, String height) {
+    logTextArea.setSize(width, height);
+  }
+
+  void log(int logLevel, String message) {
+    String title = makeTitle(message, null);
     message = message.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
     message = message.replaceAll(" ", "&nbsp;");
     message = message.replaceAll("<", "&lt;");
     message = message.replaceAll(">", "&gt;");
-    log(logLevel, message);
+    message = message.replaceAll("\r\n|\r|\n", "<BR>");
+    addLogText("<div class='log-message' onmouseover='className+=\" log-message-hover\"' "
+        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
+        + getColor(logLevel) + "' title='" + title + "'>" + message + "</div>");
   }
 
-  public void log(int logLevel, String message, Throwable throwable) {
+  void log(int logLevel, String message, Throwable throwable) {
     String text = message;
     String title = makeTitle(message, throwable);
     if (throwable != null) {
@@ -173,18 +189,6 @@ public class DivLogger extends AbstractLogger {
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
     debugTable.setVisible(true);
-  }
-
-  public void moveTo(int x, int y) {
-    RootPanel.get().add(debugTable, x, y);
-  }
-
-  public void setPixelSize(int width, int height) {
-    logTextArea.setPixelSize(width, height);
-  }
-
-  public void setSize(String width, String height) {
-    logTextArea.setSize(width, height);
   }
 
   private void addLogText(String debugText) {
