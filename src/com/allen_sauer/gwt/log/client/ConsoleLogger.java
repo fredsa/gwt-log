@@ -15,13 +15,13 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-public class ConsoleLogger extends AbstractLogger {
-  public native boolean isSupported()
+public final class ConsoleLogger extends AbstractLogger {
+  public final native boolean isSupported()
   /*-{
     return $wnd.console != null && typeof($wnd.console.log) == 'function';
   }-*/;
 
-  native void log(int logLevel, String message)
+  final native void log(int logLevel, String message)
   /*-{
     $wnd.console.log(message);
   }-*/;

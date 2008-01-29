@@ -29,8 +29,8 @@ import com.allen_sauer.gwt.log.client.SystemLogger;
  * Implementation of {@link LogImpl} that is designed to be compiled out
  * via GWT compiler dead code elimination.
  */
-public class LogImplOff extends LogImpl {
-  public void addLogger(Logger logger) {
+public final class LogImplOff extends LogImpl {
+  public final void addLogger(Logger logger) {
   }
 
   public final void clear() {
@@ -58,27 +58,27 @@ public class LogImplOff extends LogImpl {
     return Log.LOG_LEVEL_OFF;
   }
 
-  public Logger getLogger(Class clazz) {
+  public final Logger getLogger(Class clazz) {
     return null;
   }
 
-  public ConsoleLogger getLoggerConsole() {
+  public final ConsoleLogger getLoggerConsole() {
     return null;
   }
 
-  public DivLogger getLoggerDiv() {
+  public final DivLogger getLoggerDiv() {
     return null;
   }
 
-  public FirebugLogger getLoggerFirebug() {
+  public final FirebugLogger getLoggerFirebug() {
     return null;
   }
 
-  public GWTLogger getLoggerGWT() {
+  public final GWTLogger getLoggerGWT() {
     return null;
   }
 
-  public SystemLogger getLoggerSystem() {
+  public final SystemLogger getLoggerSystem() {
     return null;
   }
 
@@ -86,10 +86,10 @@ public class LogImplOff extends LogImpl {
     return Log.LOG_LEVEL_OFF;
   }
 
-  public void info(String message, JavaScriptObject e) {
+  public final void info(String message, JavaScriptObject e) {
   }
 
-  public void info(String message, Throwable e) {
+  public final void info(String message, Throwable e) {
   }
 
   public final boolean isDebugEnabled() {
@@ -116,16 +116,16 @@ public class LogImplOff extends LogImpl {
     return false;
   }
 
-  public int setCurrentLogLevel(int level) {
+  public final int setCurrentLogLevel(int level) {
     return Log.LOG_LEVEL_OFF;
   }
 
-  public void setUncaughtExceptionHandler() {
+  public final void setUncaughtExceptionHandler() {
   }
 
-  public void warn(String message, JavaScriptObject e) {
+  public final void warn(String message, JavaScriptObject e) {
   }
 
-  public void warn(String message, Throwable e) {
+  public final void warn(String message, Throwable e) {
   }
 }

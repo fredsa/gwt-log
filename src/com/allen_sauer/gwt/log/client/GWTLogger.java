@@ -17,16 +17,16 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 
-public class GWTLogger extends AbstractLogger {
-  public boolean isSupported() {
+public final class GWTLogger extends AbstractLogger {
+  public final boolean isSupported() {
     return !GWT.isScript();
   }
 
-  void log(int logLevel, String message) {
+  final void log(int logLevel, String message) {
     GWT.log(message, null);
   }
 
-  void log(int logLevel, String message, Throwable throwable) {
+  final void log(int logLevel, String message, Throwable throwable) {
     GWT.log(message, throwable);
   }
 }

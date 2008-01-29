@@ -19,5 +19,5 @@ package com.allen_sauer.gwt.log.client.util.impl;
  * {@link com.allen_sauer.gwt.log.client.util.DOMUtil} implementation for
  * older Mozillae.
  */
-public class DOMUtilImplMozillaOld extends DOMUtilImplMozilla {
+public final class DOMUtilImplMozillaOld extends DOMUtilImplMozilla {
 }

@@ -19,8 +19,8 @@ package com.allen_sauer.gwt.log.client.util.impl;
  * {@link com.allen_sauer.gwt.log.client.util.DOMUtil} implementation for
  * Webkit/Safari.
  */
-public class DOMUtilImplSafari extends DOMUtilImplStandard {
-  public String adjustTitleLineBreaks(String message) {
+public final class DOMUtilImplSafari extends DOMUtilImplStandard {
+  public final String adjustTitleLineBreaks(String message) {
     return message.replaceAll("\r\n|\r|\n", "\n");
   }
 }
