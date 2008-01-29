@@ -19,10 +19,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-public class RemoteLogger extends AbstractLogger {
-  private RemoteLoggerServiceAsync service;
+public final class RemoteLogger extends AbstractLogger {
   private AsyncCallback callback;
   private boolean failed = false;
+  private RemoteLoggerServiceAsync service;
 
   public RemoteLogger() {
     service = (RemoteLoggerServiceAsync) GWT.create(RemoteLoggerService.class);
@@ -43,25 +43,25 @@ public class RemoteLogger extends AbstractLogger {
     };
   }
 
-  public void debug(String message, Throwable throwable) {
+  public final void debug(String message, Throwable throwable) {
     if (!failed) {
       service.debug(message, throwable, callback);
     }
   }
 
-  public void error(String message, Throwable throwable) {
+  public final void error(String message, Throwable throwable) {
     if (!failed) {
       service.error(message, throwable, callback);
     }
   }
 
-  public void fatal(String message, Throwable throwable) {
+  public final void fatal(String message, Throwable throwable) {
     if (!failed) {
       service.fatal(message, throwable, callback);
     }
   }
 
-  public void info(String message, Throwable throwable) {
+  public final void info(String message, Throwable throwable) {
     if (!failed) {
       service.info(message, throwable, callback);
     }
@@ -71,13 +71,13 @@ public class RemoteLogger extends AbstractLogger {
     return true;
   }
 
-  public void warn(String message, Throwable throwable) {
+  public final void warn(String message, Throwable throwable) {
     if (!failed) {
       service.warn(message, throwable, callback);
     }
   }
 
-  void log(int logLevel, String message) {
+  final void log(int logLevel, String message) {
     assert false;
     // Method never called
   }

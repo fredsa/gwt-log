@@ -23,6 +23,7 @@ import com.allen_sauer.gwt.log.server.ServerLogImplJavaUtil;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
 
 public class ServerSideLog {
+  private static final String UNSUPPORTED_METHOD_TEXT = "This method available only when running on the client";
   public static final int LOG_LEVEL_DEBUG = 10000;
   public static final int LOG_LEVEL_ERROR = 40000;
   public static final int LOG_LEVEL_FATAL = 50000;
@@ -53,7 +54,7 @@ public class ServerSideLog {
   }
 
   public static final void addLogger(ServerSideLogger logger) {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final void clear() {
@@ -65,7 +66,7 @@ public class ServerSideLog {
   }
 
   public static final void debug(String message, JavaScriptObject e) {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final void debug(String message, Throwable e) {
@@ -77,7 +78,7 @@ public class ServerSideLog {
   }
 
   public static final void error(String message, JavaScriptObject e) {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final void error(String message, Throwable e) {
@@ -89,7 +90,7 @@ public class ServerSideLog {
   }
 
   public static final void fatal(String message, JavaScriptObject e) {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final void fatal(String message, Throwable e) {
@@ -97,7 +98,7 @@ public class ServerSideLog {
   }
 
   public static final ServerSideConsoleLogger getConsoleLogger() {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final int getCurrentLogLevel() {
@@ -109,15 +110,15 @@ public class ServerSideLog {
   }
 
   public static final ServerSideDivLogger getDivLogger() {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final ServerSideFirebugLogger getFirebugLogger() {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final ServerSideGWTLogger getGwtLogger() {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final int getLowestLogLevel() {
@@ -129,7 +130,7 @@ public class ServerSideLog {
   }
 
   public static final ServerSideSystemLogger getSystemLogger() {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final void info(String message) {
@@ -137,7 +138,7 @@ public class ServerSideLog {
   }
 
   public static final void info(String message, JavaScriptObject e) {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final void info(String message, Throwable e) {
@@ -173,7 +174,7 @@ public class ServerSideLog {
   }
 
   public static final void setUncaughtExceptionHandler() {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final void warn(String message) {
@@ -181,14 +182,10 @@ public class ServerSideLog {
   }
 
   public static final void warn(String message, JavaScriptObject e) {
-    throwUnsupported();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static final void warn(String message, Throwable e) {
     impl.warn(message, e);
-  }
-
-  private static void throwUnsupported() {
-    throw new UnsupportedOperationException("This method available only when running on the client");
   }
 }

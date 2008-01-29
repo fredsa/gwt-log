@@ -17,12 +17,12 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 
-public class SystemLogger extends AbstractLogger {
-  public boolean isSupported() {
+public final class SystemLogger extends AbstractLogger {
+  public final boolean isSupported() {
     return !GWT.isScript();
   }
 
-  void log(int logLevel, String message) {
+  final void log(int logLevel, String message) {
     if (logLevel >= Log.LOG_LEVEL_ERROR) {
       System.err.println(message);
     } else {
