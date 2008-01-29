@@ -17,11 +17,20 @@ package com.allen_sauer.gwt.log.server;
 
 import com.allen_sauer.gwt.log.client.ServerSideLog;
 
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class ServerLogImplJavaUtil extends ServerLogImpl {
-  private final Logger logger = Logger.getLogger("gwt-log");
+  private final Logger logger;
+
+  public ServerLogImplJavaUtil() {
+    logger = Logger.getLogger("gwt-log");
+    logger.setUseParentHandlers(false);
+    ConsoleHandler consoleHandler = new ConsoleHandler();
+    consoleHandler.setLevel(Level.ALL);
+    logger.addHandler(consoleHandler);
+  }
 
   public final void clear() {
     // do nothing
@@ -97,8 +106,8 @@ public final class ServerLogImplJavaUtil extends ServerLogImpl {
       return ServerSideLog.LOG_LEVEL_INFO;
     } else if (implLogLevel == Level.WARNING.intValue()) {
       return ServerSideLog.LOG_LEVEL_WARN;
-      //    } else if (implLogLevel == Level.ERROR.intValue()) {
-      //      return Log.LOG_LEVEL_ERROR;
+      //    } else if (implLogLevel == Level.SEVERE.intValue()) {
+      //      return ServerSideLog.LOG_LEVEL_ERROR;
     } else if (implLogLevel == Level.SEVERE.intValue()) {
       return ServerSideLog.LOG_LEVEL_FATAL;
     } else if (implLogLevel == Level.OFF.intValue()) {
