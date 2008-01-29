@@ -53,7 +53,7 @@ public abstract class LogImplBase extends LogImpl {
     return new JavaScriptException(javaScriptExceptionName(e), javaScriptExceptionDescription(e));
   }
 
-  private static String format(String prefix, String message) {
+  private static final String format(String prefix, String message) {
     return prefix + " " + message.replaceAll("\n", "\n" + prefix);
   }
 
@@ -109,26 +109,26 @@ public abstract class LogImplBase extends LogImpl {
     clear();
   }
 
-  public void addLogger(Logger logger) {
+  public final void addLogger(Logger logger) {
     if (logger.isSupported()) {
       loggers.add(logger);
     }
   }
 
-  public void clear() {
+  public final void clear() {
     for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
       Logger logger = (Logger) iterator.next();
       logger.clear();
     }
   }
 
-  public void debug(String message, JavaScriptObject e) {
+  public final void debug(String message, JavaScriptObject e) {
     if (isDebugEnabled()) {
       debug(message, convertJavaScriptObjectToException(e));
     }
   }
 
-  public void debug(String message, Throwable e) {
+  public final void debug(String message, Throwable e) {
     if (isDebugEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_DEBUG), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
@@ -138,13 +138,13 @@ public abstract class LogImplBase extends LogImpl {
     }
   }
 
-  public void error(String message, JavaScriptObject e) {
+  public final void error(String message, JavaScriptObject e) {
     if (isErrorEnabled()) {
       error(message, convertJavaScriptObjectToException(e));
     }
   }
 
-  public void error(String message, Throwable e) {
+  public final void error(String message, Throwable e) {
     if (isErrorEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_ERROR), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
@@ -154,13 +154,13 @@ public abstract class LogImplBase extends LogImpl {
     }
   }
 
-  public void fatal(String message, JavaScriptObject e) {
+  public final void fatal(String message, JavaScriptObject e) {
     if (isFatalEnabled()) {
       fatal(message, convertJavaScriptObjectToException(e));
     }
   }
 
-  public void fatal(String message, Throwable e) {
+  public final void fatal(String message, Throwable e) {
     if (isFatalEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_FATAL), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
@@ -170,11 +170,11 @@ public abstract class LogImplBase extends LogImpl {
     }
   }
 
-  public int getCurrentLogLevel() {
+  public final int getCurrentLogLevel() {
     return currentLogLevel;
   }
 
-  public Logger getLogger(Class clazz) {
+  public final Logger getLogger(Class clazz) {
     // TODO Replace string comparisons with Class expressions in GWT 1.5
     String className = clazz.toString().replaceAll(".* ", "");
     for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
@@ -186,33 +186,33 @@ public abstract class LogImplBase extends LogImpl {
     return null;
   }
 
-  public ConsoleLogger getLoggerConsole() {
+  public final ConsoleLogger getLoggerConsole() {
     return (ConsoleLogger) getLogger(ConsoleLogger.class);
   }
 
-  public DivLogger getLoggerDiv() {
+  public final DivLogger getLoggerDiv() {
     return (DivLogger) getLogger(DivLogger.class);
   }
 
-  public FirebugLogger getLoggerFirebug() {
+  public final FirebugLogger getLoggerFirebug() {
     return (FirebugLogger) getLogger(FirebugLogger.class);
   }
 
-  public GWTLogger getLoggerGWT() {
+  public final GWTLogger getLoggerGWT() {
     return (GWTLogger) getLogger(GWTLogger.class);
   }
 
-  public SystemLogger getLoggerSystem() {
+  public final SystemLogger getLoggerSystem() {
     return (SystemLogger) getLogger(SystemLogger.class);
   }
 
-  public void info(String message, JavaScriptObject e) {
+  public final void info(String message, JavaScriptObject e) {
     if (isInfoEnabled()) {
       info(message, convertJavaScriptObjectToException(e));
     }
   }
 
-  public void info(String message, Throwable e) {
+  public final void info(String message, Throwable e) {
     if (isInfoEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_INFO), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
@@ -232,7 +232,7 @@ public abstract class LogImplBase extends LogImpl {
         && getCurrentLogLevel() <= Log.LOG_LEVEL_ERROR;
   }
 
-  public boolean isFatalEnabled() {
+  public final boolean isFatalEnabled() {
     return getLowestLogLevel() <= Log.LOG_LEVEL_FATAL
         && getCurrentLogLevel() <= Log.LOG_LEVEL_FATAL;
   }
@@ -241,7 +241,7 @@ public abstract class LogImplBase extends LogImpl {
     return getLowestLogLevel() <= Log.LOG_LEVEL_INFO && getCurrentLogLevel() <= Log.LOG_LEVEL_INFO;
   }
 
-  public boolean isLoggingEnabled() {
+  public final boolean isLoggingEnabled() {
     return getLowestLogLevel() != Log.LOG_LEVEL_OFF && getCurrentLogLevel() != Log.LOG_LEVEL_OFF;
   }
 
@@ -249,7 +249,7 @@ public abstract class LogImplBase extends LogImpl {
     return getLowestLogLevel() <= Log.LOG_LEVEL_WARN && getCurrentLogLevel() <= Log.LOG_LEVEL_WARN;
   }
 
-  public int setCurrentLogLevel(int level) {
+  public final int setCurrentLogLevel(int level) {
     if (level < getLowestLogLevel()) {
       Window.alert("Unable to lower runtime log level to " + level
           + " due to compile time minimum of " + getLowestLogLevel());
@@ -259,7 +259,7 @@ public abstract class LogImplBase extends LogImpl {
     return currentLogLevel;
   }
 
-  public void setUncaughtExceptionHandler() {
+  public final void setUncaughtExceptionHandler() {
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
       public void onUncaughtException(Throwable e) {
         Log.fatal("Uncaught Exception:", e);
@@ -267,13 +267,13 @@ public abstract class LogImplBase extends LogImpl {
     });
   }
 
-  public void warn(String message, JavaScriptObject e) {
+  public final void warn(String message, JavaScriptObject e) {
     if (isWarnEnabled()) {
       warn(message, convertJavaScriptObjectToException(e));
     }
   }
 
-  public void warn(String message, Throwable e) {
+  public final void warn(String message, Throwable e) {
     if (isWarnEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_WARN), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {

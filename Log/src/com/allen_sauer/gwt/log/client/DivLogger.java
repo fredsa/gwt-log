@@ -123,35 +123,35 @@ public class DivLogger extends AbstractLogger {
     };
   }
 
-  public void clear() {
+  public final void clear() {
     logTextArea.setHTML("");
   }
 
-  public Widget getWidget() {
+  public final Widget getWidget() {
     return debugTable;
   }
 
-  public boolean isSupported() {
+  public final boolean isSupported() {
     return true;
   }
 
-  public boolean isVisible() {
+  public final boolean isVisible() {
     return debugTable.isAttached() && debugTable.isVisible();
   }
 
-  public void moveTo(int x, int y) {
+  public final void moveTo(int x, int y) {
     RootPanel.get().add(debugTable, x, y);
   }
 
-  public void setPixelSize(int width, int height) {
+  public final void setPixelSize(int width, int height) {
     logTextArea.setPixelSize(width, height);
   }
 
-  public void setSize(String width, String height) {
+  public final void setSize(String width, String height) {
     logTextArea.setSize(width, height);
   }
 
-  void log(int logLevel, String message) {
+  final void log(int logLevel, String message) {
     assert false;
     // Method never called since {@link #log(int, String, Throwable)} is overridden
   }

@@ -19,8 +19,8 @@ package com.allen_sauer.gwt.log.client.util.impl;
  * {@link com.allen_sauer.gwt.log.client.util.DOMUtil} implementation for
  * IE.
  */
-public class DOMUtilImplIE6 extends DOMUtilImpl {
-  public String adjustTitleLineBreaks(String message) {
+public final class DOMUtilImplIE6 extends DOMUtilImpl {
+  public final String adjustTitleLineBreaks(String message) {
     return message.replaceAll("\r\n|\r|\n", "\n");
   }
 }

@@ -21,7 +21,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.RemoteLoggerService;
 
 public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements RemoteLoggerService {
-  public void debug(String message, Throwable ex) {
+  public final void debug(String message, Throwable ex) {
     try {
       Log.debug(message, ex);
     } catch (RuntimeException e) {
@@ -30,7 +30,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     }
   }
 
-  public void error(String message, Throwable ex) {
+  public final void error(String message, Throwable ex) {
     try {
       Log.error(message, ex);
     } catch (RuntimeException e) {
@@ -39,7 +39,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     }
   }
 
-  public void fatal(String message, Throwable ex) {
+  public final void fatal(String message, Throwable ex) {
     try {
       Log.fatal(message, ex);
     } catch (RuntimeException e) {
@@ -48,7 +48,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     }
   }
 
-  public void info(String message, Throwable ex) {
+  public final void info(String message, Throwable ex) {
     try {
       Log.info(message, ex);
     } catch (RuntimeException e) {
@@ -57,7 +57,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     }
   }
 
-  public void warn(String message, Throwable ex) {
+  public final void warn(String message, Throwable ex) {
     try {
       Log.warn(message, ex);
     } catch (RuntimeException e) {

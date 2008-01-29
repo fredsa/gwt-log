@@ -61,11 +61,11 @@ public final class Log {
 
   private static final LogImpl impl = (LogImpl) GWT.create(LogImpl.class);
 
-  public static void addLogger(Logger logger) {
+  public static final void addLogger(Logger logger) {
     impl.addLogger(logger);
   }
 
-  public static void clear() {
+  public static final void clear() {
     impl.clear();
   }
 
@@ -78,7 +78,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static void debug(String message) {
+  public static final void debug(String message) {
     debug(message, (Throwable) null);
   }
 
@@ -103,7 +103,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void debug(String message, JavaScriptObject e) {
+  public static final void debug(String message, JavaScriptObject e) {
     impl.debug(message, e);
   }
 
@@ -126,7 +126,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void debug(String message, Throwable e) {
+  public static final void debug(String message, Throwable e) {
     impl.debug(message, e);
   }
 
@@ -139,7 +139,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static void error(String message) {
+  public static final void error(String message) {
     error(message, (Throwable) null);
   }
 
@@ -164,7 +164,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void error(String message, JavaScriptObject e) {
+  public static final void error(String message, JavaScriptObject e) {
     impl.error(message, e);
   }
 
@@ -187,7 +187,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void error(String message, Throwable e) {
+  public static final void error(String message, Throwable e) {
     impl.error(message, e);
   }
 
@@ -200,7 +200,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static void fatal(String message) {
+  public static final void fatal(String message) {
     fatal(message, (Throwable) null);
   }
 
@@ -225,7 +225,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void fatal(String message, JavaScriptObject e) {
+  public static final void fatal(String message, JavaScriptObject e) {
     impl.fatal(message, e);
   }
 
@@ -248,7 +248,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void fatal(String message, Throwable e) {
+  public static final void fatal(String message, Throwable e) {
     impl.fatal(message, e);
   }
 
@@ -316,7 +316,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static void info(String message) {
+  public static final void info(String message) {
     info(message, (Throwable) null);
   }
 
@@ -341,7 +341,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void info(String message, JavaScriptObject e) {
+  public static final void info(String message, JavaScriptObject e) {
     impl.info(message, e);
   }
 
@@ -364,7 +364,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void info(String message, Throwable e) {
+  public static final void info(String message, Throwable e) {
     impl.info(message, e);
   }
 
@@ -402,7 +402,7 @@ public final class Log {
    * the compile time and runtime <code>log_level</code>
    * is set to <code>FATAL</code> or lower.
    */
-  public static void setUncaughtExceptionHandler() {
+  public static final void setUncaughtExceptionHandler() {
     impl.setUncaughtExceptionHandler();
   }
 
@@ -415,7 +415,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static void warn(String message) {
+  public static final void warn(String message) {
     warn(message, (Throwable) null);
   }
 
@@ -440,7 +440,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void warn(String message, JavaScriptObject e) {
+  public static final void warn(String message, JavaScriptObject e) {
     impl.warn(message, e);
   }
 
@@ -463,7 +463,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static void warn(String message, Throwable e) {
+  public static final void warn(String message, Throwable e) {
     impl.warn(message, e);
   }
 }

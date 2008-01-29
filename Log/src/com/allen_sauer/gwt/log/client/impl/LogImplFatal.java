@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,7 +21,7 @@ import com.allen_sauer.gwt.log.client.Log;
  * Implementation of {@link LogImpl} which attempts to compile out
  * all code with a log level lower than {@link Log#LOG_LEVEL_FATAL}.
  */
-public class LogImplFatal extends LogImplBase {
+public final class LogImplFatal extends LogImplBase {
   public final int getLowestLogLevel() {
     return Log.LOG_LEVEL_FATAL;
   }

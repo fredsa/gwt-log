@@ -20,11 +20,11 @@ import com.google.gwt.user.client.rpc.RemoteService;
 public interface RemoteLoggerService extends RemoteService {
   public void debug(String message, Throwable ex);
 
-  public void info(String message, Throwable ex);
-
-  public void warn(String message, Throwable ex);
-
   public void error(String message, Throwable ex);
 
   public void fatal(String message, Throwable ex);
+
+  public void info(String message, Throwable ex);
+
+  public void warn(String message, Throwable ex);
 }

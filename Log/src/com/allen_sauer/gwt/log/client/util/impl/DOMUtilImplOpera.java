@@ -19,5 +19,5 @@ package com.allen_sauer.gwt.log.client.util.impl;
  * {@link com.allen_sauer.gwt.log.client.util.DOMUtil} implementation for
  * Opera.
  */
-public class DOMUtilImplOpera extends DOMUtilImplStandard {
+public final class DOMUtilImplOpera extends DOMUtilImplStandard {
 }
