@@ -26,6 +26,7 @@ import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.Logger;
+import com.allen_sauer.gwt.log.client.RemoteLogger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
 import com.allen_sauer.gwt.log.client.util.LogUtil;
 
@@ -74,6 +75,9 @@ public abstract class LogImplBase extends LogImpl {
    }
   }-*/;
 
+  /**
+   * TODO Update when GWT provides generic library version tracking ability
+   */
   private static native void setVersion()
   /*-{
     $GWT_LOG_VERSION = "@GWT_LOG_VERSION@";
@@ -88,14 +92,15 @@ public abstract class LogImplBase extends LogImpl {
   private ArrayList loggers = new ArrayList();
 
   public LogImplBase() {
-    addLogger(new GWTLogger());
-    addLogger(new SystemLogger());
-    addLogger(new FirebugLogger());
-    addLogger(new ConsoleLogger());
+    addLogger((Logger) GWT.create(GWTLogger.class));
+    addLogger((Logger) GWT.create(SystemLogger.class));
+    addLogger((Logger) GWT.create(FirebugLogger.class));
+    addLogger((Logger) GWT.create(ConsoleLogger.class));
+    addLogger((Logger) GWT.create(RemoteLogger.class));
 
     // GWT hacking may prevent the DOM/UI from working properly
     try {
-      addLogger(new DivLogger());
+      addLogger((Logger) GWT.create(DivLogger.class));
     } catch (Throwable ex) {
       Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
           + ex.toString());
