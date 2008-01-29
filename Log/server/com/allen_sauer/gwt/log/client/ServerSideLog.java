@@ -53,7 +53,7 @@ public class ServerSideLog {
   }
 
   public static final void addLogger(ServerSideLogger logger) {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final void clear() {
@@ -65,7 +65,7 @@ public class ServerSideLog {
   }
 
   public static final void debug(String message, JavaScriptObject e) {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final void debug(String message, Throwable e) {
@@ -77,7 +77,7 @@ public class ServerSideLog {
   }
 
   public static final void error(String message, JavaScriptObject e) {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final void error(String message, Throwable e) {
@@ -89,7 +89,7 @@ public class ServerSideLog {
   }
 
   public static final void fatal(String message, JavaScriptObject e) {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final void fatal(String message, Throwable e) {
@@ -97,7 +97,7 @@ public class ServerSideLog {
   }
 
   public static final ServerSideConsoleLogger getConsoleLogger() {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final int getCurrentLogLevel() {
@@ -109,15 +109,15 @@ public class ServerSideLog {
   }
 
   public static final ServerSideDivLogger getDivLogger() {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final ServerSideFirebugLogger getFirebugLogger() {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final ServerSideGWTLogger getGwtLogger() {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final int getLowestLogLevel() {
@@ -129,7 +129,7 @@ public class ServerSideLog {
   }
 
   public static final ServerSideSystemLogger getSystemLogger() {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final void info(String message) {
@@ -137,7 +137,7 @@ public class ServerSideLog {
   }
 
   public static final void info(String message, JavaScriptObject e) {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final void info(String message, Throwable e) {
@@ -173,7 +173,7 @@ public class ServerSideLog {
   }
 
   public static final void setUncaughtExceptionHandler() {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final void warn(String message) {
@@ -181,10 +181,14 @@ public class ServerSideLog {
   }
 
   public static final void warn(String message, JavaScriptObject e) {
-    throw new UnsupportedOperationException();
+    throwUnsupported();
   }
 
   public static final void warn(String message, Throwable e) {
     impl.warn(message, e);
+  }
+
+  private static void throwUnsupported() {
+    throw new UnsupportedOperationException("This method available only when running on the client");
   }
 }
