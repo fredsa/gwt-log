@@ -249,10 +249,6 @@ public abstract class LogImplBase extends LogImpl {
     return getLowestLogLevel() <= Log.LOG_LEVEL_WARN && getCurrentLogLevel() <= Log.LOG_LEVEL_WARN;
   }
 
-  public boolean removeLogger(Logger logger) {
-    return loggers.remove(logger);
-  }
-
   public int setCurrentLogLevel(int level) {
     if (level < getLowestLogLevel()) {
       Window.alert("Unable to lower runtime log level to " + level
