@@ -1,5 +1,5 @@
 <!-- 
-  Copyright 2007 Fred Sauer
+  Copyright 2008 Fred Sauer
   
   Licensed under the Apache License, Version 2.0 (the "License"); you may not
   use this file except in compliance with the License. You may obtain a copy of
@@ -149,6 +149,87 @@
       return log_level;
     ]]>
   </property-provider>
+
+
+  <!-- ConsoleLogger -->
+
+  <define-property name="log_ConsoleLogger" values="ENABLED, DISABLED" />
+  <set-property name="log_ConsoleLogger" value="ENABLED" />
+  
+  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
+    <when-type-is class="com.allen_sauer.gwt.log.client.ConsoleLogger" />
+    <none>
+      <when-property-is name="log_ConsoleLogger" value="ENABLED" />
+    </none>
+  </replace-with>
+
+
+  <!-- DivLogger -->
+
+  <define-property name="log_DivLogger" values="ENABLED, DISABLED" />
+  <set-property name="log_DivLogger" value="ENABLED" />
+  
+  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
+    <when-type-is class="com.allen_sauer.gwt.log.client.DivLogger" />
+    <none>
+      <when-property-is name="log_DivLogger" value="ENABLED" />
+    </none>
+  </replace-with>
+
+
+  <!-- FirebugLogger -->
+
+  <define-property name="log_FirebugLogger" values="ENABLED, DISABLED" />
+  <set-property name="log_FirebugLogger" value="ENABLED" />
+  
+  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
+    <when-type-is class="com.allen_sauer.gwt.log.client.FirebugLogger" />
+    <none>
+      <when-property-is name="log_FirebugLogger" value="ENABLED" />
+    </none>
+  </replace-with>
+
+
+  <!-- GWTLogger -->
+
+  <define-property name="log_GWTLogger" values="ENABLED, DISABLED" />
+  <set-property name="log_GWTLogger" value="ENABLED" />
+  
+  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
+    <when-type-is class="com.allen_sauer.gwt.log.client.GWTLogger" />
+    <none>
+      <when-property-is name="log_GWTLogger" value="ENABLED" />
+    </none>
+  </replace-with>
+
+
+  <!-- SystemLogger -->
+
+  <define-property name="log_SystemLogger" values="ENABLED, DISABLED" />
+  <set-property name="log_SystemLogger" value="ENABLED" />
+  
+  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
+    <when-type-is class="com.allen_sauer.gwt.log.client.SystemLogger" />
+    <none>
+      <when-property-is name="log_SystemLogger" value="ENABLED" />
+    </none>
+  </replace-with>
+
+
+  <!-- RemoteLogger -->
+
+  <define-property name="log_RemoteLogger" values="ENABLED, DISABLED" />
+  <set-property name="log_RemoteLogger" value="DISABLED" />
+  
+  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
+    <when-type-is class="com.allen_sauer.gwt.log.client.RemoteLogger" />
+    <none>
+      <when-property-is name="log_RemoteLogger" value="ENABLED" />
+    </none>
+  </replace-with>
+
+  <servlet path="/gwt-log" class="com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl" />
+
 
   <!--  Log level dependent implementations -->
   
