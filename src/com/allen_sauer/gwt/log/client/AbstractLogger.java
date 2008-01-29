@@ -21,7 +21,8 @@ import java.util.Date;
 
 public abstract class AbstractLogger implements Logger {
   public void clear() {
-    info("======================" + new Date() + "======================", null);
+    info("============= gwt-log @GWT_LOG_VERSION@ =============" + new Date() + "=============",
+        null);
   }
 
   public void debug(String message, Throwable throwable) {

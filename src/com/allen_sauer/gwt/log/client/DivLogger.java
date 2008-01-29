@@ -151,9 +151,9 @@ public class DivLogger extends AbstractLogger {
     logTextArea.setSize(width, height);
   }
 
-  // Never called since {@link #log(int, String, Throwable)} is overridden
   void log(int logLevel, String message) {
-    throw new UnsupportedOperationException();
+    assert false;
+    // Method never called since {@link #log(int, String, Throwable)} is overridden
   }
 
   final void log(int logLevel, String message, Throwable throwable) {
