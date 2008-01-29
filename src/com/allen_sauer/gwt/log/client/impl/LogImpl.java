@@ -97,8 +97,6 @@ public abstract class LogImpl {
 
   public abstract boolean isWarnEnabled();
 
-  public abstract boolean removeLogger(Logger logger);
-
   public abstract int setCurrentLogLevel(int level);
 
   public abstract void setUncaughtExceptionHandler();

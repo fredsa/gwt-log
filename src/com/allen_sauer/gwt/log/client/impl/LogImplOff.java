@@ -116,10 +116,6 @@ public class LogImplOff extends LogImpl {
     return false;
   }
 
-  public boolean removeLogger(Logger logger) {
-    return false;
-  }
-
   public int setCurrentLogLevel(int level) {
     return Log.LOG_LEVEL_OFF;
   }

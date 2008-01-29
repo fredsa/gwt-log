@@ -168,10 +168,6 @@ public class ServerSideLog {
     return impl.isWarnEnabled();
   }
 
-  public static final boolean removeLogger(ServerSideLogger logger) {
-    throw new UnsupportedOperationException();
-  }
-
   public static final void setCurrentLogLevel(int level) {
     impl.setCurrentLogLevel(impl.mapGWTLogLevelToImplLevel(level));
   }
