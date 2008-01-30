@@ -17,7 +17,12 @@ package com.allen_sauer.gwt.log.client.util;
 
 import com.allen_sauer.gwt.log.client.Log;
 
+/**
+ * Class with logging related utility methods.
+ */
 public class LogUtil {
+  // CHECKSTYLE_JAVADOC_OFF
+
   private static final String LOG_LEVEL_TEXT_DEBUG = "DEBUG";
   private static final String LOG_LEVEL_TEXT_ERROR = "ERROR";
   private static final String LOG_LEVEL_TEXT_FATAL = "FATAL";

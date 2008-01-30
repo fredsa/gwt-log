@@ -22,19 +22,21 @@ import com.allen_sauer.gwt.log.client.Log;
  * all code with a log level lower than {@link Log#LOG_LEVEL_ERROR}.
  */
 public final class LogImplError extends LogImplBase {
-  public final int getLowestLogLevel() {
+  // CHECKSTYLE_JAVADOC_OFF
+
+  public int getLowestLogLevel() {
     return Log.LOG_LEVEL_ERROR;
   }
 
-  public final boolean isDebugEnabled() {
+  public boolean isDebugEnabled() {
     return false;
   }
 
-  public final boolean isInfoEnabled() {
+  public boolean isInfoEnabled() {
     return false;
   }
 
-  public final boolean isWarnEnabled() {
+  public boolean isWarnEnabled() {
     return false;
   }
 }

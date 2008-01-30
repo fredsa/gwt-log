@@ -21,6 +21,7 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//CHECKSTYLE_JAVADOC_OFF
 public final class ServerLogImplJavaUtil extends ServerLogImpl {
   private final Logger logger;
 
@@ -32,51 +33,51 @@ public final class ServerLogImplJavaUtil extends ServerLogImpl {
     logger.addHandler(consoleHandler);
   }
 
-  public final void clear() {
+  public void clear() {
     // do nothing
   }
 
-  public final void debug(String message, Throwable e) {
+  public void debug(String message, Throwable e) {
     logger.log(Level.FINE, message, e);
   }
 
-  public final void error(String message, Throwable e) {
+  public void error(String message, Throwable e) {
     logger.log(Level.SEVERE, message, e);
   }
 
-  public final void fatal(String message, Throwable e) {
+  public void fatal(String message, Throwable e) {
     logger.log(Level.SEVERE, message, e);
   }
 
-  public final int getCurrentLogLevel() {
+  public int getCurrentLogLevel() {
     return logger.getLevel().intValue();
   }
 
-  public final void info(String message, Throwable e) {
+  public void info(String message, Throwable e) {
     logger.log(Level.INFO, message, e);
   }
 
-  public final boolean isDebugEnabled() {
+  public boolean isDebugEnabled() {
     return logger.getLevel().intValue() >= Level.FINE.intValue();
   }
 
-  public final boolean isErrorEnabled() {
+  public boolean isErrorEnabled() {
     return logger.getLevel().intValue() >= Level.SEVERE.intValue();
   }
 
-  public final boolean isFatalEnabled() {
+  public boolean isFatalEnabled() {
     return logger.getLevel().intValue() >= Level.SEVERE.intValue();
   }
 
-  public final boolean isInfoEnabled() {
+  public boolean isInfoEnabled() {
     return logger.getLevel().intValue() >= Level.INFO.intValue();
   }
 
-  public final boolean isLoggingEnabled() {
+  public boolean isLoggingEnabled() {
     return logger.getLevel().intValue() >= Level.OFF.intValue();
   }
 
-  public final boolean isWarnEnabled() {
+  public boolean isWarnEnabled() {
     return logger.getLevel().intValue() >= Level.WARNING.intValue();
   }
 
@@ -99,7 +100,15 @@ public final class ServerLogImplJavaUtil extends ServerLogImpl {
     }
   }
 
-  public int mapImplLevelToGWTLogLevel(int implLogLevel) {
+  public void setCurrentImplLogLevel(int level) {
+    logger.setLevel(Level.parse("" + level));
+  }
+
+  public void warn(String message, Throwable e) {
+    logger.log(Level.WARNING, message, e);
+  }
+
+  protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
     if (implLogLevel == Level.FINE.intValue()) {
       return ServerSideLog.LOG_LEVEL_DEBUG;
     } else if (implLogLevel == Level.INFO.intValue()) {
@@ -115,13 +124,5 @@ public final class ServerLogImplJavaUtil extends ServerLogImpl {
     } else {
       throw new IllegalArgumentException();
     }
-  }
-
-  public final void setCurrentLogLevel(int level) {
-    logger.setLevel(Level.parse("" + level));
-  }
-
-  public final void warn(String message, Throwable e) {
-    logger.log(Level.WARNING, message, e);
   }
 }

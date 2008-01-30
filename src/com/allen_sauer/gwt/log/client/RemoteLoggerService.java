@@ -17,14 +17,15 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
+// CHECKSTYLE_JAVADOC_OFF
 public interface RemoteLoggerService extends RemoteService {
-  public void debug(String message, Throwable ex);
+  void debug(String message, Throwable ex);
 
-  public void error(String message, Throwable ex);
+  void error(String message, Throwable ex);
 
-  public void fatal(String message, Throwable ex);
+  void fatal(String message, Throwable ex);
 
-  public void info(String message, Throwable ex);
+  void info(String message, Throwable ex);
 
-  public void warn(String message, Throwable ex);
+  void warn(String message, Throwable ex);
 }

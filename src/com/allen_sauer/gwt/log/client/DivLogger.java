@@ -33,7 +33,12 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.log.client.util.DOMUtil;
 
+/**
+ * Logger which outputs to a draggable floating <code>DIV</code>.
+ */
 public class DivLogger extends AbstractLogger {
+  // CHECKSTYLE_JAVADOC_OFF
+
   private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
   private static final String STYLE_LOG_HEADER = "log-header";
   private static final String STYLE_LOG_PANEL = "log-panel";
@@ -67,6 +72,9 @@ public class DivLogger extends AbstractLogger {
   private ScrollPanel scrollPanel = new ScrollPanel();
   private Timer timer;
 
+  /**
+   * Default constructor.
+   */
   public DivLogger() {
     debugTable.addStyleName(STYLE_LOG_PANEL);
     logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);

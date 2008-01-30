@@ -30,16 +30,17 @@ import com.allen_sauer.gwt.log.client.SystemLogger;
  * via GWT compiler dead code elimination.
  */
 public final class LogImplOff extends LogImpl {
-  public final void addLogger(Logger logger) {
+  // CHECKSTYLE_JAVADOC_OFF
+  public void addLogger(Logger logger) {
   }
 
-  public final void clear() {
+  public void clear() {
   }
 
-  public final void debug(String message, JavaScriptObject e) {
+  public void debug(String message, JavaScriptObject e) {
   }
 
-  public final void debug(String message, Throwable e) {
+  public void debug(String message, Throwable e) {
   }
 
   public void error(String message, JavaScriptObject e) {
@@ -54,78 +55,78 @@ public final class LogImplOff extends LogImpl {
   public void fatal(String message, Throwable e) {
   }
 
-  public final int getCurrentLogLevel() {
+  public int getCurrentLogLevel() {
     return Log.LOG_LEVEL_OFF;
   }
 
-  public final Logger getLogger(Class clazz) {
+  public Logger getLogger(Class clazz) {
     return null;
   }
 
-  public final ConsoleLogger getLoggerConsole() {
+  public ConsoleLogger getLoggerConsole() {
     return null;
   }
 
-  public final DivLogger getLoggerDiv() {
+  public DivLogger getLoggerDiv() {
     return null;
   }
 
-  public final FirebugLogger getLoggerFirebug() {
+  public FirebugLogger getLoggerFirebug() {
     return null;
   }
 
-  public final GWTLogger getLoggerGWT() {
+  public GWTLogger getLoggerGWT() {
     return null;
   }
 
-  public final SystemLogger getLoggerSystem() {
+  public SystemLogger getLoggerSystem() {
     return null;
   }
 
-  public final int getLowestLogLevel() {
+  public int getLowestLogLevel() {
     return Log.LOG_LEVEL_OFF;
   }
 
-  public final void info(String message, JavaScriptObject e) {
+  public void info(String message, JavaScriptObject e) {
   }
 
-  public final void info(String message, Throwable e) {
+  public void info(String message, Throwable e) {
   }
 
-  public final boolean isDebugEnabled() {
+  public boolean isDebugEnabled() {
     return false;
   }
 
-  public final boolean isErrorEnabled() {
+  public boolean isErrorEnabled() {
     return false;
   }
 
-  public final boolean isFatalEnabled() {
+  public boolean isFatalEnabled() {
     return false;
   }
 
-  public final boolean isInfoEnabled() {
+  public boolean isInfoEnabled() {
     return false;
   }
 
-  public final boolean isLoggingEnabled() {
+  public boolean isLoggingEnabled() {
     return false;
   }
 
-  public final boolean isWarnEnabled() {
+  public boolean isWarnEnabled() {
     return false;
   }
 
-  public final int setCurrentLogLevel(int level) {
+  public int setCurrentLogLevel(int level) {
     return Log.LOG_LEVEL_OFF;
   }
 
-  public final void setUncaughtExceptionHandler() {
+  public void setUncaughtExceptionHandler() {
   }
 
-  public final void warn(String message, JavaScriptObject e) {
+  public void warn(String message, JavaScriptObject e) {
   }
 
-  public final void warn(String message, Throwable e) {
+  public void warn(String message, Throwable e) {
   }
 }

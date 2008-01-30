@@ -29,6 +29,14 @@ public class DOMUtil {
     impl = (DOMUtilImpl) GWT.create(DOMUtilImpl.class);
   }
 
+  /**
+   * Adjust line breaks within in the provided title for 
+   * optimal readability and display length for the current
+   * user agent.
+   * 
+   * @param title the desired raw text 
+   * @return formatted and escaped text
+   */
   public static String adjustTitleLineBreaks(String title) {
     return impl.adjustTitleLineBreaks(title);
   }

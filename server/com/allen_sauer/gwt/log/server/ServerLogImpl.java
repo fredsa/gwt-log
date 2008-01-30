@@ -1,8 +1,21 @@
-/**
- * Copyright 2008 Fred Sauer.
+/*
+ * Copyright 2008 Fred Sauer
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.allen_sauer.gwt.log.server;
 
+//CHECKSTYLE_JAVADOC_OFF
 public abstract class ServerLogImpl {
   public abstract void clear();
 
@@ -30,11 +43,28 @@ public abstract class ServerLogImpl {
 
   public abstract boolean isWarnEnabled();
 
+  /**
+   * Map gwt-log int level to implementation int level.
+   * 
+   * @param gwtLogLevel the gwt-log int log level
+   * @return the implementation specific int log level
+   */
   public abstract int mapGWTLogLevelToImplLevel(int gwtLogLevel);
 
-  public abstract int mapImplLevelToGWTLogLevel(int implLogLevel);
-
-  public abstract void setCurrentLogLevel(int level);
+  /**
+   * Set the current implementation log level.
+   * 
+   * @param implLogLevel the implementation specific int log level
+   */
+  public abstract void setCurrentImplLogLevel(int implLogLevel);
 
   public abstract void warn(String message, Throwable e);
+
+  /**
+   * Map implementation int level to gwt-log int level.
+   * 
+   * @param implLogLevel the implementation specific int log level
+   * @return the gwt-log int log level
+   */
+  protected abstract int mapImplLevelToGWTLogLevel(int implLogLevel);
 }

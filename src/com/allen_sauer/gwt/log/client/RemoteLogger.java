@@ -19,7 +19,15 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
+/**
+ * Logger which sends output via RPC to the server where it
+ * can be logged and aggregated.
+ * 
+ * TODO optimize RPC round trips; at a minimum try to combine multiple messages at once
+ */
 public final class RemoteLogger extends AbstractLogger {
+  // CHECKSTYLE_JAVADOC_OFF
+
   private AsyncCallback callback;
   private boolean failed = false;
   private RemoteLoggerServiceAsync service;
@@ -43,41 +51,41 @@ public final class RemoteLogger extends AbstractLogger {
     };
   }
 
-  public final void debug(String message, Throwable throwable) {
+  public void debug(String message, Throwable throwable) {
     if (!failed) {
       service.debug(message, throwable, callback);
     }
   }
 
-  public final void error(String message, Throwable throwable) {
+  public void error(String message, Throwable throwable) {
     if (!failed) {
       service.error(message, throwable, callback);
     }
   }
 
-  public final void fatal(String message, Throwable throwable) {
+  public void fatal(String message, Throwable throwable) {
     if (!failed) {
       service.fatal(message, throwable, callback);
     }
   }
 
-  public final void info(String message, Throwable throwable) {
+  public void info(String message, Throwable throwable) {
     if (!failed) {
       service.info(message, throwable, callback);
     }
   }
 
-  public final boolean isSupported() {
+  public boolean isSupported() {
     return true;
   }
 
-  public final void warn(String message, Throwable throwable) {
+  public void warn(String message, Throwable throwable) {
     if (!failed) {
       service.warn(message, throwable, callback);
     }
   }
 
-  final void log(int logLevel, String message) {
+  void log(int logLevel, String message) {
     assert false;
     // Method never called
   }

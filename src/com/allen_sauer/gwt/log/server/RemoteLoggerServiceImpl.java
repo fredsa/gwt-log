@@ -20,6 +20,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.RemoteLoggerService;
 
+// CHECKSTYLE_JAVADOC_OFF
+
 public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements RemoteLoggerService {
   public final void debug(String message, Throwable ex) {
     try {

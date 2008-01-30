@@ -15,5 +15,6 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+//CHECKSTYLE_JAVADOC_OFF
 public class ServerSideSystemLogger extends ServerSideAbstractLogger {
 }

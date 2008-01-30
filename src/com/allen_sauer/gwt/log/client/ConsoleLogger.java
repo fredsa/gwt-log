@@ -15,13 +15,19 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+/**
+ * Logger which sends output via <code>$wnd.console.log()</code>
+ * if <code>$wnd.console.log</code> is a function.
+ */
 public final class ConsoleLogger extends AbstractLogger {
-  public final native boolean isSupported()
+  // CHECKSTYLE_JAVADOC_OFF
+
+  public native boolean isSupported()
   /*-{
     return $wnd.console != null && typeof($wnd.console.log) == 'function';
   }-*/;
 
-  final native void log(int logLevel, String message)
+  native void log(int logLevel, String message)
   /*-{
     $wnd.console.log(message);
   }-*/;

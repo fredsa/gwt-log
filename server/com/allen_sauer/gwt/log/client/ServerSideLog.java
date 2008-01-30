@@ -22,16 +22,17 @@ import com.allen_sauer.gwt.log.server.ServerLogImpl;
 import com.allen_sauer.gwt.log.server.ServerLogImplJavaUtil;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
 
+//CHECKSTYLE_JAVADOC_OFF
 public class ServerSideLog {
-  private static final String UNSUPPORTED_METHOD_TEXT = "This method available only when running on the client";
   public static final int LOG_LEVEL_DEBUG = 10000;
   public static final int LOG_LEVEL_ERROR = 40000;
   public static final int LOG_LEVEL_FATAL = 50000;
   public static final int LOG_LEVEL_INFO = 20000;
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
   public static final int LOG_LEVEL_WARN = 30000;
-
   private static ServerLogImpl impl;
+
+  private static final String UNSUPPORTED_METHOD_TEXT = "This method available only when running on the client";
   static {
     if (impl == null) {
       try {
@@ -170,7 +171,7 @@ public class ServerSideLog {
   }
 
   public static final void setCurrentLogLevel(int level) {
-    impl.setCurrentLogLevel(impl.mapGWTLogLevelToImplLevel(level));
+    impl.setCurrentImplLogLevel(impl.mapGWTLogLevelToImplLevel(level));
   }
 
   public static final void setUncaughtExceptionHandler() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,6 +29,9 @@ import com.allen_sauer.gwt.log.client.Log;
 public class LogDemo implements EntryPoint {
   private static final String DEMO_MAIN_PANEL = "demo-main-panel";
 
+  /**
+   * Main entry point method.
+   */
   public void onModuleLoad() {
     // set uncaught exception handler
     Log.setUncaughtExceptionHandler();
@@ -42,6 +45,9 @@ public class LogDemo implements EntryPoint {
     });
   }
 
+  /**
+   * Deferred initialization method, used by {@link #onModuleLoad()}.
+   */
   private void onModuleLoad2() {
     RootPanel mainPanel = RootPanel.get(DEMO_MAIN_PANEL);
     DOM.setInnerHTML(mainPanel.getElement(), "");

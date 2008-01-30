@@ -20,7 +20,9 @@ package com.allen_sauer.gwt.log.client.util.impl;
  * IE.
  */
 public final class DOMUtilImplIE6 extends DOMUtilImpl {
-  public final String adjustTitleLineBreaks(String message) {
+  // CHECKSTYLE_JAVADOC_OFF
+
+  public String adjustTitleLineBreaks(String message) {
     return message.replaceAll("\r\n|\r|\n", "\n");
   }
 }

@@ -19,7 +19,16 @@ import com.google.gwt.core.client.GWT;
 
 import java.util.Date;
 
+//CHECKSTYLE_JAVADOC_OFF
 public abstract class AbstractLogger implements Logger {
+  /**
+   * Does one of the following for each logger:
+   * <ul>
+   *   <li>Clear the logger output</li>
+   *   <li>Output text to visually separate the output</li>
+   *   <li>Nothing</li>
+   * </ul>
+   */
   public void clear() {
     info("============= gwt-log @GWT_LOG_VERSION@ =============" + new Date() + "=============",
         null);
