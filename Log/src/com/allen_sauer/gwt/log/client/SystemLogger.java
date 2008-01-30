@@ -17,12 +17,18 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 
+/**
+ * Logger which sends output to <code>System.err</code> for <code>ERROR</code>
+ * level messages and above, and to <code>System.out</code> otherwise.
+ */
 public final class SystemLogger extends AbstractLogger {
-  public final boolean isSupported() {
+  // CHECKSTYLE_JAVADOC_OFF
+
+  public boolean isSupported() {
     return !GWT.isScript();
   }
 
-  final void log(int logLevel, String message) {
+  void log(int logLevel, String message) {
     if (logLevel >= Log.LOG_LEVEL_ERROR) {
       System.err.println(message);
     } else {

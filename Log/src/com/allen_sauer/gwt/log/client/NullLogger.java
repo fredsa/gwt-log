@@ -15,7 +15,12 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+/**
+ * Logger which does nothing, used by deferred binding.
+ */
 public class NullLogger extends AbstractLogger {
+  // CHECKSTYLE_JAVADOC_OFF
+
   public final boolean isSupported() {
     return false;
   }

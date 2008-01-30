@@ -20,61 +20,60 @@ import com.allen_sauer.gwt.log.client.ServerSideLog;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+//CHECKSTYLE_JAVADOC_OFF
 public final class ServerLogImplLog4J extends ServerLogImpl {
   private final Logger logger = Logger.getLogger("gwt-log");
 
-  public final void clear() {
+  public void clear() {
     // do nothing
   }
 
-  public final void debug(String message, Throwable e) {
+  public void debug(String message, Throwable e) {
     logger.debug(message, e);
   }
 
-  public final void error(String message, Throwable e) {
+  public void error(String message, Throwable e) {
     logger.error(message, e);
   }
 
-  public final void fatal(String message, Throwable e) {
+  public void fatal(String message, Throwable e) {
     logger.fatal(message, e);
   }
 
-  public final int getCurrentLogLevel() {
+  public int getCurrentLogLevel() {
     return logger.getEffectiveLevel().toInt();
   }
 
-  public final void info(String message, Throwable e) {
+  public void info(String message, Throwable e) {
     logger.info(message, e);
   }
 
-  public final boolean isDebugEnabled() {
+  public boolean isDebugEnabled() {
     return logger.isDebugEnabled();
   }
 
-  public final boolean isErrorEnabled() {
+  public boolean isErrorEnabled() {
     return logger.getLevel().toInt() >= Level.ERROR_INT;
   }
 
-  public final boolean isFatalEnabled() {
+  public boolean isFatalEnabled() {
     return logger.getLevel().toInt() >= Level.FATAL_INT;
   }
 
-  public final boolean isInfoEnabled() {
+  public boolean isInfoEnabled() {
     return logger.getLevel().toInt() >= Level.INFO_INT;
   }
 
-  public final boolean isLoggingEnabled() {
+  public boolean isLoggingEnabled() {
     return logger.getLevel().toInt() >= Level.OFF_INT;
   }
 
-  public final boolean isWarnEnabled() {
+  public boolean isWarnEnabled() {
     return logger.getLevel().toInt() >= Level.WARN_INT;
   }
 
-  /**
-   * Identity mapping since gwt-log log4j levels have integer identity.
-   */
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
+    // Identity mapping since gwt-log log4j levels have integer identity.
     switch (gwtLogLevel) {
       case ServerSideLog.LOG_LEVEL_DEBUG:
       case ServerSideLog.LOG_LEVEL_INFO:
@@ -88,10 +87,16 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
     }
   }
 
-  /**
-   * Identity mapping since gwt-log log4j levels have integer identity.
-   */
-  public int mapImplLevelToGWTLogLevel(int implLogLevel) {
+  public void setCurrentImplLogLevel(int level) {
+    logger.setLevel(Level.toLevel(level));
+  }
+
+  public void warn(String message, Throwable e) {
+    logger.warn(message, e);
+  }
+
+  protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
+    // Identity mapping since gwt-log log4j levels have integer identity.
     switch (implLogLevel) {
       case Level.DEBUG_INT:
       case Level.INFO_INT:
@@ -103,13 +108,5 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
       default:
         throw new IllegalArgumentException();
     }
-  }
-
-  public final void setCurrentLogLevel(int level) {
-    logger.setLevel(Level.toLevel(level));
-  }
-
-  public final void warn(String message, Throwable e) {
-    logger.warn(message, e);
   }
 }

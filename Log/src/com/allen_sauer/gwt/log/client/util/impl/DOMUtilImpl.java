@@ -20,5 +20,7 @@ package com.allen_sauer.gwt.log.client.util.impl;
  * cross-browser implementation.
  */
 public abstract class DOMUtilImpl {
+  // CHECKSTYLE_JAVADOC_OFF
+
   public abstract String adjustTitleLineBreaks(String title);
 }

@@ -21,7 +21,9 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
  * @deprecated Use {@link Log#setUncaughtExceptionHandler()} instead.
  */
 public final class LogUncaughtExceptionHandler implements UncaughtExceptionHandler {
-  public final void onUncaughtException(Throwable e) {
+  // CHECKSTYLE_JAVADOC_OFF
+
+  public void onUncaughtException(Throwable e) {
     Log.fatal("Uncaught Exception:", e);
   }
 }

@@ -22,7 +22,9 @@ import com.allen_sauer.gwt.log.client.Log;
  * {@link Log#LOG_LEVEL_DEBUG} log level.
  */
 public final class LogImplDebug extends LogImplBase {
-  public final int getLowestLogLevel() {
+  // CHECKSTYLE_JAVADOC_OFF
+
+  public int getLowestLogLevel() {
     return Log.LOG_LEVEL_DEBUG;
   }
 }

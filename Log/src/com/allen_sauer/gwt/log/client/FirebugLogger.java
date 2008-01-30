@@ -15,13 +15,23 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+/**
+ * Logger which sends output via <a href="http://www.getfirebug.com/">Firebug</a>
+ * or <a href="http://www.getfirebug.com/lite.html">Firebug Lite</a>
+ * via <code>$wnd.console.debug()</code>,
+ * <code>$wnd.console.info()</code>, <code>$wnd.console.warn()</code>
+ * and <code>$wnd.console.error()</code> if <code>$wnd.console.firebug</code>
+ * is defined.
+ */
 public final class FirebugLogger extends AbstractLogger {
-  public final native boolean isSupported()
+  // CHECKSTYLE_JAVADOC_OFF
+
+  public native boolean isSupported()
   /*-{
     return !!($wnd.console && $wnd.console.firebug);
   }-*/;
 
-  final native void log(int logLevel, String message)
+  native void log(int logLevel, String message)
   /*-{
     if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_ERROR) {
       $wnd.console.error(message);

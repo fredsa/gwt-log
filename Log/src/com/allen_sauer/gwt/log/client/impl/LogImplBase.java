@@ -38,6 +38,8 @@ import java.util.Iterator;
  * i.e. all {@link LogImpl} subclasses except for {@link LogImplOff}).
  */
 public abstract class LogImplBase extends LogImpl {
+  // CHECKSTYLE_JAVADOC_OFF
+
   static final String LOG_LEVEL_TEXT_DEBUG = LogUtil.levelToString(Log.LOG_LEVEL_DEBUG);
   static final String LOG_LEVEL_TEXT_ERROR = LogUtil.levelToString(Log.LOG_LEVEL_ERROR);
   static final String LOG_LEVEL_TEXT_FATAL = LogUtil.levelToString(Log.LOG_LEVEL_FATAL);
@@ -53,7 +55,7 @@ public abstract class LogImplBase extends LogImpl {
     return new JavaScriptException(javaScriptExceptionName(e), javaScriptExceptionDescription(e));
   }
 
-  private static final String format(String prefix, String message) {
+  private static String format(String prefix, String message) {
     return prefix + " " + message.replaceAll("\n", "\n" + prefix);
   }
 

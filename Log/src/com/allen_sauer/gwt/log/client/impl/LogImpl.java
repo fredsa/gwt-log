@@ -25,6 +25,8 @@ import com.allen_sauer.gwt.log.client.Logger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
 import com.allen_sauer.gwt.log.client.util.LogUtil;
 
+// CHECKSTYLE_JAVADOC_OFF
+
 public abstract class LogImpl {
   public abstract void addLogger(Logger logger);
 
@@ -50,29 +52,14 @@ public abstract class LogImpl {
 
   public abstract Logger getLogger(Class clazz);
 
-  /**
-   * @deprecated Use {@link #getLogger(Class)} instead.
-   */
   public abstract ConsoleLogger getLoggerConsole();
 
-  /**
-   * @deprecated Use {@link #getLogger(Class)} instead.
-   */
   public abstract DivLogger getLoggerDiv();
 
-  /**
-   * @deprecated Use {@link #getLogger(Class)} instead.
-   */
   public abstract FirebugLogger getLoggerFirebug();
 
-  /**
-   * @deprecated Use {@link #getLogger(Class)} instead.
-   */
   public abstract GWTLogger getLoggerGWT();
 
-  /**
-   * @deprecated Use {@link #getLogger(Class)} instead.
-   */
   public abstract SystemLogger getLoggerSystem();
 
   public abstract int getLowestLogLevel();

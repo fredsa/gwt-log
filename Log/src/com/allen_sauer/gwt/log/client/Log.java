@@ -61,11 +61,21 @@ public final class Log {
 
   private static final LogImpl impl = (LogImpl) GWT.create(LogImpl.class);
 
-  public static final void addLogger(Logger logger) {
+  /**
+   * Register a new logger.
+   * 
+   * @param logger the logger to add.
+   */
+  public static void addLogger(Logger logger) {
     impl.addLogger(logger);
   }
 
-  public static final void clear() {
+  /**
+   * Supported loggers will have their output cleared.
+   * Alternatively, some loggers may either insert
+   * separator text, or may do nothing.
+   */
+  public static void clear() {
     impl.clear();
   }
 
@@ -78,7 +88,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static final void debug(String message) {
+  public static void debug(String message) {
     debug(message, (Throwable) null);
   }
 
@@ -103,7 +113,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void debug(String message, JavaScriptObject e) {
+  public static void debug(String message, JavaScriptObject e) {
     impl.debug(message, e);
   }
 
@@ -126,7 +136,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void debug(String message, Throwable e) {
+  public static void debug(String message, Throwable e) {
     impl.debug(message, e);
   }
 
@@ -139,7 +149,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static final void error(String message) {
+  public static void error(String message) {
     error(message, (Throwable) null);
   }
 
@@ -164,7 +174,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void error(String message, JavaScriptObject e) {
+  public static void error(String message, JavaScriptObject e) {
     impl.error(message, e);
   }
 
@@ -187,7 +197,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void error(String message, Throwable e) {
+  public static void error(String message, Throwable e) {
     impl.error(message, e);
   }
 
@@ -200,7 +210,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static final void fatal(String message) {
+  public static void fatal(String message) {
     fatal(message, (Throwable) null);
   }
 
@@ -225,7 +235,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void fatal(String message, JavaScriptObject e) {
+  public static void fatal(String message, JavaScriptObject e) {
     impl.fatal(message, e);
   }
 
@@ -248,27 +258,41 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void fatal(String message, Throwable e) {
+  public static void fatal(String message, Throwable e) {
     impl.fatal(message, e);
   }
 
   /**
    * @deprecated Use {@link #getLogger(Class)} instead
+   * 
+   * @return the ConsoleLogger instance or <code>null</code> if no such longer exists
    */
   public static ConsoleLogger getConsoleLogger() {
     return impl.getLoggerConsole();
   }
 
+  /**
+   * Get the current gwt-log log level.
+   * 
+   * @return the current gwt-log log level
+   */
   public static int getCurrentLogLevel() {
     return impl.getCurrentLogLevel();
   }
 
+  /**
+   * Get a text representation of the current gwt-log log level.
+   * 
+   * @return the current gwt-log log level
+   */
   public static String getCurrentLogLevelString() {
     return impl.getCurrentLogLevelString();
   }
 
   /**
    * @deprecated Use {@link #getLogger(Class)} instead
+   * 
+   * @return the DivLogger instance or <code>null</code> if no such longer exists
    */
   public static DivLogger getDivLogger() {
     return impl.getLoggerDiv();
@@ -276,6 +300,8 @@ public final class Log {
 
   /**
    * @deprecated Use {@link #getLogger(Class)} instead
+   * 
+   * @return the FirebugLogger instance or <code>null</code> if no such longer exists
    */
   public static FirebugLogger getFirebugLogger() {
     return impl.getLoggerFirebug();
@@ -283,25 +309,43 @@ public final class Log {
 
   /**
    * @deprecated Use {@link #getLogger(Class)} instead
+   * 
+   * @return the GWTLogger instance or <code>null</code> if no such longer exists
    */
   public static GWTLogger getGwtLogger() {
     return impl.getLoggerGWT();
   }
 
+  /**
+   * @param clazz the class of the desired logger
+   * @return the desired logger instance or <code>null</code> if no such longer exists
+   */
   public static Logger getLogger(Class clazz) {
     return impl.getLogger(clazz);
   }
 
+  /**
+   * Get compile time gwt-log log level.
+   * 
+   * @return lowest (compile time) gwt-log log level
+   */
   public static int getLowestLogLevel() {
     return impl.getLowestLogLevel();
   }
 
+  /**
+   * Get compile time gwt-log log level as text.
+   * 
+   * @return lowest (compile time) gwt-log log level
+   */
   public static String getLowestLogLevelString() {
     return impl.getLowestLogLevelString();
   }
 
   /**
    * @deprecated Use {@link #getLogger(Class)} instead
+   * 
+   * @return the SystemLogger instance or <code>null</code> if no such longer exists
    */
   public static SystemLogger getSystemLogger() {
     return impl.getLoggerSystem();
@@ -316,7 +360,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static final void info(String message) {
+  public static void info(String message) {
     info(message, (Throwable) null);
   }
 
@@ -341,7 +385,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void info(String message, JavaScriptObject e) {
+  public static void info(String message, JavaScriptObject e) {
     impl.info(message, e);
   }
 
@@ -364,36 +408,100 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void info(String message, Throwable e) {
+  public static void info(String message, Throwable e) {
     impl.info(message, e);
   }
 
-  public static final boolean isDebugEnabled() {
+  /**
+   * Guard utility method to prevent expensive parameter evaluation
+   * side effects when logging is set at a higher level, e.g.
+   * <pre>
+   *   // parameter(s) are evaluated even if method call does nothing
+   *   Log.debug(...);
+   *   
+   *   if (Log.isDebugEnabled()) {
+   *     // code inside the guard is only conditionally evaluated
+   *     Log.debug(...);
+   *   }
+   * </pre>   
+   * 
+   * @return <code>true</code> if the current log level is at least <code>DEBUG</code>
+   */
+  public static boolean isDebugEnabled() {
     return impl.isDebugEnabled();
   }
 
+  /**
+   * Guard utility method to prevent expensive parameter evaluation
+   * side effects when logging is set at a higher level.
+   * 
+   * @see #isDebugEnabled()
+   * 
+   * @return <code>true</code> if the current log level is at least <code>ERROR</code>
+   */
   public static boolean isErrorEnabled() {
     return impl.isErrorEnabled();
   }
 
+  /**
+   * Guard utility method to prevent expensive parameter evaluation
+   * side effects when logging is set at a higher level.
+   * 
+   * @see #isDebugEnabled()
+   * 
+   * @return <code>true</code> if the current log level is at least <code>FATAL</code>
+   */
   public static boolean isFatalEnabled() {
     return impl.isFatalEnabled();
   }
 
+  /**
+   * Guard utility method to prevent expensive parameter evaluation
+   * side effects when logging is set at a higher level.
+   * 
+   * @see #isDebugEnabled()
+   * 
+   * @return <code>true</code> if the current log level is at least <code>INFO</code>
+   */
   public static boolean isInfoEnabled() {
     return impl.isInfoEnabled();
   }
 
+  /**
+   * Guard utility method to prevent expensive parameter evaluation
+   * side effects when logging is disabled.
+   * 
+   * @see #isDebugEnabled()
+   * 
+   * @return <code>true</code> if the current log level is not <code>OFF</code>
+   */
   public static boolean isLoggingEnabled() {
     return impl.isLoggingEnabled();
   }
 
+  /**
+   * Guard utility method to prevent expensive parameter evaluation
+   * side effects when logging is set at a higher level.
+   * 
+   * @see #isDebugEnabled()
+   * 
+   * @return <code>true</code> if the current log level is at least <code>WARN</code>
+   */
   public static boolean isWarnEnabled() {
     return impl.isWarnEnabled();
   }
 
-  public static final void setCurrentLogLevel(int level) {
-    impl.setCurrentLogLevel(level);
+  /**
+   * Set the current gwt-log log level to a requested level.
+   * The actual level may be higher than the requested level
+   * due to the compile time log level that is currently in
+   * effect.
+   * 
+   * @param level the new gwt-log log level
+   * @return the resulting gwt-log log level
+   */
+  public static int setCurrentLogLevel(int level) {
+    return impl.setCurrentLogLevel(level);
   }
 
   /**
@@ -402,7 +510,7 @@ public final class Log {
    * the compile time and runtime <code>log_level</code>
    * is set to <code>FATAL</code> or lower.
    */
-  public static final void setUncaughtExceptionHandler() {
+  public static void setUncaughtExceptionHandler() {
     impl.setUncaughtExceptionHandler();
   }
 
@@ -415,7 +523,7 @@ public final class Log {
    * 
    * @param message the text to be logged
    */
-  public static final void warn(String message) {
+  public static void warn(String message) {
     warn(message, (Throwable) null);
   }
 
@@ -440,7 +548,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void warn(String message, JavaScriptObject e) {
+  public static void warn(String message, JavaScriptObject e) {
     impl.warn(message, e);
   }
 
@@ -463,7 +571,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object
    */
-  public static final void warn(String message, Throwable e) {
+  public static void warn(String message, Throwable e) {
     impl.warn(message, e);
   }
 }

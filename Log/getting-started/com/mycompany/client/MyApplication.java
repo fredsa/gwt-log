@@ -21,6 +21,9 @@ import com.google.gwt.user.client.DeferredCommand;
 
 import com.allen_sauer.gwt.log.client.Log;
 
+/**
+ * Illustrative example.
+ */
 public class MyApplication implements EntryPoint {
   /**
    * This field gets compiled out when <code>log_level=OFF</code>, or
@@ -49,6 +52,9 @@ public class MyApplication implements EntryPoint {
     });
   }
 
+  /**
+   * Deferred initialization method, used by {@link #onModuleLoad()}.
+   */
   private void onModuleLoad2() {
     /* Use a <code>if (Log.isDebugEnabled()) {...}</code> guard to
      * ensure that <code>System.currentTimeMillis()</code>

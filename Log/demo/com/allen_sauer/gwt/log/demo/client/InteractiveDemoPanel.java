@@ -25,10 +25,22 @@ import com.google.gwt.user.client.ui.Widget;
 import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.Log;
 
+/**
+ * Interactive demo panel used by {@link LogDemo}.
+ */
 public class InteractiveDemoPanel extends AbsolutePanel {
+  /**
+   * Example of class which fails static initialization
+   * due to purposefully broken JSNI code.
+   */
   static class Broken {
     static final String broken = breakIt();
 
+    /**
+     * Throw a JavaScriptException using purposefully broken JSNI code.
+     * 
+     * @return nothing since an exception is thrown
+     */
     private static native String breakIt()
     /*-{
      return i_do_not_exist();
@@ -53,6 +65,9 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   private Button messageButtons[] = new Button[levels.length - 1];
   private Button npeButtonFatal;
 
+  /**
+   * Default constructor.
+   */
   public InteractiveDemoPanel() {
     add(new HTML("Log a message:"));
 
@@ -177,11 +192,17 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     }
   }
 
+  /**
+   * @return the URL of the current page
+   */
   private native String getPageURL()
   /*-{
     return $wnd.location.href.replace(/[\\?#].*$/, "");
   }-*/;
 
+  /**
+   * Initialize the location and contents of the DivLogger after a short delay.
+   */
   private void initDivLogger() {
     final DivLogger divLogger = (DivLogger) Log.getLogger(DivLogger.class);
     divLogger.moveTo(10, 10);
@@ -197,6 +218,9 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     }.schedule(3000);
   }
 
+  /**
+   * Try/catch a JavaScript exception/error and log it directly from JSNI.
+   */
   private native void jsniCatch()
   /*-{
     try {
@@ -206,16 +230,31 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     }
   }-*/;
 
+  /**
+   * Throw a JavaScriptException using purposefully broken JSNI code.
+   */
   private native void jsniNoCatch()
   /*-{
     my_non_existant_variable.my_non_existant_method();
   }-*/;
 
+  /**
+   * Set the current window location.
+   * 
+   * @param url the new URL location
+   */
   private native void setLocation(String url)
   /*-{
     $wnd.location = url;
   }-*/;
 
+  /**
+   * Update the style on a button specific to a certain log level.
+   * 
+   * @param button the button to style
+   * @param buttonLogLevel the log level associated with this button's action
+   * @param levelText the text representation of the log level to use in the button title
+   */
   private void styleLevelButton(Button button, int buttonLogLevel, String levelText) {
     if (buttonLogLevel < Log.getLowestLogLevel()) {
       button.addStyleDependentName(CSS_NOOP);
@@ -231,6 +270,13 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     }
   }
 
+  /**
+   * Update titles on message generating buttons.
+   * 
+   * @param button the button to style
+   * @param buttonLogLevel the log level associated with the button's message
+   * @param levelText the text representation of the log level to use in the button title
+   */
   private void styleMessageButton(Button button, int buttonLogLevel, String levelText) {
     if (buttonLogLevel < Log.getCurrentLogLevel()) {
       button.addStyleDependentName(CSS_NOOP);
@@ -241,6 +287,9 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     }
   }
 
+  /**
+   * Update log level related dynamic text.
+   */
   private void updateLogLevelLabels() {
     currentLogLevelLabel.setHTML("Current (runtime) log level = <code>"
         + Log.getCurrentLogLevelString() + "</code>");
