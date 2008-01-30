@@ -22,10 +22,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 //CHECKSTYLE_JAVADOC_OFF
-public final class ServerLogImplJavaUtil extends ServerLogImpl {
+public final class ServerLogImplJDK14 extends ServerLogImpl {
   private final Logger logger;
 
-  public ServerLogImplJavaUtil() {
+  public ServerLogImplJDK14() {
     logger = Logger.getLogger("gwt-log");
     logger.setUseParentHandlers(false);
     ConsoleHandler consoleHandler = new ConsoleHandler();

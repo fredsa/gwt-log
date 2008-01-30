@@ -19,7 +19,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import com.allen_sauer.gwt.log.client.util.ServerSideLogUtil;
 import com.allen_sauer.gwt.log.server.ServerLogImpl;
-import com.allen_sauer.gwt.log.server.ServerLogImplJavaUtil;
+import com.allen_sauer.gwt.log.server.ServerLogImplJDK14;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
 
 //CHECKSTYLE_JAVADOC_OFF
@@ -43,7 +43,7 @@ public class ServerSideLog {
 
     if (impl == null) {
       try {
-        impl = new ServerLogImplJavaUtil();
+        impl = new ServerLogImplJDK14();
       } catch (Throwable e) {
       }
     }
