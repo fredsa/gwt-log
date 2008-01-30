@@ -20,21 +20,37 @@
           <div style="margin-bottom: 2em;">
             <b>Key Features:</b>
             <ul style="margin: 0em 0em 0em 1.8em;">
-              <li>Client logging code is compiled out and introduces zero-overhead<sup>*</sup> due to
-                  GWT&nbsp;1.5 compiler dead code elimination when <code>log_level=OFF</code></li>
-              <li>Serializable classes (domain objects, POJOs, etc.) can utilize the same logging code
-                  on client and server via inclusion of a single, common, gwt-log jar on both tiers</li>
-              <li>Server side logging automatically detects <a href="http://logging.apache.org/log4j/">Apache log4j</a>,
-                  falling back to <a href="http://java.sun.com/j2se/1.4.2/docs/guide/util/logging/overview.html">java.util.logging</a>
-                  style logging</li>
-              <li>Six out of the box log levels (<code>DEBUG</code>, <code>INFO</code>, 
-                  <code>WARN</code>, <code>ERROR</code>, <code>FATAL</code>, <code>OFF</code>)</li>
-              <li>Log level can be controlled via <code>log_level</code> URL parameter,
-                  GWT <code>meta</code> tag in your HTML, or in your module <code>*.gwt.xml</code> file
-              <li>Wide variety of context sensitive log destinations: popup DIV, Firebug,
-                  <code>console.log()</code>, <code>GWT.log()</code>,
-                  <code>System.err()</code>/<code>System.out()</code></li>
-              <li>Ability to independently control compile time and runtime log levels</li>
+              <li>
+                Client logging code is compiled out and introduces zero-overhead<sup>*</sup> due to
+                GWT&nbsp;1.5 compiler dead code elimination when <code>log_level=OFF</code>
+              </li>
+              <li>
+                Serializable classes (domain objects, <a href="http://en.wikipedia.org/wiki/POJO">POJO</a>s, etc.)
+                can utilize the same logging code on client and server via inclusion of a single, common,
+                <code>gwt-log</code> jar on both tiers
+              </li>
+              <li>
+                Server side logging automatically detects Apache <a href="http://logging.apache.org/log4j/">log4j</a>,
+                falling back to <a href="http://java.sun.com/j2se/1.4.2/docs/guide/util/logging/overview.html">JDK&nbsp;1.4 logging</a>
+              </li>
+              <li>
+                Remote logging option, which send copies of all client log messages to the server
+              </li>
+              <li>
+                Six out of the box log levels (<code>DEBUG</code>, <code>INFO</code>, 
+                <code>WARN</code>, <code>ERROR</code>, <code>FATAL</code>, <code>OFF</code>)
+              </li>
+              <li>
+                Log level can be controlled via <code>log_level</code> URL parameter,
+                GWT <code>meta</code> tag in your HTML, or in your module <code>*.gwt.xml</code> file
+              <li>
+                Wide variety of context sensitive log destinations: draggable popup DIV, Firebug,
+                <code>console.log()</code>, <code>GWT.log()</code>,
+                <code>System.err()</code>/<code>System.out()</code>, remote (server) logging
+              </li>
+              <li>
+                Ability to independently control compile time and runtime log levels
+              </li>
             </ul>
             <br>
             <sup>*&nbsp;Unless your logging parameters are determined by the GWT compiler to have <em>side effects</em></sup>

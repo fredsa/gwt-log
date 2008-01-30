@@ -36,6 +36,7 @@
        For example, during development you'll most likely want to enable logging at one of the
        first five log levels (e.g. DEBUG, INFO, WARN, ERROR, FATAL), e.g.
         
+           <extend-property name="log_level" values="DEBUG" />
            <set-property name="log_level" value="DEBUG" />
      
        In production you can reinforce the default, which is to eliminate all logging related
@@ -104,190 +105,18 @@
     
   -->
   
-	<!-- Inherit the core Web Toolkit stuff. -->
-	<inherits name="com.google.gwt.user.User" />
-
-  <!-- Include CSS         -->
-	<stylesheet src="Log.css" />
-	
-  <!-- Define a default log level of 'OFF'      -->
-  <define-property name="log_level" values="OFF" />
-
-  <!--
-      Note: This property-provider will only used once the list of valid
-            values for 'log_level' is expanded, beyond the default 'OFF'
-            value, via an 'extend-property' tag.
-  -->
-  <property-provider name="log_level">
-    <![CDATA[
-      var log_level;
-      
-      // Look for the log_level as a url argument
-      if (log_level == null) {
-        var regex = new RegExp("[\\?&]log_level=([^&#]*)");
-        var results = regex.exec(location.search);
-        if (results != null) {
-          log_level = results[1];
-        }
-      }      
-      
-      // Look for GWT meta property
-      if (log_level == null) {  
-        log_level = __gwt_getMetaProperty("log_level")   
-      }
-       
-      if (!__gwt_isKnownPropertyValue("log_level", log_level)) {
-        var defaults = ["OFF", "FATAL", "ERROR", "WARN", "INFO", "DEBUG"];
-        for (i in defaults) {
-          if (__gwt_isKnownPropertyValue("log_level", defaults[i])) {
-            log_level = defaults[i];
-            break;
-          }
-        }
-      }
-
-      return log_level;
-    ]]>
-  </property-provider>
+	<!-- Inherit the implementation -->
+	<inherits name="com.allen_sauer.gwt.log.gwt-log-impl" />
 
 
-  <!-- ConsoleLogger -->
-
-  <define-property name="log_ConsoleLogger" values="ENABLED, DISABLED" />
+  <!-- Loggers Enabled by default -->
   <set-property name="log_ConsoleLogger" value="ENABLED" />
-  
-  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
-    <when-type-is class="com.allen_sauer.gwt.log.client.ConsoleLogger" />
-    <none>
-      <when-property-is name="log_ConsoleLogger" value="ENABLED" />
-    </none>
-  </replace-with>
-
-
-  <!-- DivLogger -->
-
-  <define-property name="log_DivLogger" values="ENABLED, DISABLED" />
   <set-property name="log_DivLogger" value="ENABLED" />
-  
-  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
-    <when-type-is class="com.allen_sauer.gwt.log.client.DivLogger" />
-    <none>
-      <when-property-is name="log_DivLogger" value="ENABLED" />
-    </none>
-  </replace-with>
-
-
-  <!-- FirebugLogger -->
-
-  <define-property name="log_FirebugLogger" values="ENABLED, DISABLED" />
   <set-property name="log_FirebugLogger" value="ENABLED" />
-  
-  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
-    <when-type-is class="com.allen_sauer.gwt.log.client.FirebugLogger" />
-    <none>
-      <when-property-is name="log_FirebugLogger" value="ENABLED" />
-    </none>
-  </replace-with>
-
-
-  <!-- GWTLogger -->
-
-  <define-property name="log_GWTLogger" values="ENABLED, DISABLED" />
   <set-property name="log_GWTLogger" value="ENABLED" />
-  
-  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
-    <when-type-is class="com.allen_sauer.gwt.log.client.GWTLogger" />
-    <none>
-      <when-property-is name="log_GWTLogger" value="ENABLED" />
-    </none>
-  </replace-with>
-
-
-  <!-- SystemLogger -->
-
-  <define-property name="log_SystemLogger" values="ENABLED, DISABLED" />
   <set-property name="log_SystemLogger" value="ENABLED" />
   
-  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
-    <when-type-is class="com.allen_sauer.gwt.log.client.SystemLogger" />
-    <none>
-      <when-property-is name="log_SystemLogger" value="ENABLED" />
-    </none>
-  </replace-with>
-
-
-  <!-- RemoteLogger -->
-
-  <define-property name="log_RemoteLogger" values="ENABLED, DISABLED" />
+  <!-- Loggers Disabled by default -->
   <set-property name="log_RemoteLogger" value="DISABLED" />
   
-  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
-    <when-type-is class="com.allen_sauer.gwt.log.client.RemoteLogger" />
-    <none>
-      <when-property-is name="log_RemoteLogger" value="ENABLED" />
-    </none>
-  </replace-with>
-
-  <servlet path="/gwt-log" class="com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl" />
-
-
-  <!--  Log level dependent implementations -->
-  
-  <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplDebug">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
-    <when-property-is name="log_level" value="DEBUG" />
-  </replace-with>
-
-  <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplInfo">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
-    <when-property-is name="log_level" value="INFO" />
-  </replace-with>
-
-  <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplWarn">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
-    <when-property-is name="log_level" value="WARN" />
-  </replace-with>
-
-  <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplError">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
-    <when-property-is name="log_level" value="ERROR" />
-  </replace-with>
-
-  <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplFatal">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
-    <when-property-is name="log_level" value="FATAL" />
-  </replace-with>
-
-  <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplOff">
-    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
-    <when-property-is name="log_level" value="OFF" />
-  </replace-with>
-
-  <!-- User agent dependent implementations -->
-  
-  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplOpera">
-    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
-    <when-property-is name="user.agent" value="opera" />
-  </replace-with>
-
-  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplSafari">
-    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
-    <when-property-is name="user.agent" value="safari" />
-  </replace-with>
-
-  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplIE6">
-    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
-    <when-property-is name="user.agent" value="ie6" />
-  </replace-with>
-
-  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplMozilla">
-    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
-    <when-property-is name="user.agent" value="gecko1_8" />
-  </replace-with>
-
-  <replace-with class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImplMozillaOld">
-    <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
-    <when-property-is name="user.agent" value="gecko" />
-  </replace-with>
-
 </module>
