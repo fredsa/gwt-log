@@ -41,10 +41,15 @@ public abstract class LogImplBase extends LogImpl {
   // CHECKSTYLE_JAVADOC_OFF
 
   static final String LOG_LEVEL_TEXT_DEBUG = LogUtil.levelToString(Log.LOG_LEVEL_DEBUG);
+
   static final String LOG_LEVEL_TEXT_ERROR = LogUtil.levelToString(Log.LOG_LEVEL_ERROR);
+
   static final String LOG_LEVEL_TEXT_FATAL = LogUtil.levelToString(Log.LOG_LEVEL_FATAL);
+
   static final String LOG_LEVEL_TEXT_INFO = LogUtil.levelToString(Log.LOG_LEVEL_INFO);
+
   static final String LOG_LEVEL_TEXT_OFF = LogUtil.levelToString(Log.LOG_LEVEL_OFF);
+
   static final String LOG_LEVEL_TEXT_WARN = LogUtil.levelToString(Log.LOG_LEVEL_WARN);
 
   static {
@@ -55,6 +60,9 @@ public abstract class LogImplBase extends LogImpl {
     return new JavaScriptException(javaScriptExceptionName(e), javaScriptExceptionDescription(e));
   }
 
+  /**
+   * TODO move the message formatting and addition of log level prefix(es) to the Loggers as it really doesn't belong here
+   */
   private static String format(String prefix, String message) {
     return prefix + " " + message.replaceAll("\n", "\n" + prefix);
   }
