@@ -265,6 +265,15 @@ public abstract class LogImplBase extends LogImpl {
           + " due to compile time minimum of " + getLowestLogLevel());
       level = getLowestLogLevel();
     }
+
+    String message = format(toPrefix("gwt-log"),
+        "Temporarily setting the current (runtime) log level filter to '"
+            + LogUtil.levelToString(level) + "'");
+    for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = (Logger) iterator.next();
+      logger.info(message, null);
+    }
+
     currentLogLevel = level;
     return currentLogLevel;
   }
