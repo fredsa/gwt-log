@@ -24,7 +24,7 @@ public final class ConsoleLogger extends AbstractLogger {
 
   public native boolean isSupported()
   /*-{
-    return $wnd.console != null && typeof($wnd.console.log) == 'function';
+    return $wnd.console != null && !$wnd.console.firebug && typeof($wnd.console.log) == 'function';
   }-*/;
 
   native void log(int logLevel, String message)
