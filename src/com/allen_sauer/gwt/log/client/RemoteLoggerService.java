@@ -21,6 +21,11 @@ import com.google.gwt.user.client.rpc.RemoteService;
 public interface RemoteLoggerService extends RemoteService {
   void debug(String message, Throwable ex);
 
+  /**
+   * @deprecated For internal gwt-log use only.
+   */
+  void diagnostic(String message, Throwable ex);
+
   void error(String message, Throwable ex);
 
   void fatal(String message, Throwable ex);

@@ -36,6 +36,8 @@ public abstract class LogImpl {
 
   public abstract void debug(String message, Throwable e);
 
+  public abstract void diagnostic(String message, Throwable e);
+
   public abstract void error(String message, JavaScriptObject e);
 
   public abstract void error(String message, Throwable e);

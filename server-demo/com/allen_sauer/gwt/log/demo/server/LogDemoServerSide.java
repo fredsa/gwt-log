@@ -12,5 +12,6 @@ public class LogDemoServerSide {
     ServerSideLog.warn("Warning test message");
     ServerSideLog.error("Error test message");
     ServerSideLog.fatal("Fatal test message");
+    ServerSideLog.setCurrentLogLevel(ServerSideLog.LOG_LEVEL_INFO);
   }
 }

@@ -33,4 +33,10 @@
   -->
   <extend-property name="log_level" values="DEBUG,INFO,WARN,ERROR,FATAL,OFF" />
   
+  <!-- 
+      Enable Remote logging
+
+      <set-property name="log_RemoteLogger" value="ENABLED" />
+  -->
+  
 </module>

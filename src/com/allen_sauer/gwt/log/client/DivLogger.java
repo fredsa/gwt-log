@@ -201,8 +201,11 @@ public class DivLogger extends AbstractLogger {
   }
 
   private String getColor(int logLevel) {
+    if (logLevel == Log.LOG_LEVEL_OFF) {
+      return "#000"; // black
+    }
     if (logLevel >= Log.LOG_LEVEL_FATAL) {
-      return "#FF0000"; // bright red
+      return "#F00"; // bright red
     }
     if (logLevel >= Log.LOG_LEVEL_ERROR) {
       return "#C11B17"; // dark red
@@ -213,7 +216,7 @@ public class DivLogger extends AbstractLogger {
     if (logLevel >= Log.LOG_LEVEL_INFO) {
       return "#2B60DE"; // blue
     }
-    return "green";
+    return "#00C000";
   }
 
   private String makeTitle(String message, Throwable throwable) {

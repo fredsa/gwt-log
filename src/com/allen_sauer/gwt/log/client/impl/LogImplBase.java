@@ -18,6 +18,8 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
@@ -128,7 +130,12 @@ public abstract class LogImplBase extends LogImpl {
   public final void clear() {
     for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
       Logger logger = (Logger) iterator.next();
-      logger.clear();
+      try {
+        logger.clear();
+      } catch (RuntimeException e1) {
+        iterator.remove();
+        diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+      }
     }
   }
 
@@ -143,9 +150,31 @@ public abstract class LogImplBase extends LogImpl {
       message = format(toPrefix(LOG_LEVEL_TEXT_DEBUG), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = (Logger) iterator.next();
-        logger.debug(message, e);
+        try {
+          logger.debug(message, e);
+        } catch (RuntimeException e1) {
+          iterator.remove();
+          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+        }
       }
     }
+  }
+
+  public void diagnostic(String message, final Throwable e) {
+    final String msg = format(toPrefix("gwt-log"), message);
+    DeferredCommand.addCommand(new Command() {
+      public void execute() {
+        for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
+          Logger logger = (Logger) iterator.next();
+          try {
+            logger.diagnostic(msg, e);
+          } catch (RuntimeException e1) {
+            iterator.remove();
+            diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+          }
+        }
+      }
+    });
   }
 
   public final void error(String message, JavaScriptObject e) {
@@ -159,7 +188,12 @@ public abstract class LogImplBase extends LogImpl {
       message = format(toPrefix(LOG_LEVEL_TEXT_ERROR), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = (Logger) iterator.next();
-        logger.error(message, e);
+        try {
+          logger.error(message, e);
+        } catch (RuntimeException e1) {
+          iterator.remove();
+          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+        }
       }
     }
   }
@@ -175,7 +209,12 @@ public abstract class LogImplBase extends LogImpl {
       message = format(toPrefix(LOG_LEVEL_TEXT_FATAL), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = (Logger) iterator.next();
-        logger.fatal(message, e);
+        try {
+          logger.fatal(message, e);
+        } catch (RuntimeException e1) {
+          iterator.remove();
+          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+        }
       }
     }
   }
@@ -227,7 +266,12 @@ public abstract class LogImplBase extends LogImpl {
       message = format(toPrefix(LOG_LEVEL_TEXT_INFO), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = (Logger) iterator.next();
-        logger.info(message, e);
+        try {
+          logger.info(message, e);
+        } catch (RuntimeException e1) {
+          iterator.remove();
+          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+        }
       }
     }
   }
@@ -266,13 +310,8 @@ public abstract class LogImplBase extends LogImpl {
       level = getLowestLogLevel();
     }
 
-    String message = format(toPrefix("gwt-log"),
-        "Temporarily setting the current (runtime) log level filter to '"
-            + LogUtil.levelToString(level) + "'");
-    for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = (Logger) iterator.next();
-      logger.info(message, null);
-    }
+    diagnostic("Temporarily setting the current (runtime) log level filter to '"
+        + LogUtil.levelToString(level) + "'", null);
 
     currentLogLevel = level;
     return currentLogLevel;
@@ -297,7 +336,12 @@ public abstract class LogImplBase extends LogImpl {
       message = format(toPrefix(LOG_LEVEL_TEXT_WARN), message);
       for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = (Logger) iterator.next();
-        logger.warn(message, e);
+        try {
+          logger.warn(message, e);
+        } catch (RuntimeException e1) {
+          iterator.remove();
+          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+        }
       }
     }
   }
