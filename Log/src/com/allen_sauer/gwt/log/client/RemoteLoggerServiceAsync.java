@@ -21,6 +21,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface RemoteLoggerServiceAsync {
   void debug(String message, Throwable ex, AsyncCallback callback);
 
+  void diagnostic(String message, Throwable throwable, AsyncCallback callback);
+
   void error(String message, Throwable ex, AsyncCallback callback);
 
   void fatal(String message, Throwable ex, AsyncCallback callback);

@@ -29,7 +29,7 @@ public final class RemoteLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
   private AsyncCallback callback;
-  private boolean failed = false;
+  private RuntimeException failure;
   private RemoteLoggerServiceAsync service;
 
   public RemoteLogger() {
@@ -39,10 +39,10 @@ public final class RemoteLogger extends AbstractLogger {
 
     callback = new AsyncCallback() {
       public void onFailure(Throwable ex) {
-        if (!failed) {
-          failed = true;
-          Log.fatal("Remote logging will be suspended due to communication failure with "
-              + GWT.getTypeName(service) + " at " + target.getServiceEntryPoint(), ex);
+        if (failure == null) {
+          failure = new RuntimeException(
+              "Remote logging will be suspended due to communication failure with "
+                  + GWT.getTypeName(service) + " at " + target.getServiceEntryPoint(), ex);
         }
       }
 
@@ -52,27 +52,38 @@ public final class RemoteLogger extends AbstractLogger {
   }
 
   public void debug(String message, Throwable throwable) {
-    if (!failed) {
-      service.debug(message, throwable, callback);
+    if (failure != null) {
+      throw failure;
     }
+    service.debug(message, throwable, callback);
+  }
+
+  public void diagnostic(String message, Throwable throwable) {
+    if (failure != null) {
+      throw failure;
+    }
+    service.diagnostic(message, throwable, callback);
   }
 
   public void error(String message, Throwable throwable) {
-    if (!failed) {
-      service.error(message, throwable, callback);
+    if (failure != null) {
+      throw failure;
     }
+    service.error(message, throwable, callback);
   }
 
   public void fatal(String message, Throwable throwable) {
-    if (!failed) {
-      service.fatal(message, throwable, callback);
+    if (failure != null) {
+      throw failure;
     }
+    service.fatal(message, throwable, callback);
   }
 
   public void info(String message, Throwable throwable) {
-    if (!failed) {
-      service.info(message, throwable, callback);
+    if (failure != null) {
+      throw failure;
     }
+    service.info(message, throwable, callback);
   }
 
   public boolean isSupported() {
@@ -80,9 +91,10 @@ public final class RemoteLogger extends AbstractLogger {
   }
 
   public void warn(String message, Throwable throwable) {
-    if (!failed) {
-      service.warn(message, throwable, callback);
+    if (failure != null) {
+      throw failure;
     }
+    service.warn(message, throwable, callback);
   }
 
   void log(int logLevel, String message) {

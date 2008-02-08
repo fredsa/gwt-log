@@ -21,6 +21,8 @@ public interface Logger {
 
   void debug(String message, Throwable throwable);
 
+  void diagnostic(String message, Throwable throwable);
+
   void error(String message, Throwable throwable);
 
   void fatal(String message, Throwable throwable);

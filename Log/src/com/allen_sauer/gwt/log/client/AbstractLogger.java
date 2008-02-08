@@ -30,6 +30,10 @@ public abstract class AbstractLogger implements Logger {
     log(Log.LOG_LEVEL_DEBUG, message, throwable);
   }
 
+  public void diagnostic(String message, Throwable throwable) {
+    log(Log.LOG_LEVEL_OFF, message, throwable);
+  }
+
   public void error(String message, Throwable throwable) {
     log(Log.LOG_LEVEL_ERROR, message, throwable);
   }

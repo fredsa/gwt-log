@@ -74,6 +74,13 @@ public class ServerSideLog {
     impl.debug(message, e);
   }
 
+  /**
+   * @deprecated For internal gwt-log use only.
+   */
+  public static void diagnostic(String message, Throwable e) {
+    impl.diagnostic(message, e);
+  }
+
   public static final void error(String message) {
     error(message, (Throwable) null);
   }

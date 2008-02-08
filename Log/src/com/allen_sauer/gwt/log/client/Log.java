@@ -111,7 +111,7 @@ public final class Log {
    * @see Log#debug(String, Throwable)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the native JavaScript exception object to be logged
    */
   public static void debug(String message, JavaScriptObject e) {
     impl.debug(message, e);
@@ -134,10 +134,22 @@ public final class Log {
    * @see Log#debug(String, JavaScriptObject)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the exception to be logged
    */
   public static void debug(String message, Throwable e) {
     impl.debug(message, e);
+  }
+
+  /**
+   * Log an internal <code>gwt-log</code> diagnostic message.
+   * 
+   * @deprecated For internal gwt-log use only.
+   * 
+   * @param message the text to be logged
+   * @param e the native JavaScript exception object to be logged
+   */
+  public static void diagnostic(String message, Throwable e) {
+    impl.diagnostic(message, e);
   }
 
   /**
@@ -172,7 +184,7 @@ public final class Log {
    * @see Log#error(String, Throwable)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the native JavaScript exception object to be logged
    */
   public static void error(String message, JavaScriptObject e) {
     impl.error(message, e);
@@ -195,7 +207,7 @@ public final class Log {
    * @see Log#error(String, JavaScriptObject)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the exception to be logged
    */
   public static void error(String message, Throwable e) {
     impl.error(message, e);
@@ -233,7 +245,7 @@ public final class Log {
    * @see Log#fatal(String, Throwable)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the native JavaScript exception object to be logged
    */
   public static void fatal(String message, JavaScriptObject e) {
     impl.fatal(message, e);
@@ -256,7 +268,7 @@ public final class Log {
    * @see Log#fatal(String, JavaScriptObject)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the exception to be logged
    */
   public static void fatal(String message, Throwable e) {
     impl.fatal(message, e);
@@ -383,7 +395,7 @@ public final class Log {
    * @see Log#info(String, Throwable)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the native JavaScript exception object to be logged
    */
   public static void info(String message, JavaScriptObject e) {
     impl.info(message, e);
@@ -406,7 +418,7 @@ public final class Log {
    * @see Log#info(String, JavaScriptObject)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the exception to be logged
    */
   public static void info(String message, Throwable e) {
     impl.info(message, e);
@@ -546,7 +558,7 @@ public final class Log {
    * @see Log#warn(String, Throwable)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the native JavaScript exception object to be logged
    */
   public static void warn(String message, JavaScriptObject e) {
     impl.warn(message, e);
@@ -569,7 +581,7 @@ public final class Log {
    * @see Log#warn(String, Throwable)
    * 
    * @param message the text to be logged
-   * @param e the native JavaScript exception object
+   * @param e the exception to be logged
    */
   public static void warn(String message, Throwable e) {
     impl.warn(message, e);

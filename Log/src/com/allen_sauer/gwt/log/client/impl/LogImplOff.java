@@ -43,6 +43,9 @@ public final class LogImplOff extends LogImpl {
   public void debug(String message, Throwable e) {
   }
 
+  public void diagnostic(String message, Throwable e) {
+  }
+
   public void error(String message, JavaScriptObject e) {
   }
 

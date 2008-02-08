@@ -32,6 +32,10 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
     logger.debug(message, e);
   }
 
+  public void diagnostic(String message, Throwable e) {
+    logger.fatal(message, e);
+  }
+
   public void error(String message, Throwable e) {
     logger.error(message, e);
   }

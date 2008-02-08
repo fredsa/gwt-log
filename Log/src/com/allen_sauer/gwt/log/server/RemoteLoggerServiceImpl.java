@@ -32,6 +32,18 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     }
   }
 
+  /**
+   * @deprecated For internal gwt-log use only.
+   */
+  public final void diagnostic(String message, Throwable ex) {
+    try {
+      Log.diagnostic(message, ex);
+    } catch (RuntimeException e) {
+      System.err.println("Failed to log message due to " + e.toString());
+      e.printStackTrace();
+    }
+  }
+
   public final void error(String message, Throwable ex) {
     try {
       Log.error(message, ex);

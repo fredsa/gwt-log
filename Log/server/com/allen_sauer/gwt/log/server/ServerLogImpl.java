@@ -21,6 +21,8 @@ public abstract class ServerLogImpl {
 
   public abstract void debug(String message, Throwable e);
 
+  public abstract void diagnostic(String message, Throwable e);
+
   public abstract void error(String message, Throwable e);
 
   public abstract void fatal(String message, Throwable e);

@@ -41,6 +41,10 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
     logger.log(Level.FINE, message, e);
   }
 
+  public void diagnostic(String message, Throwable e) {
+    logger.log(Level.SEVERE, message, e);
+  }
+
   public void error(String message, Throwable e) {
     logger.log(Level.SEVERE, message, e);
   }
