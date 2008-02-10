@@ -17,13 +17,15 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 
+import com.allen_sauer.gwt.log.client.util.LogUtil;
+
 import java.util.Date;
 
 //CHECKSTYLE_JAVADOC_OFF
 public abstract class AbstractLogger implements Logger {
   public void clear() {
-    info("============= gwt-log @GWT_LOG_VERSION@ =============" + new Date() + "=============",
-        null);
+    info("============= gwt-log-" + Log.getVersion() + " =============" + new Date()
+        + "=============", null);
   }
 
   public void debug(String message, Throwable throwable) {
@@ -44,6 +46,11 @@ public abstract class AbstractLogger implements Logger {
 
   public void info(String message, Throwable throwable) {
     log(Log.LOG_LEVEL_INFO, message, throwable);
+  }
+
+  public void setCurrentLogLevel(int level) {
+    diagnostic("Temporarily setting the current (runtime) log level filter to '"
+        + LogUtil.levelToString(level) + "'", null);
   }
 
   public final void warn(String message) {

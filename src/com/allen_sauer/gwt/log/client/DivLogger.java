@@ -22,9 +22,14 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -32,6 +37,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.log.client.util.DOMUtil;
+import com.allen_sauer.gwt.log.client.util.LogUtil;
 
 /**
  * Logger which outputs to a draggable floating <code>DIV</code>.
@@ -39,11 +45,17 @@ import com.allen_sauer.gwt.log.client.util.DOMUtil;
 public class DivLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  private static final String CSS_LOG_CLICKABLE_LABEL = "log-clickable-label";
+  private static final String CSS_LOG_MESSAGE = "log-message";
+  private static final int[] levels = {
+      Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN, Log.LOG_LEVEL_ERROR,
+      Log.LOG_LEVEL_FATAL, Log.LOG_LEVEL_OFF,};
   private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
   private static final String STYLE_LOG_HEADER = "log-header";
   private static final String STYLE_LOG_PANEL = "log-panel";
   private static final String STYLE_LOG_SCROLL_PANEL = "log-scroll-panel";
   private static final String STYLE_LOG_TEXT_AREA = "log-text-area";
+
   private static final int UPDATE_INTERVAL_MILLIS = 500;
 
   private FlexTable debugTable = new FlexTable() {
@@ -65,11 +77,13 @@ public class DivLogger extends AbstractLogger {
       Window.removeWindowResizeListener(windowResizeListener);
     }
   };
-
   private boolean dirty = false;
+  private Button[] levelButtons;
   private String logText = "";
   private HTML logTextArea = new HTML();
+
   private ScrollPanel scrollPanel = new ScrollPanel();
+
   private Timer timer;
 
   /**
@@ -80,39 +94,12 @@ public class DivLogger extends AbstractLogger {
     logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
     scrollPanel.addStyleName(STYLE_LOG_SCROLL_PANEL);
 
-    final Label header = new Label("LOG PANEL");
-    header.addStyleName(STYLE_LOG_HEADER);
+    final FocusPanel header = makeHeader();
     debugTable.setWidget(0, 0, header);
     debugTable.setWidget(1, 0, scrollPanel);
     debugTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
     scrollPanel.setWidget(logTextArea);
-
-    header.addMouseListener(new MouseListenerAdapter() {
-      private boolean dragging = false;
-      private int dragStartX;
-      private int dragStartY;
-
-      public void onMouseDown(Widget sender, int x, int y) {
-        dragging = true;
-        DOM.setCapture(header.getElement());
-        dragStartX = x;
-        dragStartY = y;
-      }
-
-      public void onMouseMove(Widget sender, int x, int y) {
-        if (dragging) {
-          int absX = x + debugTable.getAbsoluteLeft();
-          int absY = y + debugTable.getAbsoluteTop();
-          RootPanel.get().setWidgetPosition(debugTable, absX - dragStartX, absY - dragStartY);
-        }
-      }
-
-      public void onMouseUp(Widget sender, int x, int y) {
-        dragging = false;
-        DOM.releaseCapture(header.getElement());
-      }
-    });
 
     debugTable.setVisible(false);
     RootPanel.get().add(debugTable, 0, 0);
@@ -151,6 +138,17 @@ public class DivLogger extends AbstractLogger {
     RootPanel.get().add(debugTable, x, y);
   }
 
+  public void setCurrentLogLevel(int level) {
+    super.setCurrentLogLevel(level);
+    for (int i = 0; i < levels.length; i++) {
+      if (level <= levels[i]) {
+        levelButtons[i].removeStyleDependentName("inactive");
+      } else {
+        levelButtons[i].addStyleDependentName("inactive");
+      }
+    }
+  }
+
   public final void setPixelSize(int width, int height) {
     logTextArea.setPixelSize(width, height);
   }
@@ -165,7 +163,7 @@ public class DivLogger extends AbstractLogger {
   }
 
   final void log(int logLevel, String message, Throwable throwable) {
-    String text = message;
+    String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     String title = makeTitle(message, throwable);
     if (throwable != null) {
       text += "\n";
@@ -186,7 +184,8 @@ public class DivLogger extends AbstractLogger {
       }
     }
     text = text.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText("<div class='log-message' onmouseover='className+=\" log-message-hover\"' "
+    addLogText("<div class='" + CSS_LOG_MESSAGE
+        + "' onmouseover='className+=\" log-message-hover\"' "
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
     debugTable.setVisible(true);
@@ -216,7 +215,94 @@ public class DivLogger extends AbstractLogger {
     if (logLevel >= Log.LOG_LEVEL_INFO) {
       return "#2B60DE"; // blue
     }
-    return "#00C000";
+    return "#20b000"; // green
+  }
+
+  private FocusPanel makeHeader() {
+    FocusPanel header;
+    header = new FocusPanel();
+    HorizontalPanel masterPanel = new HorizontalPanel();
+    masterPanel.setWidth("100%");
+    header.add(masterPanel);
+    header.addStyleName(STYLE_LOG_HEADER);
+
+    final Label titleLabel = new Label("gwt-log", false);
+    titleLabel.setStylePrimaryName("log-title");
+
+    HorizontalPanel buttonPanel = new HorizontalPanel();
+    levelButtons = new Button[levels.length];
+    for (int i = 0; i < levels.length; i++) {
+      final int level = levels[i];
+      String levelText = LogUtil.levelToString(level);
+      levelButtons[i] = new Button(levelText);
+      buttonPanel.add(levelButtons[i]);
+      levelButtons[i].addStyleName(CSS_LOG_MESSAGE);
+      levelButtons[i].setTitle("Set current log level to '" + levelText + "'");
+      DOM.setStyleAttribute(levelButtons[i].getElement(), "color", getColor(level));
+      levelButtons[i].addClickListener(new ClickListener() {
+        public void onClick(Widget sender) {
+          ((FocusWidget) sender).setFocus(false);
+          Log.setCurrentLogLevel(level);
+        }
+      });
+    }
+
+    Button clearButton = new Button("Clear");
+    clearButton.addStyleName("log-clear-button");
+    clearButton.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        ((FocusWidget) sender).setFocus(false);
+        Log.clear();
+      }
+    });
+    buttonPanel.add(clearButton);
+
+    Button aboutButton = new Button("About");
+    aboutButton.addStyleName("log-clear-about");
+    aboutButton.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        ((FocusWidget) sender).setFocus(false);
+        Log.diagnostic("gwt-log-" + Log.getVersion() + " by Fred Sauer\n"
+            + "http://allen-sauer.com/gwt/", null);
+      }
+    });
+
+    masterPanel.add(titleLabel);
+    masterPanel.add(buttonPanel);
+    masterPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+    masterPanel.add(aboutButton);
+
+    masterPanel.setCellHeight(titleLabel, "100%");
+    masterPanel.setCellWidth(titleLabel, "50%");
+    masterPanel.setCellWidth(aboutButton, "50%");
+
+    titleLabel.addMouseListener(new MouseListenerAdapter() {
+      private boolean dragging = false;
+      private int dragStartX;
+      private int dragStartY;
+
+      public void onMouseDown(Widget sender, int x, int y) {
+        dragging = true;
+        DOM.setCapture(titleLabel.getElement());
+        dragStartX = x;
+        dragStartY = y;
+      }
+
+      public void onMouseMove(Widget sender, int x, int y) {
+        if (dragging) {
+          int absX = x + debugTable.getAbsoluteLeft();
+          int absY = y + debugTable.getAbsoluteTop();
+          RootPanel.get().setWidgetPosition(debugTable, absX - dragStartX, absY - dragStartY);
+        }
+      }
+
+      public void onMouseUp(Widget sender, int x, int y) {
+        dragging = false;
+        DOM.releaseCapture(titleLabel.getElement());
+      }
+    });
+
+    return header;
   }
 
   private String makeTitle(String message, Throwable throwable) {
