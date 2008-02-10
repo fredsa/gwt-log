@@ -46,13 +46,6 @@ import com.allen_sauer.gwt.log.client.util.LogUtil;
 public class DivLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
-  // TODO Add GWT.getVersion() after 1.5
-  private static final String ABOUT_TEXT = "" + //
-      "gwt-log-" + Log.getVersion() + " - Runtime logging for your Google Web Toolkit projects\n" + //
-      "Copyright 2007-2008 Fred Sauer\n" + //
-      "The original software is available from:\n" + //
-      "\u00a0\u00a0\u00a0\u00a0http://allen-sauer.com/gwt/"; //
-
   private static final String CSS_LOG_MESSAGE = "log-message";
   private static final int[] levels = {
       Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN, Log.LOG_LEVEL_ERROR,
@@ -281,7 +274,14 @@ public class DivLogger extends AbstractLogger {
     aboutButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         ((FocusWidget) sender).setFocus(false);
-        Log.diagnostic(ABOUT_TEXT, null);
+
+        // TODO Add GWT.getVersion() after 1.5
+        Log.diagnostic("\n" //
+            + "gwt-log-" + Log.getVersion() //
+            + " - Runtime logging for your Google Web Toolkit projects\n" + //
+            "Copyright 2007-2008 Fred Sauer\n" + //
+            "The original software is available from:\n" + //
+            "\u00a0\u00a0\u00a0\u00a0http://allen-sauer.com/gwt/\n", null);
       }
     });
 

@@ -92,7 +92,7 @@ public abstract class LogImplBase extends LogImpl {
    */
   private static native void setVersion()
   /*-{
-    $GWT_LOG_VERSION = "@GWT_LOG_VERSION@";
+    $wnd.$GWT_LOG_VERSION = "@GWT_LOG_VERSION@";
   }-*/;
 
   private static String toPrefix(String logLevelText) {
