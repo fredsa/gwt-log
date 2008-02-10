@@ -59,7 +59,12 @@ public final class Log {
    */
   public static final int LOG_LEVEL_WARN = 30000;
 
-  private static final LogImpl impl = (LogImpl) GWT.create(LogImpl.class);
+  private static final LogImpl impl;
+
+  static {
+    impl = (LogImpl) GWT.create(LogImpl.class);
+    impl.init();
+  }
 
   /**
    * Register a new logger.

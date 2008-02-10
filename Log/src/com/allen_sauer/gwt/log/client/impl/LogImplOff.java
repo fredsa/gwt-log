@@ -96,6 +96,9 @@ public final class LogImplOff extends LogImpl {
   public void info(String message, Throwable e) {
   }
 
+  public void init() {
+  }
+
   public boolean isDebugEnabled() {
     return false;
   }
