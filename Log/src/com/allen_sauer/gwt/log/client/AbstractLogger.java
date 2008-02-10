@@ -17,8 +17,6 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 
-import com.allen_sauer.gwt.log.client.util.LogUtil;
-
 import java.util.Date;
 
 //CHECKSTYLE_JAVADOC_OFF
@@ -49,10 +47,6 @@ public abstract class AbstractLogger implements Logger {
   }
 
   public void setCurrentLogLevel(int level) {
-    if (level != Log.getCurrentLogLevel()) {
-      diagnostic("Temporarily setting the current (runtime) log level filter to '"
-          + LogUtil.levelToString(level) + "'", null);
-    }
   }
 
   public final void warn(String message) {

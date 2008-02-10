@@ -326,7 +326,12 @@ public abstract class LogImplBase extends LogImpl {
       }
     }
 
-    currentLogLevel = level;
+    if (level != currentLogLevel) {
+      diagnostic("Temporarily setting the current (runtime) log level filter to '"
+          + LogUtil.levelToString(level) + "'", null);
+      currentLogLevel = level;
+    }
+
     return currentLogLevel;
   }
 
