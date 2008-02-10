@@ -60,8 +60,8 @@ public class DivLogger extends AbstractLogger {
   private FlexTable debugTable = new FlexTable() {
     private WindowResizeListener windowResizeListener = new WindowResizeListener() {
       public void onWindowResized(int width, int height) {
-        scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
-            (int) (Window.getClientHeight() * .2)));
+        debugTable.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
+            (int) (Window.getClientHeight() * .3)));
       }
     };
 
@@ -96,6 +96,8 @@ public class DivLogger extends AbstractLogger {
     final FocusPanel header = makeHeader();
     debugTable.setWidget(0, 0, header);
     debugTable.setWidget(1, 0, scrollPanel);
+    debugTable.getCellFormatter().setWidth(1, 0, "100%");
+    debugTable.getCellFormatter().setHeight(1, 0, "100%");
     debugTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
     scrollPanel.setWidget(logTextArea);
