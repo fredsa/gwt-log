@@ -45,7 +45,6 @@ import com.allen_sauer.gwt.log.client.util.LogUtil;
 public class DivLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
-  private static final String CSS_LOG_CLICKABLE_LABEL = "log-clickable-label";
   private static final String CSS_LOG_MESSAGE = "log-message";
   private static final int[] levels = {
       Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN, Log.LOG_LEVEL_ERROR,
@@ -141,10 +140,16 @@ public class DivLogger extends AbstractLogger {
   public void setCurrentLogLevel(int level) {
     super.setCurrentLogLevel(level);
     for (int i = 0; i < levels.length; i++) {
-      if (level <= levels[i]) {
-        levelButtons[i].removeStyleDependentName("inactive");
+      if (levels[i] < Log.getLowestLogLevel()) {
+        levelButtons[i].setEnabled(false);
       } else {
-        levelButtons[i].addStyleDependentName("inactive");
+        String levelText = LogUtil.levelToString(levels[i]);
+        boolean current = level == levels[i];
+        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
+            + "'" : "Set current (runtime) log level to '" + levelText + "'");
+        boolean active = level <= levels[i];
+        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
+            : "#ccc");
       }
     }
   }
@@ -218,6 +223,9 @@ public class DivLogger extends AbstractLogger {
     return "#20b000"; // green
   }
 
+  /**
+   * @deprecated
+   */
   private FocusPanel makeHeader() {
     FocusPanel header;
     header = new FocusPanel();
@@ -233,12 +241,8 @@ public class DivLogger extends AbstractLogger {
     levelButtons = new Button[levels.length];
     for (int i = 0; i < levels.length; i++) {
       final int level = levels[i];
-      String levelText = LogUtil.levelToString(level);
-      levelButtons[i] = new Button(levelText);
+      levelButtons[i] = new Button(LogUtil.levelToString(level));
       buttonPanel.add(levelButtons[i]);
-      levelButtons[i].addStyleName(CSS_LOG_MESSAGE);
-      levelButtons[i].setTitle("Set current log level to '" + levelText + "'");
-      DOM.setStyleAttribute(levelButtons[i].getElement(), "color", getColor(level));
       levelButtons[i].addClickListener(new ClickListener() {
         public void onClick(Widget sender) {
           ((FocusWidget) sender).setFocus(false);

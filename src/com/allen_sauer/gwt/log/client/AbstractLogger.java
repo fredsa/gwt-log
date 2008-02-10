@@ -49,8 +49,10 @@ public abstract class AbstractLogger implements Logger {
   }
 
   public void setCurrentLogLevel(int level) {
-    diagnostic("Temporarily setting the current (runtime) log level filter to '"
-        + LogUtil.levelToString(level) + "'", null);
+    if (level != Log.getCurrentLogLevel()) {
+      diagnostic("Temporarily setting the current (runtime) log level filter to '"
+          + LogUtil.levelToString(level) + "'", null);
+    }
   }
 
   public final void warn(String message) {

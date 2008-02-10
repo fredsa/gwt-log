@@ -36,10 +36,6 @@
   cursor: help;
 }
 
-.log-panel BUTTON.gwt-Button-inactive {
-  color: #ccc !important;
-}
-
 .log-panel .log-message-hover {
   background-color: #F0F0F0;
 }

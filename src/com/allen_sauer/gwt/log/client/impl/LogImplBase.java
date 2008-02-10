@@ -99,26 +99,11 @@ public abstract class LogImplBase extends LogImpl {
     return "[" + logLevelText + "]";
   }
 
-  private int currentLogLevel = Log.LOG_LEVEL_DEBUG;
+  private int currentLogLevel = getLowestLogLevel();
 
   private ArrayList loggers = new ArrayList();
 
   public LogImplBase() {
-    addLogger((Logger) GWT.create(GWTLogger.class));
-    addLogger((Logger) GWT.create(SystemLogger.class));
-    addLogger((Logger) GWT.create(FirebugLogger.class));
-    addLogger((Logger) GWT.create(ConsoleLogger.class));
-    addLogger((Logger) GWT.create(RemoteLogger.class));
-
-    // GWT hacking may prevent the DOM/UI from working properly
-    try {
-      addLogger((Logger) GWT.create(DivLogger.class));
-    } catch (Throwable ex) {
-      Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
-          + ex.toString());
-    }
-
-    clear();
   }
 
   public final void addLogger(Logger logger) {
@@ -274,6 +259,27 @@ public abstract class LogImplBase extends LogImpl {
         }
       }
     }
+  }
+
+  public void init() {
+    addLogger((Logger) GWT.create(GWTLogger.class));
+    addLogger((Logger) GWT.create(SystemLogger.class));
+    addLogger((Logger) GWT.create(FirebugLogger.class));
+    addLogger((Logger) GWT.create(ConsoleLogger.class));
+    addLogger((Logger) GWT.create(RemoteLogger.class));
+
+    // GWT hacking may prevent the DOM/UI from working properly
+    try {
+      addLogger((Logger) GWT.create(DivLogger.class));
+    } catch (Throwable ex) {
+      Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
+          + ex.toString());
+    }
+
+    // notify loggers
+    setCurrentLogLevel(getLowestLogLevel());
+
+    clear();
   }
 
   public boolean isDebugEnabled() {

@@ -74,6 +74,8 @@ public abstract class LogImpl {
 
   public abstract void info(String message, Throwable e);
 
+  public abstract void init();
+
   public abstract boolean isDebugEnabled();
 
   public abstract boolean isErrorEnabled();

@@ -57,11 +57,8 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   private static final String[] levelTexts = {"DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF",};
 
   private Button clinitButtonFatal;
-  private HTML currentLogLevelLabel = new HTML();
   private Button jsniCatchButtonFatal;
   private Button jsniNoCatchButtonFatal;
-  private Button levelButtons[] = new Button[levels.length];
-  private HTML lowestLogLevelLabel = new HTML();
   private Button messageButtons[] = new Button[levels.length - 1];
   private Button npeButtonFatal;
 
@@ -147,23 +144,23 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       }
     });
 
-    add(new HTML("<BR>"));
-    add(new HTML("Set runtime log level to:"));
+    //    add(new HTML("<BR>"));
+    //    add(new HTML("Set runtime log level to:"));
+    //
+    //    for (int i = 0; i < levels.length; i++) {
+    //      final int level = levels[i];
+    //      levelButtons[i] = new Button(levelTexts[i]);
+    //      levelButtons[i].addClickListener(new ClickListener() {
+    //        public void onClick(Widget sender) {
+    //          Log.setCurrentLogLevel(level);
+    //          updateLogLevelLabels();
+    //        }
+    //      });
+    //      add(levelButtons[i]);
+    //    }
 
-    for (int i = 0; i < levels.length; i++) {
-      final int level = levels[i];
-      levelButtons[i] = new Button(levelTexts[i]);
-      levelButtons[i].addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
-          Log.setCurrentLogLevel(level);
-          updateLogLevelLabels();
-        }
-      });
-      add(levelButtons[i]);
-    }
-
     add(new HTML("<BR>"));
-    add(new HTML("Change the <code>log_level</code> URL parameter to:"));
+    add(new HTML("Change the compile time <code>log_level</code> URL parameter to:"));
 
     for (int i = 0; i < levels.length; i++) {
       final int level = levels[i];
@@ -183,8 +180,6 @@ public class InteractiveDemoPanel extends AbsolutePanel {
 
     add(new HTML("<BR>"));
 
-    add(currentLogLevelLabel);
-    add(lowestLogLevelLabel);
     updateLogLevelLabels();
 
     if (Log.isLoggingEnabled()) {
@@ -248,27 +243,27 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     $wnd.location = url;
   }-*/;
 
-  /**
-   * Update the style on a button specific to a certain log level.
-   * 
-   * @param button the button to style
-   * @param buttonLogLevel the log level associated with this button's action
-   * @param levelText the text representation of the log level to use in the button title
-   */
-  private void styleLevelButton(Button button, int buttonLogLevel, String levelText) {
-    if (buttonLogLevel < Log.getLowestLogLevel()) {
-      button.addStyleDependentName(CSS_NOOP);
-      button.setTitle("(Compile time log level prevents this runtime level)");
-    } else {
-      if (buttonLogLevel == Log.getCurrentLogLevel()) {
-        button.addStyleDependentName(CSS_CURRENT);
-        button.setTitle("(Already at this runtime log level)");
-      } else {
-        button.removeStyleDependentName(CSS_CURRENT);
-        button.setTitle("Set runtime log level to '" + levelText + "'");
-      }
-    }
-  }
+  //  /**
+  //   * Update the style on a button specific to a certain log level.
+  //   * 
+  //   * @param button the button to style
+  //   * @param buttonLogLevel the log level associated with this button's action
+  //   * @param levelText the text representation of the log level to use in the button title
+  //   */
+  //  private void styleLevelButton(Button button, int buttonLogLevel, String levelText) {
+  //    if (buttonLogLevel < Log.getLowestLogLevel()) {
+  //      button.addStyleDependentName(CSS_NOOP);
+  //      button.setTitle("(Compile time log level prevents this runtime level)");
+  //    } else {
+  //      if (buttonLogLevel == Log.getCurrentLogLevel()) {
+  //        button.addStyleDependentName(CSS_CURRENT);
+  //        button.setTitle("(Already at this runtime log level)");
+  //      } else {
+  //        button.removeStyleDependentName(CSS_CURRENT);
+  //        button.setTitle("Set runtime log level to '" + levelText + "'");
+  //      }
+  //    }
+  //  }
 
   /**
    * Update titles on message generating buttons.
@@ -291,16 +286,12 @@ public class InteractiveDemoPanel extends AbsolutePanel {
    * Update log level related dynamic text.
    */
   private void updateLogLevelLabels() {
-    currentLogLevelLabel.setHTML("Current (runtime) log level = <code>"
-        + Log.getCurrentLogLevelString() + "</code>");
-    lowestLogLevelLabel.setHTML("Current lowest possible (compile time) log level = <code>"
-        + Log.getLowestLogLevelString() + "</code>");
     for (int i = 0; i < messageButtons.length; i++) {
       styleMessageButton(messageButtons[i], levels[i], levelTexts[i]);
     }
-    for (int i = 0; i < levelButtons.length; i++) {
-      styleLevelButton(levelButtons[i], levels[i], levelTexts[i]);
-    }
+    //    for (int i = 0; i < levelButtons.length; i++) {
+    //      styleLevelButton(levelButtons[i], levels[i], levelTexts[i]);
+    //    }
     styleMessageButton(clinitButtonFatal, Log.LOG_LEVEL_FATAL, "FATAL");
     styleMessageButton(jsniNoCatchButtonFatal, Log.LOG_LEVEL_FATAL, "FATAL");
     styleMessageButton(jsniCatchButtonFatal, Log.LOG_LEVEL_FATAL, "FATAL");
