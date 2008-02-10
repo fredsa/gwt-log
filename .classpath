@@ -7,7 +7,7 @@
 	<classpathentry kind="src" path="server-demo"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/_Google Web Toolkit"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/_log4j-0.0.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/_Google Web Toolkit 1.4.61"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
