@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -45,6 +46,13 @@ import com.allen_sauer.gwt.log.client.util.LogUtil;
 public class DivLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  // TODO Add GWT.getVersion() after 1.5
+  private static final String ABOUT_TEXT = "" + //
+      "gwt-log-" + Log.getVersion() + " - Runtime logging for your Google Web Toolkit projects\n" + //
+      "Copyright 2007-2008 Fred Sauer\n" + //
+      "The original software is available from:\n" + //
+      "\u00a0\u00a0\u00a0\u00a0http://allen-sauer.com/gwt/"; //
+
   private static final String CSS_LOG_MESSAGE = "log-message";
   private static final int[] levels = {
       Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN, Log.LOG_LEVEL_ERROR,
@@ -54,7 +62,6 @@ public class DivLogger extends AbstractLogger {
   private static final String STYLE_LOG_PANEL = "log-panel";
   private static final String STYLE_LOG_SCROLL_PANEL = "log-scroll-panel";
   private static final String STYLE_LOG_TEXT_AREA = "log-text-area";
-
   private static final int UPDATE_INTERVAL_MILLIS = 500;
 
   private DockPanel debugDockPanel = new DockPanel() {
@@ -93,11 +100,17 @@ public class DivLogger extends AbstractLogger {
     logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
     scrollPanel.addStyleName(STYLE_LOG_SCROLL_PANEL);
 
-    final FocusPanel header = makeHeader();
+    final FocusPanel headerPanel = makeHeader();
+
+    Widget resizePanel;
+    resizePanel = makeResizePanel();
+
+    debugDockPanel.add(headerPanel, DockPanel.NORTH);
     debugDockPanel.add(scrollPanel, DockPanel.CENTER);
-    debugDockPanel.add(header, DockPanel.NORTH);
+    debugDockPanel.add(resizePanel, DockPanel.SOUTH);
     debugDockPanel.setCellWidth(scrollPanel, "100%");
     debugDockPanel.setCellHeight(scrollPanel, "100%");
+    debugDockPanel.setCellHorizontalAlignment(resizePanel, HasHorizontalAlignment.ALIGN_RIGHT);
 
     scrollPanel.setWidget(logTextArea);
 
@@ -268,8 +281,7 @@ public class DivLogger extends AbstractLogger {
     aboutButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         ((FocusWidget) sender).setFocus(false);
-        Log.diagnostic("gwt-log-" + Log.getVersion() + " by Fred Sauer\n"
-            + "http://allen-sauer.com/gwt/", null);
+        Log.diagnostic(ABOUT_TEXT, null);
       }
     });
 
@@ -309,6 +321,38 @@ public class DivLogger extends AbstractLogger {
     });
 
     return header;
+  }
+
+  private Widget makeResizePanel() {
+    final Image handle = new Image(GWT.getModuleBaseURL() + "gwt-log-triangle-10x10.png");
+    handle.addStyleName("log-resize-se");
+    handle.addMouseListener(new MouseListenerAdapter() {
+      private boolean dragging = false;
+      private int dragStartX;
+      private int dragStartY;
+
+      public void onMouseDown(Widget sender, int x, int y) {
+        dragging = true;
+        DOM.setCapture(handle.getElement());
+        dragStartX = x;
+        dragStartY = y;
+      }
+
+      public void onMouseMove(Widget sender, int x, int y) {
+        if (dragging) {
+          int absX = x + handle.getAbsoluteLeft();
+          int absY = y + handle.getAbsoluteTop();
+          debugDockPanel.setPixelSize(absX - dragStartX, absY - dragStartY);
+          scrollPanel.setScrollPosition(Integer.MAX_VALUE);
+        }
+      }
+
+      public void onMouseUp(Widget sender, int x, int y) {
+        dragging = false;
+        DOM.releaseCapture(handle.getElement());
+      }
+    });
+    return handle;
   }
 
   private String makeTitle(String message, Throwable throwable) {
