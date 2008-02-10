@@ -204,10 +204,9 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     new Timer() {
       public void run() {
         if (!divLogger.isVisible()) {
-          divLogger.info(
-              "This is the draggable 'DivLogger' panel, just one of the available loggers.", null);
-          divLogger.info("Click on the various buttons to send test messages or trap exceptions.",
-              null);
+          divLogger.diagnostic(
+              "This is the draggable 'DivLogger' panel, just one of the available loggers.\n"
+                  + "Click on the various buttons to send test messages or trap exceptions.", null);
         }
       }
     }.schedule(3000);

@@ -253,6 +253,7 @@ public class DivLogger extends AbstractLogger {
 
     Button clearButton = new Button("Clear");
     clearButton.addStyleName("log-clear-button");
+    DOM.setStyleAttribute(clearButton.getElement(), "color", "#00c");
     clearButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         ((FocusWidget) sender).setFocus(false);
