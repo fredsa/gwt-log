@@ -66,7 +66,7 @@ public abstract class LogImplBase extends LogImpl {
    * TODO move the message formatting and addition of log level prefix(es) to the Loggers as it really doesn't belong here
    */
   private static String format(String prefix, String message) {
-    return prefix + " " + message.replaceAll("\n", "\n" + prefix);
+    return prefix + " " + message.replaceAll("\n", "\n" + prefix + " ");
   }
 
   private static native String javaScriptExceptionDescription(JavaScriptObject e)
@@ -99,7 +99,7 @@ public abstract class LogImplBase extends LogImpl {
     return "[" + logLevelText + "]";
   }
 
-  private int currentLogLevel = getLowestLogLevel();
+  private int currentLogLevel = Log.LOG_LEVEL_DEBUG;
 
   private ArrayList loggers = new ArrayList();
 
@@ -310,8 +310,15 @@ public abstract class LogImplBase extends LogImpl {
       level = getLowestLogLevel();
     }
 
-    diagnostic("Temporarily setting the current (runtime) log level filter to '"
-        + LogUtil.levelToString(level) + "'", null);
+    for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = (Logger) iterator.next();
+      try {
+        logger.setCurrentLogLevel(level);
+      } catch (RuntimeException e1) {
+        iterator.remove();
+        diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+      }
+    }
 
     currentLogLevel = level;
     return currentLogLevel;

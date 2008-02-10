@@ -31,5 +31,7 @@ public interface Logger {
 
   boolean isSupported();
 
+  void setCurrentLogLevel(int level);
+
   void warn(String message, Throwable throwable);
 }

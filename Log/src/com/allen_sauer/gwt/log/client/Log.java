@@ -364,6 +364,18 @@ public final class Log {
   }
 
   /**
+   * Retrieve a human readable string version for gwt-log.
+   * Formatting of this text is not guaranteed to remain
+   * consistent.
+   * 
+   * @return the human readable version text
+   */
+  public static String getVersion() {
+    String version = "@GWT_LOG_VERSION@";
+    return version.matches("^@.+@$") ? "0.0.0" : version;
+  }
+
+  /**
    * Log a <code>INFO</code> level message with no
    * exception information.
    * 

@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 .log-panel {
-  background-color: #E8EEF7;
+  background-color: #ECF2FC;
   border: 1px solid red;
   padding: 0.2em;
   margin: 0px;
@@ -10,17 +10,21 @@
   z-index: 1000;
 }
 
-.log-panel .log-header {
+.log-panel .log-text-area,.log-panel BUTTON {
+  font-size: 10pt;
+}
+
+.log-panel .log-title {
   cursor: move;
+  font-weight: bold;
+}
+
+.log-panel .log-clear-button,.log-panel .log-clear-about {
+  margin-left: 1.2em;
 }
 
 .log-panel .log-text-area {
   text-align: left;
-  font-size: 10pt;
-}
-
-.log-panel .log-text-area * {
-  font-family: monospace;
 }
 
 .log-panel .log-stacktrace {
@@ -28,7 +32,12 @@
 }
 
 .log-panel .log-message {
+  font-family: monospace;
   cursor: help;
+}
+
+.log-panel BUTTON.gwt-Button-inactive {
+  color: #ccc !important;
 }
 
 .log-panel .log-message-hover {
