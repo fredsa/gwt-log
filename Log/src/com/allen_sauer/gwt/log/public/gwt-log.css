@@ -3,7 +3,7 @@
 .log-panel {
   background-color: #ECF2FC;
   border: 1px solid red;
-  padding: 0.2em;
+  xpadding: 0.2em;
   margin: 0px;
   filter: alpha(opacity = 95);
   opacity: 0.95;
@@ -12,6 +12,7 @@
 
 .log-panel .log-text-area,.log-panel BUTTON {
   font-size: 10pt;
+  margin: 0em;
 }
 
 .log-panel .log-title {
@@ -19,8 +20,12 @@
   font-weight: bold;
 }
 
-.log-panel .log-clear-button,.log-panel .log-clear-about {
-  margin-left: 1.2em;
+.log-panel .log-clear-button {
+  margin: 0em 1.2em;
+}
+
+.log-panel BUTTON.log-clear-about {
+  color: #444 !important;
 }
 
 .log-panel .log-text-area {
@@ -44,4 +49,8 @@
   background-color: #FFF;
   width: 100%;
   height: 100%;
+}
+
+.log-panel .log-resize-se {
+  cursor: se-resize;
 }
