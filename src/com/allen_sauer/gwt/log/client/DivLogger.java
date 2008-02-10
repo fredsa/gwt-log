@@ -24,7 +24,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTML;
@@ -57,11 +57,11 @@ public class DivLogger extends AbstractLogger {
 
   private static final int UPDATE_INTERVAL_MILLIS = 500;
 
-  private FlexTable debugTable = new FlexTable() {
+  private DockPanel debugDockPanel = new DockPanel() {
     private WindowResizeListener windowResizeListener = new WindowResizeListener() {
       public void onWindowResized(int width, int height) {
-        debugTable.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
-            (int) (Window.getClientHeight() * .3)));
+        debugDockPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(
+            100, (int) (Window.getClientHeight() * .3)));
       }
     };
 
@@ -89,21 +89,20 @@ public class DivLogger extends AbstractLogger {
    * Default constructor.
    */
   public DivLogger() {
-    debugTable.addStyleName(STYLE_LOG_PANEL);
+    debugDockPanel.addStyleName(STYLE_LOG_PANEL);
     logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
     scrollPanel.addStyleName(STYLE_LOG_SCROLL_PANEL);
 
     final FocusPanel header = makeHeader();
-    debugTable.setWidget(0, 0, header);
-    debugTable.setWidget(1, 0, scrollPanel);
-    debugTable.getCellFormatter().setWidth(1, 0, "100%");
-    debugTable.getCellFormatter().setHeight(1, 0, "100%");
-    debugTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
+    debugDockPanel.add(scrollPanel, DockPanel.CENTER);
+    debugDockPanel.add(header, DockPanel.NORTH);
+    debugDockPanel.setCellWidth(scrollPanel, "100%");
+    debugDockPanel.setCellHeight(scrollPanel, "100%");
 
     scrollPanel.setWidget(logTextArea);
 
-    debugTable.setVisible(false);
-    RootPanel.get().add(debugTable, 0, 0);
+    debugDockPanel.setVisible(false);
+    RootPanel.get().add(debugDockPanel, 0, 0);
 
     timer = new Timer() {
       public void run() {
@@ -124,7 +123,7 @@ public class DivLogger extends AbstractLogger {
   }
 
   public final Widget getWidget() {
-    return debugTable;
+    return debugDockPanel;
   }
 
   public final boolean isSupported() {
@@ -132,11 +131,11 @@ public class DivLogger extends AbstractLogger {
   }
 
   public final boolean isVisible() {
-    return debugTable.isAttached() && debugTable.isVisible();
+    return debugDockPanel.isAttached() && debugDockPanel.isVisible();
   }
 
   public final void moveTo(int x, int y) {
-    RootPanel.get().add(debugTable, x, y);
+    RootPanel.get().add(debugDockPanel, x, y);
   }
 
   public void setCurrentLogLevel(int level) {
@@ -195,7 +194,7 @@ public class DivLogger extends AbstractLogger {
         + "' onmouseover='className+=\" log-message-hover\"' "
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
-    debugTable.setVisible(true);
+    debugDockPanel.setVisible(true);
   }
 
   private void addLogText(String debugText) {
@@ -297,9 +296,9 @@ public class DivLogger extends AbstractLogger {
 
       public void onMouseMove(Widget sender, int x, int y) {
         if (dragging) {
-          int absX = x + debugTable.getAbsoluteLeft();
-          int absY = y + debugTable.getAbsoluteTop();
-          RootPanel.get().setWidgetPosition(debugTable, absX - dragStartX, absY - dragStartY);
+          int absX = x + debugDockPanel.getAbsoluteLeft();
+          int absY = y + debugDockPanel.getAbsoluteTop();
+          RootPanel.get().setWidgetPosition(debugDockPanel, absX - dragStartX, absY - dragStartY);
         }
       }
 
