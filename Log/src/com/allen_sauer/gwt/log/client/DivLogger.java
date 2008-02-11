@@ -336,6 +336,7 @@ public class DivLogger extends AbstractLogger {
         DOM.setCapture(handle.getElement());
         dragStartX = x;
         dragStartY = y;
+        DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
       }
 
       public void onMouseMove(Widget sender, int x, int y) {
