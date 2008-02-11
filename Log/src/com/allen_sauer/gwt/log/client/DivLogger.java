@@ -46,6 +46,23 @@ import com.allen_sauer.gwt.log.client.util.LogUtil;
 public class DivLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  private static class ScrollPanelImpl extends ScrollPanel {
+    private int minScrollPanelHeight = -1;
+    private int minScrollPanelWidth = -1;
+
+    public void checkMinSize() {
+      if (minScrollPanelWidth == -1) {
+        minScrollPanelWidth = getOffsetWidth();
+        minScrollPanelHeight = getOffsetHeight();
+      }
+    }
+
+    public void setPixelSize(int width, int height) {
+      super.setPixelSize(Math.max(width, minScrollPanelWidth), Math.max(height,
+          minScrollPanelHeight));
+    }
+  }
+
   private static final String CSS_LOG_MESSAGE = "log-message";
   private static final int[] levels = {
       Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN, Log.LOG_LEVEL_ERROR,
@@ -55,19 +72,27 @@ public class DivLogger extends AbstractLogger {
   private static final String STYLE_LOG_PANEL = "log-panel";
   private static final String STYLE_LOG_SCROLL_PANEL = "log-scroll-panel";
   private static final String STYLE_LOG_TEXT_AREA = "log-text-area";
+
   private static final int UPDATE_INTERVAL_MILLIS = 500;
 
   private DockPanel debugDockPanel = new DockPanel() {
     private WindowResizeListener windowResizeListener = new WindowResizeListener() {
       public void onWindowResized(int width, int height) {
-        debugDockPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(
-            100, (int) (Window.getClientHeight() * .3)));
+        scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
+            (int) (Window.getClientHeight() * .3)));
       }
     };
 
+    public void setVisible(boolean visible) {
+      super.setVisible(visible);
+      if (visible) {
+        scrollPanel.checkMinSize();
+        windowResizeListener.onWindowResized(Window.getClientWidth(), Window.getClientHeight());
+      }
+    }
+
     protected void onLoad() {
       super.onLoad();
-      windowResizeListener.onWindowResized(Window.getClientWidth(), Window.getClientHeight());
       Window.addWindowResizeListener(windowResizeListener);
     }
 
@@ -81,7 +106,7 @@ public class DivLogger extends AbstractLogger {
   private String logText = "";
   private HTML logTextArea = new HTML();
 
-  private ScrollPanel scrollPanel = new ScrollPanel();
+  private ScrollPanelImpl scrollPanel = new ScrollPanelImpl();
 
   private Timer timer;
 
@@ -93,6 +118,8 @@ public class DivLogger extends AbstractLogger {
     logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
     scrollPanel.addStyleName(STYLE_LOG_SCROLL_PANEL);
 
+    scrollPanel.setAlwaysShowScrollBars(true);
+
     final FocusPanel headerPanel = makeHeader();
 
     Widget resizePanel;
@@ -101,8 +128,6 @@ public class DivLogger extends AbstractLogger {
     debugDockPanel.add(headerPanel, DockPanel.NORTH);
     debugDockPanel.add(scrollPanel, DockPanel.CENTER);
     debugDockPanel.add(resizePanel, DockPanel.SOUTH);
-    debugDockPanel.setCellWidth(scrollPanel, "100%");
-    debugDockPanel.setCellHeight(scrollPanel, "100%");
     debugDockPanel.setCellHorizontalAlignment(resizePanel, HasHorizontalAlignment.ALIGN_RIGHT);
 
     scrollPanel.setWidget(logTextArea);
@@ -175,6 +200,7 @@ public class DivLogger extends AbstractLogger {
   }
 
   final void log(int logLevel, String message, Throwable throwable) {
+    debugDockPanel.setVisible(true);
     String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     String title = makeTitle(message, throwable);
     if (throwable != null) {
@@ -200,7 +226,6 @@ public class DivLogger extends AbstractLogger {
         + "' onmouseover='className+=\" log-message-hover\"' "
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
-    debugDockPanel.setVisible(true);
   }
 
   private void addLogText(String debugText) {
@@ -343,7 +368,7 @@ public class DivLogger extends AbstractLogger {
         if (dragging) {
           int absX = x + handle.getAbsoluteLeft();
           int absY = y + handle.getAbsoluteTop();
-          debugDockPanel.setPixelSize(absX - dragStartX, absY - dragStartY);
+          scrollPanel.setPixelSize(absX - dragStartX, absY - dragStartY);
           scrollPanel.setScrollPosition(Integer.MAX_VALUE);
         }
       }
