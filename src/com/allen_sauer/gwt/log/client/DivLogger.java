@@ -77,9 +77,19 @@ public class DivLogger extends AbstractLogger {
 
   private DockPanel debugDockPanel = new DockPanel() {
     private WindowResizeListener windowResizeListener = new WindowResizeListener() {
+      private int lastDocumentClientWidth = -1;
+      private int lastDocumentClientHeight = -1;
+
       public void onWindowResized(int width, int height) {
-        scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
-            (int) (Window.getClientHeight() * .3)));
+        // Workaround for issue 1934
+        // IE fires Window onresize events when the size of the body changes
+        if (width != lastDocumentClientWidth || height != lastDocumentClientHeight) {
+          lastDocumentClientWidth = width;
+          lastDocumentClientHeight = height;
+
+          scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(
+              100, (int) (Window.getClientHeight() * .3)));
+        }
       }
     };
 
