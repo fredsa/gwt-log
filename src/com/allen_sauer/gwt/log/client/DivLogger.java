@@ -138,6 +138,7 @@ public class DivLogger extends AbstractLogger {
     debugDockPanel.add(headerPanel, DockPanel.NORTH);
     debugDockPanel.add(scrollPanel, DockPanel.CENTER);
     debugDockPanel.add(resizePanel, DockPanel.SOUTH);
+    DOM.setStyleAttribute(DOM.getParent(resizePanel.getElement()), "lineHeight", "1px");
     debugDockPanel.setCellHorizontalAlignment(resizePanel, HasHorizontalAlignment.ALIGN_RIGHT);
 
     scrollPanel.setWidget(logTextArea);
