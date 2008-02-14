@@ -84,8 +84,8 @@
 
 		<for param="file">
 			<fileset dir="${gwt-log.libdir}">
-        <include name="gwt-log-*.*.*.jar" />
-        <exclude name="gwt-log-*.*.*-*.jar" />
+				<include name="gwt-log-*.*.*.jar" />
+				<exclude name="gwt-log-*.*.*-*.jar" />
 			</fileset>
 			<sequential>
 				<echo message="@{file}" />
@@ -280,13 +280,17 @@
 	</target>
 
 	<target name="tag">
-		<exec executable="svn">
-			<arg value="info" />
-			<arg value="https://gwt-log.googlecode.com/svn/trunk" />
-		</exec>
+    <exec executable="svn">
+      <arg value="ls" />
+      <arg value="https://gwt-log.googlecode.com/svn/tags/" />
+    </exec>
+      <exec executable="svn">
+        <arg value="info" />
+        <arg value="https://gwt-log.googlecode.com/svn/" />
+      </exec>
 		<echo message="" />
 		<echo message="*****************************************************************************************************" />
-		<echo message="svn -m 'for prosterity' cp . https://gwt-log.googlecode.com/svn/tags/gwt-log-${gwt-log.version}-r____" />
+		<echo message="svn -m 'for prosterity' cp . https://gwt-log.googlecode.com/svn/tags/gwt-log-${gwt-log.version}-r" />
 		<echo message="*****************************************************************************************************" />
 		<echo message="" />
 	</target>
