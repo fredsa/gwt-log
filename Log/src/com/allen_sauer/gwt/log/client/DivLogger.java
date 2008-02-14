@@ -49,6 +49,8 @@ public class DivLogger extends AbstractLogger {
   private static class ScrollPanelImpl extends ScrollPanel {
     private int minScrollPanelHeight = -1;
     private int minScrollPanelWidth = -1;
+    private int scrollPanelHeight;
+    private int scrollPanelWidth;
 
     public void checkMinSize() {
       if (minScrollPanelWidth == -1) {
@@ -57,9 +59,13 @@ public class DivLogger extends AbstractLogger {
       }
     }
 
+    public void incrementPixelSize(int width, int height) {
+      setPixelSize(scrollPanelWidth + width, scrollPanelHeight + height);
+    }
+
     public void setPixelSize(int width, int height) {
-      super.setPixelSize(Math.max(width, minScrollPanelWidth), Math.max(height,
-          minScrollPanelHeight));
+      super.setPixelSize(scrollPanelWidth = Math.max(width, minScrollPanelWidth),
+          scrollPanelHeight = Math.max(height, minScrollPanelHeight));
     }
   }
 
@@ -77,8 +83,8 @@ public class DivLogger extends AbstractLogger {
 
   private DockPanel debugDockPanel = new DockPanel() {
     private WindowResizeListener windowResizeListener = new WindowResizeListener() {
-      private int lastDocumentClientWidth = -1;
       private int lastDocumentClientHeight = -1;
+      private int lastDocumentClientWidth = -1;
 
       public void onWindowResized(int width, int height) {
         // Workaround for issue 1934
@@ -128,7 +134,7 @@ public class DivLogger extends AbstractLogger {
     logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
     scrollPanel.addStyleName(STYLE_LOG_SCROLL_PANEL);
 
-    scrollPanel.setAlwaysShowScrollBars(true);
+    //    scrollPanel.setAlwaysShowScrollBars(true);
 
     final FocusPanel headerPanel = makeHeader();
 
@@ -377,9 +383,7 @@ public class DivLogger extends AbstractLogger {
 
       public void onMouseMove(Widget sender, int x, int y) {
         if (dragging) {
-          int absX = x + handle.getAbsoluteLeft();
-          int absY = y + handle.getAbsoluteTop();
-          scrollPanel.setPixelSize(absX - dragStartX, absY - dragStartY);
+          scrollPanel.incrementPixelSize(x - dragStartX, y - dragStartY);
           scrollPanel.setScrollPosition(Integer.MAX_VALUE);
         }
       }
