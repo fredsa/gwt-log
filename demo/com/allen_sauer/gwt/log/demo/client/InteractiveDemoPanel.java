@@ -206,7 +206,9 @@ public class InteractiveDemoPanel extends AbsolutePanel {
         if (!divLogger.isVisible()) {
           divLogger.diagnostic(
               "This is the draggable 'DivLogger' panel, just one of the available loggers.\n"
-                  + "Click on the various buttons to send test messages or trap exceptions.", null);
+                  + "The above buttons control the current (runtime) logging level.\n"
+                  + "Use the other buttons on this page to send test messages or trap exceptions.",
+              null);
         }
       }
     }.schedule(3000);
