@@ -23,16 +23,18 @@ import com.allen_sauer.gwt.log.server.ServerLogImplJDK14;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
 
 //CHECKSTYLE_JAVADOC_OFF
-public class ServerSideLog {
+public final class ServerSideLog {
   public static final int LOG_LEVEL_DEBUG = 10000;
   public static final int LOG_LEVEL_ERROR = 40000;
   public static final int LOG_LEVEL_FATAL = 50000;
   public static final int LOG_LEVEL_INFO = 20000;
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
   public static final int LOG_LEVEL_WARN = 30000;
+
   private static ServerLogImpl impl;
 
   private static final String UNSUPPORTED_METHOD_TEXT = "This method available only when running on the client";
+
   static {
     if (impl == null) {
       try {
@@ -54,23 +56,23 @@ public class ServerSideLog {
     setCurrentLogLevel(LOG_LEVEL_DEBUG);
   }
 
-  public static final void addLogger(ServerSideLogger logger) {
+  public static void addLogger(ServerSideLogger logger) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final void clear() {
+  public static void clear() {
     impl.clear();
   }
 
-  public static final void debug(String message) {
+  public static void debug(String message) {
     debug(message, (Throwable) null);
   }
 
-  public static final void debug(String message, JavaScriptObject e) {
+  public static void debug(String message, JavaScriptObject e) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final void debug(String message, Throwable e) {
+  public static void debug(String message, Throwable e) {
     impl.debug(message, e);
   }
 
@@ -81,119 +83,128 @@ public class ServerSideLog {
     impl.diagnostic(message, e);
   }
 
-  public static final void error(String message) {
+  public static void error(String message) {
     error(message, (Throwable) null);
   }
 
-  public static final void error(String message, JavaScriptObject e) {
+  public static void error(String message, JavaScriptObject e) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final void error(String message, Throwable e) {
+  public static void error(String message, Throwable e) {
     impl.error(message, e);
   }
 
-  public static final void fatal(String message) {
+  public static void fatal(String message) {
     fatal(message, (Throwable) null);
   }
 
-  public static final void fatal(String message, JavaScriptObject e) {
+  public static void fatal(String message, JavaScriptObject e) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final void fatal(String message, Throwable e) {
+  public static void fatal(String message, Throwable e) {
     impl.fatal(message, e);
   }
 
-  public static final ServerSideConsoleLogger getConsoleLogger() {
+  public static ServerSideConsoleLogger getConsoleLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final int getCurrentLogLevel() {
+  public static int getCurrentLogLevel() {
     return impl.getCurrentLogLevel();
   }
 
-  public static final String getCurrentLogLevelString() {
+  public static String getCurrentLogLevelString() {
     return ServerSideLogUtil.levelToString(getCurrentLogLevel());
   }
 
-  public static final ServerSideDivLogger getDivLogger() {
+  public static ServerSideDivLogger getDivLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final ServerSideFirebugLogger getFirebugLogger() {
+  public static ServerSideFirebugLogger getFirebugLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final ServerSideGWTLogger getGwtLogger() {
+  public static ServerSideGWTLogger getGwtLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final int getLowestLogLevel() {
+  public static ServerSideLogger getLogger(Class clazz) {
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static int getLowestLogLevel() {
     return LOG_LEVEL_DEBUG;
   }
 
-  public static final String getLowestLogLevelString() {
+  public static String getLowestLogLevelString() {
     return ServerSideLogUtil.levelToString(getLowestLogLevel());
   }
 
-  public static final ServerSideSystemLogger getSystemLogger() {
+  public static ServerSideSystemLogger getSystemLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final void info(String message) {
+  public static String getVersion() {
+    String version = "@GWT_LOG_VERSION@";
+    return version.matches("^@.+@$") ? "0.0.0" : version;
+  }
+
+  public static void info(String message) {
     info(message, (Throwable) null);
   }
 
-  public static final void info(String message, JavaScriptObject e) {
+  public static void info(String message, JavaScriptObject e) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final void info(String message, Throwable e) {
+  public static void info(String message, Throwable e) {
     impl.info(message, e);
   }
 
-  public static final boolean isDebugEnabled() {
+  public static boolean isDebugEnabled() {
     return impl.isDebugEnabled();
   }
 
-  public static final boolean isErrorEnabled() {
+  public static boolean isErrorEnabled() {
     return impl.isErrorEnabled();
   }
 
-  public static final boolean isFatalEnabled() {
+  public static boolean isFatalEnabled() {
     return impl.isFatalEnabled();
   }
 
-  public static final boolean isInfoEnabled() {
+  public static boolean isInfoEnabled() {
     return impl.isInfoEnabled();
   }
 
-  public static final boolean isLoggingEnabled() {
+  public static boolean isLoggingEnabled() {
     return impl.isLoggingEnabled();
   }
 
-  public static final boolean isWarnEnabled() {
+  public static boolean isWarnEnabled() {
     return impl.isWarnEnabled();
   }
 
-  public static final void setCurrentLogLevel(int level) {
+  public static void setCurrentLogLevel(int level) {
     impl.setCurrentImplLogLevel(impl.mapGWTLogLevelToImplLevel(level));
   }
 
-  public static final void setUncaughtExceptionHandler() {
+  public static void setUncaughtExceptionHandler() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final void warn(String message) {
+  public static void warn(String message) {
     warn(message, (Throwable) null);
   }
 
-  public static final void warn(String message, JavaScriptObject e) {
+  public static void warn(String message, JavaScriptObject e) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static final void warn(String message, Throwable e) {
+  public static void warn(String message, Throwable e) {
     impl.warn(message, e);
   }
 }
