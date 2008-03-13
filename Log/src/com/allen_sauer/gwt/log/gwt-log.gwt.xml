@@ -118,5 +118,6 @@
   
   <!-- Loggers Disabled by default -->
   <set-property name="log_RemoteLogger" value="DISABLED" />
+  <set-property name="log_WindowLogger" value="DISABLED" />
   
 </module>
