@@ -139,6 +139,18 @@
   <servlet path="/gwt-log" class="com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl" />
 
 
+  <!-- WindowLogger -->
+
+  <define-property name="log_WindowLogger" values="ENABLED, DISABLED" />
+
+  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
+    <when-type-is class="com.allen_sauer.gwt.log.client.WindowLogger" />
+    <none>
+      <when-property-is name="log_WindowLogger" value="ENABLED" />
+    </none>
+  </replace-with>
+
+
   <!--  Log level dependent implementations -->
 
   <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplDebug">

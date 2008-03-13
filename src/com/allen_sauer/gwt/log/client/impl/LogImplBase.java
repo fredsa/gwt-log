@@ -30,6 +30,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.Logger;
 import com.allen_sauer.gwt.log.client.RemoteLogger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
+import com.allen_sauer.gwt.log.client.WindowLogger;
 import com.allen_sauer.gwt.log.client.util.LogUtil;
 
 import java.util.ArrayList;
@@ -273,6 +274,14 @@ public abstract class LogImplBase extends LogImpl {
       addLogger((Logger) GWT.create(DivLogger.class));
     } catch (Throwable ex) {
       Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
+          + ex.toString());
+    }
+
+    // GWT hacking may prevent the DOM/UI from working properly
+    try {
+      addLogger((Logger) GWT.create(WindowLogger.class));
+    } catch (Throwable ex) {
+      Window.alert("WARNING: Unable to instantiate '" + WindowLogger.class + "' due to "
           + ex.toString());
     }
 

@@ -16,6 +16,8 @@
 package com.allen_sauer.gwt.log.client.util;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.core.client.JavaScriptObject;
 
 import com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl;
 
@@ -40,4 +42,28 @@ public class DOMUtil {
   public static String adjustTitleLineBreaks(String title) {
     return impl.adjustTitleLineBreaks(title);
   }
+
+  public native static void documentWrite(JavaScriptObject w, String html)
+      throws JavaScriptException
+  /*-{
+    w.document.write(html);
+  }-*/;
+
+  public native static JavaScriptObject windowClose(JavaScriptObject w)
+  /*-{
+    w.document.write("Closing....");
+    w.close();
+  }-*/;
+
+  public native static JavaScriptObject windowOpen(String features)
+  /*-{
+    var w = $wnd.open("", "_blank", features);
+    $wnd.focus();
+    return w;
+  }-*/;
+
+  public native static String windowReadyState(JavaScriptObject w)
+  /*-{
+    return w.document.readyState;
+  }-*/;
 }
