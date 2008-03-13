@@ -49,10 +49,9 @@ public class DOMUtil {
     w.document.write(html);
   }-*/;
 
-  public native static JavaScriptObject windowClose(JavaScriptObject w)
+  public native static void windowClear(JavaScriptObject w)
   /*-{
-    w.document.write("Closing....");
-    w.close();
+    w.document.body.innerHTML = "";
   }-*/;
 
   public native static JavaScriptObject windowOpen(String features)

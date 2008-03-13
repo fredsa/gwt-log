@@ -43,8 +43,9 @@ public class WindowLogger extends AbstractLogger {
   }
 
   public final void clear() {
-    init();
-    super.clear();
+    if (ready) {
+      DOMUtil.windowClear(window);
+    }
   }
 
   public final boolean isSupported() {
@@ -91,21 +92,12 @@ public class WindowLogger extends AbstractLogger {
         DOMUtil.documentWrite(window, debugText);
         logText = "";
       } catch (JavaScriptException e) {
-        closeWindow();
+        window = null;
         init();
         DOMUtil.documentWrite(window, debugText);
         logText = "";
       }
     }
-  }
-
-  private void closeWindow() {
-    try {
-      DOMUtil.windowClose(window);
-    } catch (RuntimeException e) {
-      // ignore
-    }
-    window = null;
   }
 
   private String getColor(int logLevel) {
@@ -128,19 +120,8 @@ public class WindowLogger extends AbstractLogger {
   }
 
   private void init() {
-    if (GWT.isScript()) {
-      // web mode
-      if (window != null && ready) {
-        closeWindow();
-      }
-      if (window == null) {
-        newWindow();
-      }
-    } else {
-      // hosted mode
-      if (window == null) {
-        newWindow();
-      }
+    if (window == null) {
+      newWindow();
     }
   }
 
