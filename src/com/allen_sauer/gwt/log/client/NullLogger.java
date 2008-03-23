@@ -25,6 +25,7 @@ public class NullLogger extends AbstractLogger {
     return false;
   }
 
+  @Override
   final void log(int logLevel, String message) {
     // do nothing
   }

@@ -42,6 +42,7 @@ public class WindowLogger extends AbstractLogger {
     init();
   }
 
+  @Override
   public final void clear() {
     if (ready) {
       DOMUtil.windowClear(window);
@@ -52,11 +53,13 @@ public class WindowLogger extends AbstractLogger {
     return true;
   }
 
+  @Override
   final void log(int logLevel, String message) {
     assert false;
     // Method never called since {@link #log(int, String, Throwable)} is overridden
   }
 
+  @Override
   final void log(int logLevel, String message, Throwable throwable) {
     String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     String title = makeTitle(message, throwable);
@@ -67,8 +70,8 @@ public class WindowLogger extends AbstractLogger {
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         if (stackTraceElements.length > 0) {
           text += "<div class='log-stacktrace'>";
-          for (int i = 0; i < stackTraceElements.length; i++) {
-            text += STACKTRACE_ELEMENT_PREFIX + stackTraceElements[i] + "<br>";
+          for (StackTraceElement element : stackTraceElements) {
+            text += STACKTRACE_ELEMENT_PREFIX + element + "<br>";
           }
           text += "</div>";
         }
@@ -143,6 +146,7 @@ public class WindowLogger extends AbstractLogger {
     new Timer() {
       int counter = 0;
 
+      @Override
       public void run() {
         try {
           if (counter++ > 100 || "complete".equals(DOMUtil.windowReadyState(window))) {

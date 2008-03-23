@@ -67,8 +67,8 @@ public abstract class AbstractLogger implements Logger {
         String text1 = "";
         text1 += GWT.getTypeName(throwable) + ":\n" + throwable.getMessage() + "\n";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
-        for (int i = 0; i < stackTraceElements.length; i++) {
-          text1 += "    at " + stackTraceElements[i] + "\n";
+        for (StackTraceElement element : stackTraceElements) {
+          text1 += "    at " + element + "\n";
         }
         text += text1;
         throwable = throwable.getCause();

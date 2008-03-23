@@ -20,6 +20,7 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 /**
  * @deprecated Use {@link Log#setUncaughtExceptionHandler()} instead.
  */
+@Deprecated
 public final class LogUncaughtExceptionHandler implements UncaughtExceptionHandler {
   // CHECKSTYLE_JAVADOC_OFF
 

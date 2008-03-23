@@ -31,6 +31,7 @@ public final class FirebugLogger extends AbstractLogger {
     return !!($wnd.console && $wnd.console.firebug);
   }-*/;
 
+  @Override
   native void log(int logLevel, String message)
   /*-{
     if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_ERROR) {

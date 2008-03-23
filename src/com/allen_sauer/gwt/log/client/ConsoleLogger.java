@@ -27,6 +27,7 @@ public final class ConsoleLogger extends AbstractLogger {
     return $wnd.console != null && !$wnd.console.firebug && typeof($wnd.console.log) == 'function';
   }-*/;
 
+  @Override
   native void log(int logLevel, String message)
   /*-{
     $wnd.console.log(message);

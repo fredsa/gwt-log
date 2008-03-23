@@ -28,6 +28,7 @@ public final class SystemLogger extends AbstractLogger {
     return !GWT.isScript();
   }
 
+  @Override
   void log(int logLevel, String message) {
     if (logLevel >= Log.LOG_LEVEL_ERROR) {
       System.err.println(message);

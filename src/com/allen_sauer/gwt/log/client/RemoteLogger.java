@@ -51,6 +51,7 @@ public final class RemoteLogger extends AbstractLogger {
     };
   }
 
+  @Override
   public void debug(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;
@@ -58,6 +59,7 @@ public final class RemoteLogger extends AbstractLogger {
     service.debug(message, throwable, callback);
   }
 
+  @Override
   public void diagnostic(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;
@@ -65,6 +67,7 @@ public final class RemoteLogger extends AbstractLogger {
     service.diagnostic(message, throwable, callback);
   }
 
+  @Override
   public void error(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;
@@ -72,6 +75,7 @@ public final class RemoteLogger extends AbstractLogger {
     service.error(message, throwable, callback);
   }
 
+  @Override
   public void fatal(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;
@@ -79,6 +83,7 @@ public final class RemoteLogger extends AbstractLogger {
     service.fatal(message, throwable, callback);
   }
 
+  @Override
   public void info(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;
@@ -90,6 +95,7 @@ public final class RemoteLogger extends AbstractLogger {
     return true;
   }
 
+  @Override
   public void warn(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;
@@ -97,6 +103,7 @@ public final class RemoteLogger extends AbstractLogger {
     service.warn(message, throwable, callback);
   }
 
+  @Override
   void log(int logLevel, String message) {
     assert false;
     // Method never called

@@ -27,10 +27,12 @@ public final class GWTLogger extends AbstractLogger {
     return !GWT.isScript();
   }
 
+  @Override
   void log(int logLevel, String message) {
     GWT.log(message, null);
   }
 
+  @Override
   void log(int logLevel, String message, Throwable throwable) {
     GWT.log(message, throwable);
   }
