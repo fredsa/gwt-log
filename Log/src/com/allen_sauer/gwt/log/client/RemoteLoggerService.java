@@ -24,6 +24,7 @@ public interface RemoteLoggerService extends RemoteService {
   /**
    * @deprecated For internal gwt-log use only.
    */
+  @Deprecated
   void diagnostic(String message, Throwable ex);
 
   void error(String message, Throwable ex);

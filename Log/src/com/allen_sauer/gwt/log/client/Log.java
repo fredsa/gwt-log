@@ -153,6 +153,7 @@ public final class Log {
    * @param message the text to be logged
    * @param e the native JavaScript exception object to be logged
    */
+  @Deprecated
   public static void diagnostic(String message, Throwable e) {
     impl.diagnostic(message, e);
   }
@@ -284,6 +285,7 @@ public final class Log {
    * 
    * @return the ConsoleLogger instance or <code>null</code> if no such longer exists
    */
+  @Deprecated
   public static ConsoleLogger getConsoleLogger() {
     return impl.getLoggerConsole();
   }
@@ -311,6 +313,7 @@ public final class Log {
    * 
    * @return the DivLogger instance or <code>null</code> if no such longer exists
    */
+  @Deprecated
   public static DivLogger getDivLogger() {
     return impl.getLoggerDiv();
   }
@@ -320,6 +323,7 @@ public final class Log {
    * 
    * @return the FirebugLogger instance or <code>null</code> if no such longer exists
    */
+  @Deprecated
   public static FirebugLogger getFirebugLogger() {
     return impl.getLoggerFirebug();
   }
@@ -329,6 +333,7 @@ public final class Log {
    * 
    * @return the GWTLogger instance or <code>null</code> if no such longer exists
    */
+  @Deprecated
   public static GWTLogger getGwtLogger() {
     return impl.getLoggerGWT();
   }
@@ -364,6 +369,7 @@ public final class Log {
    * 
    * @return the SystemLogger instance or <code>null</code> if no such longer exists
    */
+  @Deprecated
   public static SystemLogger getSystemLogger() {
     return impl.getLoggerSystem();
   }

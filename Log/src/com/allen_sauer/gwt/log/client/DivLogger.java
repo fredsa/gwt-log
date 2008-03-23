@@ -63,6 +63,7 @@ public class DivLogger extends AbstractLogger {
       setPixelSize(scrollPanelWidth + width, scrollPanelHeight + height);
     }
 
+    @Override
     public void setPixelSize(int width, int height) {
       super.setPixelSize(scrollPanelWidth = Math.max(width, minScrollPanelWidth),
           scrollPanelHeight = Math.max(height, minScrollPanelHeight));
@@ -99,6 +100,7 @@ public class DivLogger extends AbstractLogger {
       }
     };
 
+    @Override
     public void setVisible(boolean visible) {
       super.setVisible(visible);
       if (visible) {
@@ -107,11 +109,13 @@ public class DivLogger extends AbstractLogger {
       }
     }
 
+    @Override
     protected void onLoad() {
       super.onLoad();
       Window.addWindowResizeListener(windowResizeListener);
     }
 
+    @Override
     protected void onUnload() {
       super.onUnload();
       Window.removeWindowResizeListener(windowResizeListener);
@@ -153,6 +157,7 @@ public class DivLogger extends AbstractLogger {
     RootPanel.get().add(debugDockPanel, 0, 0);
 
     timer = new Timer() {
+      @Override
       public void run() {
         dirty = false;
         logTextArea.setHTML(logTextArea.getHTML() + logText);
@@ -166,6 +171,7 @@ public class DivLogger extends AbstractLogger {
     };
   }
 
+  @Override
   public final void clear() {
     logTextArea.setHTML("");
   }
@@ -186,6 +192,7 @@ public class DivLogger extends AbstractLogger {
     RootPanel.get().add(debugDockPanel, x, y);
   }
 
+  @Override
   public void setCurrentLogLevel(int level) {
     super.setCurrentLogLevel(level);
     for (int i = 0; i < levels.length; i++) {
@@ -211,11 +218,13 @@ public class DivLogger extends AbstractLogger {
     logTextArea.setSize(width, height);
   }
 
+  @Override
   final void log(int logLevel, String message) {
     assert false;
     // Method never called since {@link #log(int, String, Throwable)} is overridden
   }
 
+  @Override
   final void log(int logLevel, String message, Throwable throwable) {
     debugDockPanel.setVisible(true);
     String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -227,8 +236,8 @@ public class DivLogger extends AbstractLogger {
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         if (stackTraceElements.length > 0) {
           text += "<div class='log-stacktrace'>";
-          for (int i = 0; i < stackTraceElements.length; i++) {
-            text += STACKTRACE_ELEMENT_PREFIX + stackTraceElements[i] + "<br>";
+          for (StackTraceElement element : stackTraceElements) {
+            text += STACKTRACE_ELEMENT_PREFIX + element + "<br>";
           }
           text += "</div>";
         }
@@ -275,6 +284,7 @@ public class DivLogger extends AbstractLogger {
   /**
    * @deprecated
    */
+  @Deprecated
   private FocusPanel makeHeader() {
     FocusPanel header;
     header = new FocusPanel();
@@ -341,6 +351,7 @@ public class DivLogger extends AbstractLogger {
       private int dragStartX;
       private int dragStartY;
 
+      @Override
       public void onMouseDown(Widget sender, int x, int y) {
         dragging = true;
         DOM.setCapture(titleLabel.getElement());
@@ -348,6 +359,7 @@ public class DivLogger extends AbstractLogger {
         dragStartY = y;
       }
 
+      @Override
       public void onMouseMove(Widget sender, int x, int y) {
         if (dragging) {
           int absX = x + debugDockPanel.getAbsoluteLeft();
@@ -356,6 +368,7 @@ public class DivLogger extends AbstractLogger {
         }
       }
 
+      @Override
       public void onMouseUp(Widget sender, int x, int y) {
         dragging = false;
         DOM.releaseCapture(titleLabel.getElement());
@@ -373,6 +386,7 @@ public class DivLogger extends AbstractLogger {
       private int dragStartX;
       private int dragStartY;
 
+      @Override
       public void onMouseDown(Widget sender, int x, int y) {
         dragging = true;
         DOM.setCapture(handle.getElement());
@@ -381,6 +395,7 @@ public class DivLogger extends AbstractLogger {
         DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
       }
 
+      @Override
       public void onMouseMove(Widget sender, int x, int y) {
         if (dragging) {
           scrollPanel.incrementPixelSize(x - dragStartX, y - dragStartY);
@@ -388,6 +403,7 @@ public class DivLogger extends AbstractLogger {
         }
       }
 
+      @Override
       public void onMouseUp(Widget sender, int x, int y) {
         dragging = false;
         DOM.releaseCapture(handle.getElement());

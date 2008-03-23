@@ -24,10 +24,12 @@ import com.allen_sauer.gwt.log.client.Log;
 public final class LogImplInfo extends LogImplBase {
   // CHECKSTYLE_JAVADOC_OFF
 
+  @Override
   public int getLowestLogLevel() {
     return Log.LOG_LEVEL_INFO;
   }
 
+  @Override
   public boolean isDebugEnabled() {
     return false;
   }

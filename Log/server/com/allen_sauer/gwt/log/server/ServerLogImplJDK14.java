@@ -33,58 +33,72 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
     logger.addHandler(consoleHandler);
   }
 
+  @Override
   public void clear() {
     // do nothing
   }
 
+  @Override
   public void debug(String message, Throwable e) {
     logger.log(Level.FINE, message, e);
   }
 
+  @Override
   public void diagnostic(String message, Throwable e) {
     logger.log(Level.SEVERE, message, e);
   }
 
+  @Override
   public void error(String message, Throwable e) {
     logger.log(Level.SEVERE, message, e);
   }
 
+  @Override
   public void fatal(String message, Throwable e) {
     logger.log(Level.SEVERE, message, e);
   }
 
+  @Override
   public int getCurrentLogLevel() {
     return logger.getLevel().intValue();
   }
 
+  @Override
   public void info(String message, Throwable e) {
     logger.log(Level.INFO, message, e);
   }
 
+  @Override
   public boolean isDebugEnabled() {
     return logger.getLevel().intValue() >= Level.FINE.intValue();
   }
 
+  @Override
   public boolean isErrorEnabled() {
     return logger.getLevel().intValue() >= Level.SEVERE.intValue();
   }
 
+  @Override
   public boolean isFatalEnabled() {
     return logger.getLevel().intValue() >= Level.SEVERE.intValue();
   }
 
+  @Override
   public boolean isInfoEnabled() {
     return logger.getLevel().intValue() >= Level.INFO.intValue();
   }
 
+  @Override
   public boolean isLoggingEnabled() {
     return logger.getLevel().intValue() >= Level.OFF.intValue();
   }
 
+  @Override
   public boolean isWarnEnabled() {
     return logger.getLevel().intValue() >= Level.WARNING.intValue();
   }
 
+  @Override
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     switch (gwtLogLevel) {
       case ServerSideLog.LOG_LEVEL_DEBUG:
@@ -104,14 +118,17 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
     }
   }
 
+  @Override
   public void setCurrentImplLogLevel(int level) {
     logger.setLevel(Level.parse("" + level));
   }
 
+  @Override
   public void warn(String message, Throwable e) {
     logger.log(Level.WARNING, message, e);
   }
 
+  @Override
   protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
     if (implLogLevel == Level.FINE.intValue()) {
       return ServerSideLog.LOG_LEVEL_DEBUG;

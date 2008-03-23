@@ -24,58 +24,72 @@ import org.apache.log4j.Logger;
 public final class ServerLogImplLog4J extends ServerLogImpl {
   private final Logger logger = Logger.getLogger("gwt-log");
 
+  @Override
   public void clear() {
     // do nothing
   }
 
+  @Override
   public void debug(String message, Throwable e) {
     logger.debug(message, e);
   }
 
+  @Override
   public void diagnostic(String message, Throwable e) {
     logger.fatal(message, e);
   }
 
+  @Override
   public void error(String message, Throwable e) {
     logger.error(message, e);
   }
 
+  @Override
   public void fatal(String message, Throwable e) {
     logger.fatal(message, e);
   }
 
+  @Override
   public int getCurrentLogLevel() {
     return logger.getEffectiveLevel().toInt();
   }
 
+  @Override
   public void info(String message, Throwable e) {
     logger.info(message, e);
   }
 
+  @Override
   public boolean isDebugEnabled() {
     return logger.isDebugEnabled();
   }
 
+  @Override
   public boolean isErrorEnabled() {
     return logger.getLevel().toInt() >= Level.ERROR_INT;
   }
 
+  @Override
   public boolean isFatalEnabled() {
     return logger.getLevel().toInt() >= Level.FATAL_INT;
   }
 
+  @Override
   public boolean isInfoEnabled() {
     return logger.getLevel().toInt() >= Level.INFO_INT;
   }
 
+  @Override
   public boolean isLoggingEnabled() {
     return logger.getLevel().toInt() >= Level.OFF_INT;
   }
 
+  @Override
   public boolean isWarnEnabled() {
     return logger.getLevel().toInt() >= Level.WARN_INT;
   }
 
+  @Override
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     // Identity mapping since gwt-log log4j levels have integer identity.
     switch (gwtLogLevel) {
@@ -91,14 +105,17 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
     }
   }
 
+  @Override
   public void setCurrentImplLogLevel(int level) {
     logger.setLevel(Level.toLevel(level));
   }
 
+  @Override
   public void warn(String message, Throwable e) {
     logger.warn(message, e);
   }
 
+  @Override
   protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
     // Identity mapping since gwt-log log4j levels have integer identity.
     switch (implLogLevel) {

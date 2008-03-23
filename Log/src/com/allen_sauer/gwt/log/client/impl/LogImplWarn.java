@@ -24,14 +24,17 @@ import com.allen_sauer.gwt.log.client.Log;
 public final class LogImplWarn extends LogImplBase {
   // CHECKSTYLE_JAVADOC_OFF
 
+  @Override
   public int getLowestLogLevel() {
     return Log.LOG_LEVEL_WARN;
   }
 
+  @Override
   public boolean isDebugEnabled() {
     return false;
   }
 
+  @Override
   public boolean isInfoEnabled() {
     return false;
   }
