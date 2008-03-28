@@ -15,8 +15,6 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-import com.google.gwt.core.client.GWT;
-
 import java.util.Date;
 
 //CHECKSTYLE_JAVADOC_OFF
@@ -65,7 +63,7 @@ public abstract class AbstractLogger implements Logger {
       text += "\n";
       while (throwable != null) {
         String text1 = "";
-        text1 += GWT.getTypeName(throwable) + ":\n" + throwable.getMessage() + "\n";
+        text1 += throwable.getClass().getName() + ":\n" + throwable.getMessage() + "\n";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         for (StackTraceElement element : stackTraceElements) {
           text1 += "    at " + element + "\n";

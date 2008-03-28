@@ -28,7 +28,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 public final class RemoteLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
-  private AsyncCallback callback;
+  private AsyncCallback<Object> callback;
   private RuntimeException failure;
   private RemoteLoggerServiceAsync service;
 
@@ -37,12 +37,12 @@ public final class RemoteLogger extends AbstractLogger {
     final ServiceDefTarget target = (ServiceDefTarget) service;
     target.setServiceEntryPoint(GWT.getModuleBaseURL() + "gwt-log");
 
-    callback = new AsyncCallback() {
+    callback = new AsyncCallback<Object>() {
       public void onFailure(Throwable ex) {
         if (failure == null) {
           failure = new RuntimeException(
               "Remote logging will be suspended due to communication failure with "
-                  + GWT.getTypeName(service) + " at " + target.getServiceEntryPoint(), ex);
+                  + service.getClass().getName() + " at " + target.getServiceEntryPoint(), ex);
         }
       }
 

@@ -232,7 +232,7 @@ public class DivLogger extends AbstractLogger {
     if (throwable != null) {
       text += "\n";
       while (throwable != null) {
-        text += GWT.getTypeName(throwable) + ":<br><b>" + throwable.getMessage() + "</b>";
+        text += throwable.getClass().getName() + ":<br><b>" + throwable.getMessage() + "</b>";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         if (stackTraceElements.length > 0) {
           text += "<div class='log-stacktrace'>";
@@ -415,10 +415,10 @@ public class DivLogger extends AbstractLogger {
   private String makeTitle(String message, Throwable throwable) {
     if (throwable != null) {
       if (throwable.getMessage() == null) {
-        message = GWT.getTypeName(throwable);
+        message = throwable.getClass().getName();
       } else {
         message = throwable.getMessage().replaceAll(
-            GWT.getTypeName(throwable).replaceAll("^(.+\\.).+$", "$1"), "");
+            throwable.getClass().getName().replaceAll("^(.+\\.).+$", "$1"), "");
       }
     }
     return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(

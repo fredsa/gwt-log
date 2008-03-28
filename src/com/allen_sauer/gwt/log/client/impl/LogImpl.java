@@ -52,7 +52,7 @@ public abstract class LogImpl {
     return LogUtil.levelToString(getCurrentLogLevel());
   }
 
-  public abstract Logger getLogger(Class clazz);
+  public abstract <T extends Logger> T getLogger(Class<T> clazz);
 
   public abstract ConsoleLogger getLoggerConsole();
 

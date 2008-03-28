@@ -342,7 +342,7 @@ public final class Log {
    * @param clazz the class of the desired logger
    * @return the desired logger instance or <code>null</code> if no such longer exists
    */
-  public static Logger getLogger(Class clazz) {
+  public static <T extends Logger> T getLogger(Class<T> clazz) {
     return impl.getLogger(clazz);
   }
 
