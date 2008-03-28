@@ -102,7 +102,7 @@ public abstract class LogImplBase extends LogImpl {
 
   private int currentLogLevel = getLowestLogLevel();
 
-  private ArrayList loggers = new ArrayList();
+  private ArrayList<Logger> loggers = new ArrayList<Logger>();
 
   public LogImplBase() {
   }
@@ -116,13 +116,13 @@ public abstract class LogImplBase extends LogImpl {
 
   @Override
   public final void clear() {
-    for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = (Logger) iterator.next();
+    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = iterator.next();
       try {
         logger.clear();
       } catch (RuntimeException e1) {
         iterator.remove();
-        diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
       }
     }
   }
@@ -138,13 +138,14 @@ public abstract class LogImplBase extends LogImpl {
   public final void debug(String message, Throwable e) {
     if (isDebugEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_DEBUG), message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
+      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+        Logger logger = iterator.next();
         try {
           logger.debug(message, e);
         } catch (RuntimeException e1) {
           iterator.remove();
-          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
+              e1);
         }
       }
     }
@@ -155,13 +156,14 @@ public abstract class LogImplBase extends LogImpl {
     final String msg = format(toPrefix("gwt-log"), message);
     DeferredCommand.addCommand(new Command() {
       public void execute() {
-        for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-          Logger logger = (Logger) iterator.next();
+        for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+          Logger logger = iterator.next();
           try {
             logger.diagnostic(msg, e);
           } catch (RuntimeException e1) {
             iterator.remove();
-            diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+            diagnostic(
+                "Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
           }
         }
       }
@@ -179,13 +181,14 @@ public abstract class LogImplBase extends LogImpl {
   public final void error(String message, Throwable e) {
     if (isErrorEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_ERROR), message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
+      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+        Logger logger = iterator.next();
         try {
           logger.error(message, e);
         } catch (RuntimeException e1) {
           iterator.remove();
-          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
+              e1);
         }
       }
     }
@@ -202,13 +205,14 @@ public abstract class LogImplBase extends LogImpl {
   public final void fatal(String message, Throwable e) {
     if (isFatalEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_FATAL), message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
+      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+        Logger logger = iterator.next();
         try {
           logger.fatal(message, e);
         } catch (RuntimeException e1) {
           iterator.remove();
-          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
+              e1);
         }
       }
     }
@@ -220,13 +224,12 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   @Override
-  public final Logger getLogger(Class clazz) {
+  public final <T extends Logger> T getLogger(Class<T> clazz) {
     // TODO Replace string comparisons with Class expressions in GWT 1.5
     String className = clazz.toString().replaceAll(".* ", "");
-    for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = (Logger) iterator.next();
-      if (GWT.getTypeName(logger).equals(className)) {
-        return logger;
+    for (Logger logger : loggers) {
+      if (logger.getClass().getName().equals(className)) {
+        return (T) logger;
       }
     }
     return null;
@@ -234,27 +237,27 @@ public abstract class LogImplBase extends LogImpl {
 
   @Override
   public final ConsoleLogger getLoggerConsole() {
-    return (ConsoleLogger) getLogger(ConsoleLogger.class);
+    return getLogger(ConsoleLogger.class);
   }
 
   @Override
   public final DivLogger getLoggerDiv() {
-    return (DivLogger) getLogger(DivLogger.class);
+    return getLogger(DivLogger.class);
   }
 
   @Override
   public final FirebugLogger getLoggerFirebug() {
-    return (FirebugLogger) getLogger(FirebugLogger.class);
+    return getLogger(FirebugLogger.class);
   }
 
   @Override
   public final GWTLogger getLoggerGWT() {
-    return (GWTLogger) getLogger(GWTLogger.class);
+    return getLogger(GWTLogger.class);
   }
 
   @Override
   public final SystemLogger getLoggerSystem() {
-    return (SystemLogger) getLogger(SystemLogger.class);
+    return getLogger(SystemLogger.class);
   }
 
   @Override
@@ -268,13 +271,14 @@ public abstract class LogImplBase extends LogImpl {
   public final void info(String message, Throwable e) {
     if (isInfoEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_INFO), message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
+      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+        Logger logger = iterator.next();
         try {
           logger.info(message, e);
         } catch (RuntimeException e1) {
           iterator.remove();
-          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
+              e1);
         }
       }
     }
@@ -351,13 +355,13 @@ public abstract class LogImplBase extends LogImpl {
       level = getLowestLogLevel();
     }
 
-    for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = (Logger) iterator.next();
+    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = iterator.next();
       try {
         logger.setCurrentLogLevel(level);
       } catch (RuntimeException e1) {
         iterator.remove();
-        diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
       }
     }
 
@@ -390,13 +394,14 @@ public abstract class LogImplBase extends LogImpl {
   public final void warn(String message, Throwable e) {
     if (isWarnEnabled()) {
       message = format(toPrefix(LOG_LEVEL_TEXT_WARN), message);
-      for (Iterator iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = (Logger) iterator.next();
+      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+        Logger logger = iterator.next();
         try {
           logger.warn(message, e);
         } catch (RuntimeException e1) {
           iterator.remove();
-          diagnostic("Removing '" + GWT.getTypeName(logger) + "' due to unexecpted exception", e1);
+          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
+              e1);
         }
       }
     }

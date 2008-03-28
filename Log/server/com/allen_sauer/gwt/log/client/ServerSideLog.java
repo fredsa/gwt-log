@@ -132,7 +132,7 @@ public final class ServerSideLog {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static ServerSideLogger getLogger(Class clazz) {
+  public static ServerSideLogger getLogger(Class<?> clazz) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 

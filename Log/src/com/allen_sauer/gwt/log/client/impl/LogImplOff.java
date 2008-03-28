@@ -73,7 +73,7 @@ public final class LogImplOff extends LogImpl {
   }
 
   @Override
-  public Logger getLogger(Class clazz) {
+  public <T extends Logger> T getLogger(Class<T> clazz) {
     return null;
   }
 
