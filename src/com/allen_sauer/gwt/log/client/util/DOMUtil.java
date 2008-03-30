@@ -25,6 +25,7 @@ import com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl;
  * Provides DOM utility methods.
  */
 public class DOMUtil {
+  // CHECKSTYLE_JAVADOC_OFF
   private static DOMUtilImpl impl;
 
   static {
@@ -43,25 +44,25 @@ public class DOMUtil {
     return impl.adjustTitleLineBreaks(title);
   }
 
-  public native static void documentWrite(JavaScriptObject w, String html)
+  public static native void documentWrite(JavaScriptObject w, String html)
       throws JavaScriptException
   /*-{
     w.document.write(html);
   }-*/;
 
-  public native static void windowClear(JavaScriptObject w)
+  public static native void windowClear(JavaScriptObject w)
   /*-{
     w.document.body.innerHTML = "";
   }-*/;
 
-  public native static JavaScriptObject windowOpen(String features)
+  public static native JavaScriptObject windowOpen(String features)
   /*-{
     var w = $wnd.open("", "_blank", features);
     $wnd.focus();
     return w;
   }-*/;
 
-  public native static String windowReadyState(JavaScriptObject w)
+  public static native String windowReadyState(JavaScriptObject w)
   /*-{
     return w.document.readyState;
   }-*/;

@@ -340,6 +340,7 @@ public final class Log {
 
   /**
    * @param clazz the class of the desired logger
+   * @param <T> the desired type of the {@link Logger}
    * @return the desired logger instance or <code>null</code> if no such longer exists
    */
   public static <T extends Logger> T getLogger(Class<T> clazz) {

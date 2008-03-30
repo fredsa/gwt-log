@@ -22,6 +22,7 @@ import com.allen_sauer.gwt.log.client.RemoteLoggerService;
 
 // CHECKSTYLE_JAVADOC_OFF
 
+@SuppressWarnings("serial")
 public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements RemoteLoggerService {
   public final void debug(String message, Throwable ex) {
     try {
