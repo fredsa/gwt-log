@@ -223,12 +223,11 @@ public abstract class LogImplBase extends LogImpl {
     return currentLogLevel;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public final <T extends Logger> T getLogger(Class<T> clazz) {
-    // TODO Replace string comparisons with Class expressions in GWT 1.5
-    String className = clazz.toString().replaceAll(".* ", "");
     for (Logger logger : loggers) {
-      if (logger.getClass().getName().equals(className)) {
+      if (logger.getClass() == clazz) {
         return (T) logger;
       }
     }
