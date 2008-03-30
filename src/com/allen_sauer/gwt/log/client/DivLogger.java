@@ -26,7 +26,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -304,7 +303,7 @@ public class DivLogger extends AbstractLogger {
       buttonPanel.add(levelButtons[i]);
       levelButtons[i].addClickListener(new ClickListener() {
         public void onClick(Widget sender) {
-          ((FocusWidget) sender).setFocus(false);
+          ((Button) sender).setFocus(false);
           Log.setCurrentLogLevel(level);
         }
       });
@@ -315,7 +314,7 @@ public class DivLogger extends AbstractLogger {
     DOM.setStyleAttribute(clearButton.getElement(), "color", "#00c");
     clearButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
-        ((FocusWidget) sender).setFocus(false);
+        ((Button) sender).setFocus(false);
         Log.clear();
       }
     });
@@ -325,7 +324,7 @@ public class DivLogger extends AbstractLogger {
     aboutButton.addStyleName("log-clear-about");
     aboutButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
-        ((FocusWidget) sender).setFocus(false);
+        ((Button) sender).setFocus(false);
 
         // TODO Add GWT.getVersion() after 1.5
         Log.diagnostic("\n" //
