@@ -19,14 +19,15 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.RemoteLoggerService;
+import com.allen_sauer.gwt.log.client.WrappedClientThrowable;
 
 // CHECKSTYLE_JAVADOC_OFF
 
 @SuppressWarnings("serial")
 public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements RemoteLoggerService {
-  public final void debug(String message, Throwable ex) {
+  public final void debug(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.debug(message, ex);
+      Log.debug(message, new UnwrappedClientThrowable(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
@@ -37,45 +38,45 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
    * @deprecated For internal gwt-log use only.
    */
   @Deprecated
-  public final void diagnostic(String message, Throwable ex) {
+  public final void diagnostic(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.diagnostic(message, ex);
+      Log.diagnostic(message, new UnwrappedClientThrowable(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
     }
   }
 
-  public final void error(String message, Throwable ex) {
+  public final void error(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.error(message, ex);
+      Log.error(message, new UnwrappedClientThrowable(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
     }
   }
 
-  public final void fatal(String message, Throwable ex) {
+  public final void fatal(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.fatal(message, ex);
+      Log.fatal(message, new UnwrappedClientThrowable(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
     }
   }
 
-  public final void info(String message, Throwable ex) {
+  public final void info(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.info(message, ex);
+      Log.info(message, new UnwrappedClientThrowable(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
     }
   }
 
-  public final void warn(String message, Throwable ex) {
+  public final void warn(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.warn(message, ex);
+      Log.warn(message, new UnwrappedClientThrowable(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();

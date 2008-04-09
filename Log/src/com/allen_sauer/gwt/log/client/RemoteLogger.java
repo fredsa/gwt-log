@@ -28,9 +28,9 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 public final class RemoteLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
-  private AsyncCallback<Object> callback;
+  private final AsyncCallback<Object> callback;
   private RuntimeException failure;
-  private RemoteLoggerServiceAsync service;
+  private final RemoteLoggerServiceAsync service;
 
   public RemoteLogger() {
     service = (RemoteLoggerServiceAsync) GWT.create(RemoteLoggerService.class);
@@ -56,7 +56,7 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.debug(message, throwable, callback);
+    service.debug(message, new WrappedClientThrowable(throwable), callback);
   }
 
   @Override
@@ -64,7 +64,7 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.diagnostic(message, throwable, callback);
+    service.diagnostic(message, new WrappedClientThrowable(throwable), callback);
   }
 
   @Override
@@ -72,7 +72,7 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.error(message, throwable, callback);
+    service.error(message, new WrappedClientThrowable(throwable), callback);
   }
 
   @Override
@@ -80,7 +80,7 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.fatal(message, throwable, callback);
+    service.fatal(message, new WrappedClientThrowable(throwable), callback);
   }
 
   @Override
@@ -88,7 +88,7 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.info(message, throwable, callback);
+    service.info(message, new WrappedClientThrowable(throwable), callback);
   }
 
   public boolean isSupported() {
@@ -100,7 +100,7 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.warn(message, throwable, callback);
+    service.warn(message, new WrappedClientThrowable(throwable), callback);
   }
 
   @Override

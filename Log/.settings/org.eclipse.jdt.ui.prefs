@@ -1,4 +1,4 @@
-#Tue Apr 01 20:10:02 MDT 2008
+#Mon Apr 07 19:55:34 MDT 2008
 eclipse.preferences.version=1
 editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
 sp_cleanup.add_default_serial_version_id=true
@@ -13,7 +13,7 @@ sp_cleanup.always_use_parentheses_in_expressions=false
 sp_cleanup.always_use_this_for_non_static_field_access=false
 sp_cleanup.always_use_this_for_non_static_method_access=false
 sp_cleanup.convert_to_enhanced_for_loop=false
-sp_cleanup.format_source_code=false
+sp_cleanup.format_source_code=true
 sp_cleanup.make_local_variable_final=false
 sp_cleanup.make_parameters_final=false
 sp_cleanup.make_private_fields_final=true
