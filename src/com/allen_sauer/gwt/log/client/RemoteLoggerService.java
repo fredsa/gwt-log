@@ -19,19 +19,19 @@ import com.google.gwt.user.client.rpc.RemoteService;
 
 // CHECKSTYLE_JAVADOC_OFF
 public interface RemoteLoggerService extends RemoteService {
-  void debug(String message, Throwable ex);
+  void debug(String message, WrappedClientThrowable ex);
 
   /**
    * @deprecated For internal gwt-log use only.
    */
   @Deprecated
-  void diagnostic(String message, Throwable ex);
+  void diagnostic(String message, WrappedClientThrowable ex);
 
-  void error(String message, Throwable ex);
+  void error(String message, WrappedClientThrowable ex);
 
-  void fatal(String message, Throwable ex);
+  void fatal(String message, WrappedClientThrowable ex);
 
-  void info(String message, Throwable ex);
+  void info(String message, WrappedClientThrowable ex);
 
-  void warn(String message, Throwable ex);
+  void warn(String message, WrappedClientThrowable ex);
 }

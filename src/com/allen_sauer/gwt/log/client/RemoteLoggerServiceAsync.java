@@ -19,15 +19,15 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // CHECKSTYLE_JAVADOC_OFF
 public interface RemoteLoggerServiceAsync {
-  void debug(String message, Throwable ex, AsyncCallback<Object> callback);
+  void debug(String message, WrappedClientThrowable ex, AsyncCallback<Object> callback);
 
-  void diagnostic(String message, Throwable throwable, AsyncCallback<Object> callback);
+  void diagnostic(String message, WrappedClientThrowable throwable, AsyncCallback<Object> callback);
 
-  void error(String message, Throwable ex, AsyncCallback<Object> callback);
+  void error(String message, WrappedClientThrowable ex, AsyncCallback<Object> callback);
 
-  void fatal(String message, Throwable ex, AsyncCallback<Object> callback);
+  void fatal(String message, WrappedClientThrowable ex, AsyncCallback<Object> callback);
 
-  void info(String message, Throwable ex, AsyncCallback<Object> callback);
+  void info(String message, WrappedClientThrowable ex, AsyncCallback<Object> callback);
 
-  void warn(String message, Throwable ex, AsyncCallback<Object> callback);
+  void warn(String message, WrappedClientThrowable ex, AsyncCallback<Object> callback);
 }
