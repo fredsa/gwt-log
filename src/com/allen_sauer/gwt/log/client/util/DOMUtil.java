@@ -44,12 +44,6 @@ public class DOMUtil {
     return impl.adjustTitleLineBreaks(title);
   }
 
-  public static native void documentWrite(JavaScriptObject w, String html)
-      throws JavaScriptException
-  /*-{
-    w.document.write(html);
-  }-*/;
-
   public static native void windowClear(JavaScriptObject w)
   /*-{
     w.document.body.innerHTML = "";
@@ -65,5 +59,18 @@ public class DOMUtil {
   public static native String windowReadyState(JavaScriptObject w)
   /*-{
     return w.document.readyState;
+  }-*/;
+
+  public static native String windowSetTitle(JavaScriptObject w, String title)
+  /*-{
+    w.document.title = title;
+  }-*/;
+
+  public static native void windowWrapAndAppendHTML(JavaScriptObject w, String html)
+      throws JavaScriptException
+  /*-{
+    var div = w.document.createElement('div');
+    div.innerHTML = html;
+    w.document.body.appendChild(div);
   }-*/;
 }

@@ -18,6 +18,7 @@ package com.allen_sauer.gwt.log.client;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 
 import com.allen_sauer.gwt.log.client.util.DOMUtil;
 
@@ -91,12 +92,12 @@ public class WindowLogger extends AbstractLogger {
     logText += debugText;
     if (ready) {
       try {
-        DOMUtil.documentWrite(window, debugText);
+        DOMUtil.windowWrapAndAppendHTML(window, debugText);
         logText = "";
       } catch (JavaScriptException e) {
         window = null;
         init();
-        DOMUtil.documentWrite(window, debugText);
+        DOMUtil.windowWrapAndAppendHTML(window, debugText);
         logText = "";
       }
     }
@@ -149,6 +150,7 @@ public class WindowLogger extends AbstractLogger {
       public void run() {
         try {
           if (counter++ > 100 || "complete".equals(DOMUtil.windowReadyState(window))) {
+            DOMUtil.windowSetTitle(window, "[log] " + Window.getTitle());
             ready = true;
             cancel();
           }
