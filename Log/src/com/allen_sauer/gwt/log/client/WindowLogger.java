@@ -24,6 +24,8 @@ import com.allen_sauer.gwt.log.client.util.DOMUtil;
 
 /**
  * Logger which outputs to a draggable floating <code>DIV</code>.
+ * 
+ * TODO Fix lack of upates when Firefox is configured to force new windows to open as tabs
  */
 public class WindowLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
