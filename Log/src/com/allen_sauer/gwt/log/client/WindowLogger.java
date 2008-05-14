@@ -110,14 +110,7 @@ public class WindowLogger extends AbstractLogger {
     if (window == null) {
       openNewWindow();
     }
-    if (ready) {
-      try {
-        DOMUtil.windowWrapAndAppendHTML(window, logText);
-        logText = "";
-      } catch (JavaScriptException e) {
-        openNewWindow();
-      }
-    }
+    logPendingText();
   }
 
   private void closeWindowIfOpen() {
@@ -147,6 +140,17 @@ public class WindowLogger extends AbstractLogger {
     return "#20b000"; // green
   }
 
+  private void logPendingText() {
+    if (ready) {
+      try {
+        DOMUtil.windowWrapAndAppendHTML(window, logText);
+        logText = "";
+      } catch (JavaScriptException e) {
+        openNewWindow();
+      }
+    }
+  }
+
   private String makeTitle(String message, Throwable throwable) {
     if (throwable != null) {
       if (throwable.getMessage() == null) {
@@ -173,6 +177,7 @@ public class WindowLogger extends AbstractLogger {
             DOMUtil.windowSetTitle(window, "[log] " + Window.getTitle());
             ready = true;
             cancel();
+            logPendingText();
           }
         } catch (RuntimeException e) {
           window = null;
