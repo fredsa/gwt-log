@@ -56,11 +56,12 @@ public class InteractiveDemoPanel extends AbsolutePanel {
 
   private static final String[] levelTexts = {"DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF",};
 
-  private Button clinitButtonFatal;
-  private Button jsniCatchButtonFatal;
-  private Button jsniNoCatchButtonFatal;
-  private Button messageButtons[] = new Button[levels.length - 1];
-  private Button npeButtonFatal;
+  private final Button clinitButtonFatal;
+  private final Button jsniCatchButtonFatal;
+  private final Button jsniNoCatchButtonFatal;
+  private final Button messageButtons[] = new Button[levels.length - 1];
+  private final Button npeButtonFatal;
+  private final Button nullButtonDebug;
 
   /**
    * Default constructor.
@@ -133,6 +134,14 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       }
     });
 
+    nullButtonDebug = new Button("Log.debug(null)");
+    add(nullButtonDebug);
+    nullButtonDebug.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        Log.debug(null);
+      }
+    });
+
     add(new HTML("<BR>"));
     add(new HTML("Clear log output (on supported destinations):"));
 
@@ -199,7 +208,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
    * Initialize the location and contents of the DivLogger after a short delay.
    */
   private void initDivLogger() {
-    final DivLogger divLogger = (DivLogger) Log.getLogger(DivLogger.class);
+    final DivLogger divLogger = Log.getLogger(DivLogger.class);
     divLogger.moveTo(10, 10);
     new Timer() {
       @Override
