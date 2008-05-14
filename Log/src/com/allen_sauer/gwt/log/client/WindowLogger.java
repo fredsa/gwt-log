@@ -122,6 +122,7 @@ public class WindowLogger extends AbstractLogger {
 
   private void closeWindowIfOpen() {
     if (window != null) {
+      ready = false;
       DOMUtil.windowClose(window);
       window = null;
     }
