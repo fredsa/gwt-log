@@ -19,6 +19,7 @@ import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.WindowCloseListener;
 
 import com.allen_sauer.gwt.log.client.util.DOMUtil;
 
@@ -37,17 +38,31 @@ public class WindowLogger extends AbstractLogger {
   private boolean ready = false;
   private JavaScriptObject window = null;
 
+  private final WindowCloseListener windowCloseListener = new WindowCloseListener() {
+    public void onWindowClosed() {
+      closeWindowIfOpen();
+    }
+
+    public String onWindowClosing() {
+      return null;
+    }
+  };
+
   /**
    * Default constructor.
    */
   public WindowLogger() {
-    init();
+    Window.addWindowCloseListener(windowCloseListener);
   }
 
   @Override
   public final void clear() {
     if (ready) {
-      DOMUtil.windowClear(window);
+      try {
+        DOMUtil.windowClear(window);
+      } catch (RuntimeException e) {
+        // ignore
+      }
     }
   }
 
@@ -92,16 +107,23 @@ public class WindowLogger extends AbstractLogger {
 
   private void addLogText(String debugText) {
     logText += debugText;
+    if (window == null) {
+      openNewWindow();
+    }
     if (ready) {
       try {
-        DOMUtil.windowWrapAndAppendHTML(window, debugText);
+        DOMUtil.windowWrapAndAppendHTML(window, logText);
         logText = "";
       } catch (JavaScriptException e) {
-        window = null;
-        init();
-        DOMUtil.windowWrapAndAppendHTML(window, debugText);
-        logText = "";
+        openNewWindow();
       }
+    }
+  }
+
+  private void closeWindowIfOpen() {
+    if (window != null) {
+      DOMUtil.windowClose(window);
+      window = null;
     }
   }
 
@@ -124,12 +146,6 @@ public class WindowLogger extends AbstractLogger {
     return "#20b000"; // green
   }
 
-  private void init() {
-    if (window == null) {
-      newWindow();
-    }
-  }
-
   private String makeTitle(String message, Throwable throwable) {
     if (throwable != null) {
       if (throwable.getMessage() == null) {
@@ -143,7 +159,8 @@ public class WindowLogger extends AbstractLogger {
         "'", "\"");
   }
 
-  private void newWindow() {
+  private void openNewWindow() {
+    closeWindowIfOpen();
     window = DOMUtil.windowOpen("");
     new Timer() {
       int counter = 0;

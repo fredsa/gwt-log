@@ -49,6 +49,11 @@ public class DOMUtil {
     w.document.body.innerHTML = "";
   }-*/;
 
+  public static native void windowClose(JavaScriptObject window)
+  /*-{
+    window.close();
+  }-*/;
+
   public static native JavaScriptObject windowOpen(String features)
   /*-{
     var w = $wnd.open("", "_blank", features);
