@@ -67,6 +67,9 @@ public abstract class LogImplBase extends LogImpl {
    * TODO move the message formatting and addition of log level prefix(es) to the Loggers as it really doesn't belong here
    */
   private static String format(String prefix, String message) {
+    if (message == null) {
+      message = "<null message>";
+    }
     return prefix + " " + message.replaceAll("\n", "\n" + prefix + " ");
   }
 
@@ -102,7 +105,7 @@ public abstract class LogImplBase extends LogImpl {
 
   private int currentLogLevel = getLowestLogLevel();
 
-  private ArrayList<Logger> loggers = new ArrayList<Logger>();
+  private final ArrayList<Logger> loggers = new ArrayList<Logger>();
 
   public LogImplBase() {
   }
