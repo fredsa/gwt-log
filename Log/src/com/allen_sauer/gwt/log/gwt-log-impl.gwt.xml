@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module SYSTEM "gwt-module.dtd">
 <!-- 
   Copyright 2008 Fred Sauer
   
@@ -51,7 +53,7 @@
       }
        
       if (!__gwt_isKnownPropertyValue("log_level", log_level)) {
-        var defaults = ["OFF", "FATAL", "ERROR", "WARN", "INFO", "DEBUG"];
+        var defaults = ["OFF", "FATAL", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"];
         for (i in defaults) {
           if (__gwt_isKnownPropertyValue("log_level", defaults[i])) {
             log_level = defaults[i];
@@ -152,6 +154,11 @@
 
 
   <!--  Log level dependent implementations -->
+
+  <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplTrace">
+    <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
+    <when-property-is name="log_level" value="TRACE" />
+  </replace-with>
 
   <replace-with class="com.allen_sauer.gwt.log.client.impl.LogImplDebug">
     <when-type-is class="com.allen_sauer.gwt.log.client.impl.LogImpl" />
