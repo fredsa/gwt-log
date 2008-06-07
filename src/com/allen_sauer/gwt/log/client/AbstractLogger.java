@@ -47,6 +47,10 @@ public abstract class AbstractLogger implements Logger {
   public void setCurrentLogLevel(int level) {
   }
 
+  public void trace(String message, Throwable throwable) {
+    log(Log.LOG_LEVEL_TRACE, message, throwable);
+  }
+
   public final void warn(String message) {
     warn(message, null);
   }

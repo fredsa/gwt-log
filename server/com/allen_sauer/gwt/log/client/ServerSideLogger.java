@@ -29,5 +29,7 @@ public interface ServerSideLogger {
 
   boolean isSupported();
 
+  void trace(String message, Throwable throwable);
+
   void warn(String message, Throwable throwable);
 }

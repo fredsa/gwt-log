@@ -85,6 +85,11 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
   }
 
   @Override
+  public boolean isTraceEnabled() {
+    return logger.isTraceEnabled();
+  }
+
+  @Override
   public boolean isWarnEnabled() {
     return logger.getLevel().toInt() >= Level.WARN_INT;
   }
@@ -93,6 +98,7 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     // Identity mapping since gwt-log log4j levels have integer identity.
     switch (gwtLogLevel) {
+      case ServerSideLog.LOG_LEVEL_TRACE:
       case ServerSideLog.LOG_LEVEL_DEBUG:
       case ServerSideLog.LOG_LEVEL_INFO:
       case ServerSideLog.LOG_LEVEL_WARN:
@@ -111,6 +117,11 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
   }
 
   @Override
+  public void trace(String message, Throwable e) {
+    logger.trace(message, e);
+  }
+
+  @Override
   public void warn(String message, Throwable e) {
     logger.warn(message, e);
   }
@@ -119,6 +130,7 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
   protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
     // Identity mapping since gwt-log log4j levels have integer identity.
     switch (implLogLevel) {
+      case Level.TRACE_INT:
       case Level.DEBUG_INT:
       case Level.INFO_INT:
       case Level.WARN_INT:

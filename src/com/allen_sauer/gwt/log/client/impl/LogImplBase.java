@@ -44,7 +44,6 @@ public abstract class LogImplBase extends LogImpl {
   // CHECKSTYLE_JAVADOC_OFF
 
   static final String LOG_LEVEL_TEXT_DEBUG = LogUtil.levelToString(Log.LOG_LEVEL_DEBUG);
-
   static final String LOG_LEVEL_TEXT_ERROR = LogUtil.levelToString(Log.LOG_LEVEL_ERROR);
 
   static final String LOG_LEVEL_TEXT_FATAL = LogUtil.levelToString(Log.LOG_LEVEL_FATAL);
@@ -52,6 +51,8 @@ public abstract class LogImplBase extends LogImpl {
   static final String LOG_LEVEL_TEXT_INFO = LogUtil.levelToString(Log.LOG_LEVEL_INFO);
 
   static final String LOG_LEVEL_TEXT_OFF = LogUtil.levelToString(Log.LOG_LEVEL_OFF);
+
+  static final String LOG_LEVEL_TEXT_TRACE = LogUtil.levelToString(Log.LOG_LEVEL_TRACE);
 
   static final String LOG_LEVEL_TEXT_WARN = LogUtil.levelToString(Log.LOG_LEVEL_WARN);
 
@@ -345,6 +346,12 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   @Override
+  public boolean isTraceEnabled() {
+    return getLowestLogLevel() <= Log.LOG_LEVEL_TRACE
+        && getCurrentLogLevel() <= Log.LOG_LEVEL_TRACE;
+  }
+
+  @Override
   public boolean isWarnEnabled() {
     return getLowestLogLevel() <= Log.LOG_LEVEL_WARN && getCurrentLogLevel() <= Log.LOG_LEVEL_WARN;
   }
@@ -383,6 +390,30 @@ public abstract class LogImplBase extends LogImpl {
         Log.fatal("Uncaught Exception:", e);
       }
     });
+  }
+
+  @Override
+  public final void trace(String message, JavaScriptObject e) {
+    if (isTraceEnabled()) {
+      trace(message, convertJavaScriptObjectToException(e));
+    }
+  }
+
+  @Override
+  public final void trace(String message, Throwable e) {
+    if (isTraceEnabled()) {
+      message = format(toPrefix(LOG_LEVEL_TEXT_TRACE), message);
+      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+        Logger logger = iterator.next();
+        try {
+          logger.trace(message, e);
+        } catch (RuntimeException e1) {
+          iterator.remove();
+          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
+              e1);
+        }
+      }
+    }
   }
 
   @Override

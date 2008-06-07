@@ -7,6 +7,7 @@ import com.allen_sauer.gwt.log.client.ServerSideLog;
 
 public class LogDemoServerSide {
   public static void main(String[] args) {
+    ServerSideLog.trace("Trace test message");
     ServerSideLog.debug("Debug test message");
     ServerSideLog.info("Informational test message");
     ServerSideLog.warn("Warning test message");

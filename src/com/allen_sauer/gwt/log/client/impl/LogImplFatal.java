@@ -45,6 +45,11 @@ public final class LogImplFatal extends LogImplBase {
   }
 
   @Override
+  public boolean isTraceEnabled() {
+    return false;
+  }
+
+  @Override
   public boolean isWarnEnabled() {
     return false;
   }

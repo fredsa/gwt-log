@@ -105,8 +105,8 @@ public class WindowLogger extends AbstractLogger {
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
   }
 
-  private void addLogText(String debugText) {
-    logText += debugText;
+  private void addLogText(String text) {
+    logText += text;
     if (window == null) {
       openNewWindow();
     }

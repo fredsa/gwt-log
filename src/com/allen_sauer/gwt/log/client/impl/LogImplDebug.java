@@ -28,4 +28,9 @@ public final class LogImplDebug extends LogImplBase {
   public int getLowestLogLevel() {
     return Log.LOG_LEVEL_DEBUG;
   }
+
+  @Override
+  public boolean isTraceEnabled() {
+    return false;
+  }
 }

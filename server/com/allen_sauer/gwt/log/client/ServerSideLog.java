@@ -29,6 +29,7 @@ public final class ServerSideLog {
   public static final int LOG_LEVEL_FATAL = 50000;
   public static final int LOG_LEVEL_INFO = 20000;
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
+  public static final int LOG_LEVEL_TRACE = 5000;
   public static final int LOG_LEVEL_WARN = 30000;
 
   private static ServerLogImpl impl;
@@ -137,7 +138,7 @@ public final class ServerSideLog {
   }
 
   public static int getLowestLogLevel() {
-    return LOG_LEVEL_DEBUG;
+    return LOG_LEVEL_TRACE;
   }
 
   public static String getLowestLogLevelString() {
@@ -185,6 +186,10 @@ public final class ServerSideLog {
     return impl.isLoggingEnabled();
   }
 
+  public static boolean isTraceEnabled() {
+    return impl.isTraceEnabled();
+  }
+
   public static boolean isWarnEnabled() {
     return impl.isWarnEnabled();
   }
@@ -195,6 +200,18 @@ public final class ServerSideLog {
 
   public static void setUncaughtExceptionHandler() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void trace(String message) {
+    debug(message, (Throwable) null);
+  }
+
+  public static void trace(String message, JavaScriptObject e) {
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void trace(String message, Throwable e) {
+    impl.debug(message, e);
   }
 
   public static void warn(String message) {

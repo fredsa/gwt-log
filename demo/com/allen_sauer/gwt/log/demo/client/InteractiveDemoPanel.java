@@ -51,10 +51,11 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   private static final String CSS_NOOP = "noop";
 
   private static final int[] levels = {
-      Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN, Log.LOG_LEVEL_ERROR,
-      Log.LOG_LEVEL_FATAL, Log.LOG_LEVEL_OFF,};
+      Log.LOG_LEVEL_TRACE, Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN,
+      Log.LOG_LEVEL_ERROR, Log.LOG_LEVEL_FATAL, Log.LOG_LEVEL_OFF,};
 
-  private static final String[] levelTexts = {"DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF",};
+  private static final String[] levelTexts = {
+      "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF",};
 
   private final Button clinitButtonFatal;
   private final Button jsniCatchButtonFatal;
@@ -78,6 +79,9 @@ public class InteractiveDemoPanel extends AbsolutePanel {
         public void onClick(Widget sender) {
           String msg = "This is a '" + levelString + "' test message";
           switch (level) {
+            case Log.LOG_LEVEL_TRACE:
+              Log.trace(msg);
+              break;
             case Log.LOG_LEVEL_DEBUG:
               Log.debug(msg);
               break;

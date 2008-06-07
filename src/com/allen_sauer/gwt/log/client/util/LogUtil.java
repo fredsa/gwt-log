@@ -28,10 +28,13 @@ public class LogUtil {
   private static final String LOG_LEVEL_TEXT_FATAL = "FATAL";
   private static final String LOG_LEVEL_TEXT_INFO = "INFO";
   private static final String LOG_LEVEL_TEXT_OFF = "OFF";
+  private static final String LOG_LEVEL_TEXT_TRACE = "TRACE";
   private static final String LOG_LEVEL_TEXT_WARN = "WARN";
 
   public static String levelToString(int level) {
     switch (level) {
+      case Log.LOG_LEVEL_TRACE:
+        return LOG_LEVEL_TEXT_TRACE;
       case Log.LOG_LEVEL_DEBUG:
         return LOG_LEVEL_TEXT_DEBUG;
       case Log.LOG_LEVEL_INFO:
