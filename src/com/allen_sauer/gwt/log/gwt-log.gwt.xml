@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module SYSTEM "gwt-module.dtd">
 <!-- 
   Copyright 2008 Fred Sauer
   
@@ -34,7 +36,7 @@
        of deferred binding combinations which must be compiled.
         
        For example, during development you'll most likely want to enable logging at one of the
-       first five log levels (e.g. DEBUG, INFO, WARN, ERROR, FATAL), e.g.
+       first six log levels (e.g. TRACE, DEBUG, INFO, WARN, ERROR, FATAL), e.g.
         
            <extend-property name="log_level" values="DEBUG" />
            <set-property name="log_level" value="DEBUG" />
@@ -56,9 +58,9 @@
     
        In the extreme case, you could create separate pre-compiled versions for all six
        out-of-the-box log levels. If you really want to do this, and can afford the
-       increased compile time, add all six levels:
+       increased compile time, add all seven levels:
        
-           <extend-property name="log_level" values="DEBUG,INFO,WARN,ERROR,FATAL,OFF"/>
+           <extend-property name="log_level" values="TRACE,DEBUG,INFO,WARN,ERROR,FATAL,OFF"/>
 
 
 
