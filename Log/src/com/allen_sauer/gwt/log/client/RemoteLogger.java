@@ -96,6 +96,14 @@ public final class RemoteLogger extends AbstractLogger {
   }
 
   @Override
+  public void trace(String message, Throwable throwable) {
+    if (failure != null) {
+      throw failure;
+    }
+    service.trace(message, new WrappedClientThrowable(throwable), callback);
+  }
+
+  @Override
   public void warn(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;

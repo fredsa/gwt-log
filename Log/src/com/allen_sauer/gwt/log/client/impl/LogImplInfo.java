@@ -33,4 +33,9 @@ public final class LogImplInfo extends LogImplBase {
   public boolean isDebugEnabled() {
     return false;
   }
+
+  @Override
+  public boolean isTraceEnabled() {
+    return false;
+  }
 }

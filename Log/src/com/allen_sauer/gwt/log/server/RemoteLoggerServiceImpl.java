@@ -74,6 +74,15 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     }
   }
 
+  public final void trace(String message, WrappedClientThrowable wrapped) {
+    try {
+      Log.trace(message, new UnwrappedClientThrowable(wrapped));
+    } catch (RuntimeException e) {
+      System.err.println("Failed to log message due to " + e.toString());
+      e.printStackTrace();
+    }
+  }
+
   public final void warn(String message, WrappedClientThrowable wrapped) {
     try {
       Log.warn(message, new UnwrappedClientThrowable(wrapped));

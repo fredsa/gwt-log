@@ -41,6 +41,10 @@ public abstract class ServerSideAbstractLogger implements ServerSideLogger {
     throw new UnsupportedOperationException();
   }
 
+  public final void trace(String message, Throwable throwable) {
+    throw new UnsupportedOperationException();
+  }
+
   public final void warn(String message) {
     throw new UnsupportedOperationException();
   }

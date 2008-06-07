@@ -71,8 +71,8 @@ public class DivLogger extends AbstractLogger {
 
   private static final String CSS_LOG_MESSAGE = "log-message";
   private static final int[] levels = {
-      Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN, Log.LOG_LEVEL_ERROR,
-      Log.LOG_LEVEL_FATAL, Log.LOG_LEVEL_OFF,};
+      Log.LOG_LEVEL_TRACE, Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN,
+      Log.LOG_LEVEL_ERROR, Log.LOG_LEVEL_FATAL, Log.LOG_LEVEL_OFF,};
   private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
   private static final String STYLE_LOG_HEADER = "log-header";
   private static final String STYLE_LOG_PANEL = "log-panel";
@@ -81,7 +81,9 @@ public class DivLogger extends AbstractLogger {
 
   private static final int UPDATE_INTERVAL_MILLIS = 500;
 
-  private DockPanel debugDockPanel = new DockPanel() {
+  private boolean dirty = false;
+  private Button[] levelButtons;
+  private final DockPanel logDockPanel = new DockPanel() {
     private WindowResizeListener windowResizeListener = new WindowResizeListener() {
       private int lastDocumentClientHeight = -1;
       private int lastDocumentClientWidth = -1;
@@ -120,20 +122,18 @@ public class DivLogger extends AbstractLogger {
       Window.removeWindowResizeListener(windowResizeListener);
     }
   };
-  private boolean dirty = false;
-  private Button[] levelButtons;
   private String logText = "";
-  private HTML logTextArea = new HTML();
+  private final HTML logTextArea = new HTML();
 
-  private ScrollPanelImpl scrollPanel = new ScrollPanelImpl();
+  private final ScrollPanelImpl scrollPanel = new ScrollPanelImpl();
 
-  private Timer timer;
+  private final Timer timer;
 
   /**
    * Default constructor.
    */
   public DivLogger() {
-    debugDockPanel.addStyleName(STYLE_LOG_PANEL);
+    logDockPanel.addStyleName(STYLE_LOG_PANEL);
     logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
     scrollPanel.addStyleName(STYLE_LOG_SCROLL_PANEL);
 
@@ -144,16 +144,16 @@ public class DivLogger extends AbstractLogger {
     Widget resizePanel;
     resizePanel = makeResizePanel();
 
-    debugDockPanel.add(headerPanel, DockPanel.NORTH);
-    debugDockPanel.add(scrollPanel, DockPanel.CENTER);
-    debugDockPanel.add(resizePanel, DockPanel.SOUTH);
+    logDockPanel.add(headerPanel, DockPanel.NORTH);
+    logDockPanel.add(scrollPanel, DockPanel.CENTER);
+    logDockPanel.add(resizePanel, DockPanel.SOUTH);
     DOM.setStyleAttribute(DOM.getParent(resizePanel.getElement()), "lineHeight", "1px");
-    debugDockPanel.setCellHorizontalAlignment(resizePanel, HasHorizontalAlignment.ALIGN_RIGHT);
+    logDockPanel.setCellHorizontalAlignment(resizePanel, HasHorizontalAlignment.ALIGN_RIGHT);
 
     scrollPanel.setWidget(logTextArea);
 
-    debugDockPanel.setVisible(false);
-    RootPanel.get().add(debugDockPanel, 0, 0);
+    logDockPanel.setVisible(false);
+    RootPanel.get().add(logDockPanel, 0, 0);
 
     timer = new Timer() {
       @Override
@@ -176,7 +176,7 @@ public class DivLogger extends AbstractLogger {
   }
 
   public final Widget getWidget() {
-    return debugDockPanel;
+    return logDockPanel;
   }
 
   public final boolean isSupported() {
@@ -184,11 +184,11 @@ public class DivLogger extends AbstractLogger {
   }
 
   public final boolean isVisible() {
-    return debugDockPanel.isAttached() && debugDockPanel.isVisible();
+    return logDockPanel.isAttached() && logDockPanel.isVisible();
   }
 
   public final void moveTo(int x, int y) {
-    RootPanel.get().add(debugDockPanel, x, y);
+    RootPanel.get().add(logDockPanel, x, y);
   }
 
   @Override
@@ -225,7 +225,7 @@ public class DivLogger extends AbstractLogger {
 
   @Override
   final void log(int logLevel, String message, Throwable throwable) {
-    debugDockPanel.setVisible(true);
+    logDockPanel.setVisible(true);
     String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     String title = makeTitle(message, throwable);
     if (throwable != null) {
@@ -253,8 +253,8 @@ public class DivLogger extends AbstractLogger {
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
   }
 
-  private void addLogText(String debugText) {
-    logText += debugText;
+  private void addLogText(String logTest) {
+    logText += logTest;
     if (!dirty) {
       dirty = true;
       timer.schedule(UPDATE_INTERVAL_MILLIS);
@@ -277,7 +277,10 @@ public class DivLogger extends AbstractLogger {
     if (logLevel >= Log.LOG_LEVEL_INFO) {
       return "#2B60DE"; // blue
     }
-    return "#20b000"; // green
+    if (logLevel >= Log.LOG_LEVEL_DEBUG) {
+      return "#20b000"; // green
+    }
+    return "#F0F"; // purple
   }
 
   /**
@@ -361,9 +364,9 @@ public class DivLogger extends AbstractLogger {
       @Override
       public void onMouseMove(Widget sender, int x, int y) {
         if (dragging) {
-          int absX = x + debugDockPanel.getAbsoluteLeft();
-          int absY = y + debugDockPanel.getAbsoluteTop();
-          RootPanel.get().setWidgetPosition(debugDockPanel, absX - dragStartX, absY - dragStartY);
+          int absX = x + logDockPanel.getAbsoluteLeft();
+          int absY = y + logDockPanel.getAbsoluteTop();
+          RootPanel.get().setWidgetPosition(logDockPanel, absX - dragStartX, absY - dragStartY);
         }
       }
 

@@ -29,9 +29,9 @@ public abstract class ServerLogImpl {
 
   public abstract int getCurrentLogLevel();
 
-  //  public abstract int getLowestLogLevel();
-
   public abstract void info(String message, Throwable e);
+
+  //  public abstract int getLowestLogLevel();
 
   public abstract boolean isDebugEnabled();
 
@@ -42,6 +42,8 @@ public abstract class ServerLogImpl {
   public abstract boolean isInfoEnabled();
 
   public abstract boolean isLoggingEnabled();
+
+  public abstract boolean isTraceEnabled();
 
   public abstract boolean isWarnEnabled();
 
@@ -59,6 +61,8 @@ public abstract class ServerLogImpl {
    * @param implLogLevel the implementation specific int log level
    */
   public abstract void setCurrentImplLogLevel(int implLogLevel);
+
+  public abstract void trace(String message, Throwable e);
 
   public abstract void warn(String message, Throwable e);
 

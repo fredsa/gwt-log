@@ -33,5 +33,7 @@ public interface RemoteLoggerService extends RemoteService {
 
   void info(String message, WrappedClientThrowable ex);
 
+  void trace(String message, WrappedClientThrowable ex);
+
   void warn(String message, WrappedClientThrowable ex);
 }

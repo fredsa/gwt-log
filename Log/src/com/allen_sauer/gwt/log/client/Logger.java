@@ -33,5 +33,7 @@ public interface Logger {
 
   void setCurrentLogLevel(int level);
 
+  void trace(String message, Throwable throwable);
+
   void warn(String message, Throwable throwable);
 }

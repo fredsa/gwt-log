@@ -29,5 +29,7 @@ public interface RemoteLoggerServiceAsync {
 
   void info(String message, WrappedClientThrowable ex, AsyncCallback<Object> callback);
 
+  void trace(String message, WrappedClientThrowable ex, AsyncCallback<Object> callback);
+
   void warn(String message, WrappedClientThrowable ex, AsyncCallback<Object> callback);
 }

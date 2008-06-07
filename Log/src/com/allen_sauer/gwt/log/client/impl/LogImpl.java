@@ -86,11 +86,17 @@ public abstract class LogImpl {
 
   public abstract boolean isLoggingEnabled();
 
+  public abstract boolean isTraceEnabled();
+
   public abstract boolean isWarnEnabled();
 
   public abstract int setCurrentLogLevel(int level);
 
   public abstract void setUncaughtExceptionHandler();
+
+  public abstract void trace(String message, JavaScriptObject e);
+
+  public abstract void trace(String message, Throwable e);
 
   public abstract void warn(String message, JavaScriptObject e);
 

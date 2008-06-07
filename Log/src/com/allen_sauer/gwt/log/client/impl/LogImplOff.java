@@ -145,6 +145,11 @@ public final class LogImplOff extends LogImpl {
   }
 
   @Override
+  public boolean isTraceEnabled() {
+    return false;
+  }
+
+  @Override
   public boolean isWarnEnabled() {
     return false;
   }
@@ -156,6 +161,14 @@ public final class LogImplOff extends LogImpl {
 
   @Override
   public void setUncaughtExceptionHandler() {
+  }
+
+  @Override
+  public void trace(String message, JavaScriptObject e) {
+  }
+
+  @Override
+  public void trace(String message, Throwable e) {
   }
 
   @Override

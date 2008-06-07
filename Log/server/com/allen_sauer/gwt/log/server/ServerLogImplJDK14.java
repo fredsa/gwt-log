@@ -94,6 +94,11 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
   }
 
   @Override
+  public boolean isTraceEnabled() {
+    return logger.getLevel().intValue() >= Level.FINEST.intValue();
+  }
+
+  @Override
   public boolean isWarnEnabled() {
     return logger.getLevel().intValue() >= Level.WARNING.intValue();
   }
@@ -101,6 +106,8 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
   @Override
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     switch (gwtLogLevel) {
+      case ServerSideLog.LOG_LEVEL_TRACE:
+        return Level.FINEST.intValue();
       case ServerSideLog.LOG_LEVEL_DEBUG:
         return Level.FINE.intValue();
       case ServerSideLog.LOG_LEVEL_INFO:
@@ -124,13 +131,20 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
   }
 
   @Override
+  public void trace(String message, Throwable e) {
+    logger.log(Level.FINEST, message, e);
+  }
+
+  @Override
   public void warn(String message, Throwable e) {
     logger.log(Level.WARNING, message, e);
   }
 
   @Override
   protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
-    if (implLogLevel == Level.FINE.intValue()) {
+    if (implLogLevel == Level.FINEST.intValue()) {
+      return ServerSideLog.LOG_LEVEL_TRACE;
+    } else if (implLogLevel == Level.FINE.intValue()) {
       return ServerSideLog.LOG_LEVEL_DEBUG;
     } else if (implLogLevel == Level.INFO.intValue()) {
       return ServerSideLog.LOG_LEVEL_INFO;

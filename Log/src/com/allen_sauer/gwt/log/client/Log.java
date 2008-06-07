@@ -29,7 +29,6 @@ public final class Log {
    * to display debugging messages or higher.
    */
   public static final int LOG_LEVEL_DEBUG = 10000;
-
   /**
    * Constant <code>int</code> value <CODE>40000</CODE>, representing <code>ERROR</code> logging level,
    * to display error messages or higher.
@@ -52,6 +51,12 @@ public final class Log {
    * Logging disabled. Equivalent to <CODE>Integer.MAX_VALUE</CODE>.
    */
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
+
+  /**
+   * Constant <code>int</code> value <CODE>5000</CODE>, representing <code>TRACE</code> logging level,
+   * to display trace messages or higher.
+   */
+  public static final int LOG_LEVEL_TRACE = 5000;
 
   /**
    * Constant <code>int</code> value <CODE>30000</CODE>, representing <code>WARN</code> logging level,
@@ -146,13 +151,13 @@ public final class Log {
   }
 
   /**
-   * Log an internal <code>gwt-log</code> diagnostic message.
-   * 
-   * @deprecated For internal gwt-log use only.
-   * 
-   * @param message the text to be logged
-   * @param e the native JavaScript exception object to be logged
-   */
+     * Log an internal <code>gwt-log</code> diagnostic message.
+     * 
+     * @deprecated For internal gwt-log use only.
+     * 
+     * @param message the text to be logged
+     * @param e the native JavaScript exception object to be logged
+     */
   @Deprecated
   public static void diagnostic(String message, Throwable e) {
     impl.diagnostic(message, e);
@@ -507,12 +512,36 @@ public final class Log {
    * Guard utility method to prevent expensive parameter evaluation
    * side effects when logging is disabled.
    * 
+   * @see #isTraceEnabled()
    * @see #isDebugEnabled()
+   * @see #isInfoEnabled()
+   * @see #isWarnEnabled()
+   * @see #isErrorEnabled()
+   * @see #isFatalEnabled()
    * 
    * @return <code>true</code> if the current log level is not <code>OFF</code>
    */
   public static boolean isLoggingEnabled() {
     return impl.isLoggingEnabled();
+  }
+
+  /**
+   * Guard utility method to prevent expensive parameter evaluation
+   * side effects when logging is set at a higher level, e.g.
+   * <pre>
+   *   // parameter(s) are evaluated even if method call does nothing
+   *   Log.trace(...);
+   *   
+   *   if (Log.isTraceEnabled()) {
+   *     // code inside the guard is only conditionally evaluated
+   *     Log.trace(...);
+   *   }
+   * </pre>   
+   * 
+   * @return <code>true</code> if the current log level is at least <code>TRACE</code>
+   */
+  public static boolean isTraceEnabled() {
+    return impl.isTraceEnabled();
   }
 
   /**
@@ -548,6 +577,67 @@ public final class Log {
    */
   public static void setUncaughtExceptionHandler() {
     impl.setUncaughtExceptionHandler();
+  }
+
+  /**
+   * Log a <code>TRACE</code> level message with no
+   * exception information.
+   * 
+   * @see Log#trace(String, JavaScriptObject)
+   * @see Log#trace(String, Throwable)
+   * 
+   * @param message the text to be logged
+   */
+  public static void trace(String message) {
+    trace(message, (Throwable) null);
+  }
+
+  /**
+   * Log a <code>TRACE</code> level message from within
+   * a JSNI try/catch block, e.g.
+   * <pre>
+   *   private native void jsniTryCatchExample()
+   *   /&#42;-{
+   *     try {
+   *       // throws exception
+   *       non_existant_variable.non_existant_method();
+   *     } catch(e) {
+   *       &#64;com.allen_sauer.gwt.log.client.Log::trace(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
+   *     }
+   *   }-&#42;/;
+   * </pre>   
+   * 
+   * @see Log#trace(String)
+   * @see Log#trace(String, Throwable)
+   * 
+   * @param message the text to be logged
+   * @param e the native JavaScript exception object to be logged
+   */
+  public static void trace(String message, JavaScriptObject e) {
+    impl.trace(message, e);
+  }
+
+  /**
+   * Log a <code>TRACE</code> level message from within
+   * a Java try/catch block, e.g.
+   * <pre>
+   *   private native void javaTryCatchExample() {
+   *     try {
+   *       throw new RuntimeException();
+   *     } catch(e) {
+   *       Log.trace("Caught Java Exception", e);
+   *     }
+   *   }
+   * </pre>   
+   * 
+   * @see Log#trace(String)
+   * @see Log#trace(String, JavaScriptObject)
+   * 
+   * @param message the text to be logged
+   * @param e the exception to be logged
+   */
+  public static void trace(String message, Throwable e) {
+    impl.trace(message, e);
   }
 
   /**
