@@ -84,7 +84,7 @@ public class DivLogger extends AbstractLogger {
   private boolean dirty = false;
   private Button[] levelButtons;
   private final DockPanel logDockPanel = new DockPanel() {
-    private WindowResizeListener windowResizeListener = new WindowResizeListener() {
+    private final WindowResizeListener windowResizeListener = new WindowResizeListener() {
       private int lastDocumentClientHeight = -1;
       private int lastDocumentClientWidth = -1;
 
@@ -163,7 +163,7 @@ public class DivLogger extends AbstractLogger {
         logText = "";
         DeferredCommand.addCommand(new Command() {
           public void execute() {
-            scrollPanel.setScrollPosition(Integer.MAX_VALUE);
+            scrollPanel.setScrollPosition(0xB1111111);
           }
         });
       }
