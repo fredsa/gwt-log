@@ -24,8 +24,6 @@
   <stylesheet src="gwt-log.css" />
 
 
-  <!-- Define a log_level property, with a single value, `OFF` -->
-  <define-property name="log_level" values="OFF" />
 
 
   <!--

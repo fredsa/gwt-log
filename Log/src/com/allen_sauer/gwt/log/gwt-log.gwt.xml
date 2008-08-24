@@ -24,19 +24,29 @@
         
     The 'log_level' deferred binding property controls the compile time log level, which is
     the minimum log level available to client code at runtime. Client code related to lower
-    levels of logging is dead code eliminated by the GWT Compiler, to the extent possible.
+    levels of logging is dead code eliminated by the GWT Compiler (to the extent possible).
 
     By default the compile time log_level property is defined and set to a single value ('OFF').
-    However, the number of 'log_level' properties may be configured in a few ways:
-        
-    a) The default value may be overridden via a 'set-property' tag in your module *.gwt.xml file
+    However, the available 'log_level' values may be configured in a number of ways:
+
+    a) Instead of inheriting 'com.allen_sauer.gwt.log.gwt-log' (which defaults to a compile
+       time log_level of 'OFF') in your *.gwt.xml module file, you can inherit from one of the
+       log level specific gwt-log modules.
+       
+       For example, you may want to have a single default compile time log level of 'WARN':
+
+           <inherits name="com.allen_sauer.gwt.log.gwt-log-WARN" />
+
+    b) Alternatively, the default value may be overridden via a combination of 'extend-property'
+       and 'set-property' elements in your module *.gwt.xml file.
      
-       This keeps compile time to a minimum, by preventing a multiplication of the number
+       This also keeps compile time to a minimum, by preventing a multiplication of the number
        of deferred binding combinations which must be compiled.
         
        For example, during development you'll most likely want to enable logging at one of the
        first six log levels (e.g. TRACE, DEBUG, INFO, WARN, ERROR, FATAL), e.g.
         
+           <inherits name="com.allen_sauer.gwt.log.gwt-log" />
            <extend-property name="log_level" values="DEBUG" />
            <set-property name="log_level" value="DEBUG" />
      
@@ -45,7 +55,8 @@
      
            <set-property name="log_level" value="OFF" />
      
-    b) Additional compile time log levels can be made available via 'extend-property'
+    b) Additional compile time log levels can be made available to you application via the
+       'extend-property' element.
     
        Note that this will increase the compile time by multiplying the number of deferred
        binding combinations which must be generated.
@@ -53,12 +64,14 @@
        A common example is to create two versions of your application, one for development
        (DEBUG) and one for production (OFF):
     
-           <extend-property name="log_level" values="DEBUG,OFF" />
+           <inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
+           <extend-property name="log_level" values="DEBUG" />
     
-       In the extreme case, you could create separate pre-compiled versions for all six
+       In the extreme case, you could create separate pre-compiled versions for all seven
        out-of-the-box log levels. If you really want to do this, and can afford the
        increased compile time, add all seven levels:
        
+           <inherits name="com.allen_sauer.gwt.log.gwt-log" />
            <extend-property name="log_level" values="TRACE,DEBUG,INFO,WARN,ERROR,FATAL,OFF"/>
 
 
@@ -106,19 +119,8 @@
     
   -->
   
-	<!-- Inherit the implementation -->
-	<inherits name="com.allen_sauer.gwt.log.gwt-log-impl" />
+	<!-- Inherit the default log level implementation -->
+  <inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
 
 
-  <!-- Loggers Enabled by default -->
-  <set-property name="log_ConsoleLogger" value="ENABLED" />
-  <set-property name="log_DivLogger" value="ENABLED" />
-  <set-property name="log_FirebugLogger" value="ENABLED" />
-  <set-property name="log_GWTLogger" value="ENABLED" />
-  <set-property name="log_SystemLogger" value="ENABLED" />
-  
-  <!-- Loggers Disabled by default -->
-  <set-property name="log_RemoteLogger" value="DISABLED" />
-  <set-property name="log_WindowLogger" value="DISABLED" />
-  
 </module>
