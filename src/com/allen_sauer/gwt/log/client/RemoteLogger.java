@@ -52,6 +52,11 @@ public final class RemoteLogger extends AbstractLogger {
   }
 
   @Override
+  public void clear() {
+    // do nothing on the server
+  }
+
+  @Override
   public void debug(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;
