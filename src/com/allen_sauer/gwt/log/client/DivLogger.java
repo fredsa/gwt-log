@@ -107,15 +107,6 @@ public class DivLogger extends AbstractLogger {
     };
 
     @Override
-    public void setVisible(boolean visible) {
-      super.setVisible(visible);
-      if (visible) {
-        scrollPanel.checkMinSize();
-        windowResizeListener.onWindowResized(Window.getClientWidth(), Window.getClientHeight());
-      }
-    }
-
-    @Override
     protected void onLoad() {
       super.onLoad();
       Window.addWindowResizeListener(windowResizeListener);
@@ -125,6 +116,15 @@ public class DivLogger extends AbstractLogger {
     protected void onUnload() {
       super.onUnload();
       Window.removeWindowResizeListener(windowResizeListener);
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+      super.setVisible(visible);
+      if (visible) {
+        scrollPanel.checkMinSize();
+        windowResizeListener.onWindowResized(Window.getClientWidth(), Window.getClientHeight());
+      }
     }
   };
   private String logText = "";
@@ -175,59 +175,17 @@ public class DivLogger extends AbstractLogger {
     };
   }
 
-  @Override
-  public final void clear() {
-    logTextArea.setHTML("");
-  }
-
-  public final Widget getWidget() {
-    return logDockPanel;
-  }
-
-  public final boolean isSupported() {
-    return true;
-  }
-
-  public final boolean isVisible() {
-    return logDockPanel.isAttached() && logDockPanel.isVisible();
-  }
-
-  public final void moveTo(int x, int y) {
-    RootPanel.get().add(logDockPanel, x, y);
-  }
-
-  @Override
-  public void setCurrentLogLevel(int level) {
-    super.setCurrentLogLevel(level);
-    for (int i = 0; i < levels.length; i++) {
-      if (levels[i] < Log.getLowestLogLevel()) {
-        levelButtons[i].setEnabled(false);
-      } else {
-        String levelText = LogUtil.levelToString(levels[i]);
-        boolean current = level == levels[i];
-        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
-            + "'" : "Set current (runtime) log level to '" + levelText + "'");
-        boolean active = level <= levels[i];
-        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
-            : "#ccc");
-      }
-    }
-  }
-
-  public final void setPixelSize(int width, int height) {
-    logTextArea.setPixelSize(width, height);
-  }
-
-  public final void setSize(String width, String height) {
-    logTextArea.setSize(width, height);
-  }
-
   private void addLogText(String logTest) {
     logText += logTest;
     if (!dirty) {
       dirty = true;
       timer.schedule(UPDATE_INTERVAL_MILLIS);
     }
+  }
+
+  @Override
+  public final void clear() {
+    logTextArea.setHTML("");
   }
 
   private String getColor(int logLevel) {
@@ -250,6 +208,55 @@ public class DivLogger extends AbstractLogger {
       return "#20b000"; // green
     }
     return "#F0F"; // purple
+  }
+
+  public final Widget getWidget() {
+    return logDockPanel;
+  }
+
+  public final boolean isSupported() {
+    return true;
+  }
+
+  public final boolean isVisible() {
+    return logDockPanel.isAttached() && logDockPanel.isVisible();
+  }
+
+  @Override
+  final void log(int logLevel, String message) {
+    assert false;
+    // Method never called since {@link #log(int, String, Throwable)} is
+    // overridden
+  }
+
+  @Override
+  final void log(int logLevel, String message, Throwable throwable) {
+    logDockPanel.setVisible(true);
+    String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    String title = makeTitle(message, throwable);
+    if (throwable != null) {
+      text += "\n";
+      while (throwable != null) {
+        text += throwable.getClass().getName() + ":<br><b>" + throwable.getMessage() + "</b>";
+        StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+        if (stackTraceElements.length > 0) {
+          text += "<div class='log-stacktrace'>";
+          for (StackTraceElement element : stackTraceElements) {
+            text += STACKTRACE_ELEMENT_PREFIX + element + "<br>";
+          }
+          text += "</div>";
+        }
+        throwable = throwable.getCause();
+        if (throwable != null) {
+          text += "Caused by: ";
+        }
+      }
+    }
+    text = text.replaceAll("\r\n|\r|\n", "<BR>");
+    addLogText("<div class='" + CSS_LOG_MESSAGE
+        + "' onmouseover='className+=\" log-message-hover\"' "
+        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
+        + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
   }
 
   /**
@@ -396,40 +403,33 @@ public class DivLogger extends AbstractLogger {
         "'", "\"");
   }
 
-  @Override
-  final void log(int logLevel, String message) {
-    assert false;
-    // Method never called since {@link #log(int, String, Throwable)} is
-    // overridden
+  public final void moveTo(int x, int y) {
+    RootPanel.get().add(logDockPanel, x, y);
   }
 
   @Override
-  final void log(int logLevel, String message, Throwable throwable) {
-    logDockPanel.setVisible(true);
-    String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-    String title = makeTitle(message, throwable);
-    if (throwable != null) {
-      text += "\n";
-      while (throwable != null) {
-        text += throwable.getClass().getName() + ":<br><b>" + throwable.getMessage() + "</b>";
-        StackTraceElement[] stackTraceElements = throwable.getStackTrace();
-        if (stackTraceElements.length > 0) {
-          text += "<div class='log-stacktrace'>";
-          for (StackTraceElement element : stackTraceElements) {
-            text += STACKTRACE_ELEMENT_PREFIX + element + "<br>";
-          }
-          text += "</div>";
-        }
-        throwable = throwable.getCause();
-        if (throwable != null) {
-          text += "Caused by: ";
-        }
+  public void setCurrentLogLevel(int level) {
+    super.setCurrentLogLevel(level);
+    for (int i = 0; i < levels.length; i++) {
+      if (levels[i] < Log.getLowestLogLevel()) {
+        levelButtons[i].setEnabled(false);
+      } else {
+        String levelText = LogUtil.levelToString(levels[i]);
+        boolean current = level == levels[i];
+        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
+            + "'" : "Set current (runtime) log level to '" + levelText + "'");
+        boolean active = level <= levels[i];
+        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
+            : "#ccc");
       }
     }
-    text = text.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText("<div class='" + CSS_LOG_MESSAGE
-        + "' onmouseover='className+=\" log-message-hover\"' "
-        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
-        + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
+  }
+
+  public final void setPixelSize(int width, int height) {
+    logTextArea.setPixelSize(width, height);
+  }
+
+  public final void setSize(String width, String height) {
+    logTextArea.setSize(width, height);
   }
 }

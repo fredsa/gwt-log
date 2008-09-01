@@ -126,21 +126,6 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
   }
 
   @Override
-  public void setCurrentImplLogLevel(int level) {
-    logger.setLevel(Level.parse("" + level));
-  }
-
-  @Override
-  public void trace(String message, Throwable e) {
-    logger.log(Level.FINEST, message, e);
-  }
-
-  @Override
-  public void warn(String message, Throwable e) {
-    logger.log(Level.WARNING, message, e);
-  }
-
-  @Override
   protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
     if (implLogLevel == Level.FINEST.intValue()) {
       return ServerSideLog.LOG_LEVEL_TRACE;
@@ -159,5 +144,20 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
     } else {
       throw new IllegalArgumentException();
     }
+  }
+
+  @Override
+  public void setCurrentImplLogLevel(int level) {
+    logger.setLevel(Level.parse("" + level));
+  }
+
+  @Override
+  public void trace(String message, Throwable e) {
+    logger.log(Level.FINEST, message, e);
+  }
+
+  @Override
+  public void warn(String message, Throwable e) {
+    logger.log(Level.WARNING, message, e);
   }
 }

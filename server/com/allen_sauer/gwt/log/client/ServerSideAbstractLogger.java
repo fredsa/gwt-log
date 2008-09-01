@@ -41,6 +41,14 @@ public abstract class ServerSideAbstractLogger implements ServerSideLogger {
     throw new UnsupportedOperationException();
   }
 
+  final void log(int logLevel, String message) {
+    throw new UnsupportedOperationException();
+  }
+
+  final void log(int logLevel, String message, Throwable throwable) {
+    throw new UnsupportedOperationException();
+  }
+
   public final void trace(String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
@@ -50,14 +58,6 @@ public abstract class ServerSideAbstractLogger implements ServerSideLogger {
   }
 
   public final void warn(String message, Throwable throwable) {
-    throw new UnsupportedOperationException();
-  }
-
-  final void log(int logLevel, String message) {
-    throw new UnsupportedOperationException();
-  }
-
-  final void log(int logLevel, String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 }
