@@ -70,41 +70,6 @@ public class WindowLogger extends AbstractLogger {
     return true;
   }
 
-  @Override
-  final void log(int logLevel, String message) {
-    assert false;
-    // Method never called since {@link #log(int, String, Throwable)} is overridden
-  }
-
-  @Override
-  final void log(int logLevel, String message, Throwable throwable) {
-    String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-    String title = makeTitle(message, throwable);
-    if (throwable != null) {
-      text += "\n";
-      while (throwable != null) {
-        text += throwable.getClass().getName() + ":<br><b>" + throwable.getMessage() + "</b>";
-        StackTraceElement[] stackTraceElements = throwable.getStackTrace();
-        if (stackTraceElements.length > 0) {
-          text += "<div class='log-stacktrace'>";
-          for (StackTraceElement element : stackTraceElements) {
-            text += STACKTRACE_ELEMENT_PREFIX + element + "<br>";
-          }
-          text += "</div>";
-        }
-        throwable = throwable.getCause();
-        if (throwable != null) {
-          text += "Caused by: ";
-        }
-      }
-    }
-    text = text.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText("<div class='" + CSS_LOG_MESSAGE
-        + "' onmouseover='className+=\" log-message-hover\"' "
-        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
-        + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
-  }
-
   private void addLogText(String text) {
     logText += text;
     if (window == null) {
@@ -185,5 +150,40 @@ public class WindowLogger extends AbstractLogger {
         }
       }
     }.scheduleRepeating(100);
+  }
+
+  @Override
+  final void log(int logLevel, String message) {
+    assert false;
+    // Method never called since {@link #log(int, String, Throwable)} is overridden
+  }
+
+  @Override
+  final void log(int logLevel, String message, Throwable throwable) {
+    String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    String title = makeTitle(message, throwable);
+    if (throwable != null) {
+      text += "\n";
+      while (throwable != null) {
+        text += throwable.getClass().getName() + ":<br><b>" + throwable.getMessage() + "</b>";
+        StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+        if (stackTraceElements.length > 0) {
+          text += "<div class='log-stacktrace'>";
+          for (StackTraceElement element : stackTraceElements) {
+            text += STACKTRACE_ELEMENT_PREFIX + element + "<br>";
+          }
+          text += "</div>";
+        }
+        throwable = throwable.getCause();
+        if (throwable != null) {
+          text += "Caused by: ";
+        }
+      }
+    }
+    text = text.replaceAll("\r\n|\r|\n", "<BR>");
+    addLogText("<div class='" + CSS_LOG_MESSAGE
+        + "' onmouseover='className+=\" log-message-hover\"' "
+        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
+        + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
   }
 }
