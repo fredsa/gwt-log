@@ -25,15 +25,15 @@ public class ClientStackTraceElement implements Serializable {
   private int lineNumber;
   private String methodName;
 
+  @SuppressWarnings("unused")
+  private ClientStackTraceElement() {
+  }
+
   ClientStackTraceElement(String declaringClass, String methodName, String fileName, int lineNumber) {
     this.declaringClass = declaringClass;
     this.methodName = methodName;
     this.fileName = fileName;
     this.lineNumber = lineNumber;
-  }
-
-  @SuppressWarnings("unused")
-  private ClientStackTraceElement() {
   }
 
   public String getClassName() {

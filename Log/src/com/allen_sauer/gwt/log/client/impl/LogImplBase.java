@@ -60,10 +60,6 @@ public abstract class LogImplBase extends LogImpl {
     setVersion();
   }
 
-  static JavaScriptException convertJavaScriptObjectToException(JavaScriptObject e) {
-    return new JavaScriptException(javaScriptExceptionName(e), javaScriptExceptionDescription(e));
-  }
-
   /**
    * TODO move the message formatting and addition of log level prefix(es) to the Loggers as it really doesn't belong here
    */
@@ -112,6 +108,10 @@ public abstract class LogImplBase extends LogImpl {
 
   private static String toPrefix(String logLevelText) {
     return "[" + logLevelText + "]";
+  }
+
+  static JavaScriptException convertJavaScriptObjectToException(JavaScriptObject e) {
+    return new JavaScriptException(javaScriptExceptionName(e), javaScriptExceptionDescription(e));
   }
 
   private int currentLogLevel = getLowestLogLevel();
