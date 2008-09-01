@@ -74,6 +74,16 @@ public abstract class LogImplBase extends LogImpl {
     return prefix + " " + message.replaceAll("\n", "\n" + prefix + " ");
   }
 
+  private static native boolean handleOnError(String msg, String url, int line)
+  /*-{
+  //    try {
+       @com.allen_sauer.gwt.log.client.Log::fatal(Ljava/lang/String;)("Uncaught JavaScript exception [" + msg + "] in " + url + ", line " + line);
+  //    } catch(e) {
+  //      alert("eeeeee: " + e);
+  //    }
+    return true;
+  }-*/;
+
   private static native String javaScriptExceptionDescription(JavaScriptObject e)
   /*-{
     try {
@@ -390,6 +400,7 @@ public abstract class LogImplBase extends LogImpl {
         Log.fatal("Uncaught Exception:", e);
       }
     });
+    setErrorHandler();
   }
 
   @Override
@@ -439,4 +450,23 @@ public abstract class LogImplBase extends LogImpl {
       }
     }
   }
+
+  private native void setErrorHandler()
+  /*-{
+    if ($wnd != window) {
+      window.onerror = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I);
+    }
+
+    var oldOnError = $wnd.onerror;
+    $wnd.onerror = function(msg, url, line) {
+      var result, oldResult;
+      try {
+        result = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I)(msg, url, line);
+      } finally {
+        oldResult = oldOnError && oldOnError(msg, url, line);
+      }
+      if (result != null) return result;
+      if (oldResult != null) return oldResult;
+    }
+  }-*/;
 }
