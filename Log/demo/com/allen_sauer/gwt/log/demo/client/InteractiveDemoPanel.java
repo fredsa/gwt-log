@@ -60,6 +60,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   private final Button clinitButtonFatal;
   private final Button jsniCatchButtonFatal;
   private final Button jsniNoCatchButtonFatal;
+  private final Button jsTimeoutExceptionButtonFatal;
   private final Button messageButtons[] = new Button[levels.length - 1];
   private final Button npeButtonFatal;
   private final Button nullButtonDebug;
@@ -136,6 +137,17 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       public void onClick(Widget sender) {
         throw new NullPointerException();
       }
+    });
+
+    jsTimeoutExceptionButtonFatal = new Button("JavaScript setTimeout() exception");
+    add(jsTimeoutExceptionButtonFatal);
+    jsTimeoutExceptionButtonFatal.addClickListener(new ClickListener() {
+      public native void onClick(Widget sender)
+      /*-{
+        setTimeout(function() {
+          my_non_existant_variable.my_non_existant_method();
+        }, 1);
+      }-*/;
     });
 
     nullButtonDebug = new Button("Log.debug(null)");
