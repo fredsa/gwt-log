@@ -112,21 +112,6 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
   }
 
   @Override
-  public void setCurrentImplLogLevel(int level) {
-    logger.setLevel(Level.toLevel(level));
-  }
-
-  @Override
-  public void trace(String message, Throwable e) {
-    logger.trace(message, e);
-  }
-
-  @Override
-  public void warn(String message, Throwable e) {
-    logger.warn(message, e);
-  }
-
-  @Override
   protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
     // Identity mapping since gwt-log log4j levels have integer identity.
     switch (implLogLevel) {
@@ -141,5 +126,20 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
       default:
         throw new IllegalArgumentException();
     }
+  }
+
+  @Override
+  public void setCurrentImplLogLevel(int level) {
+    logger.setLevel(Level.toLevel(level));
+  }
+
+  @Override
+  public void trace(String message, Throwable e) {
+    logger.trace(message, e);
+  }
+
+  @Override
+  public void warn(String message, Throwable e) {
+    logger.warn(message, e);
   }
 }

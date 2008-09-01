@@ -44,21 +44,6 @@ public abstract class AbstractLogger implements Logger {
     log(Log.LOG_LEVEL_INFO, message, throwable);
   }
 
-  public void setCurrentLogLevel(int level) {
-  }
-
-  public void trace(String message, Throwable throwable) {
-    log(Log.LOG_LEVEL_TRACE, message, throwable);
-  }
-
-  public final void warn(String message) {
-    warn(message, null);
-  }
-
-  public void warn(String message, Throwable throwable) {
-    log(Log.LOG_LEVEL_WARN, message, throwable);
-  }
-
   abstract void log(int logLevel, String message);
 
   void log(int logLevel, String message, Throwable throwable) {
@@ -80,5 +65,20 @@ public abstract class AbstractLogger implements Logger {
       }
     }
     log(logLevel, text);
+  }
+
+  public void setCurrentLogLevel(int level) {
+  }
+
+  public void trace(String message, Throwable throwable) {
+    log(Log.LOG_LEVEL_TRACE, message, throwable);
+  }
+
+  public final void warn(String message) {
+    warn(message, null);
+  }
+
+  public void warn(String message, Throwable throwable) {
+    log(Log.LOG_LEVEL_WARN, message, throwable);
   }
 }

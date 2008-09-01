@@ -101,6 +101,12 @@ public final class RemoteLogger extends AbstractLogger {
   }
 
   @Override
+  void log(int logLevel, String message) {
+    assert false;
+    // Method never called
+  }
+
+  @Override
   public void trace(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;
@@ -114,11 +120,5 @@ public final class RemoteLogger extends AbstractLogger {
       throw failure;
     }
     service.warn(message, new WrappedClientThrowable(throwable), callback);
-  }
-
-  @Override
-  void log(int logLevel, String message) {
-    assert false;
-    // Method never called
   }
 }
