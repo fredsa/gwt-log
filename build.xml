@@ -221,23 +221,19 @@
 
 		<!-- compile server code -->
 
-		<mkdir dir="build/server" />
-
 		<javac compiler="javac1.5" listfiles="false" destdir="build/server" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/server" />
 			<classpath location="${gwt-servlet.jar}" />
 			<classpath location="${log4j.location}" />
 		</javac>
 
-		<copy todir="build/out" overwrite="no">
+		<copy todir="build/out" overwrite="yes">
 			<fileset dir="build/server">
 				<include name="**/*.class" />
 			</fileset>
 		</copy>
 
 		<!-- build demo files as a sanity check -->
-
-		<mkdir dir="build/demo" />
 
 		<javac compiler="javac1.5" listfiles="false" destdir="build/demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/demo" />
@@ -256,8 +252,6 @@
 		</copy>
 
 		<!-- build server-demo files as a sanity check -->
-
-		<mkdir dir="build/server-demo" />
 
 		<javac compiler="javac1.5" listfiles="false" destdir="build/server-demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/server-demo" />
@@ -331,7 +325,7 @@
 		</jar>
 		<!--
 		<jar basedir="build/javadoc" destfile="build/dist/${gwt-log.javadoc-jar}" />
-    -->
+	    -->
 
 		<copy todir="${gwt-log.libdir}">
 			<fileset dir="build/dist" />
@@ -344,6 +338,18 @@
 
 	<target name="clean">
 		<delete dir="build" />
+	</target>
+
+	<target name="deploy" depends="clean, init, gwtc">
+
+		<scp todir="sauer@allen-sauer.com:" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" verbose="true">
+			<fileset dir="build/www">
+				<include name="com.allen_sauer.gwt.log.demo.LogDemo/**" />
+			</fileset>
+		</scp>
+
+		<sshexec command="./deploy.sh com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" />
+
 	</target>
 
 </project>
