@@ -24,13 +24,11 @@ import com.allen_sauer.gwt.log.client.impl.LogImpl;
  * Static logging functions for client code.
  */
 public final class Log {
-  private static final LogImpl impl;
   /**
    * Constant <code>int</code> value <CODE>10000</CODE>, representing <code>DEBUG</code> logging level,
    * to display debugging messages or higher.
    */
   public static final int LOG_LEVEL_DEBUG = 10000;
-
   /**
    * Constant <code>int</code> value <CODE>40000</CODE>, representing <code>ERROR</code> logging level,
    * to display error messages or higher.
@@ -65,6 +63,8 @@ public final class Log {
    * to display warning messages or higher.
    */
   public static final int LOG_LEVEL_WARN = 30000;
+
+  private static final LogImpl impl;
 
   static {
     impl = (LogImpl) GWT.create(LogImpl.class);

@@ -27,13 +27,6 @@ public class UnwrappedClientThrowable extends Throwable {
   private String originalClassName;
 
   /**
-   * Default constructor, required for RPC. 
-   */
-  @SuppressWarnings("unused")
-  private UnwrappedClientThrowable() {
-  }
-
-  /**
    * Constructor used by {@link com.allen_sauer.gwt.log.client.RemoteLogger}.
    *
    * @param wrapped the wrapped client-side exception
@@ -52,6 +45,13 @@ public class UnwrappedClientThrowable extends Throwable {
       }
       setStackTrace(stackTrace);
     }
+  }
+
+  /**
+   * Default constructor, required for RPC. 
+   */
+  @SuppressWarnings("unused")
+  private UnwrappedClientThrowable() {
   }
 
   /**

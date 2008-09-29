@@ -31,7 +31,7 @@ public abstract class ServerLogImpl {
 
   public abstract void info(String message, Throwable e);
 
-  //  public abstract int getLowestLogLevel();
+  // public abstract int getLowestLogLevel();
 
   public abstract boolean isDebugEnabled();
 
@@ -56,14 +56,6 @@ public abstract class ServerLogImpl {
   public abstract int mapGWTLogLevelToImplLevel(int gwtLogLevel);
 
   /**
-   * Map implementation int level to gwt-log int level.
-   * 
-   * @param implLogLevel the implementation specific int log level
-   * @return the gwt-log int log level
-   */
-  protected abstract int mapImplLevelToGWTLogLevel(int implLogLevel);
-
-  /**
    * Set the current implementation log level.
    * 
    * @param implLogLevel the implementation specific int log level
@@ -73,4 +65,12 @@ public abstract class ServerLogImpl {
   public abstract void trace(String message, Throwable e);
 
   public abstract void warn(String message, Throwable e);
+
+  /**
+   * Map implementation int level to gwt-log int level.
+   * 
+   * @param implLogLevel the implementation specific int log level
+   * @return the gwt-log int log level
+   */
+  protected abstract int mapImplLevelToGWTLogLevel(int implLogLevel);
 }

@@ -390,25 +390,6 @@ public abstract class LogImplBase extends LogImpl {
     return currentLogLevel;
   }
 
-  private native void setErrorHandler()
-  /*-{
-    if ($wnd != window) {
-      window.onerror = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I);
-    }
-
-    var oldOnError = $wnd.onerror;
-    $wnd.onerror = function(msg, url, line) {
-      var result, oldResult;
-      try {
-        result = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I)(msg, url, line);
-      } finally {
-        oldResult = oldOnError && oldOnError(msg, url, line);
-      }
-      if (result != null) return result;
-      if (oldResult != null) return oldResult;
-    }
-  }-*/;
-
   @Override
   public final void setUncaughtExceptionHandler() {
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
@@ -466,4 +447,23 @@ public abstract class LogImplBase extends LogImpl {
       }
     }
   }
+
+  private native void setErrorHandler()
+  /*-{
+    if ($wnd != window) {
+      window.onerror = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I);
+    }
+
+    var oldOnError = $wnd.onerror;
+    $wnd.onerror = function(msg, url, line) {
+      var result, oldResult;
+      try {
+        result = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I)(msg, url, line);
+      } finally {
+        oldResult = oldOnError && oldOnError(msg, url, line);
+      }
+      if (result != null) return result;
+      if (oldResult != null) return oldResult;
+    }
+  }-*/;
 }
