@@ -126,27 +126,6 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
   }
 
   @Override
-  protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
-    if (implLogLevel == Level.FINEST.intValue()) {
-      return ServerSideLog.LOG_LEVEL_TRACE;
-    } else if (implLogLevel == Level.FINE.intValue()) {
-      return ServerSideLog.LOG_LEVEL_DEBUG;
-    } else if (implLogLevel == Level.INFO.intValue()) {
-      return ServerSideLog.LOG_LEVEL_INFO;
-    } else if (implLogLevel == Level.WARNING.intValue()) {
-      return ServerSideLog.LOG_LEVEL_WARN;
-      //    } else if (implLogLevel == Level.SEVERE.intValue()) {
-      //      return ServerSideLog.LOG_LEVEL_ERROR;
-    } else if (implLogLevel == Level.SEVERE.intValue()) {
-      return ServerSideLog.LOG_LEVEL_FATAL;
-    } else if (implLogLevel == Level.OFF.intValue()) {
-      return ServerSideLog.LOG_LEVEL_OFF;
-    } else {
-      throw new IllegalArgumentException();
-    }
-  }
-
-  @Override
   public void setCurrentImplLogLevel(int level) {
     logger.setLevel(Level.parse("" + level));
   }
@@ -159,5 +138,26 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
   @Override
   public void warn(String message, Throwable e) {
     logger.log(Level.WARNING, message, e);
+  }
+
+  @Override
+  protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
+    if (implLogLevel == Level.FINEST.intValue()) {
+      return ServerSideLog.LOG_LEVEL_TRACE;
+    } else if (implLogLevel == Level.FINE.intValue()) {
+      return ServerSideLog.LOG_LEVEL_DEBUG;
+    } else if (implLogLevel == Level.INFO.intValue()) {
+      return ServerSideLog.LOG_LEVEL_INFO;
+    } else if (implLogLevel == Level.WARNING.intValue()) {
+      return ServerSideLog.LOG_LEVEL_WARN;
+      // } else if (implLogLevel == Level.SEVERE.intValue()) {
+      // return ServerSideLog.LOG_LEVEL_ERROR;
+    } else if (implLogLevel == Level.SEVERE.intValue()) {
+      return ServerSideLog.LOG_LEVEL_FATAL;
+    } else if (implLogLevel == Level.OFF.intValue()) {
+      return ServerSideLog.LOG_LEVEL_OFF;
+    } else {
+      throw new IllegalArgumentException();
+    }
   }
 }

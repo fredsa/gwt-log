@@ -24,15 +24,15 @@ import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
 
 //CHECKSTYLE_JAVADOC_OFF
 public final class ServerSideLog {
-  private static ServerLogImpl impl;
   public static final int LOG_LEVEL_DEBUG = 10000;
   public static final int LOG_LEVEL_ERROR = 40000;
   public static final int LOG_LEVEL_FATAL = 50000;
   public static final int LOG_LEVEL_INFO = 20000;
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
   public static final int LOG_LEVEL_TRACE = 5000;
-
   public static final int LOG_LEVEL_WARN = 30000;
+
+  private static ServerLogImpl impl;
 
   private static final String UNSUPPORTED_METHOD_TEXT = "This method available only when running on the client";
 

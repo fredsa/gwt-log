@@ -107,6 +107,15 @@ public class DivLogger extends AbstractLogger {
     };
 
     @Override
+    public void setVisible(boolean visible) {
+      super.setVisible(visible);
+      if (visible) {
+        scrollPanel.checkMinSize();
+        windowResizeListener.onWindowResized(Window.getClientWidth(), Window.getClientHeight());
+      }
+    }
+
+    @Override
     protected void onLoad() {
       super.onLoad();
       Window.addWindowResizeListener(windowResizeListener);
@@ -116,15 +125,6 @@ public class DivLogger extends AbstractLogger {
     protected void onUnload() {
       super.onUnload();
       Window.removeWindowResizeListener(windowResizeListener);
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-      super.setVisible(visible);
-      if (visible) {
-        scrollPanel.checkMinSize();
-        windowResizeListener.onWindowResized(Window.getClientWidth(), Window.getClientHeight());
-      }
     }
   };
   private String logText = "";
@@ -175,39 +175,9 @@ public class DivLogger extends AbstractLogger {
     };
   }
 
-  private void addLogText(String logTest) {
-    logText += logTest;
-    if (!dirty) {
-      dirty = true;
-      timer.schedule(UPDATE_INTERVAL_MILLIS);
-    }
-  }
-
   @Override
   public final void clear() {
     logTextArea.setHTML("");
-  }
-
-  private String getColor(int logLevel) {
-    if (logLevel == Log.LOG_LEVEL_OFF) {
-      return "#000"; // black
-    }
-    if (logLevel >= Log.LOG_LEVEL_FATAL) {
-      return "#F00"; // bright red
-    }
-    if (logLevel >= Log.LOG_LEVEL_ERROR) {
-      return "#C11B17"; // dark red
-    }
-    if (logLevel >= Log.LOG_LEVEL_WARN) {
-      return "#E56717"; // dark orange
-    }
-    if (logLevel >= Log.LOG_LEVEL_INFO) {
-      return "#2B60DE"; // blue
-    }
-    if (logLevel >= Log.LOG_LEVEL_DEBUG) {
-      return "#20b000"; // green
-    }
-    return "#F0F"; // purple
   }
 
   public final Widget getWidget() {
@@ -220,6 +190,36 @@ public class DivLogger extends AbstractLogger {
 
   public final boolean isVisible() {
     return logDockPanel.isAttached() && logDockPanel.isVisible();
+  }
+
+  public final void moveTo(int x, int y) {
+    RootPanel.get().add(logDockPanel, x, y);
+  }
+
+  @Override
+  public void setCurrentLogLevel(int level) {
+    super.setCurrentLogLevel(level);
+    for (int i = 0; i < levels.length; i++) {
+      if (levels[i] < Log.getLowestLogLevel()) {
+        levelButtons[i].setEnabled(false);
+      } else {
+        String levelText = LogUtil.levelToString(levels[i]);
+        boolean current = level == levels[i];
+        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
+            + "'" : "Set current (runtime) log level to '" + levelText + "'");
+        boolean active = level <= levels[i];
+        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
+            : "#ccc");
+      }
+    }
+  }
+
+  public final void setPixelSize(int width, int height) {
+    logTextArea.setPixelSize(width, height);
+  }
+
+  public final void setSize(String width, String height) {
+    logTextArea.setSize(width, height);
   }
 
   @Override
@@ -257,6 +257,36 @@ public class DivLogger extends AbstractLogger {
         + "' onmouseover='className+=\" log-message-hover\"' "
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
+  }
+
+  private void addLogText(String logTest) {
+    logText += logTest;
+    if (!dirty) {
+      dirty = true;
+      timer.schedule(UPDATE_INTERVAL_MILLIS);
+    }
+  }
+
+  private String getColor(int logLevel) {
+    if (logLevel == Log.LOG_LEVEL_OFF) {
+      return "#000"; // black
+    }
+    if (logLevel >= Log.LOG_LEVEL_FATAL) {
+      return "#F00"; // bright red
+    }
+    if (logLevel >= Log.LOG_LEVEL_ERROR) {
+      return "#C11B17"; // dark red
+    }
+    if (logLevel >= Log.LOG_LEVEL_WARN) {
+      return "#E56717"; // dark orange
+    }
+    if (logLevel >= Log.LOG_LEVEL_INFO) {
+      return "#2B60DE"; // blue
+    }
+    if (logLevel >= Log.LOG_LEVEL_DEBUG) {
+      return "#20b000"; // green
+    }
+    return "#F0F"; // purple
   }
 
   /**
@@ -401,35 +431,5 @@ public class DivLogger extends AbstractLogger {
     }
     return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(
         "'", "\"");
-  }
-
-  public final void moveTo(int x, int y) {
-    RootPanel.get().add(logDockPanel, x, y);
-  }
-
-  @Override
-  public void setCurrentLogLevel(int level) {
-    super.setCurrentLogLevel(level);
-    for (int i = 0; i < levels.length; i++) {
-      if (levels[i] < Log.getLowestLogLevel()) {
-        levelButtons[i].setEnabled(false);
-      } else {
-        String levelText = LogUtil.levelToString(levels[i]);
-        boolean current = level == levels[i];
-        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
-            + "'" : "Set current (runtime) log level to '" + levelText + "'");
-        boolean active = level <= levels[i];
-        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
-            : "#ccc");
-      }
-    }
-  }
-
-  public final void setPixelSize(int width, int height) {
-    logTextArea.setPixelSize(width, height);
-  }
-
-  public final void setSize(String width, String height) {
-    logTextArea.setSize(width, height);
   }
 }

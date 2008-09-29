@@ -28,10 +28,6 @@ public class WrappedClientThrowable implements Serializable {
   private String message;
   private String originalClassName;
 
-  @SuppressWarnings("unused")
-  private WrappedClientThrowable() {
-  }
-
   WrappedClientThrowable(Throwable ex) {
     if (ex != null) {
       originalClassName = ex.getClass().getName();
@@ -44,6 +40,10 @@ public class WrappedClientThrowable implements Serializable {
             stackTrace[i].getLineNumber());
       }
     }
+  }
+
+  @SuppressWarnings("unused")
+  private WrappedClientThrowable() {
   }
 
   public ClientStackTraceElement[] getClientStackTrace() {

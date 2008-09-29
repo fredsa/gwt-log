@@ -55,14 +55,6 @@ public class WindowLogger extends AbstractLogger {
     Window.addWindowCloseListener(windowCloseListener);
   }
 
-  private void addLogText(String text) {
-    logText += text;
-    if (window == null) {
-      openNewWindow();
-    }
-    logPendingText();
-  }
-
   @Override
   public final void clear() {
     if (ready) {
@@ -74,33 +66,6 @@ public class WindowLogger extends AbstractLogger {
     }
   }
 
-  private void closeWindowIfOpen() {
-    if (window != null) {
-      ready = false;
-      DOMUtil.windowClose(window);
-      window = null;
-    }
-  }
-
-  private String getColor(int logLevel) {
-    if (logLevel == Log.LOG_LEVEL_OFF) {
-      return "#000"; // black
-    }
-    if (logLevel >= Log.LOG_LEVEL_FATAL) {
-      return "#F00"; // bright red
-    }
-    if (logLevel >= Log.LOG_LEVEL_ERROR) {
-      return "#C11B17"; // dark red
-    }
-    if (logLevel >= Log.LOG_LEVEL_WARN) {
-      return "#E56717"; // dark orange
-    }
-    if (logLevel >= Log.LOG_LEVEL_INFO) {
-      return "#2B60DE"; // blue
-    }
-    return "#20b000"; // green
-  }
-
   public final boolean isSupported() {
     return true;
   }
@@ -108,7 +73,8 @@ public class WindowLogger extends AbstractLogger {
   @Override
   final void log(int logLevel, String message) {
     assert false;
-    // Method never called since {@link #log(int, String, Throwable)} is overridden
+    // Method never called since {@link #log(int, String, Throwable)} is
+    // overridden
   }
 
   @Override
@@ -138,6 +104,41 @@ public class WindowLogger extends AbstractLogger {
         + "' onmouseover='className+=\" log-message-hover\"' "
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
+  }
+
+  private void addLogText(String text) {
+    logText += text;
+    if (window == null) {
+      openNewWindow();
+    }
+    logPendingText();
+  }
+
+  private void closeWindowIfOpen() {
+    if (window != null) {
+      ready = false;
+      DOMUtil.windowClose(window);
+      window = null;
+    }
+  }
+
+  private String getColor(int logLevel) {
+    if (logLevel == Log.LOG_LEVEL_OFF) {
+      return "#000"; // black
+    }
+    if (logLevel >= Log.LOG_LEVEL_FATAL) {
+      return "#F00"; // bright red
+    }
+    if (logLevel >= Log.LOG_LEVEL_ERROR) {
+      return "#C11B17"; // dark red
+    }
+    if (logLevel >= Log.LOG_LEVEL_WARN) {
+      return "#E56717"; // dark orange
+    }
+    if (logLevel >= Log.LOG_LEVEL_INFO) {
+      return "#2B60DE"; // blue
+    }
+    return "#20b000"; // green
   }
 
   private void logPendingText() {
