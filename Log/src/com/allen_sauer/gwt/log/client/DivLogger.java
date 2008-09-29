@@ -335,7 +335,6 @@ public class DivLogger extends AbstractLogger {
       public void onClick(Widget sender) {
         ((Button) sender).setFocus(false);
 
-        // TODO Add GWT.getVersion() after 1.5
         Log.diagnostic("\n" //
             + "gwt-log-" + Log.getVersion() //
             + " - Runtime logging for your Google Web Toolkit projects\n" + //
