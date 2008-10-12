@@ -24,11 +24,23 @@ import java.io.Serializable;
 public class WrappedClientThrowable implements Serializable {
   // CHECKSTYLE_JAVADOC_OFF
 
+  public static WrappedClientThrowable getInstanceOrNull(Throwable ex) {
+    return ex == null ? null : new WrappedClientThrowable(ex);
+  }
+
   private ClientStackTraceElement[] clientStackTrace;
   private String message;
+
   private String originalClassName;
 
-  WrappedClientThrowable(Throwable ex) {
+  /**
+   * Private default constructor for RPC serialization.
+   */
+  @SuppressWarnings("unused")
+  private WrappedClientThrowable() {
+  }
+
+  private WrappedClientThrowable(Throwable ex) {
     if (ex != null) {
       originalClassName = ex.getClass().getName();
       message = ex.getMessage();
@@ -40,10 +52,6 @@ public class WrappedClientThrowable implements Serializable {
             stackTrace[i].getLineNumber());
       }
     }
-  }
-
-  @SuppressWarnings("unused")
-  private WrappedClientThrowable() {
   }
 
   public ClientStackTraceElement[] getClientStackTrace() {
