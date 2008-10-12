@@ -61,7 +61,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.debug(message, new WrappedClientThrowable(throwable), callback);
+    service.debug(removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
   }
 
   @Override
@@ -69,7 +70,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.diagnostic(message, new WrappedClientThrowable(throwable), callback);
+    service.diagnostic(removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
   }
 
   @Override
@@ -77,7 +79,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.error(message, new WrappedClientThrowable(throwable), callback);
+    service.error(removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
   }
 
   @Override
@@ -85,7 +88,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.fatal(message, new WrappedClientThrowable(throwable), callback);
+    service.fatal(removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
   }
 
   @Override
@@ -93,7 +97,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.info(message, new WrappedClientThrowable(throwable), callback);
+    service.info(removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
   }
 
   public boolean isSupported() {
@@ -105,7 +110,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.trace(message, new WrappedClientThrowable(throwable), callback);
+    service.trace(removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
   }
 
   @Override
@@ -113,12 +119,17 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.warn(message, new WrappedClientThrowable(throwable), callback);
+    service.warn(removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
   }
 
   @Override
   void log(int logLevel, String message) {
     assert false;
     // Method never called
+  }
+
+  private String removeTrailingLineSeparator(String message) {
+    return message.replaceAll("(\r\n|\r|\n)$", "");
   }
 }
