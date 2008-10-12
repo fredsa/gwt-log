@@ -21,13 +21,15 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.RemoteLoggerService;
 import com.allen_sauer.gwt.log.client.WrappedClientThrowable;
 
+import javax.servlet.http.HttpServletRequest;
+
 // CHECKSTYLE_JAVADOC_OFF
 
 @SuppressWarnings("serial")
 public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements RemoteLoggerService {
   public final void debug(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.debug(message, UnwrappedClientThrowable.getInstanceOrNull(wrapped));
+      Log.debug(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
@@ -40,7 +42,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
   @Deprecated
   public final void diagnostic(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.diagnostic(message, UnwrappedClientThrowable.getInstanceOrNull(wrapped));
+      Log.diagnostic(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
@@ -49,7 +51,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
 
   public final void error(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.error(message, UnwrappedClientThrowable.getInstanceOrNull(wrapped));
+      Log.error(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
@@ -58,7 +60,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
 
   public final void fatal(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.fatal(message, UnwrappedClientThrowable.getInstanceOrNull(wrapped));
+      Log.fatal(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
@@ -67,7 +69,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
 
   public final void info(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.info(message, UnwrappedClientThrowable.getInstanceOrNull(wrapped));
+      Log.info(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
@@ -76,7 +78,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
 
   public final void trace(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.trace(message, UnwrappedClientThrowable.getInstanceOrNull(wrapped));
+      Log.trace(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
@@ -85,10 +87,15 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
 
   public final void warn(String message, WrappedClientThrowable wrapped) {
     try {
-      Log.warn(message, UnwrappedClientThrowable.getInstanceOrNull(wrapped));
+      Log.warn(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
     } catch (RuntimeException e) {
       System.err.println("Failed to log message due to " + e.toString());
       e.printStackTrace();
     }
+  }
+
+  private String format(String message) {
+    HttpServletRequest request = getThreadLocalRequest();
+    return "[" + request.getRemoteAddr() + "] " + message;
   }
 }
