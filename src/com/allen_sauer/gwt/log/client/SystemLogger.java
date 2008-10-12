@@ -31,9 +31,9 @@ public final class SystemLogger extends AbstractLogger {
   @Override
   void log(int logLevel, String message) {
     if (logLevel >= Log.LOG_LEVEL_ERROR) {
-      System.err.println(message);
+      System.err.print(message);
     } else {
-      System.out.println(message);
+      System.out.print(message);
     }
   }
 }

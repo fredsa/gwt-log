@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+  <!--
   Copyright 2008 Fred Sauer
   
   Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,11 +13,16 @@
   WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
   License for the specific language governing permissions and limitations under
   the License.
--->
+  -->
 <module>
 
   <inherits name="com.allen_sauer.gwt.log.gwt-log-impl" />
 
+  <!--
+    Inspired by Apache log4j PatternLayout:
+    http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html
+  -->
+  <set-configuration-property name="log_pattern" value="%d [%-5p] %m%n" />
 
   <!-- Loggers Enabled by default -->
   <set-property name="log_ConsoleLogger" value="ENABLED" />
@@ -25,7 +30,7 @@
   <set-property name="log_FirebugLogger" value="ENABLED" />
   <set-property name="log_GWTLogger" value="ENABLED" />
   <set-property name="log_SystemLogger" value="ENABLED" />
-  
+
   <!-- Loggers Disabled by default -->
   <set-property name="log_RemoteLogger" value="DISABLED" />
   <set-property name="log_WindowLogger" value="DISABLED" />

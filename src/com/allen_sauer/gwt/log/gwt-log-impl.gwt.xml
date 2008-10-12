@@ -27,6 +27,16 @@
 
 
   <!--
+    Provide formatting via 'log_pattern' property.
+  -->
+  <generate-with class="com.allen_sauer.gwt.log.rebind.LogMessageFormatterGenerator">
+    <when-type-assignable class="com.allen_sauer.gwt.log.client.LogMessageFormatter" />
+  </generate-with>
+
+
+
+
+  <!--
     Note: This property-provider will only used once the list of valid
     values for 'log_level' is expanded, beyond the default 'OFF'
     value, via an 'extend-property' tag.

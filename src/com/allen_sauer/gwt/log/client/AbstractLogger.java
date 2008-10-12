@@ -21,7 +21,7 @@ import java.util.Date;
 public abstract class AbstractLogger implements Logger {
   public void clear() {
     info("============= gwt-log-" + Log.getVersion() + " =============" + new Date()
-        + "=============", null);
+        + "=============\n", null);
   }
 
   public void debug(String message, Throwable throwable) {
@@ -64,7 +64,6 @@ public abstract class AbstractLogger implements Logger {
   void log(int logLevel, String message, Throwable throwable) {
     String text = message;
     if (throwable != null) {
-      text += "\n";
       while (throwable != null) {
         String text1 = "";
         text1 += throwable.getClass().getName() + ":\n" + throwable.getMessage() + "\n";
