@@ -27,6 +27,7 @@ import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
+import com.allen_sauer.gwt.log.client.LogMessageFormatter;
 import com.allen_sauer.gwt.log.client.Logger;
 import com.allen_sauer.gwt.log.client.RemoteLogger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
@@ -43,7 +44,10 @@ import java.util.Iterator;
 public abstract class LogImplBase extends LogImpl {
   // CHECKSTYLE_JAVADOC_OFF
 
+  static final LogMessageFormatter FORMATTER = GWT.create(LogMessageFormatter.class);
+
   static final String LOG_LEVEL_TEXT_DEBUG = LogUtil.levelToString(Log.LOG_LEVEL_DEBUG);
+
   static final String LOG_LEVEL_TEXT_ERROR = LogUtil.levelToString(Log.LOG_LEVEL_ERROR);
 
   static final String LOG_LEVEL_TEXT_FATAL = LogUtil.levelToString(Log.LOG_LEVEL_FATAL);
@@ -62,16 +66,6 @@ public abstract class LogImplBase extends LogImpl {
 
   static JavaScriptException convertJavaScriptObjectToException(JavaScriptObject e) {
     return new JavaScriptException(javaScriptExceptionName(e), javaScriptExceptionDescription(e));
-  }
-
-  /**
-   * TODO move the message formatting and addition of log level prefix(es) to the Loggers as it really doesn't belong here
-   */
-  private static String format(String prefix, String message) {
-    if (message == null) {
-      message = "<null message>";
-    }
-    return prefix + " " + message.replaceAll("\n", "\n" + prefix + " ");
   }
 
   @SuppressWarnings("unused")
@@ -106,10 +100,6 @@ public abstract class LogImplBase extends LogImpl {
   /*-{
     $wnd.$GWT_LOG_VERSION = "@GWT_LOG_VERSION@";
   }-*/;
-
-  private static String toPrefix(String logLevelText) {
-    return "[" + logLevelText + "]";
-  }
 
   private int currentLogLevel = getLowestLogLevel();
 
@@ -148,7 +138,7 @@ public abstract class LogImplBase extends LogImpl {
   @Override
   public final void debug(String message, Throwable e) {
     if (isDebugEnabled()) {
-      message = format(toPrefix(LOG_LEVEL_TEXT_DEBUG), message);
+      message = FORMATTER.format(LOG_LEVEL_TEXT_DEBUG, message);
       for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = iterator.next();
         try {
@@ -164,7 +154,7 @@ public abstract class LogImplBase extends LogImpl {
 
   @Override
   public void diagnostic(String message, final Throwable e) {
-    final String msg = format(toPrefix("gwt-log"), message);
+    final String msg = FORMATTER.format("gwt-log", message);
     DeferredCommand.addCommand(new Command() {
       public void execute() {
         for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
@@ -191,7 +181,7 @@ public abstract class LogImplBase extends LogImpl {
   @Override
   public final void error(String message, Throwable e) {
     if (isErrorEnabled()) {
-      message = format(toPrefix(LOG_LEVEL_TEXT_ERROR), message);
+      message = FORMATTER.format(LOG_LEVEL_TEXT_ERROR, message);
       for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = iterator.next();
         try {
@@ -215,7 +205,7 @@ public abstract class LogImplBase extends LogImpl {
   @Override
   public final void fatal(String message, Throwable e) {
     if (isFatalEnabled()) {
-      message = format(toPrefix(LOG_LEVEL_TEXT_FATAL), message);
+      message = FORMATTER.format(LOG_LEVEL_TEXT_FATAL, message);
       for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = iterator.next();
         try {
@@ -280,7 +270,7 @@ public abstract class LogImplBase extends LogImpl {
   @Override
   public final void info(String message, Throwable e) {
     if (isInfoEnabled()) {
-      message = format(toPrefix(LOG_LEVEL_TEXT_INFO), message);
+      message = FORMATTER.format(LOG_LEVEL_TEXT_INFO, message);
       for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = iterator.next();
         try {
@@ -410,7 +400,7 @@ public abstract class LogImplBase extends LogImpl {
   @Override
   public final void trace(String message, Throwable e) {
     if (isTraceEnabled()) {
-      message = format(toPrefix(LOG_LEVEL_TEXT_TRACE), message);
+      message = FORMATTER.format(LOG_LEVEL_TEXT_TRACE, message);
       for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = iterator.next();
         try {
@@ -434,7 +424,7 @@ public abstract class LogImplBase extends LogImpl {
   @Override
   public final void warn(String message, Throwable e) {
     if (isWarnEnabled()) {
-      message = format(toPrefix(LOG_LEVEL_TEXT_WARN), message);
+      message = FORMATTER.format(LOG_LEVEL_TEXT_WARN, message);
       for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
         Logger logger = iterator.next();
         try {

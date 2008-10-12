@@ -235,7 +235,6 @@ public class DivLogger extends AbstractLogger {
     String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     String title = makeTitle(message, throwable);
     if (throwable != null) {
-      text += "\n";
       while (throwable != null) {
         text += throwable.getClass().getName() + ":<br><b>" + throwable.getMessage() + "</b>";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();

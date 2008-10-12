@@ -15,7 +15,11 @@
  */
 package com.allen_sauer.gwt.log.client.util;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
+
 import com.allen_sauer.gwt.log.client.Log;
+
+import java.util.Date;
 
 /**
  * Class with logging related utility methods.
@@ -30,6 +34,20 @@ public class LogUtil {
   private static final String LOG_LEVEL_TEXT_OFF = "OFF";
   private static final String LOG_LEVEL_TEXT_TRACE = "TRACE";
   private static final String LOG_LEVEL_TEXT_WARN = "WARN";
+  private static final String SPACES;
+
+  static {
+    StringBuffer b = new StringBuffer();
+    for (int i = 0; i < 500; i++) {
+      b.append(' ');
+    }
+    SPACES = b.toString();
+  }
+
+  public static String formatDate(Date date, String formatMask) {
+    // TODO don't instantiate a new DateTimeFormat each time this method is called
+    return DateTimeFormat.getFormat(formatMask).format(date);
+  }
 
   public static String levelToString(int level) {
     switch (level) {
@@ -51,4 +69,19 @@ public class LogUtil {
         throw new IllegalArgumentException();
     }
   }
+
+  public static String padLeft(String text, int minLength) {
+    int len = text.length();
+    return len < minLength ? SPACES.substring(0, minLength - len) + text : text;
+  }
+
+  public static String padRight(String text, int minLength) {
+    int len = text.length();
+    return len < minLength ? text + SPACES.substring(0, minLength - len) : text;
+  }
+
+  public static String trim(String text, int maxLength) {
+    return text.substring(0, maxLength);
+  }
+
 }
