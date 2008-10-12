@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
  * Generator for LogMessageFormatter interface.
  */
 public class LogMessageFormatterGenerator extends Generator {
+  // CHECKSTYLE_JAVADOC_OFF
 
   private static final HashMap<String, String> CONVERSION_MAP = new HashMap<String, String>();
 
