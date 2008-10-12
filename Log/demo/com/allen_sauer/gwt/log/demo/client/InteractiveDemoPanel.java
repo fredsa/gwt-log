@@ -139,7 +139,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       }
     });
 
-    jsTimeoutExceptionButtonFatal = new Button("JavaScript setTimeout() exception");
+    jsTimeoutExceptionButtonFatal = new Button("JavaScript setTimeout() exception [FF/IE only]");
     add(jsTimeoutExceptionButtonFatal);
     jsTimeoutExceptionButtonFatal.addClickListener(new ClickListener() {
       public native void onClick(Widget sender)
