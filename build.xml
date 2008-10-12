@@ -292,7 +292,7 @@
 	</target>
 
 	<target name="javadoc">
-		<javadoc access="protected" classpath="${gwt-user.jar}:{gwt-dev.jar}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" />
+		<javadoc access="protected" classpath="${gwt-user.jar}:{gwt-dev.jar}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind"/>
 	</target>
 
   <target name="stat">
