@@ -15,6 +15,7 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -23,7 +24,7 @@ import com.allen_sauer.gwt.log.client.impl.LogImpl;
 /**
  * Static logging functions for client code.
  */
-public final class Log {
+public final class Log implements EntryPoint {
   /**
    * Constant <code>int</code> value <CODE>10000</CODE>, representing <code>DEBUG</code> logging level,
    * to display debugging messages or higher.
@@ -34,7 +35,6 @@ public final class Log {
    * to display error messages or higher.
    */
   public static final int LOG_LEVEL_ERROR = 40000;
-
   /**
    * Constant <code>int</code> value <CODE>50000</CODE>, representing <code>FATAL</code> logging level,
    * to display fatal messages or higher.
@@ -64,12 +64,7 @@ public final class Log {
    */
   public static final int LOG_LEVEL_WARN = 30000;
 
-  private static final LogImpl impl;
-
-  static {
-    impl = (LogImpl) GWT.create(LogImpl.class);
-    impl.init();
-  }
+  private static LogImpl impl;
 
   /**
    * Register a new logger.
@@ -699,5 +694,19 @@ public final class Log {
    */
   public static void warn(String message, Throwable e) {
     impl.warn(message, e);
+  }
+
+  /**
+   * Default private constructor, to be used by GWT module initialization only.
+   */
+  private Log() {
+  }
+
+  /**
+   * Entry point for gwt-log initialization.
+   */
+  public void onModuleLoad() {
+    impl = (LogImpl) GWT.create(LogImpl.class);
+    impl.init();
   }
 }
