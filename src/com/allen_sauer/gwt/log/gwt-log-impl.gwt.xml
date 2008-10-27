@@ -58,17 +58,24 @@
       if (log_level == null) {  
         log_level = __gwt_getMetaProperty("log_level")   
       }
-       
+
+      // Find next lowest log level
       if (!__gwt_isKnownPropertyValue("log_level", log_level)) {
-        var defaults = ["OFF", "FATAL", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"];
-        for (i in defaults) {
-          if (__gwt_isKnownPropertyValue("log_level", defaults[i])) {
-            log_level = defaults[i];
+        var levels = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF"];
+        var possibleLevel = null;
+        var foundRequestedLevel = false;
+        for (i in levels) {
+          foundRequestedLevel |= (log_level == levels[i]);
+          if (__gwt_isKnownPropertyValue("log_level", levels[i])) {
+            possibleLevel = levels[i];
+          }
+          if (i == levels.length - 1 || (foundRequestedLevel && possibleLevel != null)) {
+            log_level = possibleLevel;
             break;
           }
         }
       }
-
+      
       return log_level;
     ]]>
   </property-provider>
@@ -224,5 +231,8 @@
     <when-type-is class="com.allen_sauer.gwt.log.client.util.impl.DOMUtilImpl" />
     <when-property-is name="user.agent" value="gecko" />
   </replace-with>
+
+
+  <entry-point class="com.allen_sauer.gwt.log.client.Log"/>
 
 </module>

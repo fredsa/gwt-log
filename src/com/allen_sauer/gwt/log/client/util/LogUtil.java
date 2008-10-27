@@ -80,8 +80,28 @@ public class LogUtil {
     return len < minLength ? text + SPACES.substring(0, minLength - len) : text;
   }
 
+  // TODO add support for numeric values
+  public static int stringToLevel(String logLevelString) {
+    if (LOG_LEVEL_TEXT_TRACE.equals(logLevelString)) {
+      return Log.LOG_LEVEL_TRACE;
+    } else if (LOG_LEVEL_TEXT_DEBUG.equals(logLevelString)) {
+      return Log.LOG_LEVEL_DEBUG;
+    } else if (LOG_LEVEL_TEXT_INFO.equals(logLevelString)) {
+      return Log.LOG_LEVEL_INFO;
+    } else if (LOG_LEVEL_TEXT_WARN.equals(logLevelString)) {
+      return Log.LOG_LEVEL_WARN;
+    } else if (LOG_LEVEL_TEXT_ERROR.equals(logLevelString)) {
+      return Log.LOG_LEVEL_ERROR;
+    } else if (LOG_LEVEL_TEXT_FATAL.equals(logLevelString)) {
+      return Log.LOG_LEVEL_FATAL;
+    } else if (LOG_LEVEL_TEXT_OFF.equals(logLevelString)) {
+      return Log.LOG_LEVEL_OFF;
+    } else {
+      throw new IllegalArgumentException();
+    }
+  }
+
   public static String trim(String text, int maxLength) {
     return text.substring(0, maxLength);
   }
-
 }

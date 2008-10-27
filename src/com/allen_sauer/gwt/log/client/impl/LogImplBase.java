@@ -21,6 +21,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
 import com.allen_sauer.gwt.log.client.DivLogger;
@@ -66,6 +67,13 @@ public abstract class LogImplBase extends LogImpl {
 
   static JavaScriptException convertJavaScriptObjectToException(JavaScriptObject e) {
     return new JavaScriptException(javaScriptExceptionName(e), javaScriptExceptionDescription(e));
+  }
+
+  private static int getRequestedRuntimeLogLevel() {
+    String logLevelString = Location.getParameter("log_level");
+    int lowestLogLevel = Log.getLowestLogLevel();
+    return logLevelString == null ? lowestLogLevel : Math.max(lowestLogLevel,
+        LogUtil.stringToLevel(logLevelString));
   }
 
   @SuppressWarnings("unused")
@@ -309,7 +317,7 @@ public abstract class LogImplBase extends LogImpl {
     }
 
     // notify loggers
-    setCurrentLogLevel(getLowestLogLevel());
+    setCurrentLogLevelLoggers(getRequestedRuntimeLogLevel());
 
     clear();
   }
@@ -355,21 +363,7 @@ public abstract class LogImplBase extends LogImpl {
 
   @Override
   public final int setCurrentLogLevel(int level) {
-    if (level < getLowestLogLevel()) {
-      Window.alert("Unable to lower runtime log level to " + level
-          + " due to compile time minimum of " + getLowestLogLevel());
-      level = getLowestLogLevel();
-    }
-
-    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = iterator.next();
-      try {
-        logger.setCurrentLogLevel(level);
-      } catch (RuntimeException e1) {
-        iterator.remove();
-        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
-      }
-    }
+    level = setCurrentLogLevelLoggers(level);
 
     if (level != currentLogLevel) {
       diagnostic("Temporarily setting the current (runtime) log level filter to '"
@@ -436,6 +430,25 @@ public abstract class LogImplBase extends LogImpl {
         }
       }
     }
+  }
+
+  private int setCurrentLogLevelLoggers(int level) {
+    if (level < getLowestLogLevel()) {
+      Window.alert("Unable to lower runtime log level to " + level
+          + " due to compile time minimum of " + getLowestLogLevel());
+      level = getLowestLogLevel();
+    }
+
+    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = iterator.next();
+      try {
+        logger.setCurrentLogLevel(level);
+      } catch (RuntimeException e1) {
+        iterator.remove();
+        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
+      }
+    }
+    return level;
   }
 
   private native void setErrorHandler()
