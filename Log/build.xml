@@ -81,7 +81,7 @@
 		</taskdef>
 
 		<!-- gwt-log.libdir property -->
-		<input addproperty="gwt-log.libdir" defaultvalue="/fred/lib/gwt-log" message="gwt-log destination directory" />
+		<input addproperty="gwt-log.libdir" defaultvalue="/fred/lib/gwt-log" message="gwt-log library directory" />
 
 		<for param="file">
 			<fileset dir="${gwt-log.libdir}">
@@ -213,7 +213,7 @@
 
 		<!-- compile src -->
 
-		<javac compiler="javac1.5" listfiles="false" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+		<javac compiler="javac1.5" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/out" />
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-dev.jar}" />
@@ -292,14 +292,14 @@
 	</target>
 
 	<target name="javadoc">
-		<javadoc access="protected" classpath="${gwt-user.jar}:{gwt-dev.jar}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind"/>
+		<javadoc access="protected" classpath="${gwt-user.jar}:{gwt-dev.jar}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
 	</target>
 
-  <target name="stat">
-    <exec executable="svn">
-      <arg value="stat" />
-    </exec>
-  </target>
+	<target name="stat">
+		<exec executable="svn">
+			<arg value="stat" />
+		</exec>
+	</target>
 
 	<target name="tag">
 		<exec executable="svn">
@@ -333,14 +333,17 @@
 
 		<antcall target="tag" />
 
-    <antcall target="stat" />
+		<antcall target="stat" />
 	</target>
 
 	<target name="clean">
 		<delete dir="build" />
+		<delete dir=".gwt-cache" />
+		<delete dir="www" />
+		<delete dir="tomcat" />
 	</target>
 
-	<target name="deploy" depends="clean, init, gwtc">
+	<target name="deploy" depends="clean, init, javac, gwtc">
 
 		<scp todir="sauer@allen-sauer.com:" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" verbose="true">
 			<fileset dir="build/www">
