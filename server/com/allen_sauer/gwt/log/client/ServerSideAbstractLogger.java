@@ -17,47 +17,51 @@ package com.allen_sauer.gwt.log.client;
 
 // CHECKSTYLE_JAVADOC_OFF
 public abstract class ServerSideAbstractLogger implements ServerSideLogger {
-  public final void clear() {
+  public void clear() {
     throw new UnsupportedOperationException();
   }
 
-  public final void debug(String message, Throwable throwable) {
+  public void debug(String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 
-  public final void error(String message, Throwable throwable) {
+  public void error(String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 
-  public final void fatal(String message, Throwable throwable) {
+  public void fatal(String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 
-  public final void info(String message, Throwable throwable) {
+  public void info(String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 
-  public final boolean isSupported() {
+  public boolean isSupported() {
     throw new UnsupportedOperationException();
   }
 
-  public final void trace(String message, Throwable throwable) {
+  public void setCurrentLogLevel(int level) {
     throw new UnsupportedOperationException();
   }
 
-  public final void warn(String message) {
+  public void trace(String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 
-  public final void warn(String message, Throwable throwable) {
+  public void warn(String message) {
     throw new UnsupportedOperationException();
   }
 
-  final void log(int logLevel, String message) {
+  public void warn(String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 
-  final void log(int logLevel, String message, Throwable throwable) {
+  void log(int logLevel, String message) {
+    throw new UnsupportedOperationException();
+  }
+
+  void log(int logLevel, String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 }
