@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="protected" author="true" classpath="../gwt/trunk/build/staging/gwt-windows-0.0.0/gwt-user.jar;../gwt/trunk/build/staging/gwt-windows-0.0.0/gwt-dev-windows.jar;C:\Program Files\eclipse-3.3RC4\plugins\org.junit_3.8.2.v200706111738\junit.jar" destdir="javadoc" doctitle="gwt-log -- A Logging Library for Google-Web-Toolkit (GWT)" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.allen_sauer.gwt.log.client" source="1.4" sourcepath="src;demo;test" splitindex="false" use="true" version="true"/>
+    </target>
+</project>
