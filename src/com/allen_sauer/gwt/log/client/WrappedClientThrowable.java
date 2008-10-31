@@ -24,15 +24,20 @@ import java.io.Serializable;
 public class WrappedClientThrowable implements Serializable {
   // CHECKSTYLE_JAVADOC_OFF
 
+  public static WrappedClientThrowable getInstanceOrNull(Throwable ex) {
+    return ex == null ? null : new WrappedClientThrowable(ex);
+  }
+
   private ClientStackTraceElement[] clientStackTrace;
   private String message;
+
   private String originalClassName;
 
   @SuppressWarnings("unused")
   private WrappedClientThrowable() {
   }
 
-  WrappedClientThrowable(Throwable ex) {
+  private WrappedClientThrowable(Throwable ex) {
     if (ex != null) {
       originalClassName = ex.getClass().getName();
       message = ex.getMessage();

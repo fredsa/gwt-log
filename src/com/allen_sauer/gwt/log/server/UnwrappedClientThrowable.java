@@ -23,7 +23,14 @@ import com.allen_sauer.gwt.log.client.WrappedClientThrowable;
  */
 @SuppressWarnings("serial")
 public class UnwrappedClientThrowable extends Throwable {
+  // CHECKSTYLE_JAVADOC_OFF
+
+  public static UnwrappedClientThrowable getInstanceOrNull(WrappedClientThrowable wrapped) {
+    return wrapped == null ? null : new UnwrappedClientThrowable(wrapped);
+  }
+
   private String message;
+
   private String originalClassName;
 
   /**
@@ -38,7 +45,7 @@ public class UnwrappedClientThrowable extends Throwable {
    *
    * @param wrapped the wrapped client-side exception
    */
-  UnwrappedClientThrowable(WrappedClientThrowable wrapped) {
+  private UnwrappedClientThrowable(WrappedClientThrowable wrapped) {
     originalClassName = wrapped.getOriginalClassName();
     message = wrapped.getMessage();
 
