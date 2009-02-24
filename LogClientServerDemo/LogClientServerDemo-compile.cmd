@@ -1,0 +1,1 @@
+@java -cp "%~dp0\src;%GWT_LIBS%/gwt-log/gwt-log-0.0.0.jar;%GWT_TRUNK%/user/src;%GWT_HOME%/gwt-user.jar;%GWT_HOME%/gwt-dev-windows.jar" com.google.gwt.dev.GWTCompiler -out "%~dp0\www" %* com.allen_sauer.gwt.log.clientserverdemo.LogClientServerDemo
