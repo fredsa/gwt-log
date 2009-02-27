@@ -15,12 +15,12 @@
  */
 package com.allen_sauer.gwt.log.demo.client;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.Log;
@@ -76,8 +76,8 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       final String levelString = levelTexts[i];
       messageButtons[i] = new Button("Log." + levelString.toLowerCase() + "(...)");
       add(messageButtons[i]);
-      messageButtons[i].addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
+      messageButtons[i].addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
           String msg = "This is a '" + levelString + "' test message";
           switch (level) {
             case Log.LOG_LEVEL_TRACE:
@@ -108,24 +108,24 @@ public class InteractiveDemoPanel extends AbsolutePanel {
 
     jsniCatchButtonFatal = new Button("JSNI with try/catch");
     add(jsniCatchButtonFatal);
-    jsniCatchButtonFatal.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    jsniCatchButtonFatal.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
         jsniCatch();
       }
     });
 
     jsniNoCatchButtonFatal = new Button("JSNI without try/catch");
     add(jsniNoCatchButtonFatal);
-    jsniNoCatchButtonFatal.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    jsniNoCatchButtonFatal.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
         jsniNoCatch();
       }
     });
 
     clinitButtonFatal = new Button("static (class) initialization failure");
     add(clinitButtonFatal);
-    clinitButtonFatal.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    clinitButtonFatal.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
         new Broken();
       }
     });
@@ -133,16 +133,16 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     add(new HTML("<BR>"));
     npeButtonFatal = new Button("NullPointerException");
     add(npeButtonFatal);
-    npeButtonFatal.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    npeButtonFatal.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
         throw new NullPointerException();
       }
     });
 
     jsTimeoutExceptionButtonFatal = new Button("JavaScript setTimeout() exception [FF/IE only]");
     add(jsTimeoutExceptionButtonFatal);
-    jsTimeoutExceptionButtonFatal.addClickListener(new ClickListener() {
-      public native void onClick(Widget sender)
+    jsTimeoutExceptionButtonFatal.addClickHandler(new ClickHandler() {
+      public native void onClick(ClickEvent event)
       /*-{
         setTimeout(function() {
           my_non_existant_variable.my_non_existant_method();
@@ -152,8 +152,8 @@ public class InteractiveDemoPanel extends AbsolutePanel {
 
     nullButtonDebug = new Button("Log.debug(null)");
     add(nullButtonDebug);
-    nullButtonDebug.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    nullButtonDebug.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
         Log.debug(null);
       }
     });
@@ -163,8 +163,8 @@ public class InteractiveDemoPanel extends AbsolutePanel {
 
     Button clearButton = new Button("clear()");
     add(clearButton);
-    clearButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    clearButton.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
         Log.clear();
       }
     });
@@ -175,8 +175,8 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     // for (int i = 0; i < levels.length; i++) {
     // final int level = levels[i];
     // levelButtons[i] = new Button(levelTexts[i]);
-    // levelButtons[i].addClickListener(new ClickListener() {
-    // public void onClick(Widget sender) {
+    // levelButtons[i].addClickHandler(new ClickHandler() {
+    // public void onClick(ClickEvent event) {
     // Log.setCurrentLogLevel(level);
     // updateLogLevelLabels();
     // }
@@ -191,8 +191,8 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       final int level = levels[i];
       final String url = getPageURL() + "?log_level=" + levelTexts[i];
       Button button = new Button(levelTexts[i]);
-      button.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
+      button.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
           setLocation(url);
         }
       });

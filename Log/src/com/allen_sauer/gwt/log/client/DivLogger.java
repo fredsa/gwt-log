@@ -16,9 +16,19 @@
 package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.HasAllMouseHandlers;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
@@ -44,6 +54,59 @@ import com.allen_sauer.gwt.log.client.util.LogUtil;
  */
 public class DivLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
+
+  private class MouseHandleHandler implements MouseMoveHandler, MouseUpHandler, MouseDownHandler {
+    private boolean dragging = false;
+    private int dragStartX;
+    private int dragStartY;
+    private final Widget resizePanel;
+
+    public MouseHandleHandler(Widget resizePanel) {
+      this.resizePanel = resizePanel;
+      HasAllMouseHandlers hamh = (HasAllMouseHandlers) resizePanel;
+      hamh.addMouseMoveHandler(this);
+      hamh.addMouseDownHandler(this);
+      hamh.addMouseUpHandler(this);
+    }
+
+    public void onMouseDown(MouseDownEvent event) {
+      Widget sender = (Widget) event.getSource();
+      Element elem = sender.getElement();
+      NativeEvent nativeEvent = event.getNativeEvent();
+      int x = Event.getRelativeX(nativeEvent, elem);
+      int y = Event.getRelativeY(nativeEvent, elem);
+
+      dragging = true;
+      DOM.setCapture(resizePanel.getElement());
+      dragStartX = x;
+      dragStartY = y;
+      DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
+    }
+
+    public void onMouseMove(MouseMoveEvent event) {
+      Widget sender = (Widget) event.getSource();
+      Element elem = sender.getElement();
+      NativeEvent nativeEvent = event.getNativeEvent();
+      int x = Event.getRelativeX(nativeEvent, elem);
+      int y = Event.getRelativeY(nativeEvent, elem);
+
+      if (dragging) {
+        scrollPanel.incrementPixelSize(x - dragStartX, y - dragStartY);
+        scrollPanel.setScrollPosition(Integer.MAX_VALUE);
+      }
+    }
+
+    public void onMouseUp(MouseUpEvent event) {
+      Widget sender = (Widget) event.getSource();
+      Element elem = sender.getElement();
+      NativeEvent nativeEvent = event.getNativeEvent();
+      int x = Event.getRelativeX(nativeEvent, elem);
+      int y = Event.getRelativeY(nativeEvent, elem);
+
+      dragging = false;
+      DOM.releaseCapture(resizePanel.getElement());
+    }
+  }
 
   private static class ScrollPanelImpl extends ScrollPanel {
     private int minScrollPanelHeight = -1;
@@ -82,10 +145,10 @@ public class DivLogger extends AbstractLogger {
   private static final String STYLE_LOG_HEADER = "log-header";
   private static final String STYLE_LOG_PANEL = "log-panel";
   private static final String STYLE_LOG_SCROLL_PANEL = "log-scroll-panel";
+
   private static final String STYLE_LOG_TEXT_AREA = "log-text-area";
 
   private static final int UPDATE_INTERVAL_MILLIS = 500;
-
   private boolean dirty = false;
   private Button[] levelButtons;
   private final DockPanel logDockPanel = new DockPanel() {
@@ -128,10 +191,10 @@ public class DivLogger extends AbstractLogger {
     }
   };
   private String logText = "";
+
   private final HTML logTextArea = new HTML();
 
   private final ScrollPanelImpl scrollPanel = new ScrollPanelImpl();
-
   private final Timer timer;
 
   /**
@@ -146,8 +209,9 @@ public class DivLogger extends AbstractLogger {
 
     final FocusPanel headerPanel = makeHeader();
 
-    Widget resizePanel;
-    resizePanel = makeResizePanel();
+    Widget resizePanel = new Image(GWT.getModuleBaseURL() + "gwt-log-triangle-10x10.png");
+    resizePanel.addStyleName("log-resize-se");
+    new MouseHandleHandler(resizePanel);
 
     logDockPanel.add(headerPanel, DockPanel.NORTH);
     logDockPanel.add(scrollPanel, DockPanel.CENTER);
@@ -382,40 +446,6 @@ public class DivLogger extends AbstractLogger {
     });
 
     return header;
-  }
-
-  private Widget makeResizePanel() {
-    final Image handle = new Image(GWT.getModuleBaseURL() + "gwt-log-triangle-10x10.png");
-    handle.addStyleName("log-resize-se");
-    handle.addMouseListener(new MouseListenerAdapter() {
-      private boolean dragging = false;
-      private int dragStartX;
-      private int dragStartY;
-
-      @Override
-      public void onMouseDown(Widget sender, int x, int y) {
-        dragging = true;
-        DOM.setCapture(handle.getElement());
-        dragStartX = x;
-        dragStartY = y;
-        DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
-      }
-
-      @Override
-      public void onMouseMove(Widget sender, int x, int y) {
-        if (dragging) {
-          scrollPanel.incrementPixelSize(x - dragStartX, y - dragStartY);
-          scrollPanel.setScrollPosition(Integer.MAX_VALUE);
-        }
-      }
-
-      @Override
-      public void onMouseUp(Widget sender, int x, int y) {
-        dragging = false;
-        DOM.releaseCapture(handle.getElement());
-      }
-    });
-    return handle;
   }
 
   private String makeTitle(String message, Throwable throwable) {
