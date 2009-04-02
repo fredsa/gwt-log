@@ -16,6 +16,8 @@
 package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasAllMouseHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -32,7 +34,6 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -361,9 +362,9 @@ public class DivLogger extends AbstractLogger {
       final int level = levels[i];
       levelButtons[i] = new Button(LogUtil.levelToString(level));
       buttonPanel.add(levelButtons[i]);
-      levelButtons[i].addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
-          ((Button) sender).setFocus(false);
+      levelButtons[i].addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
+          ((Button) event.getSource()).setFocus(false);
           Log.setCurrentLogLevel(level);
         }
       });
@@ -372,9 +373,9 @@ public class DivLogger extends AbstractLogger {
     Button clearButton = new Button("Clear");
     clearButton.addStyleName("log-clear-button");
     DOM.setStyleAttribute(clearButton.getElement(), "color", "#00c");
-    clearButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        ((Button) sender).setFocus(false);
+    clearButton.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        ((Button) event.getSource()).setFocus(false);
         Log.clear();
       }
     });
@@ -382,9 +383,9 @@ public class DivLogger extends AbstractLogger {
 
     Button aboutButton = new Button("About");
     aboutButton.addStyleName("log-clear-about");
-    aboutButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        ((Button) sender).setFocus(false);
+    aboutButton.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        ((Button) event.getSource()).setFocus(false);
 
         Log.diagnostic("\n" //
             + "gwt-log-" + Log.getVersion() //
