@@ -16,7 +16,6 @@
 package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.HasAllMouseHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -27,8 +26,6 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
@@ -70,39 +67,21 @@ public class DivLogger extends AbstractLogger {
     }
 
     public void onMouseDown(MouseDownEvent event) {
-      Widget sender = (Widget) event.getSource();
-      Element elem = sender.getElement();
-      NativeEvent nativeEvent = event.getNativeEvent();
-      int x = Event.getRelativeX(nativeEvent, elem);
-      int y = Event.getRelativeY(nativeEvent, elem);
-
       dragging = true;
       DOM.setCapture(resizePanel.getElement());
-      dragStartX = x;
-      dragStartY = y;
+      dragStartX = event.getX();
+      dragStartY = event.getY();
       DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
     }
 
     public void onMouseMove(MouseMoveEvent event) {
-      Widget sender = (Widget) event.getSource();
-      Element elem = sender.getElement();
-      NativeEvent nativeEvent = event.getNativeEvent();
-      int x = Event.getRelativeX(nativeEvent, elem);
-      int y = Event.getRelativeY(nativeEvent, elem);
-
       if (dragging) {
-        scrollPanel.incrementPixelSize(x - dragStartX, y - dragStartY);
+        scrollPanel.incrementPixelSize(event.getX() - dragStartX, event.getY() - dragStartY);
         scrollPanel.setScrollPosition(Integer.MAX_VALUE);
       }
     }
 
     public void onMouseUp(MouseUpEvent event) {
-      Widget sender = (Widget) event.getSource();
-      Element elem = sender.getElement();
-      NativeEvent nativeEvent = event.getNativeEvent();
-      int x = Event.getRelativeX(nativeEvent, elem);
-      int y = Event.getRelativeY(nativeEvent, elem);
-
       dragging = false;
       DOM.releaseCapture(resizePanel.getElement());
     }
