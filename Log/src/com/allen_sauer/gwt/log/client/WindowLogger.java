@@ -17,16 +17,17 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowCloseListener;
 
 import com.allen_sauer.gwt.log.client.util.DOMUtil;
 
 /**
  * Logger which outputs to a draggable floating <code>DIV</code>.
  * 
- * TODO Fix lack of upates when Firefox is configured to force new windows to open as tabs
+ * TODO Fix lack of updates when Firefox is configured to force new windows to open as tabs
  */
 public class WindowLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
@@ -38,13 +39,9 @@ public class WindowLogger extends AbstractLogger {
   private boolean ready = false;
   private JavaScriptObject window = null;
 
-  private final WindowCloseListener windowCloseListener = new WindowCloseListener() {
-    public void onWindowClosed() {
+  private final CloseHandler<Window> windowCloseListener = new CloseHandler<Window>() {
+    public void onClose(CloseEvent<Window> event) {
       closeWindowIfOpen();
-    }
-
-    public String onWindowClosing() {
-      return null;
     }
   };
 
@@ -52,7 +49,7 @@ public class WindowLogger extends AbstractLogger {
    * Default constructor.
    */
   public WindowLogger() {
-    Window.addWindowCloseListener(windowCloseListener);
+    Window.addCloseHandler(windowCloseListener);
   }
 
   @Override
