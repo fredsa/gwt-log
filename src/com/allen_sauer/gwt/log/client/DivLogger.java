@@ -23,12 +23,14 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -131,20 +133,15 @@ public class DivLogger extends AbstractLogger {
   private boolean dirty = false;
   private Button[] levelButtons;
   private final DockPanel logDockPanel = new DockPanel() {
-    private final WindowResizeListener windowResizeListener = new WindowResizeListener() {
-      private int lastDocumentClientHeight = -1;
-      private int lastDocumentClientWidth = -1;
+    private int lastDocumentClientHeight = -1;
+    private int lastDocumentClientWidth = -1;
 
-      public void onWindowResized(int width, int height) {
-        // Workaround for issue 1934
-        // IE fires Window onresize events when the size of the body changes
-        if (width != lastDocumentClientWidth || height != lastDocumentClientHeight) {
-          lastDocumentClientWidth = width;
-          lastDocumentClientHeight = height;
-
-          scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(
-              100, (int) (Window.getClientHeight() * .3)));
-        }
+    private HandlerRegistration resizeRegistration;
+    private final ResizeHandler windowResizeListener = new ResizeHandler() {
+      public void onResize(ResizeEvent event) {
+        int width = event.getWidth();
+        int height = event.getHeight();
+        resize(width, height);
       }
     };
 
@@ -153,20 +150,32 @@ public class DivLogger extends AbstractLogger {
       super.setVisible(visible);
       if (visible) {
         scrollPanel.checkMinSize();
-        windowResizeListener.onWindowResized(Window.getClientWidth(), Window.getClientHeight());
+        resize(Window.getClientWidth(), Window.getClientHeight());
       }
     }
 
     @Override
     protected void onLoad() {
       super.onLoad();
-      Window.addWindowResizeListener(windowResizeListener);
+      resizeRegistration = Window.addResizeHandler(windowResizeListener);
     }
 
     @Override
     protected void onUnload() {
       super.onUnload();
-      Window.removeWindowResizeListener(windowResizeListener);
+      resizeRegistration.removeHandler();
+    }
+
+    private void resize(int width, int height) {
+      // Workaround for issue 1934
+      // IE fires Window onresize events when the size of the body changes
+      if (width != lastDocumentClientWidth || height != lastDocumentClientHeight) {
+        lastDocumentClientWidth = width;
+        lastDocumentClientHeight = height;
+
+        scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
+            (int) (Window.getClientHeight() * .3)));
+      }
     }
   };
   private String logText = "";

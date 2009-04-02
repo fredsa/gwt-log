@@ -36,7 +36,6 @@ public class WrappedClientThrowable implements Serializable {
   /**
    * Private default constructor for RPC serialization.
    */
-  @SuppressWarnings("unused")
   private WrappedClientThrowable() {
   }
 

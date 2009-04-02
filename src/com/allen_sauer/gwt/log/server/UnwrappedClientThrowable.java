@@ -36,7 +36,6 @@ public class UnwrappedClientThrowable extends Throwable {
   /**
    * Default constructor, required for RPC. 
    */
-  @SuppressWarnings("unused")
   private UnwrappedClientThrowable() {
   }
 
