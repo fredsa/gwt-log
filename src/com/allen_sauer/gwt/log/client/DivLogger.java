@@ -41,7 +41,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -55,13 +54,47 @@ import com.allen_sauer.gwt.log.client.util.LogUtil;
 public class DivLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
-  private class MouseHandleHandler implements MouseMoveHandler, MouseUpHandler, MouseDownHandler {
+  private class MouseDragHandler implements MouseMoveHandler, MouseUpHandler, MouseDownHandler {
+    private boolean dragging = false;
+    private final Label dragHandle;
+    private int dragStartX;
+    private int dragStartY;
+
+    public MouseDragHandler(Label dragHandle) {
+      this.dragHandle = dragHandle;
+      dragHandle.addMouseDownHandler(this);
+      dragHandle.addMouseUpHandler(this);
+      dragHandle.addMouseMoveHandler(this);
+    }
+
+    public void onMouseDown(MouseDownEvent event) {
+      dragging = true;
+      dragStartX = event.getRelativeX(dragHandle.getElement());
+      dragStartY = event.getRelativeY(dragHandle.getElement());
+      DOM.setCapture(dragHandle.getElement());
+    }
+
+    public void onMouseMove(MouseMoveEvent event) {
+      if (dragging) {
+        int absX = event.getRelativeX(dragHandle.getElement()) + logDockPanel.getAbsoluteLeft();
+        int absY = event.getRelativeY(dragHandle.getElement()) + logDockPanel.getAbsoluteTop();
+        RootPanel.get().setWidgetPosition(logDockPanel, absX - dragStartX, absY - dragStartY);
+      }
+    }
+
+    public void onMouseUp(MouseUpEvent event) {
+      dragging = false;
+      DOM.releaseCapture(dragHandle.getElement());
+    }
+  }
+
+  private class MouseResizeHandler implements MouseMoveHandler, MouseUpHandler, MouseDownHandler {
     private boolean dragging = false;
     private int dragStartX;
     private int dragStartY;
     private final Widget resizePanel;
 
-    public MouseHandleHandler(Widget resizePanel) {
+    public MouseResizeHandler(Widget resizePanel) {
       this.resizePanel = resizePanel;
       HasAllMouseHandlers hamh = (HasAllMouseHandlers) resizePanel;
       hamh.addMouseMoveHandler(this);
@@ -200,7 +233,7 @@ public class DivLogger extends AbstractLogger {
 
     Widget resizePanel = new Image(GWT.getModuleBaseURL() + "gwt-log-triangle-10x10.png");
     resizePanel.addStyleName("log-resize-se");
-    new MouseHandleHandler(resizePanel);
+    new MouseResizeHandler(resizePanel);
 
     logDockPanel.add(headerPanel, DockPanel.NORTH);
     logDockPanel.add(scrollPanel, DockPanel.CENTER);
@@ -405,34 +438,7 @@ public class DivLogger extends AbstractLogger {
     masterPanel.setCellWidth(titleLabel, "50%");
     masterPanel.setCellWidth(aboutButton, "50%");
 
-    titleLabel.addMouseListener(new MouseListenerAdapter() {
-      private boolean dragging = false;
-      private int dragStartX;
-      private int dragStartY;
-
-      @Override
-      public void onMouseDown(Widget sender, int x, int y) {
-        dragging = true;
-        DOM.setCapture(titleLabel.getElement());
-        dragStartX = x;
-        dragStartY = y;
-      }
-
-      @Override
-      public void onMouseMove(Widget sender, int x, int y) {
-        if (dragging) {
-          int absX = x + logDockPanel.getAbsoluteLeft();
-          int absY = y + logDockPanel.getAbsoluteTop();
-          RootPanel.get().setWidgetPosition(logDockPanel, absX - dragStartX, absY - dragStartY);
-        }
-      }
-
-      @Override
-      public void onMouseUp(Widget sender, int x, int y) {
-        dragging = false;
-        DOM.releaseCapture(titleLabel.getElement());
-      }
-    });
+    new MouseDragHandler(titleLabel);
 
     return header;
   }
