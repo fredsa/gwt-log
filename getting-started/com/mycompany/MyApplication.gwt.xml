@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 
-  <!-- Inherit the core Web Toolkit stuff.-->
-  <inherits name="com.google.gwt.user.User" />
+	<!-- Inherit the core Web Toolkit stuff.-->
+	<inherits name="com.google.gwt.user.User" />
 
-  <!-- Inherit logging support                   -->
-  <inherits name="com.allen_sauer.gwt.log.gwt-log" />
+	<!-- Inherit logging support                   -->
+	<inherits name="com.allen_sauer.gwt.log.gwt-log" />
 
-  <!-- Change default value from 'OFF' to 'DEBUG' -->
-  <extend-property name="log_level" values="DEBUG" />
-  <set-property name="log_level" value="DEBUG" />
+	<!-- Change default value from 'OFF' to 'DEBUG' -->
+	<extend-property name="log_level" values="DEBUG" />
+	<set-property name="log_level" value="DEBUG" />
 
-  <!-- Specify the app entry point class.               -->
-  <entry-point class="com.mycompany.client.MyApplication" />
+	<!-- Specify the app entry point class.               -->
+	<entry-point class="com.mycompany.client.MyApplication" />
 
 </module>

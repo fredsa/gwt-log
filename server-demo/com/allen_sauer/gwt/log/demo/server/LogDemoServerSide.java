@@ -1,5 +1,5 @@
 /**
- * Copyright 2008 Fred Sauer.
+ * Copyright 2009 Fred Sauer.
  */
 package com.allen_sauer.gwt.log.demo.server;
 
