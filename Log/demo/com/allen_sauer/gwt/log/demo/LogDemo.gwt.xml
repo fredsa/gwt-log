@@ -19,9 +19,6 @@
 	<!-- Specify the app entry point class.                        -->
 	<entry-point class="com.allen_sauer.gwt.log.demo.client.LogDemo" />
 
-	<!-- Include CSS             -->
-	<stylesheet src="LogDemo.css" />
-
 	<!--
 		Extend property to include all six compile time log levels. Note:
 		Normally you would not do this because this increases the number of
