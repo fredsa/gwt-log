@@ -17,7 +17,6 @@ package com.allen_sauer.gwt.log.server;
 
 import com.allen_sauer.gwt.log.client.ServerSideLog;
 
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,10 +26,6 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
 
   public ServerLogImplJDK14() {
     logger = Logger.getLogger("gwt-log");
-    logger.setUseParentHandlers(false);
-    ConsoleHandler consoleHandler = new ConsoleHandler();
-    consoleHandler.setLevel(Level.ALL);
-    logger.addHandler(consoleHandler);
   }
 
   @Override
