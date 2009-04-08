@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.6.2//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.6.2/distro-source/core/src/gwt-module.dtd">
 	<!--
 		Copyright 2009 Fred Sauer Licensed under the Apache License, Version
 		2.0 (the "License"); you may not use this file except in compliance
@@ -22,10 +23,14 @@
 
 
 
+	<!-- Client side code -->
+	<super-source path="translatable" />
+
+
 
 	<!--
     Provide formatting via 'log_pattern' property.
-  -->
+    -->
 	<generate-with
 		class="com.allen_sauer.gwt.log.rebind.LogMessageFormatterGenerator">
 		<when-type-assignable

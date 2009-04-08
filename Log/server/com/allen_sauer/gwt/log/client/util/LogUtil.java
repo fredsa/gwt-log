@@ -15,10 +15,10 @@
  */
 package com.allen_sauer.gwt.log.client.util;
 
-import com.allen_sauer.gwt.log.client.ServerSideLog;
+import com.allen_sauer.gwt.log.client.Log;
 
 //CHECKSTYLE_JAVADOC_OFF
-public class ServerSideLogUtil {
+public class LogUtil {
   private static final String LOG_LEVEL_TEXT_DEBUG = "DEBUG";
   private static final String LOG_LEVEL_TEXT_ERROR = "ERROR";
   private static final String LOG_LEVEL_TEXT_FATAL = "FATAL";
@@ -29,22 +29,26 @@ public class ServerSideLogUtil {
 
   public static String levelToString(int level) {
     switch (level) {
-      case ServerSideLog.LOG_LEVEL_TRACE:
+      case Log.LOG_LEVEL_TRACE:
         return LOG_LEVEL_TEXT_TRACE;
-      case ServerSideLog.LOG_LEVEL_DEBUG:
+      case Log.LOG_LEVEL_DEBUG:
         return LOG_LEVEL_TEXT_DEBUG;
-      case ServerSideLog.LOG_LEVEL_INFO:
+      case Log.LOG_LEVEL_INFO:
         return LOG_LEVEL_TEXT_INFO;
-      case ServerSideLog.LOG_LEVEL_WARN:
+      case Log.LOG_LEVEL_WARN:
         return LOG_LEVEL_TEXT_WARN;
-      case ServerSideLog.LOG_LEVEL_ERROR:
+      case Log.LOG_LEVEL_ERROR:
         return LOG_LEVEL_TEXT_ERROR;
-      case ServerSideLog.LOG_LEVEL_FATAL:
+      case Log.LOG_LEVEL_FATAL:
         return LOG_LEVEL_TEXT_FATAL;
-      case ServerSideLog.LOG_LEVEL_OFF:
+      case Log.LOG_LEVEL_OFF:
         return LOG_LEVEL_TEXT_OFF;
       default:
         throw new IllegalArgumentException();
     }
+  }
+
+  public static int stringToLevel(String logLevelString) {
+    throw new UnsupportedOperationException(); // never used server-side
   }
 }

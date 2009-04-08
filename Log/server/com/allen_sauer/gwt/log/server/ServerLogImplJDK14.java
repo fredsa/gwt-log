@@ -15,7 +15,7 @@
  */
 package com.allen_sauer.gwt.log.server;
 
-import com.allen_sauer.gwt.log.client.ServerSideLog;
+import com.allen_sauer.gwt.log.client.Log;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,19 +101,19 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
   @Override
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     switch (gwtLogLevel) {
-      case ServerSideLog.LOG_LEVEL_TRACE:
+      case Log.LOG_LEVEL_TRACE:
         return Level.FINEST.intValue();
-      case ServerSideLog.LOG_LEVEL_DEBUG:
+      case Log.LOG_LEVEL_DEBUG:
         return Level.FINE.intValue();
-      case ServerSideLog.LOG_LEVEL_INFO:
+      case Log.LOG_LEVEL_INFO:
         return Level.INFO.intValue();
-      case ServerSideLog.LOG_LEVEL_WARN:
+      case Log.LOG_LEVEL_WARN:
         return Level.WARNING.intValue();
-      case ServerSideLog.LOG_LEVEL_ERROR:
+      case Log.LOG_LEVEL_ERROR:
         return Level.SEVERE.intValue();
-      case ServerSideLog.LOG_LEVEL_FATAL:
+      case Log.LOG_LEVEL_FATAL:
         return Level.SEVERE.intValue();
-      case ServerSideLog.LOG_LEVEL_OFF:
+      case Log.LOG_LEVEL_OFF:
         return Level.OFF.intValue();
       default:
         throw new IllegalArgumentException();
@@ -138,19 +138,19 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
   @Override
   protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
     if (implLogLevel == Level.FINEST.intValue()) {
-      return ServerSideLog.LOG_LEVEL_TRACE;
+      return Log.LOG_LEVEL_TRACE;
     } else if (implLogLevel == Level.FINE.intValue()) {
-      return ServerSideLog.LOG_LEVEL_DEBUG;
+      return Log.LOG_LEVEL_DEBUG;
     } else if (implLogLevel == Level.INFO.intValue()) {
-      return ServerSideLog.LOG_LEVEL_INFO;
+      return Log.LOG_LEVEL_INFO;
     } else if (implLogLevel == Level.WARNING.intValue()) {
-      return ServerSideLog.LOG_LEVEL_WARN;
+      return Log.LOG_LEVEL_WARN;
       // } else if (implLogLevel == Level.SEVERE.intValue()) {
       // return ServerSideLog.LOG_LEVEL_ERROR;
     } else if (implLogLevel == Level.SEVERE.intValue()) {
-      return ServerSideLog.LOG_LEVEL_FATAL;
+      return Log.LOG_LEVEL_FATAL;
     } else if (implLogLevel == Level.OFF.intValue()) {
-      return ServerSideLog.LOG_LEVEL_OFF;
+      return Log.LOG_LEVEL_OFF;
     } else {
       throw new IllegalArgumentException();
     }

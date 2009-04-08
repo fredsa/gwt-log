@@ -15,7 +15,7 @@
  */
 package com.allen_sauer.gwt.log.server;
 
-import com.allen_sauer.gwt.log.client.ServerSideLog;
+import com.allen_sauer.gwt.log.client.Log;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -98,13 +98,13 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     // Identity mapping since gwt-log log4j levels have integer identity.
     switch (gwtLogLevel) {
-      case ServerSideLog.LOG_LEVEL_TRACE:
-      case ServerSideLog.LOG_LEVEL_DEBUG:
-      case ServerSideLog.LOG_LEVEL_INFO:
-      case ServerSideLog.LOG_LEVEL_WARN:
-      case ServerSideLog.LOG_LEVEL_ERROR:
-      case ServerSideLog.LOG_LEVEL_FATAL:
-      case ServerSideLog.LOG_LEVEL_OFF:
+      case Log.LOG_LEVEL_TRACE:
+      case Log.LOG_LEVEL_DEBUG:
+      case Log.LOG_LEVEL_INFO:
+      case Log.LOG_LEVEL_WARN:
+      case Log.LOG_LEVEL_ERROR:
+      case Log.LOG_LEVEL_FATAL:
+      case Log.LOG_LEVEL_OFF:
         return gwtLogLevel;
       default:
         throw new IllegalArgumentException();
