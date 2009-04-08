@@ -21,6 +21,7 @@ import com.allen_sauer.gwt.log.client.util.ServerSideLogUtil;
 import com.allen_sauer.gwt.log.server.ServerLogImpl;
 import com.allen_sauer.gwt.log.server.ServerLogImplJDK14;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
+import com.allen_sauer.gwt.log.server.ServerLogImplStdio;
 
 //CHECKSTYLE_JAVADOC_OFF
 public final class ServerSideLog {
@@ -40,16 +41,34 @@ public final class ServerSideLog {
     if (impl == null) {
       try {
         impl = new ServerLogImplLog4J();
+      } catch (NoClassDefFoundError e) {
+        // Likely no log4j present; ignore and move on
       } catch (Throwable e) {
+        // Unexpected
+        e.printStackTrace();
       }
     }
 
     if (impl == null) {
       try {
         impl = new ServerLogImplJDK14();
+      } catch (NoClassDefFoundError e) {
+        // Could be because we're running on Google App Engine, e.g.
+        // 'java.lang.NoClassDefFoundError: java.util.logging.ConsoleHandler is a restricted class'
       } catch (Throwable e) {
+        // Unexpected
+        e.printStackTrace();
       }
     }
+
+    if (impl == null) {
+      try {
+        impl = new ServerLogImplStdio();
+      } catch (Throwable e) {
+        e.printStackTrace();
+      }
+    }
+
     if (impl == null) {
       System.err.println("ERROR: gwt-log failed to initialize valid server-side logging implementation");
     }
