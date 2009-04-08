@@ -18,7 +18,7 @@ package com.allen_sauer.gwt.log.client;
 import com.google.gwt.user.client.ui.Widget;
 
 //CHECKSTYLE_JAVADOC_OFF
-public class ServerSideDivLogger extends ServerSideAbstractLogger {
+public class DivLogger extends AbstractLogger {
   public Widget getWidget() {
     throw new UnsupportedOperationException();
   }

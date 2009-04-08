@@ -16,5 +16,24 @@
 package com.allen_sauer.gwt.log.client;
 
 //CHECKSTYLE_JAVADOC_OFF
-public class ServerSideGWTLogger extends ServerSideAbstractLogger {
+public interface Logger {
+  void clear();
+
+  void debug(String message, Throwable throwable);
+
+  void diagnostic(String message, Throwable throwable);
+
+  void error(String message, Throwable throwable);
+
+  void fatal(String message, Throwable throwable);
+
+  void info(String message, Throwable throwable);
+
+  boolean isSupported();
+
+  void setCurrentLogLevel(int level);
+
+  void trace(String message, Throwable throwable);
+
+  void warn(String message, Throwable throwable);
 }

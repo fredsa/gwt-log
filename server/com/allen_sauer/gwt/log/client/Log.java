@@ -17,14 +17,14 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import com.allen_sauer.gwt.log.client.util.ServerSideLogUtil;
+import com.allen_sauer.gwt.log.client.util.LogUtil;
 import com.allen_sauer.gwt.log.server.ServerLogImpl;
 import com.allen_sauer.gwt.log.server.ServerLogImplJDK14;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
 import com.allen_sauer.gwt.log.server.ServerLogImplStdio;
 
 //CHECKSTYLE_JAVADOC_OFF
-public final class ServerSideLog {
+public final class Log {
   public static final int LOG_LEVEL_DEBUG = 10000;
   public static final int LOG_LEVEL_ERROR = 40000;
   public static final int LOG_LEVEL_FATAL = 50000;
@@ -76,7 +76,7 @@ public final class ServerSideLog {
     setCurrentLogLevel(LOG_LEVEL_DEBUG);
   }
 
-  public static void addLogger(ServerSideLogger logger) {
+  public static void addLogger(Logger logger) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
@@ -128,7 +128,7 @@ public final class ServerSideLog {
     impl.fatal(message, e);
   }
 
-  public static ServerSideConsoleLogger getConsoleLogger() {
+  public static ConsoleLogger getConsoleLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
@@ -137,22 +137,22 @@ public final class ServerSideLog {
   }
 
   public static String getCurrentLogLevelString() {
-    return ServerSideLogUtil.levelToString(getCurrentLogLevel());
+    return LogUtil.levelToString(getCurrentLogLevel());
   }
 
-  public static ServerSideDivLogger getDivLogger() {
+  public static DivLogger getDivLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static ServerSideFirebugLogger getFirebugLogger() {
+  public static FirebugLogger getFirebugLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static ServerSideGWTLogger getGwtLogger() {
+  public static GWTLogger getGwtLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static <T extends ServerSideLogger> ServerSideLogger getLogger(Class<T> clazz) {
+  public static <T extends Logger> T getLogger(Class<T> clazz) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
@@ -161,10 +161,10 @@ public final class ServerSideLog {
   }
 
   public static String getLowestLogLevelString() {
-    return ServerSideLogUtil.levelToString(getLowestLogLevel());
+    return LogUtil.levelToString(getLowestLogLevel());
   }
 
-  public static ServerSideSystemLogger getSystemLogger() {
+  public static SystemLogger getSystemLogger() {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 

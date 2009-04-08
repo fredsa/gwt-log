@@ -16,10 +16,12 @@
 package com.allen_sauer.gwt.log.client;
 
 //CHECKSTYLE_JAVADOC_OFF
-public interface ServerSideLogger {
+public interface Logger {
   void clear();
 
   void debug(String message, Throwable throwable);
+
+  void diagnostic(String message, Throwable throwable);
 
   void error(String message, Throwable throwable);
 
@@ -28,6 +30,8 @@ public interface ServerSideLogger {
   void info(String message, Throwable throwable);
 
   boolean isSupported();
+
+  void setCurrentLogLevel(int level);
 
   void trace(String message, Throwable throwable);
 

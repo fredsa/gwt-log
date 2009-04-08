@@ -15,7 +15,7 @@
  */
 package com.allen_sauer.gwt.log.server;
 
-import com.allen_sauer.gwt.log.client.ServerSideLog;
+import com.allen_sauer.gwt.log.client.Log;
 
 //CHECKSTYLE_JAVADOC_OFF
 public final class ServerLogImplStdio extends ServerLogImpl {
@@ -62,37 +62,37 @@ public final class ServerLogImplStdio extends ServerLogImpl {
 
   @Override
   public boolean isDebugEnabled() {
-    return level >= ServerSideLog.LOG_LEVEL_DEBUG;
+    return level >= Log.LOG_LEVEL_DEBUG;
   }
 
   @Override
   public boolean isErrorEnabled() {
-    return level >= ServerSideLog.LOG_LEVEL_ERROR;
+    return level >= Log.LOG_LEVEL_ERROR;
   }
 
   @Override
   public boolean isFatalEnabled() {
-    return level >= ServerSideLog.LOG_LEVEL_FATAL;
+    return level >= Log.LOG_LEVEL_FATAL;
   }
 
   @Override
   public boolean isInfoEnabled() {
-    return level >= ServerSideLog.LOG_LEVEL_INFO;
+    return level >= Log.LOG_LEVEL_INFO;
   }
 
   @Override
   public boolean isLoggingEnabled() {
-    return level >= ServerSideLog.LOG_LEVEL_OFF;
+    return level >= Log.LOG_LEVEL_OFF;
   }
 
   @Override
   public boolean isTraceEnabled() {
-    return level >= ServerSideLog.LOG_LEVEL_TRACE;
+    return level >= Log.LOG_LEVEL_TRACE;
   }
 
   @Override
   public boolean isWarnEnabled() {
-    return level >= ServerSideLog.LOG_LEVEL_WARN;
+    return level >= Log.LOG_LEVEL_WARN;
   }
 
   @Override

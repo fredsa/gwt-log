@@ -16,12 +16,16 @@
 package com.allen_sauer.gwt.log.client;
 
 // CHECKSTYLE_JAVADOC_OFF
-public abstract class ServerSideAbstractLogger implements ServerSideLogger {
+public abstract class AbstractLogger implements Logger {
   public void clear() {
     throw new UnsupportedOperationException();
   }
 
   public void debug(String message, Throwable throwable) {
+    throw new UnsupportedOperationException();
+  }
+
+  public void diagnostic(String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 
