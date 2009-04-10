@@ -22,7 +22,16 @@ import org.apache.log4j.Logger;
 
 //CHECKSTYLE_JAVADOC_OFF
 public final class ServerLogImplLog4J extends ServerLogImpl {
-  private final Logger logger = Logger.getLogger("gwt-log");
+  private final Logger logger;
+
+  {
+    logger = Logger.getLogger("gwt-log");
+    // try {
+    // } catch (Throwable e) {
+    // e.printStackTrace();
+    // throw new RuntimeException(e);
+    // }
+  }
 
   @Override
   public void clear() {
