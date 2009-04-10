@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+
+  <!-- Inherit the core Web Toolkit stuff.-->
+  <inherits name="com.google.gwt.user.User" />
+
+  <!-- Inherit logging support                    -->
+  <inherits name="com.allen_sauer.gwt.log.gwt-log" />
+
+  <!-- Set log_level to DEBUG                     -->
+  <extend-property name="log_level" values="DEBUG" />
+  <set-property name="log_level" value="DEBUG" />
+
+  <!-- Configure loggers -->
+  <set-property name="log_RemoteLogger" value="ENABLED" />
+  <set-property name="log_SystemLogger" value="DISABLED" />
+
+  <!-- Specify the app entry point class.                                                 -->
+  <entry-point class="com.allen_sauer.gwt.log.clientserverdemo.client.LogClientServerDemo" />
+
+  <!-- Include CSS                         -->
+  <stylesheet src="LogClientServerDemo.css" />
+
+  <servlet path="/increment"
+    class="com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServiceImpl" />
+
+</module>
