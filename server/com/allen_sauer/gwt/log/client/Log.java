@@ -32,41 +32,36 @@ public final class Log {
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
   public static final int LOG_LEVEL_TRACE = 5000;
   public static final int LOG_LEVEL_WARN = 30000;
+  private static final String GWT_LOG_REMOTE_LOGGER_PREFERENCE = "gwt-log.RemoteLogger";
 
   private static ServerLogImpl impl;
 
   private static final String UNSUPPORTED_METHOD_TEXT = "This method available only when running on the client";
 
   static {
-    if (impl == null) {
-      try {
-        impl = new ServerLogImplLog4J();
-      } catch (NoClassDefFoundError e) {
-        // Likely no log4j present; ignore and move on
-      } catch (Throwable e) {
-        // Unexpected
-        e.printStackTrace();
+    String remoteLoggerPreference = System.getProperty(GWT_LOG_REMOTE_LOGGER_PREFERENCE);
+    if (remoteLoggerPreference != null) {
+      if (remoteLoggerPreference.equals("LOG4J")) {
+        impl = tryLog4J();
+      } else if (remoteLoggerPreference.equals("JDK14")) {
+        impl = tryJDK14();
+      } else {
+        System.err.println("WARN: " + GWT_LOG_REMOTE_LOGGER_PREFERENCE + " value '"
+            + remoteLoggerPreference + "' is not recognized");
+
       }
     }
 
     if (impl == null) {
-      try {
-        impl = new ServerLogImplJDK14();
-      } catch (NoClassDefFoundError e) {
-        // Could be because we're running on Google App Engine, e.g.
-        // 'java.lang.NoClassDefFoundError: java.util.logging.ConsoleHandler is a restricted class'
-      } catch (Throwable e) {
-        // Unexpected
-        e.printStackTrace();
-      }
+      impl = tryLog4J();
     }
 
     if (impl == null) {
-      try {
-        impl = new ServerLogImplStdio();
-      } catch (Throwable e) {
-        e.printStackTrace();
-      }
+      impl = tryJDK14();
+    }
+
+    if (impl == null) {
+      impl = tryStdio();
     }
 
     if (impl == null) {
@@ -243,5 +238,39 @@ public final class Log {
 
   public static void warn(String message, Throwable e) {
     impl.warn(message, e);
+  }
+
+  private static ServerLogImpl tryJDK14() {
+    try {
+      return new ServerLogImplJDK14();
+    } catch (NoClassDefFoundError e) {
+      // Could be because we're running on Google App Engine, e.g.
+      // 'java.lang.NoClassDefFoundError: java.util.logging.ConsoleHandler is a restricted class'
+    } catch (Throwable e) {
+      // Unexpected
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private static ServerLogImpl tryLog4J() {
+    try {
+      return new ServerLogImplLog4J();
+    } catch (NoClassDefFoundError e) {
+      // Likely no log4j present; ignore and move on
+    } catch (Throwable e) {
+      // Unexpected
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private static ServerLogImpl tryStdio() {
+    try {
+      return new ServerLogImplStdio();
+    } catch (Throwable e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }

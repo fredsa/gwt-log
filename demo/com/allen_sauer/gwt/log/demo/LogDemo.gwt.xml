@@ -12,7 +12,7 @@
 		the specific language governing permissions and limitations under the
 		License.
 	-->
-<module>
+<module rename-to="demo">
 
 	<!-- Inherit the core Web Toolkit stuff.       -->
 	<inherits name="com.allen_sauer.gwt.log.gwt-log" />
