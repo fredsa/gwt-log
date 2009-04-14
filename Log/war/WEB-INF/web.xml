@@ -14,7 +14,7 @@
 
 	<servlet-mapping>
 		<servlet-name>remoteLoggerServiceImpl</servlet-name>
-		<url-pattern>/demo/gwt-log</url-pattern>
+		<url-pattern>/com.allen_sauer.gwt.log.demo.LogDemo/gwt-log</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

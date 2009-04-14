@@ -57,7 +57,7 @@
 		<property name="gwt.tools.antlib" location="${gwt.tools}/antlib" />
 
 		<!-- log4j stuff -->
-		<input addproperty="log4j.location" defaultvalue="${env.GWT_LIBS}/apache-log4j-1.2.15/log4j-1.2.15.jar" message="log4j location" />
+		<input addproperty="log4j.location" defaultvalue="war/WEB-INF/lib/log4j-1.2.15.jar" message="log4j location" />
 
 		<!-- javac defaults -->
 		<property name="javac.debug" value="true" />
@@ -119,7 +119,7 @@
 
 	<!-- Replace @GWT_LOG_VERION@ with actual version of build -->
 
-	<target name="filter" description="Filters distro files for versioning">
+	<target name="filter" description="Filters distro files for versioning" depends="init">
 		<mkdir dir="build/out" />
 		<mkdir dir="build/demo" />
 		<mkdir dir="build/server" />
@@ -139,8 +139,8 @@
 				<include name="**/*.java" />
 			</fileset>
 			<fileset dir=".">
-				<include name="**/LICENSE" />
-				<include name="**/NOTICE" />
+				<include name="LICENSE" />
+				<include name="NOTICE" />
 			</fileset>
 			<filterset>
 				<filter token="GWT_LOG_VERSION" value="${gwt-log.version}" />
@@ -168,8 +168,8 @@
 				<include name="**/*.gwt.xml" />
 			</fileset>
 			<fileset dir=".">
-				<include name="**/LICENSE" />
-				<include name="**/NOTICE" />
+				<include name="LICENSE" />
+				<include name="NOTICE" />
 			</fileset>
 			<filterset>
 				<filter token="GWT_LOG_VERSION" value="${gwt-log.version}" />
@@ -186,7 +186,7 @@
 		<!-- compile src -->
 
 		<echo message="Compiling build/src ..." />
-		
+
 		<javac compiler="javac1.5" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/src" />
 			<classpath location="${gwt-user.jar}" />
@@ -220,7 +220,7 @@
 		</copy>
 
 		<echo message="Compiling build/demo ..." />
-		
+
 		<javac compiler="javac1.5" listfiles="false" destdir="build/demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/demo" />
 			<classpath location="${gwt-user.jar}" />
@@ -230,7 +230,7 @@
 
 	</target>
 
-	<target name="gwtc" description="Compile to JavaScript" depends="filter">
+	<target name="gwtc" description="Compile to JavaScript" depends="javac">
 		<outofdate>
 			<sourcefiles>
 				<fileset dir="build/super" />
@@ -241,8 +241,10 @@
 			</sourcefiles>
 
 			<targetfiles path="build/www/com.allen_sauer.gwt.log.demo.LogDemo/com.allen_sauer.gwt.log.demo.LogDemo.nocache.js" />
+
 			<sequential>
 				<mkdir dir="build/www" />
+
 				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.GWTCompiler" classpath="build/super:build/out:build/demo:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
 					<arg value="-out" />
 					<arg path="build/www" />
@@ -250,12 +252,19 @@
 					<arg value="-style" />
 					<arg value="PRETTY" />
 				</java>
+
+				<copy todir="build/www">
+					<fileset file="war/LogDemo.html" />
+					<fileset file="war/LogDemo.css" />
+				</copy>
+
+				<copydir dest="build/www/images" src="war/images" />
 			</sequential>
 		</outofdate>
 	</target>
 
-	<target name="javadoc">
-		<javadoc access="protected" classpath="${gwt-user.jar}:{gwt-dev.jar}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
+	<target name="javadoc" depends="javac">
+		<javadoc access="protected" classpath="${gwt-user.jar}:${log4j.location}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
 	</target>
 
 	<target name="stat">
@@ -301,17 +310,14 @@
 
 	<target name="clean">
 		<delete dir="build" />
-		<delete dir=".gwt-cache" />
-		<delete dir="www" />
-		<delete dir="tomcat" />
 	</target>
 
 	<target name="deploy" depends="clean, init, javac, gwtc">
 
-		<scp todir="sauer@allen-sauer.com:" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" verbose="true">
-			<fileset dir="build/www">
-				<include name="com.allen_sauer.gwt.log.demo.LogDemo/**" />
-			</fileset>
+		<sshexec command="mkdir com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" />
+		
+		<scp todir="sauer@allen-sauer.com:com.allen_sauer.gwt.log.demo.LogDemo/" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" verbose="true">
+			<fileset dir="build/www" />
 		</scp>
 
 		<sshexec command="./deploy.sh com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" />

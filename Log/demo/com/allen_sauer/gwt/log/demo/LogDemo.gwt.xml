@@ -15,7 +15,7 @@
 <module rename-to="demo">
 
 	<!-- Inherit the core Web Toolkit stuff.       -->
-	<inherits name="com.allen_sauer.gwt.log.gwt-log" />
+	<inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
 
 	<!-- Specify the app entry point class.                        -->
 	<entry-point class="com.allen_sauer.gwt.log.demo.client.LogDemo" />
