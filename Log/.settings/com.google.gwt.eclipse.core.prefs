@@ -1,4 +1,4 @@
-#Fri Apr 10 14:32:31 PDT 2009
+#Sun May 17 18:59:59 PDT 2009
 eclipse.preferences.version=1
-entryPointModules=
+entryPointModules=com.allen_sauer.gwt.log.gwt-log-DEBUG|com.allen_sauer.gwt.log.gwt-log-ERROR|com.allen_sauer.gwt.log.gwt-log-FATAL|com.allen_sauer.gwt.log.gwt-log-INFO|com.allen_sauer.gwt.log.gwt-log-OFF|com.allen_sauer.gwt.log.gwt-log-TRACE|com.allen_sauer.gwt.log.gwt-log-WARN|com.allen_sauer.gwt.log.gwt-log|com.allen_sauer.gwt.log.demo.LogDemo|com.mycompany.MyApplication|com.allen_sauer.gwt.log.clientserverdemo.LogClientServerDemo
 filesCopiedToWebInfLib=gwt-servlet.jar
