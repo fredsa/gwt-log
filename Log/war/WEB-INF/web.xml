@@ -5,12 +5,16 @@
 
 <web-app>
 
-	<!--  Servlet for RemoteLogger -->
-
 	<servlet>
 		<servlet-name>remoteLoggerServiceImpl</servlet-name>
 		<servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl</servlet-class>
 	</servlet>
+
+	<servlet>
+		<servlet-name>incrementServiceImpl</servlet-name>
+		<servlet-class>com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServiceImpl</servlet-class>
+	</servlet>
+
 
 	<servlet-mapping>
 		<servlet-name>remoteLoggerServiceImpl</servlet-name>
@@ -26,13 +30,6 @@
 		<servlet-name>remoteLoggerServiceImpl</servlet-name>
 		<url-pattern>/clientserverdemo/gwt-log</url-pattern>
 	</servlet-mapping>
-
-	<!-- IncrementService Servlet for clientserverdemo -->
-
-	<servlet>
-		<servlet-name>incrementServiceImpl</servlet-name>
-		<servlet-class>com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServiceImpl</servlet-class>
-	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>incrementServiceImpl</servlet-name>
