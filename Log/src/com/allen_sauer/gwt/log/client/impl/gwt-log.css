@@ -4,7 +4,7 @@
 	background-color: #ECF2FC;
 	border: 1px solid red;
 	margin: 0px;
-	filter: alpha(opacity =   95);
+	filter: alpha(opacity \= 95);
 	opacity: 0.95;
 	z-index: 1000;
 }

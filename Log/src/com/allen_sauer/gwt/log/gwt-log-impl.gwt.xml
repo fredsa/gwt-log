@@ -16,11 +16,7 @@
 
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name="com.google.gwt.user.User" />
-
-
-	<!-- Include CSS             -->
-	<stylesheet src="gwt-log.css" />
-
+	<inherits name="com.google.gwt.resources.Resources" />
 
 
 	<!-- Client side code -->

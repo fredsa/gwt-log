@@ -18,6 +18,7 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
@@ -63,6 +64,7 @@ public abstract class LogImplBase extends LogImpl {
 
   static {
     setVersion();
+    StyleInjector.injectStylesheetAtStart(LogClientBundle.INSTANCE.css().getText());
   }
 
   static JavaScriptException convertJavaScriptObjectToException(JavaScriptObject e) {
@@ -87,18 +89,18 @@ public abstract class LogImplBase extends LogImpl {
   /*-{
     try {
      return e.message;
-   } catch(ex) {
+    } catch(ex) {
      return "[e has no message]";
-   }
+    }
   }-*/;
 
   private static native String javaScriptExceptionName(JavaScriptObject e)
   /*-{
     try {
      return e.name;
-   } catch(ex) {
+    } catch(ex) {
      return "[e has no name]";
-   }
+    }
   }-*/;
 
   /**
