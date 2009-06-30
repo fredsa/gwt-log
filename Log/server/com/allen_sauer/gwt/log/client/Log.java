@@ -208,6 +208,11 @@ public final class Log {
     return impl.isWarnEnabled();
   }
 
+  // TODO: remove workaround for GWT issue 3791
+  // http://code.google.com/p/google-web-toolkit/issues/detail?id=3791
+  public static void maybeInit() {
+  }
+
   public static void setCurrentLogLevel(int level) {
     impl.setCurrentImplLogLevel(impl.mapGWTLogLevelToImplLevel(level));
   }
