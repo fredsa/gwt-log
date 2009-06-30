@@ -66,6 +66,12 @@ public final class Log implements EntryPoint {
 
   private static LogImpl impl;
 
+  // TODO: remove workaround for GWT issue 3791
+  // http://code.google.com/p/google-web-toolkit/issues/detail?id=3791
+  static {
+    maybeInit();
+  }
+  
   /**
    * Register a new logger.
    * 
@@ -696,6 +702,13 @@ public final class Log implements EntryPoint {
     impl.warn(message, e);
   }
 
+  public static void maybeInit() {
+    if (impl == null) {
+      impl = (LogImpl) GWT.create(LogImpl.class);
+      impl.init();
+    }
+  }
+
   /**
    * Default private constructor, to be used by GWT module initialization only.
    */
@@ -706,7 +719,6 @@ public final class Log implements EntryPoint {
    * Entry point for gwt-log initialization.
    */
   public void onModuleLoad() {
-    impl = (LogImpl) GWT.create(LogImpl.class);
-    impl.init();
+    maybeInit();
   }
 }
