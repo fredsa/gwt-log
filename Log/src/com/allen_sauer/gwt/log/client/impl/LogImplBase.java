@@ -87,18 +87,18 @@ public abstract class LogImplBase extends LogImpl {
   /*-{
     try {
      return e.message;
-   } catch(ex) {
+    } catch(ex) {
      return "[e has no message]";
-   }
+    }
   }-*/;
 
   private static native String javaScriptExceptionName(JavaScriptObject e)
   /*-{
     try {
      return e.name;
-   } catch(ex) {
+    } catch(ex) {
      return "[e has no name]";
-   }
+    }
   }-*/;
 
   /**
