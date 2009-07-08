@@ -18,11 +18,47 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.CssResource.Strict;
 
-interface LogClientBundle extends ClientBundle {
+public interface LogClientBundle extends ClientBundle {
+
+  interface LogCssResource extends CssResource {
+
+    @ClassName("log-clear-about")
+    public String logClearAbout();
+
+    @ClassName("log-clear-button")
+    public String logClearButton();
+
+    @ClassName("log-message")
+    public String logMessage();
+
+    @ClassName("log-message-hover")
+    public String logMessageHover();
+
+    @ClassName("log-panel")
+    public String logPanel();
+
+    @ClassName("log-resize-se")
+    public String logResizeSe();
+
+    @ClassName("log-scroll-panel")
+    public String logScrollPanel();
+
+    @ClassName("log-stacktrace")
+    public String logStacktrace();
+
+    @ClassName("log-text-area")
+    public String logTextArea();
+
+    @ClassName("log-title")
+    public String logTitle();
+  }
 
   static final LogClientBundle INSTANCE = GWT.create(LogClientBundle.class);
 
+  @Strict
   @Source("gwt-log.css")
-  CssResource css();
+  LogCssResource css();
+
 }

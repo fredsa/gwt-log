@@ -45,8 +45,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import com.allen_sauer.gwt.log.client.impl.LogClientBundle;
 import com.allen_sauer.gwt.log.client.util.DOMUtil;
 import com.allen_sauer.gwt.log.client.util.LogUtil;
+import com.allen_sauer.gwt.log.clientserverdemo.client.LogClientServerDemo;
 
 /**
  * Logger which outputs to a draggable floating <code>DIV</code>.
@@ -152,16 +154,10 @@ public class DivLogger extends AbstractLogger {
     }
   }
 
-  private static final String CSS_LOG_MESSAGE = "log-message";
   private static final int[] levels = {
       Log.LOG_LEVEL_TRACE, Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN,
       Log.LOG_LEVEL_ERROR, Log.LOG_LEVEL_FATAL, Log.LOG_LEVEL_OFF,};
   private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
-  private static final String STYLE_LOG_HEADER = "log-header";
-  private static final String STYLE_LOG_PANEL = "log-panel";
-  private static final String STYLE_LOG_SCROLL_PANEL = "log-scroll-panel";
-
-  private static final String STYLE_LOG_TEXT_AREA = "log-text-area";
 
   private static final int UPDATE_INTERVAL_MILLIS = 500;
   private boolean dirty = false;
@@ -223,16 +219,16 @@ public class DivLogger extends AbstractLogger {
    * Default constructor.
    */
   public DivLogger() {
-    logDockPanel.addStyleName(STYLE_LOG_PANEL);
-    logTextArea.addStyleName(STYLE_LOG_TEXT_AREA);
-    scrollPanel.addStyleName(STYLE_LOG_SCROLL_PANEL);
+    logDockPanel.addStyleName(LogClientBundle.INSTANCE.css().logPanel());
+    logTextArea.addStyleName(LogClientBundle.INSTANCE.css().logTextArea());
+    scrollPanel.addStyleName(LogClientBundle.INSTANCE.css().logScrollPanel());
 
     // scrollPanel.setAlwaysShowScrollBars(true);
 
     final FocusPanel headerPanel = makeHeader();
 
     Widget resizePanel = new Image(GWT.getModuleBaseURL() + "gwt-log-triangle-10x10.png");
-    resizePanel.addStyleName("log-resize-se");
+    resizePanel.addStyleName(LogClientBundle.INSTANCE.css().logResizeSe());
     new MouseResizeHandler(resizePanel);
 
     logDockPanel.add(headerPanel, DockPanel.NORTH);
@@ -338,7 +334,7 @@ public class DivLogger extends AbstractLogger {
       }
     }
     text = text.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText("<div class='" + CSS_LOG_MESSAGE
+    addLogText("<div class='" + LogClientBundle.INSTANCE.css().logMessage()
         + "' onmouseover='className+=\" log-message-hover\"' "
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
@@ -384,10 +380,9 @@ public class DivLogger extends AbstractLogger {
     HorizontalPanel masterPanel = new HorizontalPanel();
     masterPanel.setWidth("100%");
     header.add(masterPanel);
-    header.addStyleName(STYLE_LOG_HEADER);
 
     final Label titleLabel = new Label("gwt-log", false);
-    titleLabel.setStylePrimaryName("log-title");
+    titleLabel.setStylePrimaryName(LogClientBundle.INSTANCE.css().logTitle());
 
     HorizontalPanel buttonPanel = new HorizontalPanel();
     levelButtons = new Button[levels.length];
@@ -404,7 +399,7 @@ public class DivLogger extends AbstractLogger {
     }
 
     Button clearButton = new Button("Clear");
-    clearButton.addStyleName("log-clear-button");
+    clearButton.addStyleName(LogClientBundle.INSTANCE.css().logClearButton());
     DOM.setStyleAttribute(clearButton.getElement(), "color", "#00c");
     clearButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
@@ -415,7 +410,7 @@ public class DivLogger extends AbstractLogger {
     buttonPanel.add(clearButton);
 
     Button aboutButton = new Button("About");
-    aboutButton.addStyleName("log-clear-about");
+    aboutButton.addStyleName(LogClientBundle.INSTANCE.css().logClearAbout());
     aboutButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         ((Button) event.getSource()).setFocus(false);

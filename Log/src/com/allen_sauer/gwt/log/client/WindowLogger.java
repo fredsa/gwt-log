@@ -15,14 +15,14 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.allen_sauer.gwt.log.client.impl.LogClientBundle;
+import com.allen_sauer.gwt.log.client.util.DOMUtil;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-
-import com.allen_sauer.gwt.log.client.util.DOMUtil;
 
 /**
  * Logger which outputs to a draggable floating <code>DIV</code>.
@@ -32,7 +32,6 @@ import com.allen_sauer.gwt.log.client.util.DOMUtil;
 public class WindowLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
-  private static final String CSS_LOG_MESSAGE = "log-message";
   private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
 
   private String logText = "";
@@ -52,6 +51,14 @@ public class WindowLogger extends AbstractLogger {
     Window.addCloseHandler(windowCloseListener);
   }
 
+  private void addLogText(String text) {
+    logText += text;
+    if (window == null) {
+      openNewWindow();
+    }
+    logPendingText();
+  }
+
   @Override
   public final void clear() {
     if (ready) {
@@ -63,6 +70,34 @@ public class WindowLogger extends AbstractLogger {
     }
   }
 
+  private void closeWindowIfOpen() {
+    if (window != null) {
+      ready = false;
+      DOMUtil.windowClose(window);
+      window = null;
+    }
+  }
+
+  private String getColor(int logLevel) {
+    if (logLevel == Log.LOG_LEVEL_OFF) {
+      return "#000"; // black
+    }
+    if (logLevel >= Log.LOG_LEVEL_FATAL) {
+      return "#F00"; // bright red
+    }
+    if (logLevel >= Log.LOG_LEVEL_ERROR) {
+      return "#C11B17"; // dark red
+    }
+    if (logLevel >= Log.LOG_LEVEL_WARN) {
+      return "#E56717"; // dark orange
+    }
+    if (logLevel >= Log.LOG_LEVEL_INFO) {
+      return "#2B60DE"; // blue
+    }
+    return "#20b000"; // green
+  }
+
+  @Override
   public final boolean isSupported() {
     return true;
   }
@@ -97,45 +132,10 @@ public class WindowLogger extends AbstractLogger {
       }
     }
     text = text.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText("<div class='" + CSS_LOG_MESSAGE
+    addLogText("<div class='" + LogClientBundle.INSTANCE.css().logMessage()
         + "' onmouseover='className+=\" log-message-hover\"' "
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
         + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
-  }
-
-  private void addLogText(String text) {
-    logText += text;
-    if (window == null) {
-      openNewWindow();
-    }
-    logPendingText();
-  }
-
-  private void closeWindowIfOpen() {
-    if (window != null) {
-      ready = false;
-      DOMUtil.windowClose(window);
-      window = null;
-    }
-  }
-
-  private String getColor(int logLevel) {
-    if (logLevel == Log.LOG_LEVEL_OFF) {
-      return "#000"; // black
-    }
-    if (logLevel >= Log.LOG_LEVEL_FATAL) {
-      return "#F00"; // bright red
-    }
-    if (logLevel >= Log.LOG_LEVEL_ERROR) {
-      return "#C11B17"; // dark red
-    }
-    if (logLevel >= Log.LOG_LEVEL_WARN) {
-      return "#E56717"; // dark orange
-    }
-    if (logLevel >= Log.LOG_LEVEL_INFO) {
-      return "#2B60DE"; // blue
-    }
-    return "#20b000"; // green
   }
 
   private void logPendingText() {
