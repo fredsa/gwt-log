@@ -17,6 +17,7 @@ package com.allen_sauer.gwt.log.rebind;
 
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.ext.BadPropertyValueException;
+import com.google.gwt.core.ext.ConfigurationProperty;
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.PropertyOracle;
@@ -33,6 +34,7 @@ import com.allen_sauer.gwt.log.client.util.LogUtil;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -205,7 +207,9 @@ public class LogMessageFormatterGenerator extends Generator {
       PropertyOracle propertyOracle = context.getPropertyOracle();
       String logPattern;
       try {
-        logPattern = propertyOracle.getPropertyValue(logger, PROPERTY_LOG_PATTERN);
+        ConfigurationProperty logPatternProperty = propertyOracle.getConfigurationProperty(PROPERTY_LOG_PATTERN);
+        List<String> values = logPatternProperty.getValues();
+        logPattern = values.get(0);
       } catch (BadPropertyValueException e) {
         logger.log(TreeLogger.ERROR, "Unable to find value for '" + PROPERTY_LOG_PATTERN + "'", e);
         throw new UnableToCompleteException();
