@@ -15,7 +15,6 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-
 public final class RemoteLogger extends AbstractLogger {
 
   public RemoteLogger() {
