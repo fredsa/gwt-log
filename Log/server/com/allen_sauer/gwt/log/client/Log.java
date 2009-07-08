@@ -25,16 +25,16 @@ import com.allen_sauer.gwt.log.server.ServerLogImplStdio;
 
 // CHECKSTYLE_JAVADOC_OFF
 public final class Log {
-  private static final String GWT_LOG_REMOTE_LOGGER_PREFERENCE = "gwt-log.RemoteLogger";
-  private static ServerLogImpl impl;
   public static final int LOG_LEVEL_DEBUG = 10000;
   public static final int LOG_LEVEL_ERROR = 40000;
   public static final int LOG_LEVEL_FATAL = 50000;
   public static final int LOG_LEVEL_INFO = 20000;
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
   public static final int LOG_LEVEL_TRACE = 5000;
-
   public static final int LOG_LEVEL_WARN = 30000;
+  private static final String GWT_LOG_REMOTE_LOGGER_PREFERENCE = "gwt-log.RemoteLogger";
+
+  private static ServerLogImpl impl;
 
   private static final String UNSUPPORTED_METHOD_TEXT = "This method available only when running on the client";
 
@@ -228,6 +228,18 @@ public final class Log {
     impl.debug(message, e);
   }
 
+  public static void warn(String message) {
+    warn(message, (Throwable) null);
+  }
+
+  public static void warn(String message, JavaScriptObject e) {
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void warn(String message, Throwable e) {
+    impl.warn(message, e);
+  }
+
   private static ServerLogImpl tryJDK14() {
     try {
       return new ServerLogImplJDK14();
@@ -260,17 +272,5 @@ public final class Log {
       e.printStackTrace();
     }
     return null;
-  }
-
-  public static void warn(String message) {
-    warn(message, (Throwable) null);
-  }
-
-  public static void warn(String message, JavaScriptObject e) {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
-  }
-
-  public static void warn(String message, Throwable e) {
-    impl.warn(message, e);
   }
 }

@@ -376,44 +376,6 @@ public abstract class LogImplBase extends LogImpl {
     return currentLogLevel;
   }
 
-  private int setCurrentLogLevelLoggers(int level) {
-    if (level < getLowestLogLevel()) {
-      Window.alert("Unable to lower runtime log level to " + level
-          + " due to compile time minimum of " + getLowestLogLevel());
-      level = getLowestLogLevel();
-    }
-
-    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = iterator.next();
-      try {
-        logger.setCurrentLogLevel(level);
-      } catch (RuntimeException e1) {
-        iterator.remove();
-        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
-      }
-    }
-    return level;
-  }
-
-  private native void setErrorHandler()
-  /*-{
-    if ($wnd != window) {
-      window.onerror = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I);
-    }
-
-    var oldOnError = $wnd.onerror;
-    $wnd.onerror = function(msg, url, line) {
-      var result, oldResult;
-      try {
-        result = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I)(msg, url, line);
-      } finally {
-        oldResult = oldOnError && oldOnError(msg, url, line);
-      }
-      if (result != null) return result;
-      if (oldResult != null) return oldResult;
-    }
-  }-*/;
-
   @Override
   public final void setUncaughtExceptionHandler() {
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
@@ -471,4 +433,42 @@ public abstract class LogImplBase extends LogImpl {
       }
     }
   }
+
+  private int setCurrentLogLevelLoggers(int level) {
+    if (level < getLowestLogLevel()) {
+      Window.alert("Unable to lower runtime log level to " + level
+          + " due to compile time minimum of " + getLowestLogLevel());
+      level = getLowestLogLevel();
+    }
+
+    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = iterator.next();
+      try {
+        logger.setCurrentLogLevel(level);
+      } catch (RuntimeException e1) {
+        iterator.remove();
+        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
+      }
+    }
+    return level;
+  }
+
+  private native void setErrorHandler()
+  /*-{
+    if ($wnd != window) {
+      window.onerror = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I);
+    }
+
+    var oldOnError = $wnd.onerror;
+    $wnd.onerror = function(msg, url, line) {
+      var result, oldResult;
+      try {
+        result = @com.allen_sauer.gwt.log.client.impl.LogImplBase::handleOnError(Ljava/lang/String;Ljava/lang/String;I)(msg, url, line);
+      } finally {
+        oldResult = oldOnError && oldOnError(msg, url, line);
+      }
+      if (result != null) return result;
+      if (oldResult != null) return oldResult;
+    }
+  }-*/;
 }

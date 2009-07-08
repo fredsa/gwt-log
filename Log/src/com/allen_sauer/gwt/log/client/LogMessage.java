@@ -10,17 +10,17 @@ public class LogMessage implements Serializable {
   private int messageSequence;
   private WrappedClientThrowable wrappedClientThrowable;
 
-  // For GWT serialization
-  @SuppressWarnings("unused")
-  private LogMessage() {
-  }
-
   public LogMessage(int messageSequence, int level, String message,
       WrappedClientThrowable wrappedClientThrowable) {
     this.messageSequence = messageSequence;
     this.level = level;
     this.message = message;
     this.wrappedClientThrowable = wrappedClientThrowable;
+  }
+
+  // For GWT serialization
+  @SuppressWarnings("unused")
+  private LogMessage() {
   }
 
   public int getLevel() {

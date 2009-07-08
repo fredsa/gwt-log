@@ -95,21 +95,9 @@ public final class ServerLogImplStdio extends ServerLogImpl {
     return level >= Log.LOG_LEVEL_WARN;
   }
 
-  private void logToSystemErr(String message, Throwable e) {
-    System.err.println(message);
-    if (e != null) {
-      e.printStackTrace();
-    }
-  }
-
   @Override
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     return gwtLogLevel;
-  }
-
-  @Override
-  protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
-    return implLogLevel;
   }
 
   @Override
@@ -125,5 +113,17 @@ public final class ServerLogImplStdio extends ServerLogImpl {
   @Override
   public void warn(String message, Throwable e) {
     logToSystemErr(message, e);
+  }
+
+  @Override
+  protected int mapImplLevelToGWTLogLevel(int implLogLevel) {
+    return implLogLevel;
+  }
+
+  private void logToSystemErr(String message, Throwable e) {
+    System.err.println(message);
+    if (e != null) {
+      e.printStackTrace();
+    }
   }
 }
