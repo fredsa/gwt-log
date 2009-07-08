@@ -27,16 +27,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements RemoteLoggerService {
 
-  @SuppressWarnings("deprecation")
-  private void diagnostic(Throwable throwable, String message) {
-    Log.diagnostic(message, throwable);
-  }
-
-  private String format(String message) {
-    HttpServletRequest request = getThreadLocalRequest();
-    return "[" + request.getRemoteAddr() + "] " + message;
-  }
-
   public final void log(LogMessage[] logMessages) {
     for (int i = 0; i < logMessages.length; i++) {
       try {
@@ -69,6 +59,16 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
         e.printStackTrace();
       }
     }
+  }
+
+  @SuppressWarnings("deprecation")
+  private void diagnostic(Throwable throwable, String message) {
+    Log.diagnostic(message, throwable);
+  }
+
+  private String format(String message) {
+    HttpServletRequest request = getThreadLocalRequest();
+    return "[" + request.getRemoteAddr() + "] " + message;
   }
 
 }
