@@ -7,17 +7,20 @@ public class LogMessage implements Serializable {
 
   public int level;
   private String message;
+  private int messageSequence;
   private WrappedClientThrowable wrappedClientThrowable;
-
-  public LogMessage(int level, String message, WrappedClientThrowable wrappedClientThrowable) {
-    this.level = level;
-    this.message = message;
-    this.wrappedClientThrowable = wrappedClientThrowable;
-  }
 
   // For GWT serialization
   @SuppressWarnings("unused")
   private LogMessage() {
+  }
+
+  public LogMessage(int messageSequence, int level, String message,
+      WrappedClientThrowable wrappedClientThrowable) {
+    this.messageSequence = messageSequence;
+    this.level = level;
+    this.message = message;
+    this.wrappedClientThrowable = wrappedClientThrowable;
   }
 
   public int getLevel() {
@@ -26,6 +29,10 @@ public class LogMessage implements Serializable {
 
   public String getMessage() {
     return message;
+  }
+
+  public int getMessageSequence() {
+    return messageSequence;
   }
 
   public WrappedClientThrowable getWrappedClientThrowable() {
