@@ -33,11 +33,10 @@ public class DOMUtil {
   }
 
   /**
-   * Adjust line breaks within in the provided title for 
-   * optimal readability and display length for the current
-   * user agent.
+   * Adjust line breaks within in the provided title for optimal readability and
+   * display length for the current user agent.
    * 
-   * @param title the desired raw text 
+   * @param title the desired raw text
    * @return formatted and escaped text
    */
   public static String adjustTitleLineBreaks(String title) {

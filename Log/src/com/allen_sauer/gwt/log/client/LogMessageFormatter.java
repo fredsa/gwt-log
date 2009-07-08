@@ -22,7 +22,8 @@ public interface LogMessageFormatter {
   /**
    * Format a log message.
    * 
-   * @param logLevelText String representing the level at which this message was logged
+   * @param logLevelText String representing the level at which this message was
+   *          logged
    * @param message the applications message to log
    * @return a formatted message using the 'log_pattern' pattern
    */

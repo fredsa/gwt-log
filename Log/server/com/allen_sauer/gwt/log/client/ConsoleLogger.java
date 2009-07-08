@@ -15,6 +15,6 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-//CHECKSTYLE_JAVADOC_OFF
+// CHECKSTYLE_JAVADOC_OFF
 public class ConsoleLogger extends AbstractLogger {
 }

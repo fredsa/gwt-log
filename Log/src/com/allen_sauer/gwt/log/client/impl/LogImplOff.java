@@ -26,8 +26,8 @@ import com.allen_sauer.gwt.log.client.Logger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
 
 /**
- * Implementation of {@link LogImpl} that is designed to be compiled out
- * via GWT compiler dead code elimination.
+ * Implementation of {@link LogImpl} that is designed to be compiled out via GWT
+ * compiler dead code elimination.
  */
 public final class LogImplOff extends LogImpl {
   // CHECKSTYLE_JAVADOC_OFF

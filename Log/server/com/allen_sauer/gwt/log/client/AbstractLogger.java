@@ -45,6 +45,14 @@ public abstract class AbstractLogger implements Logger {
     throw new UnsupportedOperationException();
   }
 
+  void log(int logLevel, String message) {
+    throw new UnsupportedOperationException();
+  }
+
+  void log(int logLevel, String message, Throwable throwable) {
+    throw new UnsupportedOperationException();
+  }
+
   public void setCurrentLogLevel(int level) {
     throw new UnsupportedOperationException();
   }
@@ -58,14 +66,6 @@ public abstract class AbstractLogger implements Logger {
   }
 
   public void warn(String message, Throwable throwable) {
-    throw new UnsupportedOperationException();
-  }
-
-  void log(int logLevel, String message) {
-    throw new UnsupportedOperationException();
-  }
-
-  void log(int logLevel, String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 }

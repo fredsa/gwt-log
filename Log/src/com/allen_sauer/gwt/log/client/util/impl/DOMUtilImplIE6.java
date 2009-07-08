@@ -16,8 +16,7 @@
 package com.allen_sauer.gwt.log.client.util.impl;
 
 /**
- * {@link com.allen_sauer.gwt.log.client.util.DOMUtil} implementation for
- * IE.
+ * {@link com.allen_sauer.gwt.log.client.util.DOMUtil} implementation for IE.
  */
 public final class DOMUtilImplIE6 extends DOMUtilImpl {
   // CHECKSTYLE_JAVADOC_OFF

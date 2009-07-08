@@ -28,7 +28,7 @@ import com.allen_sauer.gwt.log.clientserverdemo.client.IncrementService;
 public class IncrementServiceImpl extends RemoteServiceServlet implements IncrementService {
   /**
    * Increment the provided counter by one, and log progress along the way.
-   *
+   * 
    * @param counter the counter to increment
    * @return the updated counter
    */

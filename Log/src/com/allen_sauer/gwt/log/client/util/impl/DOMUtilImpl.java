@@ -16,8 +16,8 @@
 package com.allen_sauer.gwt.log.client.util.impl;
 
 /**
- * {@link com.allen_sauer.gwt.log.client.util.DOMUtil} default
- * cross-browser implementation.
+ * {@link com.allen_sauer.gwt.log.client.util.DOMUtil} default cross-browser
+ * implementation.
  */
 public abstract class DOMUtilImpl {
   // CHECKSTYLE_JAVADOC_OFF

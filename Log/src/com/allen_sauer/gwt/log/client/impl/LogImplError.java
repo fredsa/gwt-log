@@ -18,8 +18,8 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.allen_sauer.gwt.log.client.Log;
 
 /**
- * Implementation of {@link LogImpl} which attempts to compile out
- * all code with a log level lower than {@link Log#LOG_LEVEL_ERROR}.
+ * Implementation of {@link LogImpl} which attempts to compile out all code with
+ * a log level lower than {@link Log#LOG_LEVEL_ERROR}.
  */
 public final class LogImplError extends LogImplBase {
   // CHECKSTYLE_JAVADOC_OFF

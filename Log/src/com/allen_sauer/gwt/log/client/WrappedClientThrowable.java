@@ -18,7 +18,8 @@ package com.allen_sauer.gwt.log.client;
 import java.io.Serializable;
 
 /**
- * Representation of a client-side thrown exception, which can be serialized via RPC.
+ * Representation of a client-side thrown exception, which can be serialized via
+ * RPC.
  */
 @SuppressWarnings("serial")
 public class WrappedClientThrowable implements Serializable {

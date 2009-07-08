@@ -17,7 +17,7 @@ package com.allen_sauer.gwt.log.clientserverdemo.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-//CHECKSTYLE_JAVADOC_OFF
+// CHECKSTYLE_JAVADOC_OFF
 
 public interface IncrementServiceAsync {
   void increment(Counter counter, AsyncCallback<Counter> callback);

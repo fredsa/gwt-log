@@ -15,12 +15,13 @@
  */
 package com.allen_sauer.gwt.log.server;
 
-import javax.servlet.http.HttpServletRequest;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.LogMessage;
 import com.allen_sauer.gwt.log.client.RemoteLoggerService;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import javax.servlet.http.HttpServletRequest;
 
 // CHECKSTYLE_JAVADOC_OFF
 

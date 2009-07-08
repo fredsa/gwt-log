@@ -57,17 +57,17 @@ public final class RemoteLogger extends AbstractLogger {
   }
 
   @Override
+  void log(int logLevel, String message) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public void trace(String message, Throwable throwable) {
     throw new UnsupportedOperationException();
   }
 
   @Override
   public void warn(String message, Throwable throwable) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  void log(int logLevel, String message) {
     throw new UnsupportedOperationException();
   }
 }

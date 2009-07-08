@@ -19,7 +19,8 @@ import com.allen_sauer.gwt.log.client.ClientStackTraceElement;
 import com.allen_sauer.gwt.log.client.WrappedClientThrowable;
 
 /**
- * Representation of a client-side thrown exception, which can be re-instantiated on the server.
+ * Representation of a client-side thrown exception, which can be
+ * re-instantiated on the server.
  */
 @SuppressWarnings("serial")
 public class UnwrappedClientThrowable extends Throwable {
@@ -34,14 +35,14 @@ public class UnwrappedClientThrowable extends Throwable {
   private String originalClassName;
 
   /**
-   * Default constructor, required for RPC. 
+   * Default constructor, required for RPC.
    */
   private UnwrappedClientThrowable() {
   }
 
   /**
    * Constructor used by {@link com.allen_sauer.gwt.log.client.RemoteLogger}.
-   *
+   * 
    * @param wrapped the wrapped client-side exception
    */
   private UnwrappedClientThrowable(WrappedClientThrowable wrapped) {
@@ -62,7 +63,7 @@ public class UnwrappedClientThrowable extends Throwable {
 
   /**
    * Method does nothing.
-   *
+   * 
    * @return <code>this</code>
    */
   @Override
@@ -72,7 +73,7 @@ public class UnwrappedClientThrowable extends Throwable {
 
   /**
    * Returns null.
-   *
+   * 
    * @return null
    */
   @Override
@@ -82,7 +83,7 @@ public class UnwrappedClientThrowable extends Throwable {
 
   /**
    * Returns the same value as {@link #getMessage()}.
-   *
+   * 
    * @return {@link Throwable#getMessage()} from the original exception
    */
   @Override
@@ -92,7 +93,7 @@ public class UnwrappedClientThrowable extends Throwable {
 
   /**
    * Returns the same value as {@link #getMessage()}.
-   *
+   * 
    * @return {@link Throwable#getMessage()} from the original exception
    */
   @Override
@@ -102,10 +103,10 @@ public class UnwrappedClientThrowable extends Throwable {
 
   /**
    * Unimplemented.
-   *
+   * 
    * @param cause unused parameter; an exception is thrown instead
    * @return nothing; an exception is thrown instead
-   *
+   * 
    * @throws UnsupportedOperationException
    */
   @Override
@@ -115,17 +116,17 @@ public class UnwrappedClientThrowable extends Throwable {
 
   /**
    * Returns a string representation of the original exception.
-   *
+   * 
    * The result is a concatenation of:
    * <ul>
-   * <li> the {@link Class#getName() class name} of the original exception</li>
+   * <li>the {@link Class#getName() class name} of the original exception</li>
    * <li> <code>": "</code> (a colon and a space)</li>
-   * <li> the result of {@link #getMessage()}</li>
+   * <li>the result of {@link #getMessage()}</li>
    * </ul>
-   *
-   * If {@link #getMessage()} returns <code>null</code>, then just
-   * the {@link Class#getName() class name} of the original exception is returned
-   *
+   * 
+   * If {@link #getMessage()} returns <code>null</code>, then just the
+   * {@link Class#getName() class name} of the original exception is returned
+   * 
    * @return a string representation of the original exception
    */
   @Override

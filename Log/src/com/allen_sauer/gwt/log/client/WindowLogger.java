@@ -15,8 +15,6 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-import com.allen_sauer.gwt.log.client.impl.LogClientBundle;
-import com.allen_sauer.gwt.log.client.util.DOMUtil;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -24,10 +22,14 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
+import com.allen_sauer.gwt.log.client.impl.LogClientBundle;
+import com.allen_sauer.gwt.log.client.util.DOMUtil;
+
 /**
  * Logger which outputs to a draggable floating <code>DIV</code>.
  * 
- * TODO Fix lack of updates when Firefox is configured to force new windows to open as tabs
+ * TODO Fix lack of updates when Firefox is configured to force new windows to
+ * open as tabs
  */
 public class WindowLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF

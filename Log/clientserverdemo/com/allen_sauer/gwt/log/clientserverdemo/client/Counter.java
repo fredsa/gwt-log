@@ -20,8 +20,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.allen_sauer.gwt.log.client.Log;
 
 /**
- * Simple domain object which utilizes logging code which
- * can be executed on either the client on the server.
+ * Simple domain object which utilizes logging code which can be executed on
+ * either the client on the server.
  */
 public class Counter implements IsSerializable {
   private int count;

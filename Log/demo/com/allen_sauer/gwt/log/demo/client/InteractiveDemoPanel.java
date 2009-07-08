@@ -30,8 +30,8 @@ import com.allen_sauer.gwt.log.client.Log;
  */
 public class InteractiveDemoPanel extends AbsolutePanel {
   /**
-   * Example of class which fails static initialization
-   * due to purposefully broken JSNI code.
+   * Example of class which fails static initialization due to purposefully
+   * broken JSNI code.
    */
   static class Broken {
     static final String broken = breakIt();
@@ -299,7 +299,8 @@ public class InteractiveDemoPanel extends AbsolutePanel {
    * 
    * @param button the button to style
    * @param buttonLogLevel the log level associated with the button's message
-   * @param levelText the text representation of the log level to use in the button title
+   * @param levelText the text representation of the log level to use in the
+   *          button title
    */
   private void styleMessageButton(Button button, int buttonLogLevel, String levelText) {
     if (buttonLogLevel < Log.getCurrentLogLevel()) {

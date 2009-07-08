@@ -15,8 +15,14 @@
  */
 package com.allen_sauer.gwt.log.client.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
 import com.allen_sauer.gwt.log.client.DivLogger;
@@ -29,18 +35,13 @@ import com.allen_sauer.gwt.log.client.RemoteLogger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
 import com.allen_sauer.gwt.log.client.WindowLogger;
 import com.allen_sauer.gwt.log.client.util.LogUtil;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptException;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
- * Common implementation for all classes that are not expected to be compiled out,
- * i.e. all {@link LogImpl} subclasses except for {@link LogImplOff}).
+ * Common implementation for all classes that are not expected to be compiled
+ * out, i.e. all {@link LogImpl} subclasses except for {@link LogImplOff}).
  */
 public abstract class LogImplBase extends LogImpl {
   // CHECKSTYLE_JAVADOC_OFF
