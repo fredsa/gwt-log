@@ -1,5 +1,7 @@
 @CHARSET "UTF-8";
 
+@external .log-panel;
+
 .log-panel {
 	background-color: #ECF2FC;
 	border: 1px solid red;
