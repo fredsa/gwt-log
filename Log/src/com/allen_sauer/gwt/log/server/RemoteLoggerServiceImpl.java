@@ -15,87 +15,60 @@
  */
 package com.allen_sauer.gwt.log.server;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import javax.servlet.http.HttpServletRequest;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.allen_sauer.gwt.log.client.LogMessage;
 import com.allen_sauer.gwt.log.client.RemoteLoggerService;
-import com.allen_sauer.gwt.log.client.WrappedClientThrowable;
-
-import javax.servlet.http.HttpServletRequest;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 // CHECKSTYLE_JAVADOC_OFF
 
 @SuppressWarnings("serial")
 public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements RemoteLoggerService {
-  public final void debug(String message, WrappedClientThrowable wrapped) {
-    try {
-      Log.debug(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
-    } catch (RuntimeException e) {
-      System.err.println("Failed to log message due to " + e.toString());
-      e.printStackTrace();
-    }
-  }
 
-  /**
-   * @deprecated For internal gwt-log use only.
-   */
-  @Deprecated
-  public final void diagnostic(String message, WrappedClientThrowable wrapped) {
-    try {
-      Log.diagnostic(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
-    } catch (RuntimeException e) {
-      System.err.println("Failed to log message due to " + e.toString());
-      e.printStackTrace();
-    }
-  }
-
-  public final void error(String message, WrappedClientThrowable wrapped) {
-    try {
-      Log.error(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
-    } catch (RuntimeException e) {
-      System.err.println("Failed to log message due to " + e.toString());
-      e.printStackTrace();
-    }
-  }
-
-  public final void fatal(String message, WrappedClientThrowable wrapped) {
-    try {
-      Log.fatal(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
-    } catch (RuntimeException e) {
-      System.err.println("Failed to log message due to " + e.toString());
-      e.printStackTrace();
-    }
-  }
-
-  public final void info(String message, WrappedClientThrowable wrapped) {
-    try {
-      Log.info(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
-    } catch (RuntimeException e) {
-      System.err.println("Failed to log message due to " + e.toString());
-      e.printStackTrace();
-    }
-  }
-
-  public final void trace(String message, WrappedClientThrowable wrapped) {
-    try {
-      Log.trace(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
-    } catch (RuntimeException e) {
-      System.err.println("Failed to log message due to " + e.toString());
-      e.printStackTrace();
-    }
-  }
-
-  public final void warn(String message, WrappedClientThrowable wrapped) {
-    try {
-      Log.warn(format(message), UnwrappedClientThrowable.getInstanceOrNull(wrapped));
-    } catch (RuntimeException e) {
-      System.err.println("Failed to log message due to " + e.toString());
-      e.printStackTrace();
-    }
+  @SuppressWarnings("deprecation")
+  private void diagnostic(Throwable throwable, String message) {
+    Log.diagnostic(message, throwable);
   }
 
   private String format(String message) {
     HttpServletRequest request = getThreadLocalRequest();
     return "[" + request.getRemoteAddr() + "] " + message;
   }
+
+  public final void log(LogMessage[] logMessages) {
+    for (int i = 0; i < logMessages.length; i++) {
+      try {
+        Throwable throwable = UnwrappedClientThrowable.getInstanceOrNull(logMessages[i].getWrappedClientThrowable());
+        String message = i + ":" + format(logMessages[i].getMessage());
+        switch (logMessages[i].level) {
+          case Log.LOG_LEVEL_TRACE:
+            Log.trace(message, throwable);
+            break;
+          case Log.LOG_LEVEL_DEBUG:
+            Log.debug(message, throwable);
+            break;
+          case Log.LOG_LEVEL_INFO:
+            Log.info(message, throwable);
+            break;
+          case Log.LOG_LEVEL_WARN:
+            Log.warn(message, throwable);
+            break;
+          case Log.LOG_LEVEL_ERROR:
+            Log.error(message, throwable);
+            break;
+          case Log.LOG_LEVEL_FATAL:
+            Log.fatal(message, throwable);
+            break;
+          default:
+            diagnostic(throwable, message);
+        }
+      } catch (RuntimeException e) {
+        System.err.println("Failed to log message due to " + e.toString());
+        e.printStackTrace();
+      }
+    }
+  }
+
 }

@@ -15,6 +15,7 @@
  */
 package com.allen_sauer.gwt.log.clientserverdemo.client;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
@@ -22,8 +23,6 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-
-import com.allen_sauer.gwt.log.client.Log;
 
 /**
  * Client server logging demo.

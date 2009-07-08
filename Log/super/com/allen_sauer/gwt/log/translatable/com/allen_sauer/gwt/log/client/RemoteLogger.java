@@ -15,7 +15,13 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import java.util.ArrayList;
+
+import com.allen_sauer.gwt.log.client.Log;
+import com.allen_sauer.gwt.log.client.LogMessage;
+import com.allen_sauer.gwt.log.client.RemoteLoggerServiceAsync;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
@@ -28,25 +34,28 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 public final class RemoteLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
-  private final AsyncCallback<Object> callback;
+  private static final int MESSAGE_QUEUEING_DELAY_MILLIS = 300;
+  private final AsyncCallback<Void> callback;
   private RuntimeException failure;
   private final RemoteLoggerServiceAsync service;
+  private ArrayList<LogMessage> logMessageList = new ArrayList<LogMessage>();
 
   public RemoteLogger() {
     service = (RemoteLoggerServiceAsync) GWT.create(RemoteLoggerService.class);
     final ServiceDefTarget target = (ServiceDefTarget) service;
     target.setServiceEntryPoint(GWT.getModuleBaseURL() + "gwt-log");
 
-    callback = new AsyncCallback<Object>() {
+    callback = new AsyncCallback<Void>() {
       public void onFailure(Throwable ex) {
-        if (failure == null) {
-          failure = new RuntimeException(
-              "Remote logging will be suspended due to communication failure with "
-                  + service.getClass().getName() + " at " + target.getServiceEntryPoint(), ex);
-        }
+        failure = new RuntimeException(
+            "Remote logging will be suspended due to communication failure with "
+                + service.getClass().getName() + " at " + target.getServiceEntryPoint(), ex);
+        callInProgressOrScheduled = false;
       }
 
-      public void onSuccess(Object result) {
+      public void onSuccess(Void result) {
+        callInProgressOrScheduled = false;
+        maybeTriggerRPC();
       }
     };
   }
@@ -56,13 +65,35 @@ public final class RemoteLogger extends AbstractLogger {
     // do nothing on the server
   }
 
+  private boolean callInProgressOrScheduled = false;
+  private Timer timer = new Timer() {
+    @Override
+    public void run() {
+      LogMessage[] logMessages = logMessageList.toArray(new LogMessage[] {});
+      logMessageList.clear();
+      service.log(logMessages, callback);
+    }
+  };
+
+  private void maybeTriggerRPC() {
+    if (failure == null && !callInProgressOrScheduled && !logMessageList.isEmpty()) {
+      callInProgressOrScheduled = true;
+      timer.schedule(MESSAGE_QUEUEING_DELAY_MILLIS);
+    }
+  }
+
+  private void sendLogMessage(LogMessage logMessage) {
+    logMessageList.add(logMessage);
+    maybeTriggerRPC();
+  }
+
   @Override
   public void debug(String message, Throwable throwable) {
     if (failure != null) {
       throw failure;
     }
-    service.debug(removeTrailingLineSeparator(message),
-        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
+    sendLogMessage(new LogMessage(Log.LOG_LEVEL_DEBUG, removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable)));
   }
 
   @Override
@@ -70,8 +101,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.diagnostic(removeTrailingLineSeparator(message),
-        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
+    sendLogMessage(new LogMessage(Log.LOG_LEVEL_OFF, removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable)));
   }
 
   @Override
@@ -79,8 +110,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.error(removeTrailingLineSeparator(message),
-        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
+    sendLogMessage(new LogMessage(Log.LOG_LEVEL_ERROR, removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable)));
   }
 
   @Override
@@ -88,8 +119,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.fatal(removeTrailingLineSeparator(message),
-        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
+    sendLogMessage(new LogMessage(Log.LOG_LEVEL_FATAL, removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable)));
   }
 
   @Override
@@ -97,8 +128,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.info(removeTrailingLineSeparator(message),
-        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
+    sendLogMessage(new LogMessage(Log.LOG_LEVEL_INFO, removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable)));
   }
 
   public boolean isSupported() {
@@ -110,8 +141,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.trace(removeTrailingLineSeparator(message),
-        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
+    sendLogMessage(new LogMessage(Log.LOG_LEVEL_TRACE, removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable)));
   }
 
   @Override
@@ -119,8 +150,8 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       throw failure;
     }
-    service.warn(removeTrailingLineSeparator(message),
-        WrappedClientThrowable.getInstanceOrNull(throwable), callback);
+    sendLogMessage(new LogMessage(Log.LOG_LEVEL_WARN, removeTrailingLineSeparator(message),
+        WrappedClientThrowable.getInstanceOrNull(throwable)));
   }
 
   @Override
