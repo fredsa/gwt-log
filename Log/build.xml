@@ -1,0 +1,327 @@
+<project name="gwt-log" default="dist">
+
+	<target name="init">
+		<!-- Global Properties -->
+		<property environment="env" />
+
+		<!-- build.host.platform property -->
+		<condition property="build.host.islinux">
+			<and>
+				<os family="unix" />
+				<not>
+					<contains string="${os.name}" substring="mac" casesensitive="false" />
+				</not>
+			</and>
+		</condition>
+		<condition property="build.host.platform" value="linux">
+			<isset property="build.host.islinux" />
+		</condition>
+
+		<condition property="build.host.ismac">
+			<and>
+				<os family="unix" />
+				<contains string="${os.name}" substring="mac" casesensitive="false" />
+			</and>
+		</condition>
+		<condition property="build.host.platform" value="mac">
+			<isset property="build.host.ismac" />
+		</condition>
+
+		<condition property="build.host.iswindows">
+			<os family="windows" />
+		</condition>
+		<condition property="build.host.platform" value="windows">
+			<isset property="build.host.iswindows" />
+		</condition>
+		<fail unless="build.host.platform" message="Building on ${os.name} is not supported" />
+
+		<condition property="junit.platform.args" value="-XstartOnFirstThread" else="">
+			<equals arg1="${build.host.platform}" arg2="mac" casesensitive="false" />
+		</condition>
+
+
+		<!-- gwt.location property -->
+		<condition property="gwt.location.default" value="${env.GWT16_HOME}" else="">
+			<isset property="env.GWT16_HOME" />
+		</condition>
+		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT 1.6 installation directory" />
+
+		<!-- gwt.tools property -->
+		<condition property="gwt.tools" value="${env.GWT_TOOLS}" else="${gwt.root}/../tools">
+			<isset property="env.GWT_TOOLS" />
+		</condition>
+		<fail message="can't find gwt tools, please set gwt.tools property" unless="gwt.tools" />
+
+		<!-- gwt tools stuff -->
+		<property name="gwt.tools.lib" location="${gwt.tools}/lib" />
+		<property name="gwt.tools.antlib" location="${gwt.tools}/antlib" />
+
+		<!-- log4j stuff -->
+		<input addproperty="log4j.location" defaultvalue="war/WEB-INF/lib/log4j-1.2.15.jar" message="log4j location" />
+
+		<!-- javac defaults -->
+		<property name="javac.debug" value="true" />
+		<property name="javac.debuglevel" value="lines,vars,source" />
+		<property name="javac.encoding" value="utf-8" />
+		<property name="javac.nowarn" value="true" />
+		<property name="javac.source" value="1.5" />
+		<property name="javac.target" value="1.5" />
+		<property name="javac.memoryMaximumSize" value="1g" />
+
+		<!-- gwt jars -->
+		<property name="gwt-user.jar" location="${gwt.location}/gwt-user.jar" />
+		<property name="gwt-servlet.jar" location="${gwt.location}/gwt-servlet.jar" />
+		<property name="gwt-dev.jar" location="${gwt.location}/gwt-dev-${build.host.platform}.jar" />
+
+		<!-- Pulls in tasks defined in ant-contrib, i.e. foreach -->
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+			<classpath>
+				<pathelement location="${gwt.tools.antlib}/ant-contrib-1.0b3.jar" />
+			</classpath>
+		</taskdef>
+
+		<!-- gwt-log.libdir property -->
+		<input addproperty="gwt-log.libdir" defaultvalue="/fred/lib/gwt-log" message="gwt-log library directory" />
+
+		<for param="file">
+			<fileset dir="${gwt-log.libdir}">
+				<include name="gwt-log-*.*.*.jar" />
+				<exclude name="gwt-log-*.*.*-*.jar" />
+			</fileset>
+			<sequential>
+				<echo message="@{file}" />
+			</sequential>
+		</for>
+
+		<!-- gwt-log.version property -->
+		<input addproperty="gwt-log.version" defaultvalue="0.0.0" message="gwt-log release version" />
+
+		<!-- gwt-log.jar property -->
+		<property name="gwt-log.jar" value="gwt-log-${gwt-log.version}.jar" />
+
+		<!-- gwt-log.javadoc-jar property -->
+		<property name="gwt-log.javadoc-jar" value="gwt-log-${gwt-log.version}-javadoc.jar" />
+
+		<!-- Prevent overwriting existing libraries -->
+		<available file="${gwt-log.libdir}/${gwt-log.jar}" property="gwt-log.jar-exists" />
+		<condition property="gwt-log.fail-overwrite">
+			<and>
+				<not>
+					<equals arg1="${gwt-log.version}" arg2="0.0.0" />
+				</not>
+				<isset property="gwt-log.jar-exists" />
+			</and>
+		</condition>
+		<fail if="gwt-log.fail-overwrite" message="Cannot overwrite existing jar file ${gwt-log.libdir}/${gwt-log.jar}" />
+
+	</target>
+
+
+	<!-- Replace @GWT_LOG_VERION@ with actual version of build -->
+
+	<target name="filter" description="Filters distro files for versioning" depends="init">
+		<mkdir dir="build/out" />
+		<mkdir dir="build/demo" />
+		<mkdir dir="build/server" />
+
+		<copy todir="build/src">
+			<fileset dir="src">
+				<include name="**/public/**" />
+			</fileset>
+		</copy>
+
+		<copy todir="build/src">
+			<fileset dir="src">
+				<include name="**/*.java" />
+				<include name="**/*.gwt.xml" />
+			</fileset>
+			<fileset dir="server">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir=".">
+				<include name="LICENSE" />
+				<include name="NOTICE" />
+			</fileset>
+			<filterset>
+				<filter token="GWT_LOG_VERSION" value="${gwt-log.version}" />
+			</filterset>
+		</copy>
+
+		<copy todir="build/super">
+			<fileset dir="super">
+				<include name="**/*.java" />
+			</fileset>
+			<filterset>
+				<filter token="GWT_LOG_VERSION" value="${gwt-log.version}" />
+			</filterset>
+		</copy>
+
+		<copy todir="build/demo">
+			<fileset dir="demo">
+				<include name="**/public/**" />
+			</fileset>
+		</copy>
+
+		<copy todir="build/demo">
+			<fileset dir="demo">
+				<include name="**/*.java" />
+				<include name="**/*.gwt.xml" />
+			</fileset>
+			<fileset dir=".">
+				<include name="LICENSE" />
+				<include name="NOTICE" />
+			</fileset>
+			<filterset>
+				<filter token="GWT_LOG_VERSION" value="${gwt-log.version}" />
+			</filterset>
+		</copy>
+
+	</target>
+
+	<target name="build" depends="init, clean, filter, javac, gwtc">
+	</target>
+
+	<target name="javac" depends="filter">
+
+		<!-- compile src -->
+
+		<echo message="Compiling build/src ..." />
+
+		<javac compiler="javac1.5" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+			<src path="build/src" />
+			<classpath location="${gwt-user.jar}" />
+			<classpath location="${gwt-dev.jar}" />
+			<classpath location="${gwt-servlet.jar}" />
+			<classpath location="${log4j.location}" />
+		</javac>
+
+		<echo message="Copying src files build/out ..." />
+
+		<copy todir="build/out">
+			<fileset dir="build/src">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<copy todir="build/out">
+			<fileset dir="build/super">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<!-- build demo files as a sanity check -->
+
+		<echo message="Copying src files (for reference purposes) and NOTICE/LICENSE files to build/demo ..." />
+
+		<copy todir="build/demo">
+			<fileset dir="build/src">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<echo message="Compiling build/demo ..." />
+
+		<javac compiler="javac1.5" listfiles="false" destdir="build/demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+			<src path="build/demo" />
+			<classpath location="${gwt-user.jar}" />
+			<classpath location="${gwt-dev.jar}" />
+			<classpath location="${log4j.location}" />
+		</javac>
+
+	</target>
+
+	<target name="gwtc" description="Compile to JavaScript" depends="javac">
+		<outofdate>
+			<sourcefiles>
+				<fileset dir="build/super" />
+				<fileset dir="build/out" />
+				<fileset dir="build/demo" />
+				<fileset file="${gwt-user.jar}" />
+				<fileset file="${gwt-dev.jar}" />
+			</sourcefiles>
+
+			<targetfiles path="build/www/com.allen_sauer.gwt.log.demo.LogDemo/com.allen_sauer.gwt.log.demo.LogDemo.nocache.js" />
+
+			<sequential>
+				<mkdir dir="build/www" />
+
+				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.GWTCompiler" classpath="build/super:build/out:build/demo:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
+					<arg value="-out" />
+					<arg path="build/www" />
+					<arg value="com.allen_sauer.gwt.log.demo.LogDemo" />
+					<arg value="-style" />
+					<arg value="PRETTY" />
+				</java>
+
+				<copy todir="build/www">
+					<fileset file="war/LogDemo.html" />
+					<fileset file="war/LogDemo.css" />
+				</copy>
+
+				<copydir dest="build/www/images" src="war/images" />
+			</sequential>
+		</outofdate>
+	</target>
+
+	<target name="javadoc" depends="javac">
+		<javadoc access="protected" classpath="${gwt-user.jar}:${log4j.location}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
+	</target>
+
+	<target name="stat">
+		<exec executable="svn">
+			<arg value="stat" />
+		</exec>
+	</target>
+
+	<target name="tag">
+		<exec executable="svn">
+			<arg value="ls" />
+			<arg value="https://gwt-log.googlecode.com/svn/tags/" />
+		</exec>
+		<exec executable="svn">
+			<arg value="info" />
+			<arg value="https://gwt-log.googlecode.com/svn/" />
+		</exec>
+		<echo message="" />
+		<echo message="*****************************************************************************************************" />
+		<echo message="svn -m 'for prosterity' cp . https://gwt-log.googlecode.com/svn/tags/gwt-log-${gwt-log.version}-r" />
+		<echo message="*****************************************************************************************************" />
+		<echo message="" />
+	</target>
+
+	<target name="dist" depends="build,javadoc">
+		<mkdir dir="build/dist" />
+
+		<jar destfile="build/dist/${gwt-log.jar}">
+			<fileset dir="build/out" />
+		</jar>
+		<!--
+		<jar basedir="build/javadoc" destfile="build/dist/${gwt-log.javadoc-jar}" />
+	    -->
+
+		<copy todir="${gwt-log.libdir}">
+			<fileset dir="build/dist" />
+		</copy>
+
+		<antcall target="tag" />
+
+		<antcall target="stat" />
+	</target>
+
+	<target name="clean">
+		<delete dir="build" />
+	</target>
+
+	<target name="deploy" depends="clean, init, javac, gwtc">
+
+		<sshexec command="mkdir com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" />
+		
+		<scp todir="sauer@allen-sauer.com:com.allen_sauer.gwt.log.demo.LogDemo/" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" verbose="true">
+			<fileset dir="build/www" />
+		</scp>
+
+		<sshexec command="./deploy.sh com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" />
+
+	</target>
+
+</project>

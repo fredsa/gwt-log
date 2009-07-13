@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.6.4//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.6.4/distro-source/core/src/gwt-module.dtd">
+	<!--
+		Copyright 2009 Fred Sauer Licensed under the Apache License, Version
+		2.0 (the "License"); you may not use this file except in compliance
+		with the License. You may obtain a copy of the License at
+
+		http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+<module>
+
+	<!--
+		Log levels are controlled in two main ways, at compile time and at
+		runtime: At Compile Time =============== The 'log_level' deferred
+		binding property controls the compile time log level, which is the
+		minimum log level available to client code at runtime. Client code
+		related to lower levels of logging is dead code eliminated by the GWT
+		Compiler (to the extent possible). By default the compile time
+		log_level property is defined and set to a single value ('OFF').
+		However, the available 'log_level' values may be configured in a
+		number of ways: a) Instead of inheriting
+		'com.allen_sauer.gwt.log.gwt-log' (which defaults to a compile time
+		log_level of 'OFF') in your *.gwt.xml module file, you can inherit
+		from one of the log level specific gwt-log modules. For example, you
+		may want to have a single default compile time log level of 'WARN':
+
+		<inherits name="com.allen_sauer.gwt.log.gwt-log-WARN" /> b)
+		Alternatively, the default value may be overridden via a combination
+		of 'extend-property' and 'set-property' elements in your module
+		*.gwt.xml file. This also keeps compile time to a minimum, by
+		preventing a multiplication of the number of deferred binding
+		combinations which must be compiled. For example, during development
+		you'll most likely want to enable logging at one of the first six log
+		levels (e.g. TRACE, DEBUG, INFO, WARN, ERROR, FATAL), e.g. <inherits
+		name="com.allen_sauer.gwt.log.gwt-log" /> <extend-property
+		name="log_level" values="DEBUG" /> <set-property name="log_level"
+		value="DEBUG" /> In production you can reinforce the default, which is
+		to eliminate all logging related code (to the extent supported by the
+		GWT Compiler): <set-property name="log_level" value="OFF" /> b)
+		Additional compile time log levels can be made available to you
+		application via the 'extend-property' element. Note that this will
+		increase the compile time by multiplying the number of deferred
+		binding combinations which must be generated. A common example is to
+		create two versions of your application, one for development (DEBUG)
+		and one for production (OFF): <inherits
+		name="com.allen_sauer.gwt.log.gwt-log-OFF" /> <extend-property
+		name="log_level" values="DEBUG" /> In the extreme case, you could
+		create separate pre-compiled versions for all seven out-of-the-box log
+		levels. If you really want to do this, and can afford the increased
+		compile time, add all seven levels: <inherits
+		name="com.allen_sauer.gwt.log.gwt-log" /> <extend-property
+		name="log_level" values="TRACE,DEBUG,INFO,WARN,ERROR,FATAL,OFF"/> Once
+		the list of valid compile time values has been configured, you have a
+		couple of ways to select one of those deferred binding combinations
+		when you launch your application: a) Select any existing compile time
+		log_level value via the 'log_level' URL parameter. For example, to
+		select the INFO log level, use:
+
+		http[s]://hostame:port/path/to/your/module/Module.html?log_level=INFO
+
+		b) Select any existing compile time log_level via a GWT meta tag in
+		your HTML file. For example, to select the DEBUG log level: <html>
+		<head> <meta name="gwt:property" content="log_level=DEBUG"> <script
+		language='javascript'
+		src='com.example.gwt.YourModule.nocache.js'></script> </head> <body>
+		.. </body> </html> At Runtime ========== The current log level can be
+		adjusted programmatically via Log.setCurrentLogLevel(int level). A
+		JavaScript alert dialog box will be shown if you attempt to set a
+		runtime log level lower than the compile time log level. Note also,
+		that raising the runtime log level will not eliminate all of the
+		logging overhead. Select a compile time 'log_level' to do that. To
+		temporarily turn off logging, call:
+
+		Log.setCurrentLogLevel(Log.LOG_LEVEL_OFF); To temporarily only see
+		ERROR messages or higher, call:
+
+		Log.setCurrentLogLevel(Log.LOG_LEVEL_ERROR);
+	-->
+
+	<!-- Inherit the default log level implementation -->
+	<inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
+
+
+</module>
