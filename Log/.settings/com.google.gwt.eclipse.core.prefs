@@ -1,4 +1,5 @@
-#Tue Jul 21 15:48:36 PDT 2009
+#Tue Jul 21 16:44:53 PDT 2009
 eclipse.preferences.version=1
-entryPointModules=com.allen_sauer.gwt.log.gwt-log-DEBUG|com.allen_sauer.gwt.log.gwt-log-ERROR|com.allen_sauer.gwt.log.gwt-log-FATAL|com.allen_sauer.gwt.log.gwt-log-INFO|com.allen_sauer.gwt.log.gwt-log-OFF|com.allen_sauer.gwt.log.gwt-log-TRACE|com.allen_sauer.gwt.log.gwt-log-WARN|com.allen_sauer.gwt.log.gwt-log|com.allen_sauer.gwt.log.demo.LogDemo|com.mycompany.MyApplication|com.allen_sauer.gwt.log.clientserverdemo.LogClientServerDemo
+entryPointModules=com.allen_sauer.gwt.log.demo.LogDemo
 filesCopiedToWebInfLib=gwt-servlet.jar
+gwtCompileSettings=PGd3dC1jb21waWxlLXNldHRpbmdzPjxsb2ctbGV2ZWw+SU5GTzwvbG9nLWxldmVsPjxvdXRwdXQtc3R5bGU+T0JGVVNDQVRFRDwvb3V0cHV0LXN0eWxlPjxleHRyYS1hcmdzPjwhW0NEQVRBWy1leHRyYSB3YXIvZXh0cmEgLXNveWNdXT48L2V4dHJhLWFyZ3M+PHZtLWFyZ3M+PCFbQ0RBVEFbLVhteDUxMm1dXT48L3ZtLWFyZ3M+PC9nd3QtY29tcGlsZS1zZXR0aW5ncz4\=
