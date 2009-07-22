@@ -6,11 +6,7 @@
 	<inherits name="com.google.gwt.user.User" />
 
 	<!-- Inherit logging support                   -->
-	<inherits name="com.allen_sauer.gwt.log.gwt-log" />
-
-	<!-- Change default value from 'OFF' to 'DEBUG' -->
-	<extend-property name="log_level" values="DEBUG" />
-	<set-property name="log_level" value="DEBUG" />
+	<inherits name="com.allen_sauer.gwt.log.gwt-log-DEBUG" />
 
 	<!-- Specify the app entry point class.               -->
 	<entry-point class="com.mycompany.client.MyApplication" />
