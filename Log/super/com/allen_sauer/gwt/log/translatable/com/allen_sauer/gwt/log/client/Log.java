@@ -281,16 +281,6 @@ public final class Log implements EntryPoint {
   }
 
   /**
-   * @deprecated Use {@link #getLogger(Class)} instead
-   * 
-   * @return the ConsoleLogger instance or <code>null</code> if no such longer exists
-   */
-  @Deprecated
-  public static ConsoleLogger getConsoleLogger() {
-    return impl.getLoggerConsole();
-  }
-
-  /**
    * Get the current gwt-log log level.
    * 
    * @return the current gwt-log log level
@@ -306,36 +296,6 @@ public final class Log implements EntryPoint {
    */
   public static String getCurrentLogLevelString() {
     return impl.getCurrentLogLevelString();
-  }
-
-  /**
-   * @deprecated Use {@link #getLogger(Class)} instead
-   * 
-   * @return the DivLogger instance or <code>null</code> if no such longer exists
-   */
-  @Deprecated
-  public static DivLogger getDivLogger() {
-    return impl.getLoggerDiv();
-  }
-
-  /**
-   * @deprecated Use {@link #getLogger(Class)} instead
-   * 
-   * @return the FirebugLogger instance or <code>null</code> if no such longer exists
-   */
-  @Deprecated
-  public static FirebugLogger getFirebugLogger() {
-    return impl.getLoggerFirebug();
-  }
-
-  /**
-   * @deprecated Use {@link #getLogger(Class)} instead
-   * 
-   * @return the GWTLogger instance or <code>null</code> if no such longer exists
-   */
-  @Deprecated
-  public static GWTLogger getGwtLogger() {
-    return impl.getLoggerGWT();
   }
 
   /**
@@ -363,16 +323,6 @@ public final class Log implements EntryPoint {
    */
   public static String getLowestLogLevelString() {
     return impl.getLowestLogLevelString();
-  }
-
-  /**
-   * @deprecated Use {@link #getLogger(Class)} instead
-   * 
-   * @return the SystemLogger instance or <code>null</code> if no such longer exists
-   */
-  @Deprecated
-  public static SystemLogger getSystemLogger() {
-    return impl.getLoggerSystem();
   }
 
   /**
