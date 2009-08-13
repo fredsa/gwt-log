@@ -277,11 +277,11 @@
 	<target name="tag">
 		<exec executable="svn">
 			<arg value="ls" />
-			<arg value="https://gwt-log.googlecode.com/svn/tags/" />
+			<arg value="http://gwt-log.googlecode.com/svn/tags/" />
 		</exec>
 		<exec executable="svn">
 			<arg value="info" />
-			<arg value="https://gwt-log.googlecode.com/svn/" />
+			<arg value="http://gwt-log.googlecode.com/svn/" />
 		</exec>
 		<echo message="" />
 		<echo message="*****************************************************************************************************" />
