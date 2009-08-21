@@ -34,4 +34,7 @@
 		value="ENABLED" />
 	-->
 
+	<set-configuration-property name="compiler.emulatedStack.recordFileNames" value="true" />
+	<set-property name="compiler.emulatedStack" value="true" />
+
 </module>
