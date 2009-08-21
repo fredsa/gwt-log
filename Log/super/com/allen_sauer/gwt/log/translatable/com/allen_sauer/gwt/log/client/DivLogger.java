@@ -56,6 +56,8 @@ import com.allen_sauer.gwt.log.clientserverdemo.client.LogClientServerDemo;
 public class DivLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  private static final int MAX_VERTICAL_SCROLL = 0x6666666;
+  
   private class MouseDragHandler implements MouseMoveHandler, MouseUpHandler, MouseDownHandler {
     private boolean dragging = false;
     private final Label dragHandle;
@@ -115,7 +117,7 @@ public class DivLogger extends AbstractLogger {
     public void onMouseMove(MouseMoveEvent event) {
       if (dragging) {
         scrollPanel.incrementPixelSize(event.getX() - dragStartX, event.getY() - dragStartY);
-        scrollPanel.setScrollPosition(Integer.MAX_VALUE);
+        scrollPanel.setScrollPosition(MAX_VERTICAL_SCROLL);
       }
     }
 
@@ -250,7 +252,7 @@ public class DivLogger extends AbstractLogger {
         logText = "";
         DeferredCommand.addCommand(new Command() {
           public void execute() {
-            scrollPanel.setScrollPosition(0x8888888);
+            scrollPanel.setScrollPosition(MAX_VERTICAL_SCROLL);
           }
         });
       }
