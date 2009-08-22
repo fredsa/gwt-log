@@ -14,6 +14,7 @@
 package com.allen_sauer.gwt.log.rebind;
 
 import com.google.gwt.core.client.Duration;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.ext.BadPropertyValueException;
 import com.google.gwt.core.ext.ConfigurationProperty;
 import com.google.gwt.core.ext.Generator;
@@ -24,6 +25,7 @@ import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.core.ext.typeinfo.NotFoundException;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
+import com.google.gwt.dev.util.collect.HashSet;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
@@ -33,6 +35,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +52,8 @@ public class LogMessageFormatterGenerator extends Generator {
   private static final String ISO8601 = "ISO8601";
 
   private static final String PROPERTY_LOG_PATTERN = "log_pattern";
+
+  private static Set<String> STACKTRACE_SET = new HashSet<String>();
   static {
     DATE_FORMAT_MAP.put("ABSOLUTE", "HH:mm:ss,SSS");
     DATE_FORMAT_MAP.put("DATE", "dd MMM yyyy HH:mm:ss,SSS");
@@ -60,26 +65,30 @@ public class LogMessageFormatterGenerator extends Generator {
     CONVERSION_MAP.put("c", "\"-\"");
 
     // fully qualified class name of caller
-    CONVERSION_MAP.put("C", "\"-\"");
+    CONVERSION_MAP.put("C", "ste == null ? \"-\" : ste.getClassName()");
+    STACKTRACE_SET.add("C");
 
     // date of logging event (default ISO8601), e.g. %d{dd MMM yyyy HH:mm:ss,SSS}, %d{ISO8601} or
     // %d{ABSOLUTE}
     CONVERSION_MAP.put("d", "new Date()");
 
-    // filename of caller
-    CONVERSION_MAP.put("F", "\"-\"");
+    CONVERSION_MAP.put("F", "ste == null ? \"-\" : ste.getFileName()");
+    STACKTRACE_SET.add("F");
 
     // location information of caller
-    CONVERSION_MAP.put("l", "\"-\"");
+    CONVERSION_MAP.put("l", "ste == null ? \"-\" : ste.toString()");
+    STACKTRACE_SET.add("l");
 
     // line number of caller
-    CONVERSION_MAP.put("L", "\"-\"");
+    CONVERSION_MAP.put("L", "ste == null ? \"-\" : ste.getLineNumber()");
+    STACKTRACE_SET.add("L");
 
     // application supplied message
     CONVERSION_MAP.put("m", "message");
 
     // method name of caller
-    CONVERSION_MAP.put("M", "\"-\"");
+    CONVERSION_MAP.put("M", "ste == null ? \"-\" : ste.getMethodName()");
+    STACKTRACE_SET.add("M");
 
     // platform dependent line separator
     CONVERSION_MAP.put("n", "\"\\\\n\"");
@@ -113,6 +122,7 @@ public class LogMessageFormatterGenerator extends Generator {
     StringBuffer buf = new StringBuffer("\"\"");
     Pattern pattern = Pattern.compile("(.*?)%(-?)(\\d*)\\.?(\\d*)([cCdFlLmMnprtxX%])(\\{([^\\}]+)\\})?");
     Matcher matcher = pattern.matcher(logPattern);
+    boolean stackTraceToggle = false;
     while (matcher.find()) {
       buf.append("\n + \"").append(matcher.group(1)).append("\"");
       int minFieldWidth = Integer.parseInt(matcher.group(2) + "0" + matcher.group(3));
@@ -121,6 +131,9 @@ public class LogMessageFormatterGenerator extends Generator {
       String formatSpecifier = matcher.group(7);
 
       String convertedExpression = CONVERSION_MAP.get(conversionSpecifier);
+      if (STACKTRACE_SET.contains(conversionSpecifier)) {
+        stackTraceToggle = true;
+      }
       String group2ToEnd = matcher.group(0).substring(matcher.group(1).length());
       if (convertedExpression == null) {
         buf.append("\n + \"");
@@ -161,7 +174,10 @@ public class LogMessageFormatterGenerator extends Generator {
     buf.append("\n + \"");
     matcher.appendTail(buf);
     buf.append("\"");
-    return buf.toString();
+    String ste = "GWT.isScript() ? null : LogUtil.getCallingStackTraceElement(5)";
+    return (stackTraceToggle ? "StackTraceElement ste = " + ste + ";\n"
+        : "") + "return "
+        + buf.toString() + ";";
   }
 
   @Override
@@ -195,6 +211,7 @@ public class LogMessageFormatterGenerator extends Generator {
     composerFactory.addImplementedInterface(remoteService.getQualifiedSourceName());
 
     composerFactory.addImport(Date.class.getName());
+    composerFactory.addImport(GWT.class.getName());
     composerFactory.addImport(LogUtil.class.getName());
     composerFactory.addImport(Duration.class.getName());
 
@@ -224,8 +241,7 @@ public class LogMessageFormatterGenerator extends Generator {
       sw.println("message = \"<null message>\";");
       sw.outdent();
       sw.println("}");
-      String logPatternCode = logPatternToCode(logPattern);
-      sw.println("return " + logPatternCode + ";");
+      sw.println(logPatternToCode(logPattern));
       sw.outdent();
       sw.println("}\n");
 

@@ -18,7 +18,7 @@
     http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html
   -->
   <define-configuration-property name="log_pattern" is-multi-valued="false" />
-  <set-configuration-property name="log_pattern" value="%d [%-5p] %m%n" />
+  <set-configuration-property name="log_pattern" value="[%-5p] %m%n" />
 
   <!-- Loggers Enabled by default -->
   <set-property name="log_ConsoleLogger" value="ENABLED" />

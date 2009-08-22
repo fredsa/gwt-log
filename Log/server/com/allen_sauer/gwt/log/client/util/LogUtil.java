@@ -49,4 +49,5 @@ public class LogUtil {
   public static int stringToLevel(String logLevelString) {
     throw new UnsupportedOperationException(); // never used server-side
   }
+
 }

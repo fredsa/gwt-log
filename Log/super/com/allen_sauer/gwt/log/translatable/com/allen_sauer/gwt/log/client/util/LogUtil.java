@@ -49,6 +49,11 @@ public class LogUtil {
     return DateTimeFormat.getFormat(formatMask).format(date);
   }
 
+  public static StackTraceElement getCallingStackTraceElement(int depth) {
+    StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+    return stackTrace[depth];
+  }
+  
   public static String levelToString(int level) {
     switch (level) {
       case Log.LOG_LEVEL_TRACE:
@@ -104,4 +109,5 @@ public class LogUtil {
   public static String trim(String text, int maxLength) {
     return text.substring(0, maxLength);
   }
+
 }
