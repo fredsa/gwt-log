@@ -65,8 +65,6 @@ public final class Log {
     if (impl == null) {
       System.err.println("ERROR: gwt-log failed to initialize valid server-side logging implementation");
     }
-
-    setCurrentLogLevel(LOG_LEVEL_DEBUG);
   }
 
   public static void addLogger(Logger logger) {
