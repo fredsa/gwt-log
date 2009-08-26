@@ -36,11 +36,6 @@
 
 
 
-	<!--
-		Note: This property-provider will only used once the list of valid
-		values for 'log_level' is expanded, beyond the default 'OFF' value,
-		via an 'extend-property' tag.
-	-->
 	<property-provider name="log_level">
     <![CDATA[
       var log_level;
