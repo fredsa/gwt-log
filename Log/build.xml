@@ -1,6 +1,6 @@
 <project name="gwt-log" default="dist">
 
-	<target name="init">
+	<target name="init" description="Initialization of ant properties">
 		<!-- Global Properties -->
 		<property environment="env" />
 
@@ -239,7 +239,7 @@
 				<fileset file="${gwt-dev.jar}" />
 			</sourcefiles>
 
-			<targetfiles path="build/war/com.allen_sauer.gwt.log.demo.LogDemo/com.allen_sauer.gwt.log.demo.LogDemo.nocache.js" />
+			<targetfiles path="build/war/demo/demo.nocache.js" />
 
 			<sequential>
 				<mkdir dir="build/war" />
@@ -290,7 +290,7 @@
 		<echo message="" />
 	</target>
 
-	<target name="dist" depends="build,javadoc">
+	<target name="dist" description="Create distribution jar" depends="build,javadoc">
 		<mkdir dir="build/dist" />
 
 		<jar destfile="build/dist/${gwt-log.jar}">
@@ -311,19 +311,34 @@
 
 	<target name="clean">
 		<delete dir="build" />
-		<!-- Put the directory back so Eclipse doesn't loose the 'derived' attribute -->
+		<delete dir="war/WEB-INF/classes" />
+		<delete dir="war/demo" />
+		<delete dir="war/gettingstarted" />
+		<delete dir="war/clientserverdemo" />
+
+		<!-- Put the directories back so Eclipse doesn't loose the 'derived' attribute -->
 		<mkdir dir="build" />
+		<mkdir dir="war/WEB-INF/classes" />
+		<mkdir dir="war/demo" />
+		<mkdir dir="war/gettingstarted" />
+		<mkdir dir="war/clientserverdemo" />
 	</target>
 
-	<target name="deploy" depends="clean, init, javac, gwtc">
+	<target name="sshls" description="SSH ls (test)">
 
-		<sshexec command="mkdir com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" />
+		<sshexec command="ls" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
 
-		<scp todir="sauer@allen-sauer.com:com.allen_sauer.gwt.log.demo.LogDemo/" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" verbose="true">
+	</target>
+
+	<target name="deploy" description="Build and deploy to demo site" depends="clean, init, javac, gwtc">
+
+		<sshexec command="mkdir com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
+
+		<scp todir="sauer@allen-sauer.com:com.allen_sauer.gwt.log.demo.LogDemo/" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" verbose="true">
 			<fileset dir="build/war" />
 		</scp>
 
-		<sshexec command="./deploy.sh com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="c:\fred\.ssh\known_hosts" keyfile="c:\fred\.ssh\id_dsa" passphrase="" />
+		<sshexec command="./deploy.sh com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
 
 	</target>
 
