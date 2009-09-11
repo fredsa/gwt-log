@@ -19,6 +19,9 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.LogMessage;
 import com.allen_sauer.gwt.log.client.RemoteLoggerService;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 
 // CHECKSTYLE_JAVADOC_OFF
@@ -26,14 +29,15 @@ import javax.servlet.http.HttpServletRequest;
 @SuppressWarnings("serial")
 public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements RemoteLoggerService {
 
-  public final void log(LogMessage[] logMessages) {
-    for (int i = 0; i < logMessages.length; i++) {
+  public final void log(ArrayList<LogMessage> logMessages) {
+    for (Iterator<LogMessage> iterator = logMessages.iterator(); iterator.hasNext();) {
+      LogMessage logMessage = iterator.next();
       try {
-        Throwable throwable = UnwrappedClientThrowable.getInstanceOrNull(logMessages[i].getWrappedClientThrowable());
+        Throwable throwable = UnwrappedClientThrowable.getInstanceOrNull(logMessage.getWrappedClientThrowable());
         HttpServletRequest request = getThreadLocalRequest();
-        String message = "[" + request.getRemoteAddr() + " " + logMessages[i].getMessageSequence()
-            + "] " + logMessages[i].getMessage();
-        switch (logMessages[i].level) {
+        String message = "[" + request.getRemoteAddr() + " " + logMessage.getMessageSequence()
+            + "] " + logMessage.getMessage();
+        switch (logMessage.level) {
           case Log.LOG_LEVEL_TRACE:
             Log.trace(message, throwable);
             break;

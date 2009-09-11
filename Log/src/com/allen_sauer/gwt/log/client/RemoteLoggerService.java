@@ -15,8 +15,10 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
+import java.util.ArrayList;
+
 // CHECKSTYLE_JAVADOC_OFF
 public interface RemoteLoggerService extends RemoteService {
 
-  void log(LogMessage[] logMessages);
+  void log(ArrayList<LogMessage> logMessages);
 }

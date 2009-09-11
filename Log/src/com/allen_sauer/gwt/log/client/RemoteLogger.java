@@ -15,15 +15,12 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-import java.util.ArrayList;
-
-import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogMessage;
-import com.allen_sauer.gwt.log.client.RemoteLoggerServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+
+import java.util.ArrayList;
 
 /**
  * Logger which sends output via RPC to the server where it
@@ -34,38 +31,77 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 public final class RemoteLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
-  private static final int MESSAGE_QUEUEING_DELAY_MILLIS = 300;
+  private static final int MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE = 300;
+  private static final int MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED = 5 * 60 * 1000; // 5 mins
+  private static int messageQueueingDelayMillis = MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE;
+  private static final String REMOTE_LOGGER_NAME = "Remote Logger";
   private final AsyncCallback<Void> callback;
   private boolean callInProgressOrScheduled = false;
-  private RuntimeException failure;
-  private ArrayList<LogMessage> logMessageList = new ArrayList<LogMessage>();
+  private Throwable failure;
+  private final ArrayList<LogMessage> logMessageList = new ArrayList<LogMessage>();
   private int messageSequence = 1;
+
+  private final ArrayList<LogMessage> queuedMessageList = new ArrayList<LogMessage>();
 
   private final RemoteLoggerServiceAsync service;
 
-  private Timer timer = new Timer() {
+  private final Timer timer = new Timer() {
     @Override
     public void run() {
-      LogMessage[] logMessages = logMessageList.toArray(new LogMessage[] {});
+      movePendingMessagesToQueue();
+      service.log(queuedMessageList, callback);
+    }
+
+    // No need to synchronize on collection since JavaScript is single-threaded
+    private void movePendingMessagesToQueue() {
+      queuedMessageList.addAll(logMessageList);
       logMessageList.clear();
-      service.log(logMessages, callback);
     }
   };
 
   public RemoteLogger() {
+    if (!GWT.isClient()) {
+      throw new UnsupportedOperationException();
+    }
     service = (RemoteLoggerServiceAsync) GWT.create(RemoteLoggerService.class);
     final ServiceDefTarget target = (ServiceDefTarget) service;
     target.setServiceEntryPoint(GWT.getModuleBaseURL() + "gwt-log");
 
     callback = new AsyncCallback<Void>() {
+
       public void onFailure(Throwable ex) {
-        failure = new RuntimeException(
-            "Remote logging will be suspended due to communication failure with "
-                + service.getClass().getName() + " at " + target.getServiceEntryPoint(), ex);
+        if (messageQueueingDelayMillis > MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED) {
+
+          GWT.log(REMOTE_LOGGER_NAME
+              + " has encountered too many failures while trying to contact servlet at "
+              + target.getServiceEntryPoint(), ex);
+          GWT.log(REMOTE_LOGGER_NAME + " has suspended with "
+              + (logMessageList.size() + queuedMessageList.size())
+              + " log message(s) not delivered"
+              , null);
+          failure = ex;
+          logMessageList.clear();
+          queuedMessageList.clear();
+        } else {
+          GWT.log(REMOTE_LOGGER_NAME
+              + " encountered possibly transient communication failure with servlet at "
+              + target.getServiceEntryPoint(), ex);
+          GWT.log(REMOTE_LOGGER_NAME + " will attempt redelivery of "
+              + queuedMessageList.size() + " log message(s) in "
+              + messageQueueingDelayMillis
+              + "ms",
+              null);
+        }
         callInProgressOrScheduled = false;
+        maybeTriggerRPC();
+
+        // exponential backoff
+        messageQueueingDelayMillis += messageQueueingDelayMillis;
       }
 
       public void onSuccess(Void result) {
+        messageQueueingDelayMillis = MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE;
+        queuedMessageList.clear();
         callInProgressOrScheduled = false;
         maybeTriggerRPC();
       }
@@ -102,6 +138,7 @@ public final class RemoteLogger extends AbstractLogger {
     sendLogMessage(Log.LOG_LEVEL_INFO, message, throwable);
   }
 
+  @Override
   public boolean isSupported() {
     return true;
   }
@@ -123,9 +160,10 @@ public final class RemoteLogger extends AbstractLogger {
   }
 
   private void maybeTriggerRPC() {
-    if (failure == null && !callInProgressOrScheduled && !logMessageList.isEmpty()) {
+    if (failure == null && !callInProgressOrScheduled
+        && (!logMessageList.isEmpty() || !queuedMessageList.isEmpty())) {
       callInProgressOrScheduled = true;
-      timer.schedule(MESSAGE_QUEUEING_DELAY_MILLIS);
+      timer.schedule(messageQueueingDelayMillis);
     }
   }
 
@@ -135,9 +173,10 @@ public final class RemoteLogger extends AbstractLogger {
 
   private void sendLogMessage(int logLevel, String message, Throwable throwable) {
     if (failure != null) {
-      throw failure;
+      return;
     }
-    logMessageList.add(new LogMessage(messageSequence++, logLevel, removeTrailingLineSeparator(message),
+    logMessageList.add(new LogMessage(messageSequence++, logLevel,
+        removeTrailingLineSeparator(message),
         WrappedClientThrowable.getInstanceOrNull(throwable)));
     maybeTriggerRPC();
   }
