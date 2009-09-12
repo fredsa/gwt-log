@@ -14,10 +14,12 @@
 package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import java.util.ArrayList;
 
 // CHECKSTYLE_JAVADOC_OFF
+@RemoteServiceRelativePath("gwt-log")
 public interface RemoteLoggerService extends RemoteService {
 
   void log(ArrayList<LogMessage> logMessages);

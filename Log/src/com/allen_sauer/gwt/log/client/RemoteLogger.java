@@ -64,17 +64,15 @@ public final class RemoteLogger extends AbstractLogger {
       throw new UnsupportedOperationException();
     }
     service = (RemoteLoggerServiceAsync) GWT.create(RemoteLoggerService.class);
-    final ServiceDefTarget target = (ServiceDefTarget) service;
-    target.setServiceEntryPoint(GWT.getModuleBaseURL() + "gwt-log");
-
     callback = new AsyncCallback<Void>() {
 
       public void onFailure(Throwable ex) {
+        String serviceEntryPoint = ((ServiceDefTarget) service).getServiceEntryPoint();
         if (messageQueueingDelayMillis > MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED) {
 
           GWT.log(REMOTE_LOGGER_NAME
               + " has encountered too many failures while trying to contact servlet at "
-              + target.getServiceEntryPoint(), ex);
+              + serviceEntryPoint, ex);
           GWT.log(REMOTE_LOGGER_NAME + " has suspended with "
               + (logMessageList.size() + queuedMessageList.size())
               + " log message(s) not delivered"
@@ -85,7 +83,7 @@ public final class RemoteLogger extends AbstractLogger {
         } else {
           GWT.log(REMOTE_LOGGER_NAME
               + " encountered possibly transient communication failure with servlet at "
-              + target.getServiceEntryPoint(), ex);
+              + serviceEntryPoint, ex);
           GWT.log(REMOTE_LOGGER_NAME + " will attempt redelivery of "
               + queuedMessageList.size() + " log message(s) in "
               + messageQueueingDelayMillis

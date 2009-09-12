@@ -14,10 +14,12 @@
 package com.allen_sauer.gwt.log.clientserverdemo.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * Increment service.
  */
+@RemoteServiceRelativePath("increment")
 public interface IncrementService extends RemoteService {
   /**
    * Increment the counter by one.
