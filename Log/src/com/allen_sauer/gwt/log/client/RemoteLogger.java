@@ -25,8 +25,6 @@ import java.util.ArrayList;
 /**
  * Logger which sends output via RPC to the server where it
  * can be logged and aggregated.
- * 
- * TODO optimize RPC round trips; at a minimum try to combine multiple messages at once
  */
 public final class RemoteLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
