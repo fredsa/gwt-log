@@ -20,6 +20,11 @@
   <define-configuration-property name="log_pattern" is-multi-valued="false" />
   <set-configuration-property name="log_pattern" value="[%-5p] %m%n" />
 
+  <!--
+    Allows developer to override RemoteLogger servlet URL
+  -->
+  <define-configuration-property name="log_url" is-multi-valued="false" />
+
   <!-- Loggers Enabled by default -->
   <set-property name="log_ConsoleLogger" value="ENABLED" />
   <set-property name="log_DivLogger" value="ENABLED" />

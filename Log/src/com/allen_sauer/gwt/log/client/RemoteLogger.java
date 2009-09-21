@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public final class RemoteLogger extends AbstractLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  private static final RemoteLoggerConfig config = GWT.create(RemoteLoggerConfig.class);
   private static final int MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE = 300;
   private static final int MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED = 5 * 60 * 1000; // 5 mins
   private static int messageQueueingDelayMillis = MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE;
@@ -62,6 +63,12 @@ public final class RemoteLogger extends AbstractLogger {
       throw new UnsupportedOperationException();
     }
     service = (RemoteLoggerServiceAsync) GWT.create(RemoteLoggerService.class);
+    final ServiceDefTarget target = (ServiceDefTarget) service;
+    String serviceEntryPointUrl = config.serviceEntryPointUrl();
+    if (serviceEntryPointUrl != null) {
+      target.setServiceEntryPoint(serviceEntryPointUrl);
+    }
+
     callback = new AsyncCallback<Void>() {
 
       public void onFailure(Throwable ex) {
