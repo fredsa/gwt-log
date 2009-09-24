@@ -24,7 +24,7 @@ import com.allen_sauer.gwt.log.client.impl.LogImpl;
 /**
  * Static logging functions for client code.
  */
-public final class Log implements EntryPoint {
+public final class Log {
   /**
    * Constant <code>int</code> value <CODE>10000</CODE>, representing <code>DEBUG</code> logging level,
    * to display debugging messages or higher.
@@ -65,6 +65,11 @@ public final class Log implements EntryPoint {
   public static final int LOG_LEVEL_WARN = 30000;
 
   private static LogImpl impl;
+
+  static {
+    impl = (LogImpl) GWT.create(LogImpl.class);
+    impl.init();
+  }
 
   /**
    * Register a new logger.
@@ -650,13 +655,5 @@ public final class Log implements EntryPoint {
    * Default private constructor, to be used by GWT module initialization only.
    */
   private Log() {
-  }
-
-  /**
-   * Entry point for gwt-log initialization.
-   */
-  public void onModuleLoad() {
-    impl = (LogImpl) GWT.create(LogImpl.class);
-    impl.init();
   }
 }
