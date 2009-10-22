@@ -62,7 +62,7 @@ public abstract class LogImplBase extends LogImpl {
 
   static {
     setVersion();
-    StyleInjector.injectStylesheetAtStart(LogClientBundle.INSTANCE.css().getText());
+    StyleInjector.injectAtStart(LogClientBundle.INSTANCE.css().getText());
   }
 
   static JavaScriptException convertJavaScriptObjectToException(JavaScriptObject e) {
