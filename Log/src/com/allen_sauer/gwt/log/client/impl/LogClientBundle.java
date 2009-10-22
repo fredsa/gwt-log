@@ -16,7 +16,6 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.resources.client.CssResource.Strict;
 
 public interface LogClientBundle extends ClientBundle {
 
@@ -55,7 +54,6 @@ public interface LogClientBundle extends ClientBundle {
 
   static final LogClientBundle INSTANCE = GWT.create(LogClientBundle.class);
 
-  @Strict
   @Source("gwt-log.css")
   LogCssResource css();
 
