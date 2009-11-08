@@ -163,10 +163,12 @@ public class DivLogger extends AbstractLogger {
   private static final int UPDATE_INTERVAL_MILLIS = 500;
   private boolean dirty = false;
   private Button[] levelButtons;
-  private final DockPanel logDockPanel = new DockPanel() {
+  private final LogDockPanel logDockPanel = new LogDockPanel();
+  
+  private class LogDockPanel extends DockPanel {
     private int lastDocumentClientHeight = -1;
     private int lastDocumentClientWidth = -1;
-
+    private boolean userHidden = false;
     private HandlerRegistration resizeRegistration;
     private final ResizeHandler windowResizeListener = new ResizeHandler() {
       public void onResize(ResizeEvent event) {
@@ -178,6 +180,11 @@ public class DivLogger extends AbstractLogger {
 
     @Override
     public void setVisible(boolean visible) {
+      userHidden = !visible;
+      setVisible_(visible);
+    }
+
+    public void setVisible_(boolean visible) {
       super.setVisible(visible);
       if (visible) {
         scrollPanel.checkMinSize();
@@ -240,7 +247,7 @@ public class DivLogger extends AbstractLogger {
 
     scrollPanel.setWidget(logTextArea);
 
-    logDockPanel.setVisible(false);
+    logDockPanel.setVisible_(false);
     RootPanel.get().add(logDockPanel, 0, 0);
 
     timer = new Timer() {
@@ -314,7 +321,9 @@ public class DivLogger extends AbstractLogger {
 
   @Override
   final void log(int logLevel, String message, Throwable throwable) {
-    logDockPanel.setVisible(true);
+    if (!logDockPanel.userHidden) {
+      logDockPanel.setVisible(true);
+    }
     String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     String title = makeTitle(message, throwable);
     if (throwable != null) {
