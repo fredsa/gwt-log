@@ -71,7 +71,7 @@
 		<!-- gwt jars -->
 		<property name="gwt-user.jar" location="${gwt.location}/gwt-user.jar" />
 		<property name="gwt-servlet.jar" location="${gwt.location}/gwt-servlet.jar" />
-		<property name="gwt-dev.jar" location="${gwt.location}/gwt-dev-${build.host.platform}.jar" />
+		<property name="gwt-dev.jar" location="${gwt.location}/gwt-dev.jar" />
 
 		<!-- Pulls in tasks defined in ant-contrib, i.e. foreach -->
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
