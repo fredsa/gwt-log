@@ -22,5 +22,5 @@ import java.util.ArrayList;
 @RemoteServiceRelativePath("gwt-log")
 public interface RemoteLoggerService extends RemoteService {
 
-  void log(ArrayList<LogMessage> logMessages);
+  void log(ArrayList<LogRecord> logRecords);
 }

@@ -37,10 +37,10 @@ public final class RemoteLogger extends AbstractLogger {
   private final AsyncCallback<Void> callback;
   private boolean callInProgressOrScheduled = false;
   private Throwable failure;
-  private final ArrayList<LogMessage> logMessageList = new ArrayList<LogMessage>();
+  private final ArrayList<LogRecord> logMessageList = new ArrayList<LogRecord>();
   private int messageSequence = 1;
 
-  private final ArrayList<LogMessage> queuedMessageList = new ArrayList<LogMessage>();
+  private final ArrayList<LogRecord> queuedMessageList = new ArrayList<LogRecord>();
 
   private final RemoteLoggerServiceAsync service;
 
@@ -178,7 +178,7 @@ public final class RemoteLogger extends AbstractLogger {
     if (failure != null) {
       return;
     }
-    logMessageList.add(new LogMessage(messageSequence++, logLevel,
+    logMessageList.add(new LogRecord(messageSequence++, logLevel,
         removeTrailingLineSeparator(message),
         WrappedClientThrowable.getInstanceOrNull(throwable)));
     maybeTriggerRPC();

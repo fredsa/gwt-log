@@ -3,16 +3,16 @@ package com.allen_sauer.gwt.log.client;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class LogMessage implements Serializable {
+public class LogRecord implements Serializable {
 
   public int level;
   private String message;
-  private int messageSequence;
+  private int recordSequence;
   private WrappedClientThrowable wrappedClientThrowable;
 
-  public LogMessage(int messageSequence, int level, String message,
+  public LogRecord(int recordSequence, int level, String message,
       WrappedClientThrowable wrappedClientThrowable) {
-    this.messageSequence = messageSequence;
+    this.recordSequence = recordSequence;
     this.level = level;
     this.message = message;
     this.wrappedClientThrowable = wrappedClientThrowable;
@@ -20,7 +20,7 @@ public class LogMessage implements Serializable {
 
   // For GWT serialization
   @SuppressWarnings("unused")
-  private LogMessage() {
+  private LogRecord() {
   }
 
   public int getLevel() {
@@ -31,8 +31,8 @@ public class LogMessage implements Serializable {
     return message;
   }
 
-  public int getMessageSequence() {
-    return messageSequence;
+  public int getRecordSequence() {
+    return recordSequence;
   }
 
   public WrappedClientThrowable getWrappedClientThrowable() {

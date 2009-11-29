@@ -20,5 +20,5 @@ import java.util.ArrayList;
 // CHECKSTYLE_JAVADOC_OFF
 public interface RemoteLoggerServiceAsync {
 
-  void log(ArrayList<LogMessage> logMessages, AsyncCallback<Void> callback);
+  void log(ArrayList<LogRecord> logRecords, AsyncCallback<Void> callback);
 }

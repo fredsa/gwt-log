@@ -23,8 +23,8 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-ea&#13;&#10;-gen ../gen"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-gen ../gen"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Log"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1024m -ea -Dgwt.shell.endquick -Dgwt-log.RemoteLogger=JDK14&#10;-javaagent:/Applications/eclipse/plugins/com.google.appengine.eclipse.sdkbundle.1.2.6_1.2.6.v200910281419/appengine-java-sdk-1.2.6/lib/agent/appengine-agent.jar"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1024m -ea -Dgwt.shell.endquick -Dgwt-log.RemoteLogger=JDK14&#10;-javaagent:/Applications/eclipse/plugins/com.google.appengine.eclipse.sdkbundle.1.2.8_1.2.8.v200911250703/appengine-java-sdk-1.2.8/lib/agent/appengine-agent.jar"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="/Log/war"/>
 </launchConfiguration>
