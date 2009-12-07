@@ -23,6 +23,6 @@
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-gen ../gen&#13;&#10;-whitelist &quot; ^http[:][/][/]googleads[.]g[.]doubleclick[.]net&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Log"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1024m&#13;&#10;-ea&#13;&#10;-Dgwt.shell.endquick&#10;-javaagent:/Applications/eclipse/plugins/com.google.appengine.eclipse.sdkbundle.1.2.8_1.2.8.v200911250703/appengine-java-sdk-1.2.8/lib/agent/appengine-agent.jar"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1024m -ea -javaagent:/Applications/eclipse/plugins/com.google.appengine.eclipse.sdkbundle.1.2.8_1.2.8.v200911250703/appengine-java-sdk-1.2.8/lib/agent/appengine-agent.jar"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="/Log/war"/>
 </launchConfiguration>

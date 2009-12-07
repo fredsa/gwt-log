@@ -15,6 +15,7 @@ package com.allen_sauer.gwt.log.client.impl;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+import com.allen_sauer.gwt.log.client.LogRecord;
 import com.allen_sauer.gwt.log.client.LogUtil;
 import com.allen_sauer.gwt.log.client.Logger;
 
@@ -75,6 +76,8 @@ public abstract class LogImpl {
   public abstract boolean isTraceEnabled();
 
   public abstract boolean isWarnEnabled();
+
+  public abstract void log(LogRecord record);
 
   public abstract int setCurrentLogLevel(int level);
 

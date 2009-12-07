@@ -280,6 +280,26 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   @Override
+  public void log(LogRecord record) {
+    if (record.getLevel() >= getLowestLogLevel()) {
+      sendToLoggers(record);
+    }
+  }
+
+  public void sendToLoggers(LogRecord record) {
+    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = iterator.next();
+      try {
+        logger.log(record);
+      } catch (RuntimeException e1) {
+        iterator.remove();
+        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
+            e1);
+      }
+    }
+  }
+
+  @Override
   public final int setCurrentLogLevel(int level) {
     level = setCurrentLogLevelLoggers(level);
 
@@ -332,16 +352,7 @@ public abstract class LogImplBase extends LogImpl {
 
   private void log(int level, String category, String message, Throwable e) {
     LogRecord record = new LogRecord(category, level, message, e);
-    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = iterator.next();
-      try {
-        logger.log(record);
-      } catch (RuntimeException e1) {
-        iterator.remove();
-        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
-            e1);
-      }
-    }
+    sendToLoggers(record);
   }
 
   private int setCurrentLogLevelLoggers(int level) {
@@ -382,4 +393,5 @@ public abstract class LogImplBase extends LogImpl {
       if (oldResult != null) return oldResult;
     }
   }-*/;
+
 }

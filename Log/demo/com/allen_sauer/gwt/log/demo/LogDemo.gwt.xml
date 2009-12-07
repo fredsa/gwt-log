@@ -40,10 +40,6 @@
   <set-configuration-property name="compiler.emulatedStack.recordFileNames"
     value="true" />
 
-  <set-configuration-property name="log_pattern"
-    value="(%F:%L) %d [%-5p] %m%n" />
-
-
   <!--
     <set-property name="user.agent" value="safari"/> 
     <set-property name="log_level" value="DEBUG"/>

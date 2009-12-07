@@ -11,10 +11,8 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.log.server;
+package com.allen_sauer.gwt.log.client;
 
-import com.allen_sauer.gwt.log.client.ClientStackTraceElement;
-import com.allen_sauer.gwt.log.client.WrappedClientThrowable;
 
 /**
  * Representation of a client-side thrown exception, which can be re-instantiated on the server.

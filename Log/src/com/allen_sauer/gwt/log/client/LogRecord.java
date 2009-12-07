@@ -3,6 +3,9 @@ package com.allen_sauer.gwt.log.client;
 import com.google.gwt.core.client.GWT;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Map.Entry;
 
 @SuppressWarnings("serial")
 public class LogRecord implements Serializable {
@@ -11,29 +14,13 @@ public class LogRecord implements Serializable {
       (LogMessageFormatter) (GWT.isClient() ? GWT.create(LogMessageFormatter.class)
       : null);
   private static int gloablRecordSequence;
-  public int level;
   private String category;
+  private int level;
+  private HashMap<String, String> map;
   private String message;
   private int recordSequence;
   private transient Throwable throwable;
-
   private WrappedClientThrowable wrappedClientThrowable;
-
-  // c category
-  // C FQCN
-  // d date
-  // F filename
-  // l location
-  // L line number
-  // m message
-  // M method name
-  // n line separator
-  // p priority
-  // r number of milliseconds since construction of layout
-  // t thread name
-  // x NDC (nested diagnostic context)
-  // X MDC (mapped diagnostic context)
-  // % percent
 
   public LogRecord(String category, int level, String message,
       Throwable throwable) {
@@ -51,11 +38,17 @@ public class LogRecord implements Serializable {
   }
 
   public String getFormattedMessage() {
-    return FORMATTER.format(getLevelText(), message);
+    assert GWT.isClient() : "Method should only be called in Client Code";
+    return level == Log.LOG_LEVEL_OFF ? message : FORMATTER.format(LogUtil.levelToString(level),
+        message);
   }
 
   public int getLevel() {
     return level;
+  }
+
+  public Set<Entry<String, String>> getMapEntrySet() {
+    return getHashMap().entrySet();
   }
 
   public String getMessage() {
@@ -67,15 +60,23 @@ public class LogRecord implements Serializable {
   }
 
   public Throwable getThrowable() {
-    assert GWT.isClient() : "Method may only be invoked in GWT client code";
-    return throwable;
+    return throwable != null ? throwable
+        : UnwrappedClientThrowable.getInstanceOrNull(wrappedClientThrowable);
   }
 
   public WrappedClientThrowable getWrappedClientThrowable() {
     return wrappedClientThrowable;
   }
 
-  private String getLevelText() {
-    return LogUtil.levelToString(level);
+  public void set(String key, String value) {
+    getHashMap().put(key, value);
+  }
+
+  private HashMap<String, String> getHashMap() {
+    if (map == null) {
+      map = new HashMap<String, String>();
+      map.put("logSequence", "" + getRecordSequence());
+    }
+    return map;
   }
 }

@@ -61,54 +61,55 @@ public class LogMessageFormatterGenerator extends Generator {
   }
 
   static {
-    // category
+    // %c - category
     CONVERSION_MAP.put("c", "\"-\"");
 
-    // fully qualified class name of caller
+    // %C - fully qualified class name of caller
     CONVERSION_MAP.put("C", "ste == null ? \"-\" : ste.getClassName()");
     STACKTRACE_SET.add("C");
 
-    // date of logging event (default ISO8601), e.g. %d{dd MMM yyyy HH:mm:ss,SSS}, %d{ISO8601} or
-    // %d{ABSOLUTE}
+    // %d - date of logging event (default ISO8601)
+    // e.g. %d{dd MMM yyyy HH:mm:ss,SSS}, %d{ISO8601} or %d{ABSOLUTE}
     CONVERSION_MAP.put("d", "new Date()");
 
+    // %F - filename
     CONVERSION_MAP.put("F", "ste == null ? \"-\" : ste.getFileName()");
     STACKTRACE_SET.add("F");
 
-    // location information of caller
+    // %l - location information of caller
     CONVERSION_MAP.put("l", "ste == null ? \"-\" : ste.toString()");
     STACKTRACE_SET.add("l");
 
-    // line number of caller
+    // %L - line number of caller
     CONVERSION_MAP.put("L", "ste == null ? \"-\" : ste.getLineNumber()");
     STACKTRACE_SET.add("L");
 
-    // application supplied message
+    // %m - application supplied message
     CONVERSION_MAP.put("m", "message");
 
-    // method name of caller
+    // %M - method name of caller
     CONVERSION_MAP.put("M", "ste == null ? \"-\" : ste.getMethodName()");
     STACKTRACE_SET.add("M");
 
-    // platform dependent line separator
+    // %n - platform dependent line separator
     CONVERSION_MAP.put("n", "\"\\\\n\"");
 
-    // priority of logging event
+    // %p - priority of logging event
     CONVERSION_MAP.put("p", "logLevelText");
 
-    // number of elapsed milliseconds
+    // %r - number of elapsed milliseconds
     CONVERSION_MAP.put("r", "Math.round(Duration.currentTimeMillis() - BIG_BANG)");
 
-    // name of caller thread
+    // %t - name of caller thread
     CONVERSION_MAP.put("t", "\"-\"");
 
-    // nested diagnostic context
+    // %x - nested diagnostic context
     CONVERSION_MAP.put("x", "\"-\"");
 
-    // mapped diagnostic context, e.g. %X{someKey}
+    // %X - mapped diagnostic context, e.g. %X{someKey}
     CONVERSION_MAP.put("X", "\"-\"");
 
-    // percent sign
+    // %% - percent sign
     CONVERSION_MAP.put("%", "\"%\"");
   }
 

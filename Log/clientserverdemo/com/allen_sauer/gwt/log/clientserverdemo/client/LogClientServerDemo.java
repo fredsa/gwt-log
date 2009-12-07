@@ -66,6 +66,7 @@ public class LogClientServerDemo implements EntryPoint {
       @Override
       public void run() {
         Log.debug("*********************************************");
+        Log.diagnostic("diagnostic - should be visible", null);
         Log.fatal("fatal - should be visible");
         Log.setCurrentLogLevel(Log.LOG_LEVEL_OFF);
         Log.fatal("fatal - should be filtered out");

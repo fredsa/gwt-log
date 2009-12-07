@@ -31,44 +31,16 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
 
   public final void log(ArrayList<LogRecord> logRecords) {
     for (Iterator<LogRecord> iterator = logRecords.iterator(); iterator.hasNext();) {
-      LogRecord logRecord = iterator.next();
+      LogRecord record = iterator.next();
       try {
-        Throwable throwable = UnwrappedClientThrowable.getInstanceOrNull(logRecord.getWrappedClientThrowable());
         HttpServletRequest request = getThreadLocalRequest();
-        String message = "[" + request.getRemoteAddr() + " " + logRecord.getRecordSequence()
-            + "] " + logRecord.getMessage();
-        switch (logRecord.level) {
-          case Log.LOG_LEVEL_TRACE:
-            Log.trace(message, throwable);
-            break;
-          case Log.LOG_LEVEL_DEBUG:
-            Log.debug(message, throwable);
-            break;
-          case Log.LOG_LEVEL_INFO:
-            Log.info(message, throwable);
-            break;
-          case Log.LOG_LEVEL_WARN:
-            Log.warn(message, throwable);
-            break;
-          case Log.LOG_LEVEL_ERROR:
-            Log.error(message, throwable);
-            break;
-          case Log.LOG_LEVEL_FATAL:
-            Log.fatal(message, throwable);
-            break;
-          default:
-            diagnostic(throwable, message);
-        }
+        record.set("remoteAddr", request.getRemoteAddr());
+        Log.log(record);
       } catch (RuntimeException e) {
         System.err.println("Failed to log message due to " + e.toString());
         e.printStackTrace();
       }
     }
-  }
-
-  @SuppressWarnings("deprecation")
-  private void diagnostic(Throwable throwable, String message) {
-    Log.diagnostic(message, throwable);
   }
 
 }

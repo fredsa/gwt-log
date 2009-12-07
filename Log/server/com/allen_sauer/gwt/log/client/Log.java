@@ -15,7 +15,7 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import com.allen_sauer.gwt.log.server.ServerLogImpl;
+import com.allen_sauer.gwt.log.server.ServerLog;
 import com.allen_sauer.gwt.log.server.ServerLogImplJDK14;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
 import com.allen_sauer.gwt.log.server.ServerLogImplStdio;
@@ -31,7 +31,7 @@ public final class Log {
   public static final int LOG_LEVEL_WARN = 30000;
   private static final String GWT_LOG_REMOTE_LOGGER_PREFERENCE = "gwt-log.RemoteLogger";
 
-  private static ServerLogImpl impl;
+  private static ServerLog impl;
 
   private static final String UNSUPPORTED_METHOD_TEXT = "This method available only when running on the client";
 
@@ -43,8 +43,13 @@ public final class Log {
       } else if (remoteLoggerPreference.equals("JDK14")) {
         impl = tryJDK14();
       } else {
-        System.err.println("WARN: " + GWT_LOG_REMOTE_LOGGER_PREFERENCE + " value '"
-            + remoteLoggerPreference + "' is not recognized");
+        if (!remoteLoggerPreference.equals("STDIO")) {
+          throw new UnsupportedOperationException("System property "
+              + GWT_LOG_REMOTE_LOGGER_PREFERENCE + " set to unrecognized value '"
+              + remoteLoggerPreference + "'");
+        } else {
+          impl = tryStdio();
+        }
       }
     }
 
@@ -70,7 +75,6 @@ public final class Log {
   }
 
   public static void clear() {
-    impl.clear();
   }
 
   public static void debug(String message) {
@@ -82,7 +86,7 @@ public final class Log {
   }
 
   public static void debug(String message, Throwable e) {
-    impl.debug(message, e);
+    log(new LogRecord("gwt-log", Log.LOG_LEVEL_DEBUG, message, e));
   }
 
   /**
@@ -90,7 +94,7 @@ public final class Log {
    */
   @Deprecated
   public static void diagnostic(String message, Throwable e) {
-    impl.diagnostic(message, e);
+    log(new LogRecord("gwt-log", Log.LOG_LEVEL_OFF, message, e));
   }
 
   public static void error(String message) {
@@ -102,7 +106,7 @@ public final class Log {
   }
 
   public static void error(String message, Throwable e) {
-    impl.error(message, e);
+    log(new LogRecord("gwt-log", Log.LOG_LEVEL_ERROR, message, e));
   }
 
   public static void fatal(String message) {
@@ -114,15 +118,15 @@ public final class Log {
   }
 
   public static void fatal(String message, Throwable e) {
-    impl.fatal(message, e);
+    log(new LogRecord("gwt-log", Log.LOG_LEVEL_FATAL, message, e));
   }
 
   public static int getCurrentLogLevel() {
-    return impl.getCurrentLogLevel();
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static String getCurrentLogLevelString() {
-    return LogUtil.levelToString(getCurrentLogLevel());
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static <T extends Logger> T getLogger(Class<T> clazz) {
@@ -130,11 +134,11 @@ public final class Log {
   }
 
   public static int getLowestLogLevel() {
-    return LOG_LEVEL_TRACE;
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static String getLowestLogLevelString() {
-    return LogUtil.levelToString(getLowestLogLevel());
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static String getVersion() {
@@ -151,39 +155,43 @@ public final class Log {
   }
 
   public static void info(String message, Throwable e) {
-    impl.info(message, e);
+    log(new LogRecord("gwt-log", Log.LOG_LEVEL_INFO, message, e));
   }
 
   public static boolean isDebugEnabled() {
-    return impl.isDebugEnabled();
+    return true;
   }
 
   public static boolean isErrorEnabled() {
-    return impl.isErrorEnabled();
+    return true;
   }
 
   public static boolean isFatalEnabled() {
-    return impl.isFatalEnabled();
+    return true;
   }
 
   public static boolean isInfoEnabled() {
-    return impl.isInfoEnabled();
+    return true;
   }
 
   public static boolean isLoggingEnabled() {
-    return impl.isLoggingEnabled();
+    return true;
   }
 
   public static boolean isTraceEnabled() {
-    return impl.isTraceEnabled();
+    return true;
   }
 
   public static boolean isWarnEnabled() {
-    return impl.isWarnEnabled();
+    return true;
+  }
+
+  public static void log(LogRecord record) {
+    impl.log(record);
   }
 
   public static void setCurrentLogLevel(int level) {
-    impl.setCurrentImplLogLevel(impl.mapGWTLogLevelToImplLevel(level));
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static void setUncaughtExceptionHandler() {
@@ -199,7 +207,7 @@ public final class Log {
   }
 
   public static void trace(String message, Throwable e) {
-    impl.debug(message, e);
+    log(new LogRecord("gwt-log", Log.LOG_LEVEL_TRACE, message, e));
   }
 
   public static void warn(String message) {
@@ -211,10 +219,10 @@ public final class Log {
   }
 
   public static void warn(String message, Throwable e) {
-    impl.warn(message, e);
+    log(new LogRecord("gwt-log", Log.LOG_LEVEL_WARN, message, e));
   }
 
-  private static ServerLogImpl tryJDK14() {
+  private static ServerLog tryJDK14() {
     try {
       return new ServerLogImplJDK14();
     } catch (NoClassDefFoundError e) {
@@ -227,7 +235,7 @@ public final class Log {
     return null;
   }
 
-  private static ServerLogImpl tryLog4J() {
+  private static ServerLog tryLog4J() {
     try {
       return new ServerLogImplLog4J();
     } catch (NoClassDefFoundError e) {
@@ -239,7 +247,7 @@ public final class Log {
     return null;
   }
 
-  private static ServerLogImpl tryStdio() {
+  private static ServerLog tryStdio() {
     try {
       return new ServerLogImplStdio();
     } catch (Throwable e) {
@@ -247,4 +255,5 @@ public final class Log {
     }
     return null;
   }
+
 }

@@ -18,6 +18,7 @@ package com.allen_sauer.gwt.log.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
+import com.allen_sauer.gwt.log.client.LogRecord;
 import com.allen_sauer.gwt.log.client.impl.LogImpl;
 
 /**
@@ -654,5 +655,9 @@ public final class Log {
    * Default private constructor, to be used by GWT module initialization only.
    */
   private Log() {
+  }
+  
+  public static void log(LogRecord record) {
+    impl.log(record);
   }
 }

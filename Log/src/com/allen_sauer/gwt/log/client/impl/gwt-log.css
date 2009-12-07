@@ -38,6 +38,7 @@
 }
 
 .log-panel .log-message {
+	white-space: pre;
 	font-family: monospace;
 	cursor: help;
 }

@@ -16,6 +16,7 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.allen_sauer.gwt.log.client.LogRecord;
 import com.allen_sauer.gwt.log.client.Logger;
 
 /**
@@ -120,6 +121,10 @@ public final class LogImplOff extends LogImpl {
   @Override
   public boolean isWarnEnabled() {
     return false;
+  }
+
+  @Override
+  public void log(LogRecord record) {
   }
 
   @Override

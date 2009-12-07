@@ -33,10 +33,10 @@ public final class SystemLogger implements Logger {
 
   public void log(LogRecord record) {
     if (record.getLevel() >= Log.LOG_LEVEL_ERROR) {
-      System.err.print(record.getFormattedMessage() + "\n"
+      System.err.print(record.getFormattedMessage()
           + LogUtil.stackTraceToString(record.getThrowable()));
     } else {
-      System.out.print(record.getFormattedMessage() + "\n"
+      System.out.print(record.getFormattedMessage()
           + LogUtil.stackTraceToString(record.getThrowable()));
     }
   }
