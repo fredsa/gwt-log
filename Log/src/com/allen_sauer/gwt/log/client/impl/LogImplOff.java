@@ -20,135 +20,107 @@ import com.allen_sauer.gwt.log.client.LogRecord;
 import com.allen_sauer.gwt.log.client.Logger;
 
 /**
- * Implementation of {@link LogImpl} that is designed to be compiled out via GWT compiler dead code
+ * Implementation of {@link LogImplInterface} that is designed to be compiled out via GWT compiler
+ * dead code
  * elimination.
  */
 public final class LogImplOff extends LogImpl {
   // CHECKSTYLE_JAVADOC_OFF
-  @Override
   public void addLogger(Logger logger) {
   }
 
-  @Override
   public void clear() {
   }
 
-  @Override
   public void debug(String category, String message, JavaScriptObject e) {
   }
 
-  @Override
   public void debug(String category, String message, Throwable e) {
   }
 
-  @Override
   public void diagnostic(String message, Throwable e) {
   }
 
-  @Override
   public void error(String category, String message, JavaScriptObject e) {
   }
 
-  @Override
   public void error(String category, String message, Throwable e) {
   }
 
-  @Override
   public void fatal(String category, String message, JavaScriptObject e) {
   }
 
-  @Override
   public void fatal(String category, String message, Throwable e) {
   }
 
-  @Override
   public int getCurrentLogLevel() {
     return Log.LOG_LEVEL_OFF;
   }
 
-  @Override
   public <T extends Logger> T getLogger(Class<T> clazz) {
     return null;
   }
 
-  @Override
   public int getLowestLogLevel() {
     return Log.LOG_LEVEL_OFF;
   }
 
-  @Override
   public void info(String category, String message, JavaScriptObject e) {
   }
 
-  @Override
   public void info(String category, String message, Throwable e) {
   }
 
-  @Override
   public void init() {
   }
 
-  @Override
   public boolean isDebugEnabled() {
     return false;
   }
 
-  @Override
   public boolean isErrorEnabled() {
     return false;
   }
 
-  @Override
   public boolean isFatalEnabled() {
     return false;
   }
 
-  @Override
   public boolean isInfoEnabled() {
     return false;
   }
 
-  @Override
   public boolean isLoggingEnabled() {
     return false;
   }
 
-  @Override
   public boolean isTraceEnabled() {
     return false;
   }
 
-  @Override
   public boolean isWarnEnabled() {
     return false;
   }
 
-  @Override
   public void log(LogRecord record) {
   }
 
-  @Override
   public int setCurrentLogLevel(int level) {
     return Log.LOG_LEVEL_OFF;
   }
 
-  @Override
   public void setUncaughtExceptionHandler() {
   }
 
-  @Override
   public void trace(String category, String message, JavaScriptObject e) {
   }
 
-  @Override
   public void trace(String category, String message, Throwable e) {
   }
 
-  @Override
   public void warn(String category, String message, JavaScriptObject e) {
   }
 
-  @Override
   public void warn(String category, String message, Throwable e) {
   }
 }

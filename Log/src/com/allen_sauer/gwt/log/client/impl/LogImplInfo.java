@@ -16,13 +16,12 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.allen_sauer.gwt.log.client.Log;
 
 /**
- * Implementation of {@link LogImpl} which attempts to compile out all code with a log level lower
+ * Implementation of {@link LogImplInterface} which attempts to compile out all code with a log level lower
  * than {@link Log#LOG_LEVEL_INFO}.
  */
 public final class LogImplInfo extends LogImplBase {
   // CHECKSTYLE_JAVADOC_OFF
 
-  @Override
   public int getLowestLogLevel() {
     return Log.LOG_LEVEL_INFO;
   }

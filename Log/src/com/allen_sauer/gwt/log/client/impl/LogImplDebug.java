@@ -16,12 +16,11 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.allen_sauer.gwt.log.client.Log;
 
 /**
- * Debugging implementation of {@link LogImpl} for the {@link Log#LOG_LEVEL_DEBUG} log level.
+ * Debugging implementation of {@link LogImplInterface} for the {@link Log#LOG_LEVEL_DEBUG} log level.
  */
 public final class LogImplDebug extends LogImplBase {
   // CHECKSTYLE_JAVADOC_OFF
 
-  @Override
   public int getLowestLogLevel() {
     return Log.LOG_LEVEL_DEBUG;
   }
@@ -30,4 +29,5 @@ public final class LogImplDebug extends LogImplBase {
   public boolean isTraceEnabled() {
     return false;
   }
+
 }
