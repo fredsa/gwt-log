@@ -17,8 +17,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 
@@ -27,12 +25,12 @@ import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogMessageFormatter;
+import com.allen_sauer.gwt.log.client.LogRecord;
+import com.allen_sauer.gwt.log.client.LogUtil;
 import com.allen_sauer.gwt.log.client.Logger;
 import com.allen_sauer.gwt.log.client.RemoteLogger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
 import com.allen_sauer.gwt.log.client.WindowLogger;
-import com.allen_sauer.gwt.log.client.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -43,8 +41,6 @@ import java.util.Iterator;
  */
 public abstract class LogImplBase extends LogImpl {
   // CHECKSTYLE_JAVADOC_OFF
-
-  static final LogMessageFormatter FORMATTER = GWT.create(LogMessageFormatter.class);
 
   static final String LOG_LEVEL_TEXT_DEBUG = LogUtil.levelToString(Log.LOG_LEVEL_DEBUG);
 
@@ -131,99 +127,56 @@ public abstract class LogImplBase extends LogImpl {
         logger.clear();
       } catch (RuntimeException e1) {
         iterator.remove();
-        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
+        diagnostic("Removing '" + logger.getClass().getName()
+            + "' due to unexecpted exception", e1);
       }
     }
   }
 
   @Override
-  public final void debug(String message, JavaScriptObject e) {
+  public final void debug(String category, String message, JavaScriptObject e) {
     if (isDebugEnabled()) {
-      debug(message, convertJavaScriptObjectToException(e));
+      log(Log.LOG_LEVEL_DEBUG, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
   @Override
-  public final void debug(String message, Throwable e) {
+  public final void debug(String category, String message, Throwable e) {
     if (isDebugEnabled()) {
-      message = FORMATTER.format(LOG_LEVEL_TEXT_DEBUG, message);
-      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = iterator.next();
-        try {
-          logger.debug(message, e);
-        } catch (RuntimeException e1) {
-          iterator.remove();
-          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
-              e1);
-        }
-      }
+      log(Log.LOG_LEVEL_DEBUG, category, message, e);
     }
   }
 
   @Override
   public void diagnostic(String message, final Throwable e) {
-    final String msg = FORMATTER.format("gwt-log", message);
-    DeferredCommand.addCommand(new Command() {
-      public void execute() {
-        for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-          Logger logger = iterator.next();
-          try {
-            logger.diagnostic(msg, e);
-          } catch (RuntimeException e1) {
-            iterator.remove();
-            diagnostic(
-                "Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
-          }
-        }
-      }
-    });
+    log(Log.LOG_LEVEL_OFF, "gwt-log", message, e);
   }
 
   @Override
-  public final void error(String message, JavaScriptObject e) {
+  public final void error(String category, String message, JavaScriptObject e) {
     if (isErrorEnabled()) {
-      error(message, convertJavaScriptObjectToException(e));
+      log(Log.LOG_LEVEL_ERROR, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
   @Override
-  public final void error(String message, Throwable e) {
+  public final void error(String category, String message, Throwable e) {
     if (isErrorEnabled()) {
-      message = FORMATTER.format(LOG_LEVEL_TEXT_ERROR, message);
-      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = iterator.next();
-        try {
-          logger.error(message, e);
-        } catch (RuntimeException e1) {
-          iterator.remove();
-          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
-              e1);
-        }
-      }
+      log(Log.LOG_LEVEL_ERROR, category, message, e);
     }
   }
 
   @Override
-  public final void fatal(String message, JavaScriptObject e) {
+  public final void fatal(String category, String message, JavaScriptObject e) {
     if (isFatalEnabled()) {
-      fatal(message, convertJavaScriptObjectToException(e));
+      log(Log.LOG_LEVEL_FATAL, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
   @Override
-  public final void fatal(String message, Throwable e) {
+  public final void fatal(String category, String message, Throwable e) {
     if (isFatalEnabled()) {
-      message = FORMATTER.format(LOG_LEVEL_TEXT_FATAL, message);
-      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = iterator.next();
-        try {
-          logger.fatal(message, e);
-        } catch (RuntimeException e1) {
-          iterator.remove();
-          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
-              e1);
-        }
-      }
+      log(Log.LOG_LEVEL_FATAL, category, message, e);
     }
   }
 
@@ -244,51 +197,16 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   @Override
-  public final ConsoleLogger getLoggerConsole() {
-    return getLogger(ConsoleLogger.class);
-  }
-
-  @Override
-  public final DivLogger getLoggerDiv() {
-    return getLogger(DivLogger.class);
-  }
-
-  @Override
-  public final FirebugLogger getLoggerFirebug() {
-    return getLogger(FirebugLogger.class);
-  }
-
-  @Override
-  public final GWTLogger getLoggerGWT() {
-    return getLogger(GWTLogger.class);
-  }
-
-  @Override
-  public final SystemLogger getLoggerSystem() {
-    return getLogger(SystemLogger.class);
-  }
-
-  @Override
-  public final void info(String message, JavaScriptObject e) {
+  public final void info(String category, String message, JavaScriptObject e) {
     if (isInfoEnabled()) {
-      info(message, convertJavaScriptObjectToException(e));
+      log(Log.LOG_LEVEL_INFO, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
   @Override
-  public final void info(String message, Throwable e) {
+  public final void info(String category, String message, Throwable e) {
     if (isInfoEnabled()) {
-      message = FORMATTER.format(LOG_LEVEL_TEXT_INFO, message);
-      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = iterator.next();
-        try {
-          logger.info(message, e);
-        } catch (RuntimeException e1) {
-          iterator.remove();
-          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
-              e1);
-        }
-      }
+      log(Log.LOG_LEVEL_INFO, category, message, e);
     }
   }
 
@@ -385,49 +303,43 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   @Override
-  public final void trace(String message, JavaScriptObject e) {
+  public final void trace(String category, String message, JavaScriptObject e) {
     if (isTraceEnabled()) {
-      trace(message, convertJavaScriptObjectToException(e));
+      log(Log.LOG_LEVEL_TRACE, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
   @Override
-  public final void trace(String message, Throwable e) {
+  public final void trace(String category, String message, Throwable e) {
     if (isTraceEnabled()) {
-      message = FORMATTER.format(LOG_LEVEL_TEXT_TRACE, message);
-      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = iterator.next();
-        try {
-          logger.trace(message, e);
-        } catch (RuntimeException e1) {
-          iterator.remove();
-          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
-              e1);
-        }
-      }
+      log(Log.LOG_LEVEL_TRACE, category, message, e);
     }
   }
 
   @Override
-  public final void warn(String message, JavaScriptObject e) {
+  public final void warn(String category, String message, JavaScriptObject e) {
     if (isWarnEnabled()) {
-      warn(message, convertJavaScriptObjectToException(e));
+      log(Log.LOG_LEVEL_WARN, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
   @Override
-  public final void warn(String message, Throwable e) {
+  public final void warn(String category, String message, Throwable e) {
     if (isWarnEnabled()) {
-      message = FORMATTER.format(LOG_LEVEL_TEXT_WARN, message);
-      for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-        Logger logger = iterator.next();
-        try {
-          logger.warn(message, e);
-        } catch (RuntimeException e1) {
-          iterator.remove();
-          diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
-              e1);
-        }
+      log(Log.LOG_LEVEL_WARN, category, message, e);
+    }
+  }
+
+  private void log(int level, String category, String message, Throwable e) {
+    LogRecord record = new LogRecord(category, level, message, e);
+    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = iterator.next();
+      try {
+        logger.log(record);
+      } catch (RuntimeException e1) {
+        iterator.remove();
+        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
+            e1);
       }
     }
   }
@@ -445,7 +357,8 @@ public abstract class LogImplBase extends LogImpl {
         logger.setCurrentLogLevel(level);
       } catch (RuntimeException e1) {
         iterator.remove();
-        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
+        diagnostic("Removing '" + logger.getClass().getName()
+            + "' due to unexecpted exception", e1);
       }
     }
     return level;

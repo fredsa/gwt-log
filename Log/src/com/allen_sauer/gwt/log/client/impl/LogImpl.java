@@ -15,13 +15,8 @@ package com.allen_sauer.gwt.log.client.impl;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import com.allen_sauer.gwt.log.client.ConsoleLogger;
-import com.allen_sauer.gwt.log.client.DivLogger;
-import com.allen_sauer.gwt.log.client.FirebugLogger;
-import com.allen_sauer.gwt.log.client.GWTLogger;
+import com.allen_sauer.gwt.log.client.LogUtil;
 import com.allen_sauer.gwt.log.client.Logger;
-import com.allen_sauer.gwt.log.client.SystemLogger;
-import com.allen_sauer.gwt.log.client.util.LogUtil;
 
 // CHECKSTYLE_JAVADOC_OFF
 
@@ -30,19 +25,22 @@ public abstract class LogImpl {
 
   public abstract void clear();
 
-  public abstract void debug(String message, JavaScriptObject e);
+  public abstract void debug(String category, String message, JavaScriptObject e);
 
-  public abstract void debug(String message, Throwable e);
+  public abstract void debug(String category, String message, Throwable e);
 
+  /**
+   * Diagnostic (internal) messages have an implied category of 'gwt-log'
+   */
   public abstract void diagnostic(String message, Throwable e);
 
-  public abstract void error(String message, JavaScriptObject e);
+  public abstract void error(String category, String message, JavaScriptObject e);
 
-  public abstract void error(String message, Throwable e);
+  public abstract void error(String category, String message, Throwable e);
 
-  public abstract void fatal(String message, JavaScriptObject e);
+  public abstract void fatal(String category, String message, JavaScriptObject e);
 
-  public abstract void fatal(String message, Throwable e);
+  public abstract void fatal(String category, String message, Throwable e);
 
   public abstract int getCurrentLogLevel();
 
@@ -52,25 +50,15 @@ public abstract class LogImpl {
 
   public abstract <T extends Logger> T getLogger(Class<T> clazz);
 
-  public abstract ConsoleLogger getLoggerConsole();
-
-  public abstract DivLogger getLoggerDiv();
-
-  public abstract FirebugLogger getLoggerFirebug();
-
-  public abstract GWTLogger getLoggerGWT();
-
-  public abstract SystemLogger getLoggerSystem();
-
   public abstract int getLowestLogLevel();
 
   public final String getLowestLogLevelString() {
     return LogUtil.levelToString(getLowestLogLevel());
   }
 
-  public abstract void info(String message, JavaScriptObject e);
+  public abstract void info(String category, String message, JavaScriptObject e);
 
-  public abstract void info(String message, Throwable e);
+  public abstract void info(String category, String message, Throwable e);
 
   public abstract void init();
 
@@ -92,11 +80,11 @@ public abstract class LogImpl {
 
   public abstract void setUncaughtExceptionHandler();
 
-  public abstract void trace(String message, JavaScriptObject e);
+  public abstract void trace(String category, String message, JavaScriptObject e);
 
-  public abstract void trace(String message, Throwable e);
+  public abstract void trace(String category, String message, Throwable e);
 
-  public abstract void warn(String message, JavaScriptObject e);
+  public abstract void warn(String category, String message, JavaScriptObject e);
 
-  public abstract void warn(String message, Throwable e);
+  public abstract void warn(String category, String message, Throwable e);
 }

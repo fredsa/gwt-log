@@ -47,16 +47,56 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.log.client.impl.LogClientBundle;
 import com.allen_sauer.gwt.log.client.util.DOMUtil;
-import com.allen_sauer.gwt.log.client.util.LogUtil;
 
 /**
  * Logger which outputs to a draggable floating <code>DIV</code>.
  */
-public class DivLogger extends AbstractLogger {
+public class DivLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
 
-  private static final int MAX_VERTICAL_SCROLL = 0x6666666;
-  
+  private class LogDockPanel extends DockPanel {
+    private HandlerRegistration resizeRegistration;
+    private boolean userHidden = false;
+    private final ResizeHandler windowResizeListener = new ResizeHandler() {
+      public void onResize(ResizeEvent event) {
+        int width = event.getWidth();
+        int height = event.getHeight();
+        resize(width, height);
+      }
+    };
+
+    @Override
+    public void setVisible(boolean visible) {
+      userHidden = !visible;
+      setVisible_(visible);
+    }
+
+    public void setVisible_(boolean visible) {
+      super.setVisible(visible);
+      if (visible) {
+        scrollPanel.checkMinSize();
+        resize(Window.getClientWidth(), Window.getClientHeight());
+      }
+    }
+
+    @Override
+    protected void onLoad() {
+      super.onLoad();
+      resizeRegistration = Window.addResizeHandler(windowResizeListener);
+    }
+
+    @Override
+    protected void onUnload() {
+      super.onUnload();
+      resizeRegistration.removeHandler();
+    }
+
+    private void resize(int width, int height) {
+      scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
+          (int) (Window.getClientHeight() * .3)));
+    }
+  }
+
   private class MouseDragHandler implements MouseMoveHandler, MouseUpHandler, MouseDownHandler {
     private boolean dragging = false;
     private final Label dragHandle;
@@ -158,55 +198,14 @@ public class DivLogger extends AbstractLogger {
   private static final int[] levels = {
       Log.LOG_LEVEL_TRACE, Log.LOG_LEVEL_DEBUG, Log.LOG_LEVEL_INFO, Log.LOG_LEVEL_WARN,
       Log.LOG_LEVEL_ERROR, Log.LOG_LEVEL_FATAL, Log.LOG_LEVEL_OFF,};
-  private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
+  private static final int MAX_VERTICAL_SCROLL = 0x6666666;
 
+  private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
   private static final int UPDATE_INTERVAL_MILLIS = 500;
   private boolean dirty = false;
   private Button[] levelButtons;
-  private final LogDockPanel logDockPanel = new LogDockPanel();
-  
-  private class LogDockPanel extends DockPanel {
-    private boolean userHidden = false;
-    private HandlerRegistration resizeRegistration;
-    private final ResizeHandler windowResizeListener = new ResizeHandler() {
-      public void onResize(ResizeEvent event) {
-        int width = event.getWidth();
-        int height = event.getHeight();
-        resize(width, height);
-      }
-    };
 
-    @Override
-    public void setVisible(boolean visible) {
-      userHidden = !visible;
-      setVisible_(visible);
-    }
-
-    public void setVisible_(boolean visible) {
-      super.setVisible(visible);
-      if (visible) {
-        scrollPanel.checkMinSize();
-        resize(Window.getClientWidth(), Window.getClientHeight());
-      }
-    }
-
-    @Override
-    protected void onLoad() {
-      super.onLoad();
-      resizeRegistration = Window.addResizeHandler(windowResizeListener);
-    }
-
-    @Override
-    protected void onUnload() {
-      super.onUnload();
-      resizeRegistration.removeHandler();
-    }
-
-    private void resize(int width, int height) {
-      scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
-          (int) (Window.getClientHeight() * .3)));
-    }
-  };
+  private final LogDockPanel logDockPanel = new LogDockPanel();;
   private String logText = "";
 
   private final HTML logTextArea = new HTML();
@@ -256,7 +255,6 @@ public class DivLogger extends AbstractLogger {
     };
   }
 
-  @Override
   public final void clear() {
     logTextArea.setHTML("");
   }
@@ -273,50 +271,13 @@ public class DivLogger extends AbstractLogger {
     return logDockPanel.isAttached() && logDockPanel.isVisible();
   }
 
-  public final void moveTo(int x, int y) {
-    RootPanel.get().add(logDockPanel, x, y);
-  }
-
-  @Override
-  public void setCurrentLogLevel(int level) {
-    super.setCurrentLogLevel(level);
-    for (int i = 0; i < levels.length; i++) {
-      if (levels[i] < Log.getLowestLogLevel()) {
-        levelButtons[i].setEnabled(false);
-      } else {
-        String levelText = LogUtil.levelToString(levels[i]);
-        boolean current = level == levels[i];
-        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
-            + "'" : "Set current (runtime) log level to '" + levelText + "'");
-        boolean active = level <= levels[i];
-        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
-            : "#ccc");
-      }
-    }
-  }
-
-  public final void setPixelSize(int width, int height) {
-    logTextArea.setPixelSize(width, height);
-  }
-
-  public final void setSize(String width, String height) {
-    logTextArea.setSize(width, height);
-  }
-
-  @Override
-  final void log(int logLevel, String message) {
-    assert false;
-    // Method never called since {@link #log(int, String, Throwable)} is
-    // overridden
-  }
-
-  @Override
-  final void log(int logLevel, String message, Throwable throwable) {
+  public void log(LogRecord record) {
     if (!logDockPanel.userHidden) {
       logDockPanel.setVisible(true);
     }
-    String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-    String title = makeTitle(message, throwable);
+    String text = record.getFormattedMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    String title = makeTitle(record);
+    Throwable throwable = record.getThrowable();
     if (throwable != null) {
       while (throwable != null) {
         text += throwable.getClass().getName() + ":<br><b>" + throwable.getMessage() + "</b>";
@@ -338,7 +299,35 @@ public class DivLogger extends AbstractLogger {
     addLogText("<div class='" + LogClientBundle.INSTANCE.css().logMessage()
         + "' onmouseover='className+=\" log-message-hover\"' "
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
-        + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
+        + getColor(record.getLevel()) + "' title='" + title + "'>" + text + "</div>");
+  }
+
+  public final void moveTo(int x, int y) {
+    RootPanel.get().add(logDockPanel, x, y);
+  }
+
+  public void setCurrentLogLevel(int level) {
+    for (int i = 0; i < levels.length; i++) {
+      if (levels[i] < Log.getLowestLogLevel()) {
+        levelButtons[i].setEnabled(false);
+      } else {
+        String levelText = LogUtil.levelToString(levels[i]);
+        boolean current = level == levels[i];
+        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
+            + "'" : "Set current (runtime) log level to '" + levelText + "'");
+        boolean active = level <= levels[i];
+        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
+            : "#ccc");
+      }
+    }
+  }
+
+  public final void setPixelSize(int width, int height) {
+    logTextArea.setPixelSize(width, height);
+  }
+
+  public final void setSize(String width, String height) {
+    logTextArea.setSize(width, height);
   }
 
   private void addLogText(String logTest) {
@@ -439,7 +428,9 @@ public class DivLogger extends AbstractLogger {
     return header;
   }
 
-  private String makeTitle(String message, Throwable throwable) {
+  private String makeTitle(LogRecord record) {
+    String message = record.getFormattedMessage();
+    Throwable throwable = record.getThrowable();
     if (throwable != null) {
       if (throwable.getMessage() == null) {
         message = throwable.getClass().getName();
@@ -451,4 +442,5 @@ public class DivLogger extends AbstractLogger {
     return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(
         "'", "\"");
   }
+
 }

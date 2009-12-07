@@ -15,25 +15,30 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-//CHECKSTYLE_JAVADOC_OFF
-public interface Logger {
-  void clear();
+/**
+ * Logger which sends output via <code>$wnd.console.log()</code> if <code>$wnd.console.log</code> is
+ * a function.
+ */
+public final class ConsoleLogger implements Logger {
+  // CHECKSTYLE_JAVADOC_OFF
 
-  void debug(String message, Throwable throwable);
+  public void clear() {
+  }
 
-  void diagnostic(String message, Throwable throwable);
+  public native boolean isSupported()
+  /*-{
+    return $wnd.console != null && !$wnd.console.firebug && typeof($wnd.console.log) == 'function';
+  }-*/;
 
-  void error(String message, Throwable throwable);
+  public void log(LogRecord record) {
+    logMessage(record.getFormattedMessage());
+  }
 
-  void fatal(String message, Throwable throwable);
+  public void setCurrentLogLevel(int level) {
+  }
 
-  void info(String message, Throwable throwable);
-
-  boolean isSupported();
-
-  void setCurrentLogLevel(int level);
-
-  void trace(String message, Throwable throwable);
-
-  void warn(String message, Throwable throwable);
+  private native void logMessage(String message)
+  /*-{
+    $wnd.console.log(message);
+  }-*/;
 }

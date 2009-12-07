@@ -25,7 +25,6 @@ public final class ServerLogImplStdio extends ServerLogImpl {
 
   @Override
   public void clear() {
-    // do nothing
   }
 
   @Override

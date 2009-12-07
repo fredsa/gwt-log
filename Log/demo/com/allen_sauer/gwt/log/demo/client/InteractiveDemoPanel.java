@@ -16,12 +16,14 @@ package com.allen_sauer.gwt.log.demo.client;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 
 import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.Log;
+import com.allen_sauer.gwt.log.client.LogRecord;
 
 /**
  * Interactive demo panel used by {@link LogDemo}.
@@ -40,7 +42,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
      */
     private static native String breakIt()
     /*-{
-     return i_do_not_exist();
+      return i_do_not_exist();
     }-*/;
   }
 
@@ -78,22 +80,22 @@ public class InteractiveDemoPanel extends AbsolutePanel {
           String msg = "This is a '" + levelString + "' test message";
           switch (level) {
             case Log.LOG_LEVEL_TRACE:
-              Log.trace(msg);
+                      Log.trace(msg);
               break;
             case Log.LOG_LEVEL_DEBUG:
-              Log.debug(msg);
+                      Log.debug(msg);
               break;
             case Log.LOG_LEVEL_INFO:
-              Log.info(msg);
+                      Log.info(msg);
               break;
             case Log.LOG_LEVEL_WARN:
-              Log.warn(msg);
+                      Log.warn(msg);
               break;
             case Log.LOG_LEVEL_ERROR:
-              Log.error(msg);
+                      Log.error(msg);
               break;
             case Log.LOG_LEVEL_FATAL:
-              Log.fatal(msg);
+                      Log.fatal(msg);
               break;
           }
         }
@@ -140,11 +142,11 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     add(jsTimeoutExceptionButtonFatal);
     jsTimeoutExceptionButtonFatal.addClickHandler(new ClickHandler() {
       public native void onClick(ClickEvent event)
-      /*-{
-        setTimeout(function() {
-          my_non_existant_variable.my_non_existant_method();
-        }, 1);
-      }-*/;
+            /*-{
+    setTimeout(function() {
+    my_non_existant_variable.my_non_existant_method();
+    }, 1);
+  }-*/;
     });
 
     nullButtonDebug = new Button("Log.debug(null)");
@@ -186,7 +188,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
 
     for (int i = 0; i < levels.length; i++) {
       final int level = levels[i];
-      final String url = getPageURL() + "?log_level=" + levelTexts[i];
+      final String url = makePageURL(levelTexts[i]);
       Button button = new Button(levelTexts[i]);
       button.addClickHandler(new ClickHandler() {
         public void onClick(ClickEvent event) {
@@ -210,14 +212,6 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   }
 
   /**
-   * @return the URL of the current page
-   */
-  private native String getPageURL()
-  /*-{
-    return $wnd.location.href.replace(/[\\?#].*$/, "");
-  }-*/;
-
-  /**
    * Initialize the location and contents of the DivLogger after a short delay.
    */
   private void initDivLogger() {
@@ -227,11 +221,12 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       @Override
       public void run() {
         if (!divLogger.isVisible()) {
-          divLogger.diagnostic(
+          LogRecord record = new LogRecord("gwt-log", Log.LOG_LEVEL_OFF,
               "This is the draggable 'DivLogger' panel, just one of the available loggers.\n"
-                  + "The above buttons control the current (runtime) logging level.\n"
-                  + "Use the other buttons on this page to send test messages or trap exceptions.",
-              null);
+              + "The above buttons control the current (runtime) logging level.\n"
+              + "Use the other buttons on this page to send test messages or trap exceptions."
+              , null);
+          divLogger.log(record);
         }
       }
     }.schedule(3000);
@@ -255,6 +250,15 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   private native void jsniNoCatch()
   /*-{
     my_non_existant_variable.my_non_existant_method();
+  }-*/;
+
+  /**
+   * @return the URL of the current page
+   */
+  private native String makePageURL(String logLevelText)
+  /*-{
+    var url = $wnd.location.href.replace(/([\\?&]log_level=[^&]*)/, "");
+    return url + (url.indexOf('?') == -1 ? "?" : "&") + "log_level=" + logLevelText;
   }-*/;
 
   /**

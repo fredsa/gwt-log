@@ -33,7 +33,6 @@ public final class ServerLogImplLog4J extends ServerLogImpl {
 
   @Override
   public void clear() {
-    // do nothing
   }
 
   @Override

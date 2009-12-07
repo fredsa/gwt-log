@@ -18,21 +18,29 @@ package com.allen_sauer.gwt.log.client;
 /**
  * Logger which sends output via <a href="http://www.getfirebug.com/">Firebug</a>
  * or <a href="http://www.getfirebug.com/lite.html">Firebug Lite</a>
- * via <code>$wnd.console.debug()</code>,
- * <code>$wnd.console.info()</code>, <code>$wnd.console.warn()</code>
- * and <code>$wnd.console.error()</code> if <code>$wnd.console.firebug</code>
- * is defined.
+ * via <code>$wnd.console.debug()</code>, <code>$wnd.console.info()</code>,
+ * <code>$wnd.console.warn()</code> and <code>$wnd.console.error()</code> if
+ * <code>$wnd.console.firebug</code> is defined.
  */
-public final class FirebugLogger extends AbstractLogger {
+public final class FirebugLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
+
+  public void clear() {
+  }
 
   public native boolean isSupported()
   /*-{
     return !!($wnd.console && $wnd.console.firebug);
   }-*/;
 
-  @Override
-  native void log(int logLevel, String message)
+  public void log(LogRecord record) {
+    logMessage(record.getLevel(), record.getFormattedMessage());
+  }
+
+  public void setCurrentLogLevel(int level) {
+  }
+
+  private native void logMessage(int logLevel, String message)
   /*-{
     if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_ERROR) {
       $wnd.console.error(message);

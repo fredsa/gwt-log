@@ -28,7 +28,6 @@ public final class ServerLogImplJDK14 extends ServerLogImpl {
 
   @Override
   public void clear() {
-    // do nothing
   }
 
   @Override

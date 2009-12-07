@@ -15,7 +15,6 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import com.allen_sauer.gwt.log.client.util.LogUtil;
 import com.allen_sauer.gwt.log.server.ServerLogImpl;
 import com.allen_sauer.gwt.log.server.ServerLogImplJDK14;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
@@ -46,7 +45,6 @@ public final class Log {
       } else {
         System.err.println("WARN: " + GWT_LOG_REMOTE_LOGGER_PREFERENCE + " value '"
             + remoteLoggerPreference + "' is not recognized");
-
       }
     }
 
@@ -119,28 +117,12 @@ public final class Log {
     impl.fatal(message, e);
   }
 
-  public static ConsoleLogger getConsoleLogger() {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
-  }
-
   public static int getCurrentLogLevel() {
     return impl.getCurrentLogLevel();
   }
 
   public static String getCurrentLogLevelString() {
     return LogUtil.levelToString(getCurrentLogLevel());
-  }
-
-  public static DivLogger getDivLogger() {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
-  }
-
-  public static FirebugLogger getFirebugLogger() {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
-  }
-
-  public static GWTLogger getGwtLogger() {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static <T extends Logger> T getLogger(Class<T> clazz) {
@@ -153,10 +135,6 @@ public final class Log {
 
   public static String getLowestLogLevelString() {
     return LogUtil.levelToString(getLowestLogLevel());
-  }
-
-  public static SystemLogger getSystemLogger() {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
   public static String getVersion() {

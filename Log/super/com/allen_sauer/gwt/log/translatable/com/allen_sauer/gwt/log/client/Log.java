@@ -123,7 +123,7 @@ public final class Log {
    * @param e the native JavaScript exception object to be logged
    */
   public static void debug(String message, JavaScriptObject e) {
-    impl.debug(message, e);
+    impl.debug("gwt-log", message, e);
   }
 
   /**
@@ -146,7 +146,7 @@ public final class Log {
    * @param e the exception to be logged
    */
   public static void debug(String message, Throwable e) {
-    impl.debug(message, e);
+    impl.debug("gwt-log", message, e);
   }
 
   /**
@@ -197,7 +197,7 @@ public final class Log {
    * @param e the native JavaScript exception object to be logged
    */
   public static void error(String message, JavaScriptObject e) {
-    impl.error(message, e);
+    impl.error("gwt-log", message, e);
   }
 
   /**
@@ -220,7 +220,7 @@ public final class Log {
    * @param e the exception to be logged
    */
   public static void error(String message, Throwable e) {
-    impl.error(message, e);
+    impl.error("gwt-log", message, e);
   }
 
   /**
@@ -258,7 +258,7 @@ public final class Log {
    * @param e the native JavaScript exception object to be logged
    */
   public static void fatal(String message, JavaScriptObject e) {
-    impl.fatal(message, e);
+    impl.fatal("gwt-log", message, e);
   }
 
   /**
@@ -281,7 +281,7 @@ public final class Log {
    * @param e the exception to be logged
    */
   public static void fatal(String message, Throwable e) {
-    impl.fatal(message, e);
+    impl.fatal("gwt-log", message, e);
   }
 
   /**
@@ -376,7 +376,7 @@ public final class Log {
    * @param e the native JavaScript exception object to be logged
    */
   public static void info(String message, JavaScriptObject e) {
-    impl.info(message, e);
+    impl.info("gwt-log", message, e);
   }
 
   /**
@@ -399,7 +399,7 @@ public final class Log {
    * @param e the exception to be logged
    */
   public static void info(String message, Throwable e) {
-    impl.info(message, e);
+    impl.info("gwt-log", message, e);
   }
 
   /**
@@ -563,7 +563,7 @@ public final class Log {
    * @param e the native JavaScript exception object to be logged
    */
   public static void trace(String message, JavaScriptObject e) {
-    impl.trace(message, e);
+    impl.trace("gwt-log", message, e);
   }
 
   /**
@@ -586,7 +586,7 @@ public final class Log {
    * @param e the exception to be logged
    */
   public static void trace(String message, Throwable e) {
-    impl.trace(message, e);
+    impl.trace("gwt-log", message, e);
   }
 
   /**
@@ -624,7 +624,7 @@ public final class Log {
    * @param e the native JavaScript exception object to be logged
    */
   public static void warn(String message, JavaScriptObject e) {
-    impl.warn(message, e);
+    impl.warn("gwt-log", message, e);
   }
 
   /**
@@ -647,7 +647,7 @@ public final class Log {
    * @param e the exception to be logged
    */
   public static void warn(String message, Throwable e) {
-    impl.warn(message, e);
+    impl.warn("gwt-log", message, e);
   }
 
   /**

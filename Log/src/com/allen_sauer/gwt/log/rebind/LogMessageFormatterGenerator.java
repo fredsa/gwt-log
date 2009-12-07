@@ -29,7 +29,7 @@ import com.google.gwt.dev.util.collect.HashSet;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
-import com.allen_sauer.gwt.log.client.util.LogUtil;
+import com.allen_sauer.gwt.log.client.LogUtil;
 
 import java.io.PrintWriter;
 import java.util.Date;

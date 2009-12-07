@@ -15,21 +15,13 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-/**
- * Logger which sends output via <code>$wnd.console.log()</code>
- * if <code>$wnd.console.log</code> is a function.
- */
-public final class ConsoleLogger extends AbstractLogger {
-  // CHECKSTYLE_JAVADOC_OFF
+public interface Logger {
+  void clear();
 
-  public native boolean isSupported()
-  /*-{
-    return $wnd.console != null && !$wnd.console.firebug && typeof($wnd.console.log) == 'function';
-  }-*/;
+  boolean isSupported();
 
-  @Override
-  native void log(int logLevel, String message)
-  /*-{
-    $wnd.console.log(message);
-  }-*/;
+  void log(LogRecord record);
+
+  void setCurrentLogLevel(int level);
+
 }

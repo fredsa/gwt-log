@@ -26,9 +26,9 @@ public class WrappedClientThrowable implements Serializable {
     return ex == null ? null : new WrappedClientThrowable(ex);
   }
 
+  private WrappedClientThrowable cause;
   private ClientStackTraceElement[] clientStackTrace;
   private String message;
-
   private String originalClassName;
 
   /**
@@ -48,7 +48,12 @@ public class WrappedClientThrowable implements Serializable {
             stackTrace[i].getMethodName(), stackTrace[i].getFileName(),
             stackTrace[i].getLineNumber());
       }
+      setCause(getInstanceOrNull(ex.getCause()));
     }
+  }
+
+  public WrappedClientThrowable getCause() {
+    return cause;
   }
 
   public ClientStackTraceElement[] getClientStackTrace() {
@@ -61,5 +66,9 @@ public class WrappedClientThrowable implements Serializable {
 
   public String getOriginalClassName() {
     return originalClassName;
+  }
+
+  private void setCause(WrappedClientThrowable cause) {
+    this.cause = cause;
   }
 }

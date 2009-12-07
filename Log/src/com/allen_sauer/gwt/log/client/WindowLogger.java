@@ -28,7 +28,7 @@ import com.allen_sauer.gwt.log.client.util.DOMUtil;
  * 
  * TODO Fix lack of updates when Firefox is configured to force new windows to open as tabs
  */
-public class WindowLogger extends AbstractLogger {
+public class WindowLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
 
   private static final String STACKTRACE_ELEMENT_PREFIX = "&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;";
@@ -50,7 +50,6 @@ public class WindowLogger extends AbstractLogger {
     Window.addCloseHandler(windowCloseListener);
   }
 
-  @Override
   public final void clear() {
     if (ready) {
       try {
@@ -61,20 +60,13 @@ public class WindowLogger extends AbstractLogger {
     }
   }
 
-  @Override
   public final boolean isSupported() {
     return true;
   }
 
-  @Override
-  final void log(int logLevel, String message) {
-    assert false;
-    // Method never called since {@link #log(int, String, Throwable)} is
-    // overridden
-  }
-
-  @Override
-  final void log(int logLevel, String message, Throwable throwable) {
+  public void log(LogRecord record) {
+    String message = record.getFormattedMessage();
+    Throwable throwable = record.getThrowable();
     String text = message.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     String title = makeTitle(message, throwable);
     if (throwable != null) {
@@ -99,7 +91,11 @@ public class WindowLogger extends AbstractLogger {
     addLogText("<div class='" + LogClientBundle.INSTANCE.css().logMessage()
         + "' onmouseover='className+=\" log-message-hover\"' "
         + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
-        + getColor(logLevel) + "' title='" + title + "'>" + text + "</div>");
+        + getColor(record.getLevel()) + "' title='" + title + "'>" + text + "</div>");
+  }
+
+  public void setCurrentLogLevel(int level) {
+    // do no
   }
 
   private void addLogText(String text) {

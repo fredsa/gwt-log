@@ -16,15 +16,19 @@ package com.allen_sauer.gwt.log.client;
 /**
  * Logger which does nothing, used by deferred binding.
  */
-public class NullLogger extends AbstractLogger {
+public class NullLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
+
+  public void clear() {
+  }
 
   public final boolean isSupported() {
     return false;
   }
 
-  @Override
-  final void log(int logLevel, String message) {
-    // do nothing
+  public void log(LogRecord record) {
+  }
+
+  public void setCurrentLogLevel(int level) {
   }
 }

@@ -15,13 +15,8 @@ package com.allen_sauer.gwt.log.client.impl;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import com.allen_sauer.gwt.log.client.ConsoleLogger;
-import com.allen_sauer.gwt.log.client.DivLogger;
-import com.allen_sauer.gwt.log.client.FirebugLogger;
-import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.Logger;
-import com.allen_sauer.gwt.log.client.SystemLogger;
 
 /**
  * Implementation of {@link LogImpl} that is designed to be compiled out via GWT compiler dead code
@@ -38,11 +33,11 @@ public final class LogImplOff extends LogImpl {
   }
 
   @Override
-  public void debug(String message, JavaScriptObject e) {
+  public void debug(String category, String message, JavaScriptObject e) {
   }
 
   @Override
-  public void debug(String message, Throwable e) {
+  public void debug(String category, String message, Throwable e) {
   }
 
   @Override
@@ -50,19 +45,19 @@ public final class LogImplOff extends LogImpl {
   }
 
   @Override
-  public void error(String message, JavaScriptObject e) {
+  public void error(String category, String message, JavaScriptObject e) {
   }
 
   @Override
-  public void error(String message, Throwable e) {
+  public void error(String category, String message, Throwable e) {
   }
 
   @Override
-  public void fatal(String message, JavaScriptObject e) {
+  public void fatal(String category, String message, JavaScriptObject e) {
   }
 
   @Override
-  public void fatal(String message, Throwable e) {
+  public void fatal(String category, String message, Throwable e) {
   }
 
   @Override
@@ -76,41 +71,16 @@ public final class LogImplOff extends LogImpl {
   }
 
   @Override
-  public ConsoleLogger getLoggerConsole() {
-    return null;
-  }
-
-  @Override
-  public DivLogger getLoggerDiv() {
-    return null;
-  }
-
-  @Override
-  public FirebugLogger getLoggerFirebug() {
-    return null;
-  }
-
-  @Override
-  public GWTLogger getLoggerGWT() {
-    return null;
-  }
-
-  @Override
-  public SystemLogger getLoggerSystem() {
-    return null;
-  }
-
-  @Override
   public int getLowestLogLevel() {
     return Log.LOG_LEVEL_OFF;
   }
 
   @Override
-  public void info(String message, JavaScriptObject e) {
+  public void info(String category, String message, JavaScriptObject e) {
   }
 
   @Override
-  public void info(String message, Throwable e) {
+  public void info(String category, String message, Throwable e) {
   }
 
   @Override
@@ -162,18 +132,18 @@ public final class LogImplOff extends LogImpl {
   }
 
   @Override
-  public void trace(String message, JavaScriptObject e) {
+  public void trace(String category, String message, JavaScriptObject e) {
   }
 
   @Override
-  public void trace(String message, Throwable e) {
+  public void trace(String category, String message, Throwable e) {
   }
 
   @Override
-  public void warn(String message, JavaScriptObject e) {
+  public void warn(String category, String message, JavaScriptObject e) {
   }
 
   @Override
-  public void warn(String message, Throwable e) {
+  public void warn(String category, String message, Throwable e) {
   }
 }
