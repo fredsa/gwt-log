@@ -4,42 +4,6 @@
 		<!-- Global Properties -->
 		<property environment="env" />
 
-		<!-- build.host.platform property -->
-		<condition property="build.host.islinux">
-			<and>
-				<os family="unix" />
-				<not>
-					<contains string="${os.name}" substring="mac" casesensitive="false" />
-				</not>
-			</and>
-		</condition>
-		<condition property="build.host.platform" value="linux">
-			<isset property="build.host.islinux" />
-		</condition>
-
-		<condition property="build.host.ismac">
-			<and>
-				<os family="unix" />
-				<contains string="${os.name}" substring="mac" casesensitive="false" />
-			</and>
-		</condition>
-		<condition property="build.host.platform" value="mac">
-			<isset property="build.host.ismac" />
-		</condition>
-
-		<condition property="build.host.iswindows">
-			<os family="windows" />
-		</condition>
-		<condition property="build.host.platform" value="windows">
-			<isset property="build.host.iswindows" />
-		</condition>
-		<fail unless="build.host.platform" message="Building on ${os.name} is not supported" />
-
-		<condition property="junit.platform.args" value="-XstartOnFirstThread" else="">
-			<equals arg1="${build.host.platform}" arg2="mac" casesensitive="false" />
-		</condition>
-
-
 		<!-- gwt.location property -->
 		<condition property="gwt.location.default" value="${env.GWTTRUNK_HOME}" else="">
 			<isset property="env.GWTTRUNK_HOME" />
@@ -93,6 +57,9 @@
 			</sequential>
 		</for>
 
+	</target>
+
+	<target name="lib-locations" description="Determine library locations" depends="init">
 		<!-- gwt-log.version property -->
 		<input addproperty="gwt-log.version" defaultvalue="0.0.0" message="gwt-log release version" />
 
@@ -118,8 +85,7 @@
 
 
 	<!-- Replace @GWT_LOG_VERION@ with actual version of build -->
-
-	<target name="filter" description="Filters distro files for versioning" depends="init">
+	<target name="filter" description="Filters distro files for versioning" depends="lib-locations">
 		<mkdir dir="build/out" />
 		<mkdir dir="build/demo" />
 		<mkdir dir="build/server" />
@@ -177,10 +143,10 @@
 
 	</target>
 
-	<target name="build" depends="init, clean, filter, javac, gwtc">
+	<target name="build" depends="lib-locations, clean, javac, gwtc">
 	</target>
 
-	<target name="javac" depends="filter">
+	<target name="javac" description="Java compile" depends="filter">
 
 		<!-- compile src -->
 
@@ -264,7 +230,7 @@
 		</outofdate>
 	</target>
 
-	<target name="javadoc" depends="javac">
+	<target name="javadoc" description="Generate Javadoc" depends="javac">
 		<javadoc access="protected" classpath="${gwt-user.jar}:${log4j.location}" destdir="build/javadoc" doctitle="gwt-log - Logging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
 	</target>
 
