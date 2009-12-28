@@ -122,11 +122,11 @@ public final class Log {
   }
 
   public static int getCurrentLogLevel() {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+    return impl.getCurrentLogLevel();
   }
 
   public static String getCurrentLogLevelString() {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+    return LogUtil.levelToString(getCurrentLogLevel());
   }
 
   public static <T extends Logger> T getLogger(Class<T> clazz) {
@@ -134,7 +134,7 @@ public final class Log {
   }
 
   public static int getLowestLogLevel() {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+    return Log.LOG_LEVEL_TRACE;
   }
 
   public static String getLowestLogLevelString() {
@@ -159,31 +159,31 @@ public final class Log {
   }
 
   public static boolean isDebugEnabled() {
-    return true;
+    return impl.isDebugEnabled();
   }
 
   public static boolean isErrorEnabled() {
-    return true;
+    return impl.isErrorEnabled();
   }
 
   public static boolean isFatalEnabled() {
-    return true;
+    return impl.isFatalEnabled();
   }
 
   public static boolean isInfoEnabled() {
-    return true;
+    return impl.isInfoEnabled();
   }
 
   public static boolean isLoggingEnabled() {
-    return true;
+    return impl.isLoggingEnabled();
   }
 
   public static boolean isTraceEnabled() {
-    return true;
+    return impl.isTraceEnabled();
   }
 
   public static boolean isWarnEnabled() {
-    return true;
+    return impl.isWarnEnabled();
   }
 
   public static void log(LogRecord record) {
@@ -191,7 +191,7 @@ public final class Log {
   }
 
   public static void setCurrentLogLevel(int level) {
-    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+    impl.setCurrentImplLogLevel(impl.mapGWTLogLevelToImplLevel(level));
   }
 
   public static void setUncaughtExceptionHandler() {

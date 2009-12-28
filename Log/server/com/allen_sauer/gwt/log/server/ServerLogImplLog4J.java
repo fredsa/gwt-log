@@ -13,7 +13,6 @@
  */
 package com.allen_sauer.gwt.log.server;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.LogRecord;
 
 import org.apache.log4j.Level;
@@ -31,36 +30,55 @@ public final class ServerLogImplLog4J implements ServerLog {
     logger = Logger.getLogger("gwt-log");
   }
 
+  public int getCurrentLogLevel() {
+    return logger.getEffectiveLevel().toInt();
+  }
+
+  public boolean isDebugEnabled() {
+    return logger.isDebugEnabled();
+  }
+
+  public boolean isErrorEnabled() {
+    return logger.getLevel().toInt() >= Level.ERROR_INT;
+  }
+
+  public boolean isFatalEnabled() {
+    return logger.getLevel().toInt() >= Level.FATAL_INT;
+  }
+
+  public boolean isInfoEnabled() {
+    return logger.getLevel().toInt() >= Level.INFO_INT;
+  }
+
+  public boolean isLoggingEnabled() {
+    return logger.getLevel().toInt() >= Level.OFF_INT;
+  }
+
+  public boolean isTraceEnabled() {
+    return logger.isTraceEnabled();
+  }
+
+  public boolean isWarnEnabled() {
+    return logger.getLevel().toInt() >= Level.WARN_INT;
+  }
+
   public void log(LogRecord record) {
     Set<Entry<String, String>> set = record.getMapEntrySet();
     for (Entry<String, String> entry : set) {
       MDC.put(entry.getKey(), entry.getValue());
     }
-    logger.log(mapGWTLogLevelToImplLevel(record.getLevel()), record.getMessage());
+    logger.log(Level.toLevel(mapGWTLogLevelToImplLevel(record.getLevel())), record.getMessage());
     for (Entry<String, String> entry : set) {
       MDC.remove(entry.getKey());
     }
   }
 
-  private Level mapGWTLogLevelToImplLevel(int gwtLogLevel) {
-    // Identity mapping since gwt-log log4j levels have integer identity.
-    switch (gwtLogLevel) {
-      case Log.LOG_LEVEL_TRACE:
-        return Level.TRACE;
-      case Log.LOG_LEVEL_DEBUG:
-        return Level.DEBUG;
-      case Log.LOG_LEVEL_INFO:
-        return Level.INFO;
-      case Log.LOG_LEVEL_WARN:
-        return Level.WARN;
-      case Log.LOG_LEVEL_ERROR:
-        return Level.ERROR;
-      case Log.LOG_LEVEL_FATAL:
-        return Level.FATAL;
-      case Log.LOG_LEVEL_OFF:
-        return Level.OFF;
-      default:
-        throw new IllegalArgumentException();
-    }
+  public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
+    return gwtLogLevel;
   }
+
+  public void setCurrentImplLogLevel(int level) {
+    logger.setLevel(Level.toLevel(level));
+  }
+
 }

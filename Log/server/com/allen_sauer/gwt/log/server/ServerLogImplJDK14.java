@@ -27,11 +27,65 @@ public final class ServerLogImplJDK14 implements ServerLog {
     logger = Logger.getLogger("gwt-log");
   }
 
-  public void log(LogRecord record) {
-    logger.log(mapGWTLogLevelToImplLevel(record.getLevel()), record.getMessage());
+  public int getCurrentLogLevel() {
+    if (!isFatalEnabled()) {
+      return Log.LOG_LEVEL_OFF;
+    } else if (!isErrorEnabled()) {
+      return Log.LOG_LEVEL_FATAL;
+    } else if (!isWarnEnabled()) {
+      return Log.LOG_LEVEL_ERROR;
+    } else if (!isInfoEnabled()) {
+      return Log.LOG_LEVEL_WARN;
+    } else if (!isDebugEnabled()) {
+      return Log.LOG_LEVEL_INFO;
+    } else if (!isTraceEnabled()) {
+      return Log.LOG_LEVEL_DEBUG;
+    } else {
+      return Log.LOG_LEVEL_TRACE;
+    }
   }
 
-  private Level mapGWTLogLevelToImplLevel(int gwtLogLevel) {
+  public boolean isDebugEnabled() {
+    return logger.isLoggable(Level.FINE);
+  }
+
+  public boolean isErrorEnabled() {
+    return logger.isLoggable(Level.SEVERE);
+  }
+
+  public boolean isFatalEnabled() {
+    return logger.isLoggable(Level.SEVERE);
+  }
+
+  public boolean isInfoEnabled() {
+    return logger.isLoggable(Level.INFO);
+  }
+
+  public boolean isLoggingEnabled() {
+    return logger.isLoggable(Level.OFF);
+  }
+
+  public boolean isTraceEnabled() {
+    return logger.isLoggable(Level.FINEST);
+  }
+
+  public boolean isWarnEnabled() {
+    return logger.isLoggable(Level.WARNING);
+  }
+
+  public void log(LogRecord record) {
+    logger.log(mapGWTLogLevelToImplLevelObject(record.getLevel()), record.getMessage());
+  }
+
+  public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
+    return mapGWTLogLevelToImplLevelObject(gwtLogLevel).intValue();
+  }
+
+  public void setCurrentImplLogLevel(int level) {
+    logger.setLevel(Level.parse("" + level));
+  }
+
+  private Level mapGWTLogLevelToImplLevelObject(int gwtLogLevel) {
     switch (gwtLogLevel) {
       case Log.LOG_LEVEL_TRACE:
         return Level.FINEST;
