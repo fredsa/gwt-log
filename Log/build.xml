@@ -44,20 +44,20 @@
 		<condition property="gwt.location.default" value="${env.GWTTRUNK_HOME}" else="">
 			<isset property="env.GWTTRUNK_HOME" />
 		</condition>
-		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT trunk installation directory" />
+		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT installation, i.e. directory where gwt-user.jar / gwt-servlet.jar / gwt-dev.jar can be found" />
 
 		<!-- gwt.tools property -->
-		<condition property="gwt.tools" value="${env.GWT_TOOLS}" else="${gwt.root}/../tools">
+		<condition property="gwt.tools.default" value="${env.GWT_TOOLS}" else="">
 			<isset property="env.GWT_TOOLS" />
 		</condition>
-		<fail message="can't find gwt tools, please set gwt.tools property" unless="gwt.tools" />
+		<input addproperty="gwt.tools" defaultvalue="${gwt.tools.default}" message="GWT tools directory, i.e. directory where http://google-web-toolkit.googlecode.com/svn/tools/ is checked out" />
 
 		<!-- gwt tools stuff -->
 		<property name="gwt.tools.lib" location="${gwt.tools}/lib" />
 		<property name="gwt.tools.antlib" location="${gwt.tools}/antlib" />
 
 		<!-- log4j stuff -->
-		<input addproperty="log4j.location" defaultvalue="war/WEB-INF/lib/log4j-1.2.15.jar" message="log4j location" />
+		<input addproperty="log4j.location" defaultvalue="war/WEB-INF/lib/log4j-1.2.15.jar" message="Location of Apache log4j jar" />
 
 		<!-- javac defaults -->
 		<property name="javac.debug" value="true" />
@@ -81,7 +81,7 @@
 		</taskdef>
 
 		<!-- gwt-log.libdir property -->
-		<input addproperty="gwt-log.libdir" defaultvalue="/fred/lib/gwt-log" message="gwt-log library directory" />
+		<input addproperty="gwt-log.libdir" defaultvalue="/fred/lib/gwt-log" message="gwt-log library directory, i.e directory where you keep your gwt-log jar file(s)" />
 
 		<for param="file">
 			<fileset dir="${gwt-log.libdir}">
