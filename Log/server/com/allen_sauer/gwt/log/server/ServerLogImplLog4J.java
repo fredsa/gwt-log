@@ -39,15 +39,15 @@ public final class ServerLogImplLog4J implements ServerLog {
   }
 
   public boolean isErrorEnabled() {
-    return logger.getLevel().toInt() >= Level.ERROR_INT;
+    return logger.isEnabledFor(Level.ERROR);
   }
 
   public boolean isFatalEnabled() {
-    return logger.getLevel().toInt() >= Level.FATAL_INT;
+    return logger.isEnabledFor(Level.FATAL);
   }
 
   public boolean isInfoEnabled() {
-    return logger.getLevel().toInt() >= Level.INFO_INT;
+    return logger.isEnabledFor(Level.INFO);
   }
 
   public boolean isLoggingEnabled() {
@@ -59,7 +59,7 @@ public final class ServerLogImplLog4J implements ServerLog {
   }
 
   public boolean isWarnEnabled() {
-    return logger.getLevel().toInt() >= Level.WARN_INT;
+    return logger.isEnabledFor(Level.WARN);
   }
 
   public void log(LogRecord record) {
