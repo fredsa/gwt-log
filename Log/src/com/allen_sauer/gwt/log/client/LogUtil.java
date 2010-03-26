@@ -15,6 +15,8 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 
+import com.allen_sauer.gwt.log.rebind.LogMessageFormatterGenerator;
+
 import java.util.Date;
 
 // CHECKSTYLE_JAVADOC_OFF
@@ -36,6 +38,24 @@ public class LogUtil {
     SPACES = b.toString();
   }
 
+  /**
+   * Helper method used by {@link LogMessageFormatterGenerator}. For example, the category
+   * "com.example.foo.MyClass" with precision 2 will result in "foo.Myclass" being returned.
+   */
+  public static String formatCategory(String category, int precision) {
+    if (precision < 1) {
+      return category;
+    }
+    int pos = category.length();
+    for (int i = 0; i < precision; i++) {
+      pos = category.lastIndexOf('.', pos - 1);
+    }
+    return category.substring(pos + 1);
+  }
+
+  /**
+   * Helper method used by {@link LogMessageFormatterGenerator}
+   */
   public static String formatDate(Date date, String formatMask) {
     // TODO don't instantiate a new DateTimeFormat each time this method is called
     return DateTimeFormat.getFormat(formatMask).format(date);

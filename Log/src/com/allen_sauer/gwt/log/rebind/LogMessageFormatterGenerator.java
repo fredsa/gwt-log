@@ -121,6 +121,16 @@ public class LogMessageFormatterGenerator extends Generator {
    */
   private static String logPatternToCode(String logPattern) {
     StringBuffer buf = new StringBuffer("\"\"");
+    // Regex breakdown
+    // 1. (.*?) - Non pattern characters
+    // -. % - Escape character ("%")
+    // 2. (-?) - Optional leading dash ("-")
+    // 3. (\\d*) - Zero or more digits
+    // -. \\.? - Optional period (".")
+    // 4. (\\d*) - Zero or more digits
+    // 5. ([cCdFlLmMnprtxX%]) - Conversion character
+    // 6. (\\{ . . . \\})? - "{" + . . . + "}"
+    // 7. ([^\\}]+) - Format specifier: one or more characters, but not "}"
     Pattern pattern = Pattern.compile("(.*?)%(-?)(\\d*)\\.?(\\d*)([cCdFlLmMnprtxX%])(\\{([^\\}]+)\\})?");
     Matcher matcher = pattern.matcher(logPattern);
     boolean stackTraceToggle = false;
@@ -165,6 +175,12 @@ public class LogMessageFormatterGenerator extends Generator {
           }
           convertedExpression = "LogUtil.formatDate(" + convertedExpression + ", \""
               + formatSpecifier + "\")";
+        } else if (conversionSpecifier.equals("c") || conversionSpecifier.equals("C")) {
+          if (formatSpecifier != null) {
+            int precision = Integer.parseInt("0" + formatSpecifier);
+            convertedExpression = "LogUtil.formatCategory(" + convertedExpression + ", "
+                + formatSpecifier + ")";
+          }
         }
 
         buf.append("\n + (");
@@ -176,8 +192,7 @@ public class LogMessageFormatterGenerator extends Generator {
     matcher.appendTail(buf);
     buf.append("\"");
     String ste = "GWT.isScript() ? null : LogUtil.getCallingStackTraceElement(5)";
-    return (stackTraceToggle ? "StackTraceElement ste = " + ste + ";\n"
-        : "") + "return "
+    return (stackTraceToggle ? "StackTraceElement ste = " + ste + ";\n" : "") + "return "
         + buf.toString() + ";";
   }
 
