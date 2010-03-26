@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launchConfiguration type="com.google.gdt.eclipse.suite.webapp">
+<stringAttribute key="com.google.gdt.eclipse.suiteMainTypeProcessor.PREVIOUSLY_SET_MAIN_TYPE_NAME" value="com.google.gwt.dev.DevMode"/>
+<booleanAttribute key="com.google.gdt.eclipse.suiteWarArgumentProcessor.IS_WAR_FROM_PROJECT_PROPERTIES" value="true"/>
 <listAttribute key="com.google.gwt.eclipse.core.ENTRY_POINT_MODULES">
 <listEntry value="com.mycompany.MyApplication"/>
 </listAttribute>
@@ -24,8 +26,8 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-gen ../gen"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl MyApplication.html -logLevel INFO -port 8888 -war /fred/Log/war -server com.google.appengine.tools.development.gwt.AppEngineLauncher -gen ../gen com.mycompany.MyApplication"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Log"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-ea ${_JAVAAGENT}"/>
-<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="/Log/war"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512m -javaagent:/Applications/eclipse/plugins/com.google.appengine.eclipse.sdkbundle.1.3.0_1.3.0.v200912141120/appengine-java-sdk-1.3.0/lib/agent/appengine-agent.jar -XstartOnFirstThread -ea"/>
 </launchConfiguration>
