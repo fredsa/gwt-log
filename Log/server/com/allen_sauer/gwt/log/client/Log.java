@@ -22,16 +22,16 @@ import com.allen_sauer.gwt.log.server.ServerLogImplStdio;
 
 // CHECKSTYLE_JAVADOC_OFF
 public final class Log {
+  private static final String GWT_LOG_REMOTE_LOGGER_PREFERENCE = "gwt-log.RemoteLogger";
+  private static ServerLog impl;
   public static final int LOG_LEVEL_DEBUG = 10000;
   public static final int LOG_LEVEL_ERROR = 40000;
   public static final int LOG_LEVEL_FATAL = 50000;
   public static final int LOG_LEVEL_INFO = 20000;
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
   public static final int LOG_LEVEL_TRACE = 5000;
-  public static final int LOG_LEVEL_WARN = 30000;
-  private static final String GWT_LOG_REMOTE_LOGGER_PREFERENCE = "gwt-log.RemoteLogger";
 
-  private static ServerLog impl;
+  public static final int LOG_LEVEL_WARN = 30000;
 
   private static final String UNSUPPORTED_METHOD_TEXT = "This method available only when running on the client";
 
@@ -85,8 +85,20 @@ public final class Log {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
+  public static void debug(String category, String message) {
+    debug(category, message, (Throwable) null);
+  }
+
+  public static void debug(String category, String message, JavaScriptObject e) {
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void debug(String category, String message, Throwable e) {
+    log(new LogRecord(category, Log.LOG_LEVEL_DEBUG, message, e));
+  }
+
   public static void debug(String message, Throwable e) {
-    log(new LogRecord("gwt-log", Log.LOG_LEVEL_DEBUG, message, e));
+    debug("gwt-log", message, e);
   }
 
   /**
@@ -105,6 +117,18 @@ public final class Log {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
+  public static void error(String category, String message) {
+    error(category, message, (Throwable) null);
+  }
+
+  public static void error(String category, String message, JavaScriptObject e) {
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void error(String category, String message, Throwable e) {
+    log(new LogRecord(category, Log.LOG_LEVEL_ERROR, message, e));
+  }
+
   public static void error(String message, Throwable e) {
     log(new LogRecord("gwt-log", Log.LOG_LEVEL_ERROR, message, e));
   }
@@ -115,6 +139,18 @@ public final class Log {
 
   public static void fatal(String message, JavaScriptObject e) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void fatal(String category, String message) {
+    fatal(category, message, (Throwable) null);
+  }
+
+  public static void fatal(String category, String message, JavaScriptObject e) {
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void fatal(String category, String message, Throwable e) {
+    log(new LogRecord(category, Log.LOG_LEVEL_FATAL, message, e));
   }
 
   public static void fatal(String message, Throwable e) {
@@ -152,6 +188,18 @@ public final class Log {
 
   public static void info(String message, JavaScriptObject e) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void info(String category, String message) {
+    info(category, message, (Throwable) null);
+  }
+
+  public static void info(String category, String message, JavaScriptObject e) {
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void info(String category, String message, Throwable e) {
+    log(new LogRecord(category, Log.LOG_LEVEL_INFO, message, e));
   }
 
   public static void info(String message, Throwable e) {
@@ -206,20 +254,20 @@ public final class Log {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static void trace(String message, Throwable e) {
-    log(new LogRecord("gwt-log", Log.LOG_LEVEL_TRACE, message, e));
+  public static void trace(String category, String message) {
+    trace(category, message, (Throwable) null);
   }
 
-  public static void warn(String message) {
-    warn(message, (Throwable) null);
-  }
-
-  public static void warn(String message, JavaScriptObject e) {
+  public static void trace(String category, String message, JavaScriptObject e) {
     throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
   }
 
-  public static void warn(String message, Throwable e) {
-    log(new LogRecord("gwt-log", Log.LOG_LEVEL_WARN, message, e));
+  public static void trace(String category, String message, Throwable e) {
+    log(new LogRecord(category, Log.LOG_LEVEL_TRACE, message, e));
+  }
+
+  public static void trace(String message, Throwable e) {
+    log(new LogRecord("gwt-log", Log.LOG_LEVEL_TRACE, message, e));
   }
 
   private static ServerLog tryJDK14() {
@@ -254,6 +302,30 @@ public final class Log {
       e.printStackTrace();
     }
     return null;
+  }
+
+  public static void warn(String message) {
+    warn(message, (Throwable) null);
+  }
+
+  public static void warn(String message, JavaScriptObject e) {
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void warn(String category, String message) {
+    warn(category, message, (Throwable) null);
+  }
+
+  public static void warn(String category, String message, JavaScriptObject e) {
+    throw new UnsupportedOperationException(UNSUPPORTED_METHOD_TEXT);
+  }
+
+  public static void warn(String category, String message, Throwable e) {
+    log(new LogRecord(category, Log.LOG_LEVEL_WARN, message, e));
+  }
+
+  public static void warn(String message, Throwable e) {
+    log(new LogRecord("gwt-log", Log.LOG_LEVEL_WARN, message, e));
   }
 
 }

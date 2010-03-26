@@ -62,7 +62,7 @@ public class LogMessageFormatterGenerator extends Generator {
 
   static {
     // %c - category
-    CONVERSION_MAP.put("c", "\"-\"");
+    CONVERSION_MAP.put("c", "category");
 
     // %C - fully qualified class name of caller
     CONVERSION_MAP.put("C", "ste == null ? \"-\" : ste.getClassName()");
@@ -250,8 +250,13 @@ public class LogMessageFormatterGenerator extends Generator {
       sw.println("private double BIG_BANG = Duration.currentTimeMillis();");
 
       sw.println();
-      sw.println("public String format(String logLevelText, String message) {");
+      sw.println("public String format(String logLevelText, String category, String message) {");
       sw.indent();
+      sw.println("if (category == null) {");
+      sw.indent();
+      sw.println("category = \"<null category>\";");
+      sw.outdent();
+      sw.println("}");
       sw.println("if (message == null) {");
       sw.indent();
       sw.println("message = \"<null message>\";");

@@ -10,9 +10,8 @@ import java.util.Map.Entry;
 @SuppressWarnings("serial")
 public class LogRecord implements Serializable {
 
-  static final LogMessageFormatter FORMATTER =
-      (LogMessageFormatter) (GWT.isClient() ? GWT.create(LogMessageFormatter.class)
-      : null);
+  static final LogMessageFormatter FORMATTER = (LogMessageFormatter) (GWT.isClient()
+      ? GWT.create(LogMessageFormatter.class) : null);
   private static int gloablRecordSequence;
   private String category;
   private int level;
@@ -22,8 +21,12 @@ public class LogRecord implements Serializable {
   private transient Throwable throwable;
   private WrappedClientThrowable wrappedClientThrowable;
 
-  public LogRecord(String category, int level, String message,
-      Throwable throwable) {
+  // For GWT serialization
+  @SuppressWarnings("unused")
+  private LogRecord() {
+  }
+
+  public LogRecord(String category, int level, String message, Throwable throwable) {
     this.category = category;
     this.throwable = throwable;
     recordSequence = ++gloablRecordSequence;
@@ -32,15 +35,18 @@ public class LogRecord implements Serializable {
     wrappedClientThrowable = WrappedClientThrowable.getInstanceOrNull(throwable);
   }
 
-  // For GWT serialization
-  @SuppressWarnings("unused")
-  private LogRecord() {
-  }
-
   public String getFormattedMessage() {
     assert GWT.isClient() : "Method should only be called in Client Code";
     return level == Log.LOG_LEVEL_OFF ? message : FORMATTER.format(LogUtil.levelToString(level),
-        message);
+        category, message);
+  }
+
+  private HashMap<String, String> getHashMap() {
+    if (map == null) {
+      map = new HashMap<String, String>();
+      map.put("logSequence", "" + getRecordSequence());
+    }
+    return map;
   }
 
   public int getLevel() {
@@ -70,13 +76,5 @@ public class LogRecord implements Serializable {
 
   public void set(String key, String value) {
     getHashMap().put(key, value);
-  }
-
-  private HashMap<String, String> getHashMap() {
-    if (map == null) {
-      map = new HashMap<String, String>();
-      map.put("logSequence", "" + getRecordSequence());
-    }
-    return map;
   }
 }

@@ -1,16 +1,14 @@
 /*
  * Copyright 2009 Fred Sauer
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.log.client;
@@ -25,25 +23,27 @@ import com.allen_sauer.gwt.log.client.impl.LogImpl;
  * Static logging functions for client code.
  */
 public final class Log {
+  private static LogImpl impl;
   /**
-   * Constant <code>int</code> value <CODE>10000</CODE>, representing <code>DEBUG</code> logging level,
-   * to display debugging messages or higher.
+   * Constant <code>int</code> value <CODE>10000</CODE>, representing <code>DEBUG</code> logging
+   * level, to display debugging messages or higher.
    */
   public static final int LOG_LEVEL_DEBUG = 10000;
   /**
-   * Constant <code>int</code> value <CODE>40000</CODE>, representing <code>ERROR</code> logging level,
-   * to display error messages or higher.
+   * Constant <code>int</code> value <CODE>40000</CODE>, representing <code>ERROR</code> logging
+   * level, to display error messages or higher.
    */
   public static final int LOG_LEVEL_ERROR = 40000;
+
   /**
-   * Constant <code>int</code> value <CODE>50000</CODE>, representing <code>FATAL</code> logging level,
-   * to display fatal messages or higher.
+   * Constant <code>int</code> value <CODE>50000</CODE>, representing <code>FATAL</code> logging
+   * level, to display fatal messages or higher.
    */
   public static final int LOG_LEVEL_FATAL = 50000;
 
   /**
-   * Constant <code>int</code> value <CODE>20000</CODE>, representing <code>INT</code> logging level,
-   * to display informational messages or higher.
+   * Constant <code>int</code> value <CODE>20000</CODE>, representing <code>INT</code> logging
+   * level, to display informational messages or higher.
    */
   public static final int LOG_LEVEL_INFO = 20000;
 
@@ -53,18 +53,16 @@ public final class Log {
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
 
   /**
-   * Constant <code>int</code> value <CODE>5000</CODE>, representing <code>TRACE</code> logging level,
-   * to display trace messages or higher.
+   * Constant <code>int</code> value <CODE>5000</CODE>, representing <code>TRACE</code> logging
+   * level, to display trace messages or higher.
    */
   public static final int LOG_LEVEL_TRACE = 5000;
 
   /**
-   * Constant <code>int</code> value <CODE>30000</CODE>, representing <code>WARN</code> logging level,
-   * to display warning messages or higher.
+   * Constant <code>int</code> value <CODE>30000</CODE>, representing <code>WARN</code> logging
+   * level, to display warning messages or higher.
    */
   public static final int LOG_LEVEL_WARN = 30000;
-
-  private static LogImpl impl;
 
   static {
     impl = (LogImpl) GWT.create(LogImpl.class);
@@ -81,8 +79,7 @@ public final class Log {
   }
 
   /**
-   * Supported loggers will have their output cleared.
-   * Alternatively, some loggers may either insert
+   * Supported loggers will have their output cleared. Alternatively, some loggers may either insert
    * separator text, or may do nothing.
    */
   public static void clear() {
@@ -90,11 +87,7 @@ public final class Log {
   }
 
   /**
-   * Log a <code>DEBUG</code> level message with no
-   * exception information.
-   * 
-   * @see Log#debug(String, JavaScriptObject)
-   * @see Log#debug(String, Throwable)
+   * Log a <code>DEBUG</code> level message with no exception information.
    * 
    * @param message the text to be logged
    */
@@ -103,8 +96,8 @@ public final class Log {
   }
 
   /**
-   * Log a <code>DEBUG</code> level message from within
-   * a JSNI try/catch block, e.g.
+   * Log a <code>DEBUG</code> level message from within a JSNI try/catch block, e.g.
+   * 
    * <pre>
    *   private native void jsniTryCatchExample()
    *   /&#42;-{
@@ -115,10 +108,7 @@ public final class Log {
    *       &#64;com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
    *     }
    *   }-&#42;/;
-   * </pre>   
-   * 
-   * @see Log#debug(String)
-   * @see Log#debug(String, Throwable)
+   * </pre>
    * 
    * @param message the text to be logged
    * @param e the native JavaScript exception object to be logged
@@ -128,8 +118,62 @@ public final class Log {
   }
 
   /**
-   * Log a <code>DEBUG</code> level message from within
-   * a Java try/catch block, e.g.
+   * Log a <code>DEBUG</code> level message with no exception information.
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   */
+  public static void debug(String category, String message) {
+    debug(category, message, (Throwable) null);
+  }
+
+  /**
+   * Log a <code>DEBUG</code> level message from within a JSNI try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void jsniTryCatchExample()
+   *   /&#42;-{
+   *     try {
+   *       // throws exception
+   *       non_existant_variable.non_existant_method();
+   *     } catch(e) {
+   *       &#64;com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("foo", "Caught JSNI Exception", e);
+   *     }
+   *   }-&#42;/;
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the native JavaScript exception object to be logged
+   */
+  public static void debug(String category, String message, JavaScriptObject e) {
+    impl.debug(category, message, e);
+  }
+
+  /**
+   * Log a <code>DEBUG</code> level message from within a Java try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void javaTryCatchExample() {
+   *     try {
+   *       throw new RuntimeException();
+   *     } catch(e) {
+   *       Log.debug("foo", "Caught Java Exception", e);
+   *     }
+   *   }
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the exception to be logged
+   */
+  public static void debug(String category, String message, Throwable e) {
+    impl.debug(category, message, e);
+  }
+
+  /**
+   * Log a <code>DEBUG</code> level message from within a Java try/catch block, e.g.
+   * 
    * <pre>
    *   private native void javaTryCatchExample() {
    *     try {
@@ -138,7 +182,7 @@ public final class Log {
    *       Log.debug("Caught Java Exception", e);
    *     }
    *   }
-   * </pre>   
+   * </pre>
    * 
    * @see Log#debug(String)
    * @see Log#debug(String, JavaScriptObject)
@@ -151,21 +195,20 @@ public final class Log {
   }
 
   /**
-     * Log an internal <code>gwt-log</code> diagnostic message.
-     * 
-     * @deprecated For internal gwt-log use only.
-     * 
-     * @param message the text to be logged
-     * @param e the native JavaScript exception object to be logged
-     */
+   * Log an internal <code>gwt-log</code> diagnostic message.
+   * 
+   * @deprecated For internal gwt-log use only.
+   * 
+   * @param message the text to be logged
+   * @param e the native JavaScript exception object to be logged
+   */
   @Deprecated
   public static void diagnostic(String message, Throwable e) {
     impl.diagnostic(message, e);
   }
 
   /**
-   * Log a <code>ERROR</code> level message with no
-   * exception information.
+   * Log a <code>ERROR</code> level message with no exception information.
    * 
    * @see Log#error(String, JavaScriptObject)
    * @see Log#error(String, Throwable)
@@ -177,8 +220,8 @@ public final class Log {
   }
 
   /**
-   * Log a <code>ERROR</code> level message from within
-   * a JSNI try/catch block, e.g.
+   * Log a <code>ERROR</code> level message from within a JSNI try/catch block, e.g.
+   * 
    * <pre>
    *   private native void jsniTryCatchExample()
    *   /&#42;-{
@@ -189,7 +232,7 @@ public final class Log {
    *       &#64;com.allen_sauer.gwt.log.client.Log::error(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
    *     }
    *   }-&#42;/;
-   * </pre>   
+   * </pre>
    * 
    * @see Log#error(String)
    * @see Log#error(String, Throwable)
@@ -202,8 +245,62 @@ public final class Log {
   }
 
   /**
-   * Log a <code>ERROR</code> level message from within
-   * a Java try/catch block, e.g.
+   * Log a <code>ERROR</code> level message with no exception information.
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   */
+  public static void error(String category, String message) {
+    error(category, message, (Throwable) null);
+  }
+
+  /**
+   * Log a <code>ERROR</code> level message from within a JSNI try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void jsniTryCatchExample()
+   *   /&#42;-{
+   *     try {
+   *       // throws exception
+   *       non_existant_variable.non_existant_method();
+   *     } catch(e) {
+   *       &#64;com.allen_sauer.gwt.log.client.Log::error(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("foo", "Caught JSNI Exception", e);
+   *     }
+   *   }-&#42;/;
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the native JavaScript exception object to be logged
+   */
+  public static void error(String category, String message, JavaScriptObject e) {
+    impl.error(category, message, e);
+  }
+
+  /**
+   * Log a <code>ERROR</code> level message from within a Java try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void javaTryCatchExample() {
+   *     try {
+   *       throw new RuntimeException();
+   *     } catch(e) {
+   *       Log.error("foo", "Caught Java Exception", e);
+   *     }
+   *   }
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the exception to be logged
+   */
+  public static void error(String category, String message, Throwable e) {
+    impl.error(category, message, e);
+  }
+
+  /**
+   * Log a <code>ERROR</code> level message from within a Java try/catch block, e.g.
+   * 
    * <pre>
    *   private native void javaTryCatchExample() {
    *     try {
@@ -212,7 +309,7 @@ public final class Log {
    *       Log.error("Caught Java Exception", e);
    *     }
    *   }
-   * </pre>   
+   * </pre>
    * 
    * @see Log#error(String)
    * @see Log#error(String, JavaScriptObject)
@@ -225,8 +322,7 @@ public final class Log {
   }
 
   /**
-   * Log a <code>FATAL</code> level message with no
-   * exception information.
+   * Log a <code>FATAL</code> level message with no exception information.
    * 
    * @see Log#fatal(String, JavaScriptObject)
    * @see Log#fatal(String, Throwable)
@@ -238,8 +334,8 @@ public final class Log {
   }
 
   /**
-   * Log a <code>FATAL</code> level message from within
-   * a JSNI try/catch block, e.g.
+   * Log a <code>FATAL</code> level message from within a JSNI try/catch block, e.g.
+   * 
    * <pre>
    *   private native void jsniTryCatchExample()
    *   /&#42;-{
@@ -250,7 +346,7 @@ public final class Log {
    *       &#64;com.allen_sauer.gwt.log.client.Log::fatal(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
    *     }
    *   }-&#42;/;
-   * </pre>   
+   * </pre>
    * 
    * @see Log#fatal(String)
    * @see Log#fatal(String, Throwable)
@@ -263,8 +359,62 @@ public final class Log {
   }
 
   /**
-   * Log a <code>FATAL</code> level message from within
-   * a Java try/catch block, e.g.
+   * Log a <code>FATAL</code> level message with no exception information.
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   */
+  public static void fatal(String category, String message) {
+    fatal(category, message, (Throwable) null);
+  }
+
+  /**
+   * Log a <code>FATAL</code> level message from within a JSNI try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void jsniTryCatchExample()
+   *   /&#42;-{
+   *     try {
+   *       // throws exception
+   *       non_existant_variable.non_existant_method();
+   *     } catch(e) {
+   *       &#64;com.allen_sauer.gwt.log.client.Log::fatal(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("foo", "Caught JSNI Exception", e);
+   *     }
+   *   }-&#42;/;
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the native JavaScript exception object to be logged
+   */
+  public static void fatal(String category, String message, JavaScriptObject e) {
+    impl.fatal(category, message, e);
+  }
+
+  /**
+   * Log a <code>FATAL</code> level message from within a Java try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void javaTryCatchExample() {
+   *     try {
+   *       throw new RuntimeException();
+   *     } catch(e) {
+   *       Log.fatal("foo", "Caught Java Exception", e);
+   *     }
+   *   }
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the exception to be logged
+   */
+  public static void fatal(String category, String message, Throwable e) {
+    impl.fatal(category, message, e);
+  }
+
+  /**
+   * Log a <code>FATAL</code> level message from within a Java try/catch block, e.g.
+   * 
    * <pre>
    *   private native void javaTryCatchExample() {
    *     try {
@@ -273,7 +423,7 @@ public final class Log {
    *       Log.fatal("Caught Java Exception", e);
    *     }
    *   }
-   * </pre>   
+   * </pre>
    * 
    * @see Log#fatal(String)
    * @see Log#fatal(String, JavaScriptObject)
@@ -331,9 +481,8 @@ public final class Log {
   }
 
   /**
-   * Retrieve a human readable string version for gwt-log.
-   * Formatting of this text is not guaranteed to remain
-   * consistent.
+   * Retrieve a human readable string version for gwt-log. Formatting of this text is not guaranteed
+   * to remain consistent.
    * 
    * @return the human readable version text
    */
@@ -343,8 +492,7 @@ public final class Log {
   }
 
   /**
-   * Log a <code>INFO</code> level message with no
-   * exception information.
+   * Log a <code>INFO</code> level message with no exception information.
    * 
    * @see Log#info(String, JavaScriptObject)
    * @see Log#info(String, Throwable)
@@ -356,8 +504,8 @@ public final class Log {
   }
 
   /**
-   * Log a <code>INFO</code> level message from within
-   * a JSNI try/catch block, e.g.
+   * Log a <code>INFO</code> level message from within a JSNI try/catch block, e.g.
+   * 
    * <pre>
    *   private native void jsniTryCatchExample()
    *   /&#42;-{
@@ -368,7 +516,7 @@ public final class Log {
    *       &#64;com.allen_sauer.gwt.log.client.Log::info(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
    *     }
    *   }-&#42;/;
-   * </pre>   
+   * </pre>
    * 
    * @see Log#info(String)
    * @see Log#info(String, Throwable)
@@ -381,8 +529,62 @@ public final class Log {
   }
 
   /**
-   * Log a <code>INFO</code> level message from within
-   * a Java try/catch block, e.g.
+   * Log a <code>INFO</code> level message with no exception information.
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   */
+  public static void info(String category, String message) {
+    info(category, message, (Throwable) null);
+  }
+
+  /**
+   * Log a <code>INFO</code> level message from within a JSNI try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void jsniTryCatchExample()
+   *   /&#42;-{
+   *     try {
+   *       // throws exception
+   *       non_existant_variable.non_existant_method();
+   *     } catch(e) {
+   *       &#64;com.allen_sauer.gwt.log.client.Log::info(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("foo", "Caught JSNI Exception", e);
+   *     }
+   *   }-&#42;/;
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the native JavaScript exception object to be logged
+   */
+  public static void info(String category, String message, JavaScriptObject e) {
+    impl.info(category, message, e);
+  }
+
+  /**
+   * Log a <code>INFO</code> level message from within a Java try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void javaTryCatchExample() {
+   *     try {
+   *       throw new RuntimeException();
+   *     } catch(e) {
+   *       Log.info("foo", "Caught Java Exception", e);
+   *     }
+   *   }
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the exception to be logged
+   */
+  public static void info(String category, String message, Throwable e) {
+    impl.info(category, message, e);
+  }
+
+  /**
+   * Log a <code>INFO</code> level message from within a Java try/catch block, e.g.
+   * 
    * <pre>
    *   private native void javaTryCatchExample() {
    *     try {
@@ -391,7 +593,7 @@ public final class Log {
    *       Log.info("Caught Java Exception", e);
    *     }
    *   }
-   * </pre>   
+   * </pre>
    * 
    * @see Log#info(String)
    * @see Log#info(String, JavaScriptObject)
@@ -404,8 +606,9 @@ public final class Log {
   }
 
   /**
-   * Guard utility method to prevent expensive parameter evaluation
-   * side effects when logging is set at a higher level, e.g.
+   * Guard utility method to prevent expensive parameter evaluation side effects when logging is set
+   * at a higher level, e.g.
+   * 
    * <pre>
    *   // parameter(s) are evaluated even if method call does nothing
    *   Log.debug(...);
@@ -414,7 +617,7 @@ public final class Log {
    *     // code inside the guard is only conditionally evaluated
    *     Log.debug(...);
    *   }
-   * </pre>   
+   * </pre>
    * 
    * @return <code>true</code> if the current log level is at least <code>DEBUG</code>
    */
@@ -423,8 +626,8 @@ public final class Log {
   }
 
   /**
-   * Guard utility method to prevent expensive parameter evaluation
-   * side effects when logging is set at a higher level.
+   * Guard utility method to prevent expensive parameter evaluation side effects when logging is set
+   * at a higher level.
    * 
    * @see #isDebugEnabled()
    * 
@@ -435,8 +638,8 @@ public final class Log {
   }
 
   /**
-   * Guard utility method to prevent expensive parameter evaluation
-   * side effects when logging is set at a higher level.
+   * Guard utility method to prevent expensive parameter evaluation side effects when logging is set
+   * at a higher level.
    * 
    * @see #isDebugEnabled()
    * 
@@ -447,8 +650,8 @@ public final class Log {
   }
 
   /**
-   * Guard utility method to prevent expensive parameter evaluation
-   * side effects when logging is set at a higher level.
+   * Guard utility method to prevent expensive parameter evaluation side effects when logging is set
+   * at a higher level.
    * 
    * @see #isDebugEnabled()
    * 
@@ -459,8 +662,8 @@ public final class Log {
   }
 
   /**
-   * Guard utility method to prevent expensive parameter evaluation
-   * side effects when logging is disabled.
+   * Guard utility method to prevent expensive parameter evaluation side effects when logging is
+   * disabled.
    * 
    * @see #isTraceEnabled()
    * @see #isDebugEnabled()
@@ -476,8 +679,9 @@ public final class Log {
   }
 
   /**
-   * Guard utility method to prevent expensive parameter evaluation
-   * side effects when logging is set at a higher level, e.g.
+   * Guard utility method to prevent expensive parameter evaluation side effects when logging is set
+   * at a higher level, e.g.
+   * 
    * <pre>
    *   // parameter(s) are evaluated even if method call does nothing
    *   Log.trace(...);
@@ -486,7 +690,7 @@ public final class Log {
    *     // code inside the guard is only conditionally evaluated
    *     Log.trace(...);
    *   }
-   * </pre>   
+   * </pre>
    * 
    * @return <code>true</code> if the current log level is at least <code>TRACE</code>
    */
@@ -495,8 +699,8 @@ public final class Log {
   }
 
   /**
-   * Guard utility method to prevent expensive parameter evaluation
-   * side effects when logging is set at a higher level.
+   * Guard utility method to prevent expensive parameter evaluation side effects when logging is set
+   * at a higher level.
    * 
    * @see #isDebugEnabled()
    * 
@@ -506,11 +710,13 @@ public final class Log {
     return impl.isWarnEnabled();
   }
 
+  public static void log(LogRecord record) {
+    impl.log(record);
+  }
+
   /**
-   * Set the current gwt-log log level to a requested level.
-   * The actual level may be higher than the requested level
-   * due to the compile time log level that is currently in
-   * effect.
+   * Set the current gwt-log log level to a requested level. The actual level may be higher than the
+   * requested level due to the compile time log level that is currently in effect.
    * 
    * @param level the new gwt-log log level
    * @return the resulting gwt-log log level
@@ -520,18 +726,16 @@ public final class Log {
   }
 
   /**
-   * Installs an UncaughtExceptionHandler that will trap and
-   * log <code>FATAL</code> messages, but only if <i>both</i>
-   * the compile time and runtime <code>log_level</code>
-   * is set to <code>FATAL</code> or lower.
+   * Installs an UncaughtExceptionHandler that will trap and log <code>FATAL</code> messages, but
+   * only if <i>both</i> the compile time and runtime <code>log_level</code> is set to
+   * <code>FATAL</code> or lower.
    */
   public static void setUncaughtExceptionHandler() {
     impl.setUncaughtExceptionHandler();
   }
 
   /**
-   * Log a <code>TRACE</code> level message with no
-   * exception information.
+   * Log a <code>TRACE</code> level message with no exception information.
    * 
    * @see Log#trace(String, JavaScriptObject)
    * @see Log#trace(String, Throwable)
@@ -543,8 +747,8 @@ public final class Log {
   }
 
   /**
-   * Log a <code>TRACE</code> level message from within
-   * a JSNI try/catch block, e.g.
+   * Log a <code>TRACE</code> level message from within a JSNI try/catch block, e.g.
+   * 
    * <pre>
    *   private native void jsniTryCatchExample()
    *   /&#42;-{
@@ -555,7 +759,7 @@ public final class Log {
    *       &#64;com.allen_sauer.gwt.log.client.Log::trace(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
    *     }
    *   }-&#42;/;
-   * </pre>   
+   * </pre>
    * 
    * @see Log#trace(String)
    * @see Log#trace(String, Throwable)
@@ -568,8 +772,62 @@ public final class Log {
   }
 
   /**
-   * Log a <code>TRACE</code> level message from within
-   * a Java try/catch block, e.g.
+   * Log a <code>TRACE</code> level message with no exception information.
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   */
+  public static void trace(String category, String message) {
+    trace(category, message, (Throwable) null);
+  }
+
+  /**
+   * Log a <code>TRACE</code> level message from within a JSNI try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void jsniTryCatchExample()
+   *   /&#42;-{
+   *     try {
+   *       // throws exception
+   *       non_existant_variable.non_existant_method();
+   *     } catch(e) {
+   *       &#64;com.allen_sauer.gwt.log.client.Log::trace(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("foo", "Caught JSNI Exception", e);
+   *     }
+   *   }-&#42;/;
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the native JavaScript exception object to be logged
+   */
+  public static void trace(String category, String message, JavaScriptObject e) {
+    impl.trace(category, message, e);
+  }
+
+  /**
+   * Log a <code>TRACE</code> level message from within a Java try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void javaTryCatchExample() {
+   *     try {
+   *       throw new RuntimeException();
+   *     } catch(e) {
+   *       Log.trace("foo", "Caught Java Exception", e);
+   *     }
+   *   }
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the exception to be logged
+   */
+  public static void trace(String category, String message, Throwable e) {
+    impl.trace(category, message, e);
+  }
+
+  /**
+   * Log a <code>TRACE</code> level message from within a Java try/catch block, e.g.
+   * 
    * <pre>
    *   private native void javaTryCatchExample() {
    *     try {
@@ -578,7 +836,7 @@ public final class Log {
    *       Log.trace("Caught Java Exception", e);
    *     }
    *   }
-   * </pre>   
+   * </pre>
    * 
    * @see Log#trace(String)
    * @see Log#trace(String, JavaScriptObject)
@@ -591,8 +849,7 @@ public final class Log {
   }
 
   /**
-   * Log a <code>WARN</code> level message with no
-   * exception information.
+   * Log a <code>WARN</code> level message with no exception information.
    * 
    * @see Log#warn(String, JavaScriptObject)
    * @see Log#warn(String, Throwable)
@@ -604,8 +861,8 @@ public final class Log {
   }
 
   /**
-   * Log a <code>WARN</code> level message from within
-   * a JSNI try/catch block, e.g.
+   * Log a <code>WARN</code> level message from within a JSNI try/catch block, e.g.
+   * 
    * <pre>
    *   private native void jsniTryCatchExample()
    *   /&#42;-{
@@ -616,7 +873,7 @@ public final class Log {
    *       &#64;com.allen_sauer.gwt.log.client.Log::warn(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
    *     }
    *   }-&#42;/;
-   * </pre>   
+   * </pre>
    * 
    * @see Log#warn(String)
    * @see Log#warn(String, Throwable)
@@ -629,8 +886,62 @@ public final class Log {
   }
 
   /**
-   * Log a <code>WARN</code> level message from within
-   * a Java try/catch block, e.g.
+   * Log a <code>WARN</code> level message with no exception information.
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   */
+  public static void warn(String category, String message) {
+    warn(category, message, (Throwable) null);
+  }
+
+  /**
+   * Log a <code>WARN</code> level message from within a JSNI try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void jsniTryCatchExample()
+   *   /&#42;-{
+   *     try {
+   *       // throws exception
+   *       non_existant_variable.non_existant_method();
+   *     } catch(e) {
+   *       &#64;com.allen_sauer.gwt.log.client.Log::warn(Ljava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("foo", "Caught JSNI Exception", e);
+   *     }
+   *   }-&#42;/;
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the native JavaScript exception object to be logged
+   */
+  public static void warn(String category, String message, JavaScriptObject e) {
+    impl.warn(category, message, e);
+  }
+
+  /**
+   * Log a <code>WARN</code> level message from within a Java try/catch block, e.g.
+   * 
+   * <pre>
+   *   private native void javaTryCatchExample() {
+   *     try {
+   *       throw new RuntimeException();
+   *     } catch(e) {
+   *       Log.warn("foo", "Caught Java Exception", e);
+   *     }
+   *   }
+   * </pre>
+   * 
+   * @param category the category to be logged
+   * @param message the text to be logged
+   * @param e the exception to be logged
+   */
+  public static void warn(String category, String message, Throwable e) {
+    impl.warn(category, message, e);
+  }
+
+  /**
+   * Log a <code>WARN</code> level message from within a Java try/catch block, e.g.
+   * 
    * <pre>
    *   private native void javaTryCatchExample() {
    *     try {
@@ -639,7 +950,7 @@ public final class Log {
    *       Log.warn("Caught Java Exception", e);
    *     }
    *   }
-   * </pre>   
+   * </pre>
    * 
    * @see Log#warn(String)
    * @see Log#warn(String, Throwable)
@@ -655,9 +966,5 @@ public final class Log {
    * Default private constructor, to be used by GWT module initialization only.
    */
   private Log() {
-  }
-  
-  public static void log(LogRecord record) {
-    impl.log(record);
   }
 }
