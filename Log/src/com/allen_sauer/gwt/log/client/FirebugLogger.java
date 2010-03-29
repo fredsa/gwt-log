@@ -25,9 +25,10 @@ public final class FirebugLogger implements Logger {
   public void clear() {
   }
 
-  public native boolean isSupported()
-  /*-{
-    return !!($wnd.console && $wnd.console.firebug);
+  public native boolean isSupported() /*-{
+    // Consciously using 'window' rather than '$wnd'
+    // See http://code.google.com/p/fbug/issues/detail?id=2914
+    return !!(window.console && window.console.firebug);
   }-*/;
 
   public void log(LogRecord record) {
@@ -40,16 +41,17 @@ public final class FirebugLogger implements Logger {
   public void setCurrentLogLevel(int level) {
   }
 
-  private native void logMessage(int logLevel, String message)
-  /*-{
+  private native void logMessage(int logLevel, String message) /*-{
+    // Consciously using 'window' rather than '$wnd'
+    // See http://code.google.com/p/fbug/issues/detail?id=2914
     if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_ERROR) {
-      $wnd.console.error(message);
+    window.console.error(message);
     } else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_WARN) {
-      $wnd.console.warn(message);
+    window.console.warn(message);
     } else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_INFO) {
-      $wnd.console.info(message);
+    window.console.info(message);
     } else {
-      $wnd.console.debug(message);
+    window.console.debug(message);
     }
   }-*/;
 }
