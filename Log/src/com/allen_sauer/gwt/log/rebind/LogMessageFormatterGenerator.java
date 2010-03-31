@@ -179,7 +179,7 @@ public class LogMessageFormatterGenerator extends Generator {
           if (formatSpecifier != null) {
             int precision = Integer.parseInt("0" + formatSpecifier);
             convertedExpression = "LogUtil.formatCategory(" + convertedExpression + ", "
-                + formatSpecifier + ")";
+                + precision + ")";
           }
         }
 
