@@ -191,7 +191,7 @@ public class LogMessageFormatterGenerator extends Generator {
     buf.append("\n + \"");
     matcher.appendTail(buf);
     buf.append("\"");
-    String ste = "GWT.isScript() ? null : LogUtil.getCallingStackTraceElement(5)";
+    String ste = "GWT.isScript() ? null : LogUtil.getCallingStackTraceElement(9)";
     return (stackTraceToggle ? "StackTraceElement ste = " + ste + ";\n" : "") + "return "
         + buf.toString() + ";";
   }
