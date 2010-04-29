@@ -23,8 +23,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import java.util.ArrayList;
 
 /**
- * Logger which sends output via RPC to the server where it
- * can be logged and aggregated.
+ * Logger which sends output via RPC to the server where it can be logged and aggregated.
  */
 public final class RemoteLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
@@ -77,8 +76,7 @@ public final class RemoteLogger implements Logger {
               + serviceEntryPoint, ex);
           GWT.log(REMOTE_LOGGER_NAME + " has suspended with "
               + (logMessageList.size() + queuedMessageList.size())
-              + " log message(s) not delivered"
-              , null);
+              + " log message(s) not delivered", null);
           failure = ex;
           logMessageList.clear();
           queuedMessageList.clear();
@@ -86,11 +84,8 @@ public final class RemoteLogger implements Logger {
           GWT.log(REMOTE_LOGGER_NAME
               + " encountered possibly transient communication failure with servlet at "
               + serviceEntryPoint, ex);
-          GWT.log(REMOTE_LOGGER_NAME + " will attempt redelivery of "
-              + queuedMessageList.size() + " log message(s) in "
-              + messageQueueingDelayMillis
-              + "ms",
-              null);
+          GWT.log(REMOTE_LOGGER_NAME + " will attempt redelivery of " + queuedMessageList.size()
+              + " log message(s) in " + messageQueueingDelayMillis + "ms", null);
         }
         callInProgressOrScheduled = false;
         maybeTriggerRPC();
@@ -117,6 +112,10 @@ public final class RemoteLogger implements Logger {
 
   public void log(LogRecord record) {
     if (failure != null) {
+      return;
+    }
+    if (record.getLevel() == Log.LOG_LEVEL_OFF) {
+      // don't forward gwt-log diagnostic messages
       return;
     }
     logMessageList.add(record);
