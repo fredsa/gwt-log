@@ -301,7 +301,7 @@
 		<input addproperty="summary" message="Description summary" defaultvalue="Logging capabilities for Google-Web-Toolkit (GWT)" />
 		<input addproperty="labels" message="Description summary" defaultvalue="Type-Library, OpSys-All, GWT-GWT_2.0.0, Java-1.5, ReleaseCandidate" />
 		<input addproperty="username" message="Google Code username" defaultvalue="fredsa@gmail.com" />
-		<input addproperty="password" message="Google Code password for ${username}" defaultvalue="" />
+		<input addproperty="password" message="Google Code password" defaultvalue="" />
 
 		<condition property="password-missing">
 			<equals arg1="${password}" arg2="" />
@@ -311,6 +311,7 @@
 		<tempfile property="tempfile" />
 		<get src="http://gwt-log.googlecode.com/files/${gwt-log.jar}" dest="${tempfile}" ignoreerrors="true" />
 		<length file="${tempfile}" property="len" />
+		<delete file="${tempfile}" />
 
 		<condition property="file-exists">
 			<not>

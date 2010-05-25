@@ -1,7 +1,7 @@
 =========================================================================================   
 
 gwt-log
-Copyright 2007-2009 Fred Sauer
+Copyright 2007-2010 Fred Sauer
 
 This product includes software developed by Fred Sauer
 
@@ -23,5 +23,9 @@ JSch 0.0.* uses a BSD-style license.
 ------------------------------------------------------------------------------
 Copyright (c) 2002,2003,2004,2005,2006,2007,2008 Atsuhiko Yamanaka, JCraft,Inc. 
 All rights reserved.
+
+=========================================================================================   
+
+ant-googlecode uses a BSD-style license. 
 
 =========================================================================================   
