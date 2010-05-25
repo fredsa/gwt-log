@@ -205,7 +205,7 @@ public class DivLogger implements Logger {
   private boolean dirty = false;
   private Button[] levelButtons;
 
-  private final LogDockPanel logDockPanel = new LogDockPanel();;
+  private final LogDockPanel logDockPanel = new LogDockPanel();
   private String logText = "";
 
   private final HTML logTextArea = new HTML();
