@@ -68,7 +68,9 @@
 
 		<!-- gwt-log.javadoc-jar property -->
 		<property name="gwt-log.javadoc-jar" value="gwt-log-${gwt-log.version}-javadoc.jar" />
+	</target>
 
+	<target name="unique-lib-locations" description="Determine library locations" depends="lib-locations">
 		<!-- Prevent overwriting existing libraries -->
 		<available file="${gwt-log.libdir}/${gwt-log.jar}" property="gwt-log.jar-exists" />
 		<condition property="gwt-log.fail-overwrite">
@@ -80,12 +82,11 @@
 			</and>
 		</condition>
 		<fail if="gwt-log.fail-overwrite" message="Cannot overwrite existing jar file ${gwt-log.libdir}/${gwt-log.jar}" />
-
 	</target>
 
 
 	<!-- Replace @GWT_LOG_VERION@ with actual version of build -->
-	<target name="filter" description="Filters distro files for versioning" depends="lib-locations">
+	<target name="filter" description="Filters distro files for versioning" depends="unique-lib-locations">
 		<mkdir dir="build/out" />
 		<mkdir dir="build/demo" />
 		<mkdir dir="build/server" />
@@ -143,7 +144,7 @@
 
 	</target>
 
-	<target name="build" depends="lib-locations, clean, javac, gwtc">
+	<target name="build" depends="unique-lib-locations, clean, javac, gwtc">
 	</target>
 
 	<target name="javac" description="Java compile" depends="filter">
@@ -290,14 +291,45 @@
 		<mkdir dir="war/clientserverdemo" />
 	</target>
 
-	<target name="sshls" description="SSH ls (test)">
+	<!-- Upload files to Google Code project hosting -->
+	<target name="upload" description="Upload file to Google Code" depends="lib-locations">
+		<condition property="gwt-log.fail-upload">
+			<contains string="${gwt-log.jar}" substring="0.0.0" />
+		</condition>
+		<fail if="gwt-log.fail-upload" message="Cannot upload version 0.0.0" />
 
-		<sshexec command="ls" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
+		<input addproperty="summary" message="Description summary" defaultvalue="Logging capabilities for Google-Web-Toolkit (GWT)" />
+		<input addproperty="labels" message="Description summary" defaultvalue="Type-Library, OpSys-All, GWT-GWT_2.0.0, Java-1.5, ReleaseCandidate" />
+		<input addproperty="username" message="Google Code username" defaultvalue="fredsa@gmail.com" />
+		<input addproperty="password" message="Google Code password for ${username}" defaultvalue="" />
 
+		<condition property="password-missing">
+			<equals arg1="${password}" arg2="" />
+		</condition>
+		<fail if="password-missing" message="Password is required" />
+
+		<tempfile property="tempfile" />
+		<get src="http://gwt-log.googlecode.com/files/${gwt-log.jar}" dest="${tempfile}" ignoreerrors="true" />
+		<length file="${tempfile}" property="len" />
+
+		<condition property="file-exists">
+			<not>
+				<equals arg1="${len}" arg2="0" />
+			</not>
+		</condition>
+		<fail if="file-exists" message="${gwt-log.jar} already exists" />
+
+		<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="ant-googlecode-0.0.2.jar" name="gcupload" />
+		<gcupload username="${username}" password="${password}" projectname="gwt-log" filename="${gwt-log.libdir}/${gwt-log.jar}" targetfilename="${gwt-log.jar}" summary="${summary}" labels="${labels}" />
 	</target>
 
-	<target name="deploy" description="Build and deploy to demo site" depends="clean, init, javac, gwtc">
+	<!-- Test SSH functionality -->
+	<target name="sshls" description="SSH ls (for testing 'sshexec' task)">
+		<sshexec command="ls" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
+	</target>
 
+	<!-- Deploy demo to allen-sauer.com -->
+	<target name="deploy" description="Build and deploy to demo site" depends="clean, init, javac, gwtc">
 		<sshexec command="mkdir com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
 
 		<scp todir="sauer@allen-sauer.com:com.allen_sauer.gwt.log.demo.LogDemo/" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" verbose="true">
@@ -305,7 +337,6 @@
 		</scp>
 
 		<sshexec command="./deploy.sh com.allen_sauer.gwt.log.demo.LogDemo" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
-
 	</target>
 
 </project>
