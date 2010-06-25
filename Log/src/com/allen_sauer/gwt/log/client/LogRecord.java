@@ -2,6 +2,9 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 
+import com.allen_sauer.gwt.log.shared.UnwrappedClientThrowable;
+import com.allen_sauer.gwt.log.shared.WrappedClientThrowable;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;

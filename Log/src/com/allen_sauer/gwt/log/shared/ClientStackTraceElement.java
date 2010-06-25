@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.log.client;
+package com.allen_sauer.gwt.log.shared;
 
 import java.io.Serializable;
 
