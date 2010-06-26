@@ -1,16 +1,14 @@
 /*
  * Copyright 2009 Fred Sauer
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.log.client;
@@ -68,15 +66,7 @@ public class DivLogger implements Logger {
     @Override
     public void setVisible(boolean visible) {
       userHidden = !visible;
-      setVisible_(visible);
-    }
-
-    public void setVisible_(boolean visible) {
-      super.setVisible(visible);
-      if (visible) {
-        scrollPanel.checkMinSize();
-        resize(Window.getClientWidth(), Window.getClientHeight());
-      }
+      setVisibleImpl(visible);
     }
 
     @Override
@@ -94,6 +84,14 @@ public class DivLogger implements Logger {
     private void resize(int width, int height) {
       scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
           (int) (Window.getClientHeight() * .3)));
+    }
+
+    private void setVisibleImpl(boolean visible) {
+      super.setVisible(visible);
+      if (visible) {
+        scrollPanel.checkMinSize();
+        resize(Window.getClientWidth(), Window.getClientHeight());
+      }
     }
   }
 
@@ -237,7 +235,7 @@ public class DivLogger implements Logger {
 
     scrollPanel.setWidget(logTextArea);
 
-    logDockPanel.setVisible_(false);
+    logDockPanel.setVisibleImpl(false);
     RootPanel.get().add(logDockPanel, 0, 0);
 
     timer = new Timer() {
