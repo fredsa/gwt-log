@@ -225,7 +225,7 @@
 	</target>
 
 	<target name="javadoc" description="Generate Javadoc" depends="javac">
-		<javadoc access="protected" classpath="${gwt-user.jar}:${log4j.location}" destdir="build/javadoc" doctitle="${ant.project.name} - ${projectdescription}" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
+		<javadoc access="protected" classpath="${gwt-user.jar}:${gwt-dev.jar}:${log4j.location}" destdir="build/javadoc" doctitle="${ant.project.name} - ${projectdescription}" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
 	</target>
 
 	<target name="stat">
