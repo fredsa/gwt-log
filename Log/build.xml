@@ -264,10 +264,15 @@
 		</copy>
 
 		<antcall target="tag" />
-
-		<antcall target="stat" />
+    <antcall target="stat" />
+    <antcall target="showlib" />
+  
 	</target>
 
+	<target name="showlib">
+		<echo message="${libdir}/${libjar}"/>      
+	</target>
+	
 	<target name="clean">
 		<delete dir="build" />
 		<delete dir="war/WEB-INF/classes" />
