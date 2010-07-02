@@ -27,7 +27,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-startupUrl MyApplication.html -war /usr/local/google/users/fredsa/workspace/Log/war -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -logLevel INFO -port 8888 -server com.google.appengine.tools.development.gwt.AppEngineLauncher -gen ../gen com.mycompany.MyApplication"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-startupUrl MyApplication.html -war /fred/workspace/Log/war -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -logLevel INFO -port 8888 -server com.google.appengine.tools.development.gwt.AppEngineLauncher -gen ../gen com.mycompany.MyApplication"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Log"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-javaagent:/fred/eclipse35/stable/plugins/com.google.appengine.eclipse.sdkbundle.1.3.5_1.3.5.v201006301254/appengine-java-sdk-1.3.5/lib/agent/appengine-agent.jar -Xmx512m -ea"/>
 </launchConfiguration>
