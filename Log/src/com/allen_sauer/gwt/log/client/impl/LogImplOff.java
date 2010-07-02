@@ -16,8 +16,8 @@ package com.allen_sauer.gwt.log.client.impl;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogRecord;
 import com.allen_sauer.gwt.log.client.Logger;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 /**
  * Implementation of {@link LogImplInterface} that is designed to be compiled out via GWT compiler

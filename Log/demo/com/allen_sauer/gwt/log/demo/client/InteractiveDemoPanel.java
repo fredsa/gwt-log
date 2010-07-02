@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.HTML;
 
 import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogRecord;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 /**
  * Interactive demo panel used by {@link LogDemo}.

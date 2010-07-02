@@ -45,6 +45,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.log.client.impl.LogClientBundle;
 import com.allen_sauer.gwt.log.client.util.DOMUtil;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 /**
  * Logger which outputs to a draggable floating <code>DIV</code>.

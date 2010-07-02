@@ -13,7 +13,7 @@
  */
 package com.allen_sauer.gwt.log.server;
 
-import com.allen_sauer.gwt.log.client.LogRecord;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;

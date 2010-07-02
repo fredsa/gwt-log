@@ -16,8 +16,8 @@ package com.allen_sauer.gwt.log.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogRecord;
 import com.allen_sauer.gwt.log.client.RemoteLoggerService;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 import java.util.ArrayList;
 import java.util.Iterator;

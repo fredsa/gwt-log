@@ -14,7 +14,7 @@
 package com.allen_sauer.gwt.log.server;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogRecord;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

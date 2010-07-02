@@ -15,6 +15,8 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import com.allen_sauer.gwt.log.shared.LogRecord;
+
 import java.util.ArrayList;
 
 // CHECKSTYLE_JAVADOC_OFF

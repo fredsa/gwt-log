@@ -20,6 +20,8 @@
 
 
   <!-- Client side code -->
+  <source path="client"/>
+  <source path="shared"/>
   <super-source path="translatable" />
 
 

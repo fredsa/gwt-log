@@ -25,12 +25,12 @@ import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogRecord;
 import com.allen_sauer.gwt.log.client.LogUtil;
 import com.allen_sauer.gwt.log.client.Logger;
 import com.allen_sauer.gwt.log.client.RemoteLogger;
 import com.allen_sauer.gwt.log.client.SystemLogger;
 import com.allen_sauer.gwt.log.client.WindowLogger;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 import java.util.ArrayList;
 import java.util.Iterator;

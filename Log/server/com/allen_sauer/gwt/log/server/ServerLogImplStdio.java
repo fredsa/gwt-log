@@ -14,7 +14,7 @@
 package com.allen_sauer.gwt.log.server;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.allen_sauer.gwt.log.client.LogRecord;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 // CHECKSTYLE_JAVADOC_OFF
 public final class ServerLogImplStdio implements ServerLog {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Fred Sauer
+ * Copyright 2010 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -16,7 +16,7 @@ package com.allen_sauer.gwt.log.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
-import com.allen_sauer.gwt.log.client.LogRecord;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 import com.allen_sauer.gwt.log.client.impl.LogImpl;
 
 /**

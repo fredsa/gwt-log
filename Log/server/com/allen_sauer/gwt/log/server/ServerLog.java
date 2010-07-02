@@ -1,6 +1,6 @@
 package com.allen_sauer.gwt.log.server;
 
-import com.allen_sauer.gwt.log.client.LogRecord;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 public interface ServerLog {
 

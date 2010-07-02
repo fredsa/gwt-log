@@ -13,6 +13,8 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.allen_sauer.gwt.log.shared.LogRecord;
+
 /**
  * Logger which sends output via <a href="http://www.getfirebug.com/">Firebug</a> or <a
  * href="http://www.getfirebug.com/lite.html">Firebug Lite</a> via <code>$wnd.console.debug()</code>

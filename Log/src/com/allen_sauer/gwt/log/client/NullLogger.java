@@ -13,6 +13,8 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.allen_sauer.gwt.log.shared.LogRecord;
+
 /**
  * Logger which does nothing, used by deferred binding.
  */

@@ -15,6 +15,8 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.allen_sauer.gwt.log.shared.LogRecord;
+
 public interface Logger {
   void clear();
 

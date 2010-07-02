@@ -17,6 +17,8 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 
+import com.allen_sauer.gwt.log.shared.LogRecord;
+
 /**
  * Logger which outputs to {@link GWT#log(String, Throwable)}.
  */

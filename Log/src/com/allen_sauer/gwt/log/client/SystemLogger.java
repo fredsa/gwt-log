@@ -17,6 +17,8 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 
+import com.allen_sauer.gwt.log.shared.LogRecord;
+
 /**
  * Logger which sends output to <code>System.err</code> for <code>ERROR</code> level messages and
  * above, and to <code>System.out</code> otherwise.

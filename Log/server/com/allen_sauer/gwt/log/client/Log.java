@@ -19,6 +19,7 @@ import com.allen_sauer.gwt.log.server.ServerLog;
 import com.allen_sauer.gwt.log.server.ServerLogImplJDK14;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
 import com.allen_sauer.gwt.log.server.ServerLogImplStdio;
+import com.allen_sauer.gwt.log.shared.LogRecord;
 
 // CHECKSTYLE_JAVADOC_OFF
 public final class Log {

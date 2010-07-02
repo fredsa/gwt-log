@@ -13,6 +13,8 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.allen_sauer.gwt.log.shared.LogRecord;
+
 /**
  * Logger which sends output via <code>$wnd.console.log()</code> if <code>$wnd.console.log</code> is
  * a function, unless <code>$wnd.console.firebug</code> is defined.
