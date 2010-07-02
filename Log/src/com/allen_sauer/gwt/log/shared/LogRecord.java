@@ -15,6 +15,8 @@
  */
 package com.allen_sauer.gwt.log.shared;
 
+import com.google.gwt.core.client.GWT;
+
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.LogMessageFormatter;
 import com.allen_sauer.gwt.log.client.LogUtil;
