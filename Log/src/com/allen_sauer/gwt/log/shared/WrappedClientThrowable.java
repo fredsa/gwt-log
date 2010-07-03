@@ -1,18 +1,19 @@
 /*
  * Copyright 2009 Fred Sauer
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.log.shared;
-
 
 import java.io.Serializable;
 
@@ -28,7 +29,7 @@ public class WrappedClientThrowable implements Serializable {
   }
 
   private WrappedClientThrowable cause;
-  private ClientStackTraceElement[] clientStackTrace;
+  private StackTraceElement[] clientStackTrace;
   private String message;
   private String originalClassName;
 
@@ -43,9 +44,9 @@ public class WrappedClientThrowable implements Serializable {
       originalClassName = ex.getClass().getName();
       message = ex.getMessage();
       StackTraceElement[] stackTrace = ex.getStackTrace();
-      clientStackTrace = new ClientStackTraceElement[stackTrace.length];
+      clientStackTrace = new StackTraceElement[stackTrace.length];
       for (int i = 0; i < stackTrace.length; i++) {
-        clientStackTrace[i] = new ClientStackTraceElement(stackTrace[i].getClassName(),
+        clientStackTrace[i] = new StackTraceElement(stackTrace[i].getClassName(),
             stackTrace[i].getMethodName(), stackTrace[i].getFileName(),
             stackTrace[i].getLineNumber());
       }
@@ -57,7 +58,7 @@ public class WrappedClientThrowable implements Serializable {
     return cause;
   }
 
-  public ClientStackTraceElement[] getClientStackTrace() {
+  public StackTraceElement[] getClientStackTrace() {
     return clientStackTrace;
   }
 
