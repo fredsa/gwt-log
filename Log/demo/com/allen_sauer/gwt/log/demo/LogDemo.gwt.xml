@@ -41,7 +41,7 @@
     value="true" />
 
   <!--
-    <set-property name="user.agent" value="safari"/> 
+    <set-property name="user.agent" value="gecko"/>
     <set-property name="log_level" value="DEBUG"/>
     <set-configuration-property name="log_url" value="/foo" />
   -->
