@@ -1,14 +1,16 @@
 /*
  * Copyright 2009 Fred Sauer
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.log.rebind;
@@ -131,7 +133,8 @@ public class LogMessageFormatterGenerator extends Generator {
     // 5. ([cCdFlLmMnprtxX%]) - Conversion character
     // 6. (\\{ . . . \\})? - "{" + . . . + "}"
     // 7. ([^\\}]+) - Format specifier: one or more characters, but not "}"
-    Pattern pattern = Pattern.compile("(.*?)%(-?)(\\d*)\\.?(\\d*)([cCdFlLmMnprtxX%])(\\{([^\\}]+)\\})?");
+    Pattern pattern = Pattern.compile(
+        "(.*?)%(-?)(\\d*)\\.?(\\d*)([cCdFlLmMnprtxX%])(\\{([^\\}]+)\\})?");
     Matcher matcher = pattern.matcher(logPattern);
     boolean stackTraceToggle = false;
     while (matcher.find()) {
@@ -178,8 +181,8 @@ public class LogMessageFormatterGenerator extends Generator {
         } else if (conversionSpecifier.equals("c") || conversionSpecifier.equals("C")) {
           if (formatSpecifier != null) {
             int precision = Integer.parseInt("0" + formatSpecifier);
-            convertedExpression = "LogUtil.formatCategory(" + convertedExpression + ", "
-                + precision + ")";
+            convertedExpression = "LogUtil.formatCategory(" + convertedExpression + ", " + precision
+                + ")";
           }
         }
 
@@ -191,7 +194,7 @@ public class LogMessageFormatterGenerator extends Generator {
     buf.append("\n + \"");
     matcher.appendTail(buf);
     buf.append("\"");
-    String ste = "GWT.isScript() ? null : LogUtil.getCallingStackTraceElement(9)";
+    String ste = "GWT.isScript() ? null : LogUtil.getCallingStackTraceElement()";
     return (stackTraceToggle ? "StackTraceElement ste = " + ste + ";\n" : "") + "return "
         + buf.toString() + ";";
   }
@@ -218,8 +221,8 @@ public class LogMessageFormatterGenerator extends Generator {
     }
 
     if (remoteService.isInterface() == null) {
-      logger.log(TreeLogger.ERROR, remoteService.getQualifiedSourceName() + " is not an interface",
-          null);
+      logger.log(
+          TreeLogger.ERROR, remoteService.getQualifiedSourceName() + " is not an interface", null);
       throw new UnableToCompleteException();
     }
     ClassSourceFileComposerFactory composerFactory = new ClassSourceFileComposerFactory(
@@ -238,7 +241,8 @@ public class LogMessageFormatterGenerator extends Generator {
       PropertyOracle propertyOracle = context.getPropertyOracle();
       String logPattern;
       try {
-        ConfigurationProperty logPatternProperty = propertyOracle.getConfigurationProperty(PROPERTY_LOG_PATTERN);
+        ConfigurationProperty logPatternProperty = propertyOracle.getConfigurationProperty(
+            PROPERTY_LOG_PATTERN);
         List<String> values = logPatternProperty.getValues();
         logPattern = values.get(0);
       } catch (BadPropertyValueException e) {
