@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.google.gdt.eclipse.suite.webapp">
 <stringAttribute key="com.google.gdt.eclipse.suiteMainTypeProcessor.PREVIOUSLY_SET_MAIN_TYPE_NAME" value="com.google.gwt.dev.DevMode"/>
-<booleanAttribute key="com.google.gdt.eclipse.suiteWarArgumentProcessor.IS_WAR_FROM_PROJECT_PROPERTIES" value="true"/>
-<listAttribute key="com.google.gwt.eclipse.core.ENTRY_POINT_MODULES">
-<listEntry value="com.allen_sauer.gwt.log.demo.LogDemo"/>
-</listAttribute>
+<booleanAttribute key="com.google.gdt.eclipse.suiteWarArgumentProcessor.IS_WAR_FROM_PROJECT_PROPERTIES" value="false"/>
 <stringAttribute key="com.google.gwt.eclipse.core.URL" value="LogDemo.html"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/Log"/>
@@ -27,7 +24,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-startupUrl LogDemo.html -war /fred/workspace/Log/war -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -logLevel INFO -port 8888 -server com.google.appengine.tools.development.gwt.AppEngineLauncher -gen ../gen -whitelist &quot; ^http[:][/][/]googleads[.]g[.]doubleclick[.]net&quot; com.allen_sauer.gwt.log.demo.LogDemo"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-startupUrl LogDemo.html -war /fred/workspace/Log/war -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -logLevel INFO -port 8888 -server com.google.appengine.tools.development.gwt.AppEngineLauncher -gen ../gen -bindAddress 0.0.0.0 -whitelist &quot; ^http[:][/][/]googleads[.]g[.]doubleclick[.]net&quot; com.allen_sauer.gwt.log.demo.LogDemo"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Log"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-javaagent:/fred/eclipse35/stable/plugins/com.google.appengine.eclipse.sdkbundle.1.3.5_1.3.5.v201006301254/appengine-java-sdk-1.3.5/lib/agent/appengine-agent.jar -Xmx512m -ea"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-javaagent:/fred/eclipse35/stable/plugins/com.google.appengine.eclipse.sdkbundle.1.3.5_1.3.5.v201006301254/appengine-java-sdk-1.3.5/lib/agent/appengine-agent.jar -ea"/>
 </launchConfiguration>
