@@ -7,7 +7,7 @@
     <param name="Target" value="System.out" />
     <param name="Threshold" value="DEBUG" />
     <layout class="org.apache.log4j.PatternLayout">
-      <param name="ConversionPattern" value="%d{ISO8601} [%-5p][%c{1}][%X{remoteAddr} %X{logSequence}] %m%n" />
+      <param name="ConversionPattern" value="%d{ISO8601} [%-5p][%c{1}][%X{remoteAddr} %X{X-Forwarded-For} %X{logSequence}] %m%n" />
     </layout>
   </appender>
 
