@@ -26,6 +26,20 @@
 
 
   <!--
+    Inspired by Apache log4j PatternLayout:
+    http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html
+  -->
+  <define-configuration-property name="log_pattern" is-multi-valued="false" />
+  <set-configuration-property name="log_pattern" value="(%F:%L) %d [%-5p] %m%n" />
+
+
+  <!--
+    Allows developer to override RemoteLogger servlet URL
+  -->
+  <define-configuration-property name="log_url" is-multi-valued="false" />
+
+
+  <!--
     Provide formatting via 'log_pattern' property.
   -->
   <generate-with
@@ -171,6 +185,19 @@
       <when-property-is name="log_WindowLogger" value="ENABLED" />
     </none>
   </replace-with>
+
+
+  <!-- Loggers Enabled by default -->
+  <set-property name="log_ConsoleLogger" value="ENABLED" />
+  <set-property name="log_DivLogger" value="ENABLED" />
+  <set-property name="log_FirebugLogger" value="ENABLED" />
+  <set-property name="log_GWTLogger" value="ENABLED" />
+  <set-property name="log_SystemLogger" value="ENABLED" />
+
+
+  <!-- Loggers Disabled by default -->
+  <set-property name="log_RemoteLogger" value="DISABLED" />
+  <set-property name="log_WindowLogger" value="DISABLED" />
 
 
   <!--  Log level dependent implementations -->
