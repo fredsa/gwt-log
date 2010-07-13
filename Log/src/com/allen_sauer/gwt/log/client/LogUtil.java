@@ -16,8 +16,6 @@
 package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.log.rebind.LogMessageFormatterGenerator;
 
@@ -67,12 +65,11 @@ public class LogUtil {
 
   public static StackTraceElement getCallingStackTraceElement() {
     StackTraceElement[] stackTrace = new Throwable().getStackTrace();
-    RootPanel.get().add(new HTML("<hr>"));
     for (int i = 0; i < stackTrace.length; i++) {
-      if (stackTrace[i].getClassName().startsWith("com.allen_sauer.gwt.log.client")) {
+      if (stackTrace[i].getClassName().startsWith("com.allen_sauer.gwt.log.client.")) {
         continue;
       }
-      if (stackTrace[i].getClassName().startsWith("com.allen_sauer.gwt.log.shared")) {
+      if (stackTrace[i].getClassName().startsWith("com.allen_sauer.gwt.log.shared.")) {
         continue;
       }
       return stackTrace[i];
