@@ -17,6 +17,6 @@
 	<!-- Define a log_level property, with a single value, `DEBUG` -->
 	<define-property name="log_level" values="DEBUG" />
 
-	<inherits name="com.allen_sauer.gwt.log.gwt-log-common" />
+	<inherits name="com.allen_sauer.gwt.log.gwt-log-impl" />
 
 </module>
