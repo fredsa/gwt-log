@@ -16,10 +16,26 @@
    the License.
 -->
 <module>
+	<inherits name="com.google.gwt.user.User" />
 
-	<!-- Define a log_level property, with a single value, `FATAL` -->
-	<define-property name="log_level" values="FATAL" />
+  <!-- RemoteLogger -->
 
-	<inherits name="com.allen_sauer.gwt.log.gwt-log-impl" />
+  <replace-with class="com.allen_sauer.gwt.log.client.RemoteLoggerImpl">
+    <when-type-is class="com.allen_sauer.gwt.log.client.RemoteLogger" />
+    <when-property-is name="log_RemoteLogger" value="NOT_SET_BY_APPLICATION" />
+  </replace-with>
+
+  <servlet path="/gwt-log"
+    class="com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl" />
+
+  <!--
+    Allows developer to override RemoteLogger servlet URL
+  -->
+  <define-configuration-property name="log_url" is-multi-valued="false" />
+  <generate-with
+    class="com.allen_sauer.gwt.log.rebind.RemoteLoggerConfigGenerator">
+    <when-type-assignable
+      class="com.allen_sauer.gwt.log.client.RemoteLoggerConfig" />
+  </generate-with>
 
 </module>

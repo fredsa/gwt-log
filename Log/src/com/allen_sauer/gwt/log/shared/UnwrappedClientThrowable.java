@@ -37,7 +37,7 @@ public class UnwrappedClientThrowable extends Throwable {
   }
 
   /**
-   * Constructor used by {@link com.allen_sauer.gwt.log.client.RemoteLogger}.
+   * Constructor used by {@link com.allen_sauer.gwt.log.client.RemoteLoggerImpl}.
    * 
    * @param wrapped the wrapped client-side exception
    */

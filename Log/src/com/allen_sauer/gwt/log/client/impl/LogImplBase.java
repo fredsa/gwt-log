@@ -1,14 +1,16 @@
 /*
  * Copyright 2009 Fred Sauer
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.log.client.impl;
@@ -68,8 +70,8 @@ public abstract class LogImplBase extends LogImpl {
   private static int getRequestedRuntimeLogLevel() {
     String logLevelString = Location.getParameter("log_level");
     int lowestLogLevel = Log.getLowestLogLevel();
-    return logLevelString == null ? lowestLogLevel : Math.max(lowestLogLevel,
-        LogUtil.stringToLevel(logLevelString));
+    return logLevelString == null ? lowestLogLevel : Math.max(
+        lowestLogLevel, LogUtil.stringToLevel(logLevelString));
   }
 
   @SuppressWarnings("unused")
@@ -125,8 +127,8 @@ public abstract class LogImplBase extends LogImpl {
         logger.clear();
       } catch (RuntimeException e1) {
         iterator.remove();
-        diagnostic("Removing '" + logger.getClass().getName()
-            + "' due to unexecpted exception", e1);
+        diagnostic(
+            "Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
       }
     }
   }
@@ -208,16 +210,16 @@ public abstract class LogImplBase extends LogImpl {
     try {
       addLogger((Logger) GWT.create(DivLogger.class));
     } catch (Throwable ex) {
-      Window.alert("WARNING: Unable to instantiate '" + DivLogger.class + "' due to "
-          + ex.toString());
+      Window.alert(
+          "WARNING: Unable to instantiate '" + DivLogger.class + "' due to " + ex.toString());
     }
 
     // GWT hacking may prevent the DOM/UI from working properly
     try {
       addLogger((Logger) GWT.create(WindowLogger.class));
     } catch (Throwable ex) {
-      Window.alert("WARNING: Unable to instantiate '" + WindowLogger.class + "' due to "
-          + ex.toString());
+      Window.alert(
+          "WARNING: Unable to instantiate '" + WindowLogger.class + "' due to " + ex.toString());
     }
 
     // notify loggers
@@ -271,8 +273,8 @@ public abstract class LogImplBase extends LogImpl {
         logger.log(record);
       } catch (RuntimeException e1) {
         iterator.remove();
-        diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception",
-            e1);
+        diagnostic(
+            "Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
       }
     }
   }
@@ -329,8 +331,9 @@ public abstract class LogImplBase extends LogImpl {
 
   private int setCurrentLogLevelLoggers(int level) {
     if (level < getLowestLogLevel()) {
-      Window.alert("Unable to lower runtime log level to " + level
-          + " due to compile time minimum of " + getLowestLogLevel());
+      Window.alert(
+          "Unable to lower runtime log level to " + level + " due to compile time minimum of "
+              + getLowestLogLevel());
       level = getLowestLogLevel();
     }
 
@@ -340,8 +343,8 @@ public abstract class LogImplBase extends LogImpl {
         logger.setCurrentLogLevel(level);
       } catch (RuntimeException e1) {
         iterator.remove();
-        diagnostic("Removing '" + logger.getClass().getName()
-            + "' due to unexecpted exception", e1);
+        diagnostic(
+            "Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
       }
     }
     return level;

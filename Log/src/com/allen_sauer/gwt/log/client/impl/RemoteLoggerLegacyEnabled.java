@@ -13,21 +13,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.log.client;
 
+package com.allen_sauer.gwt.log.client.impl;
+
+import com.allen_sauer.gwt.log.client.Logger;
+import com.allen_sauer.gwt.log.client.util.DOMUtil;
 import com.allen_sauer.gwt.log.shared.LogRecord;
 
 /**
- * Logger which does nothing, used by deferred binding.
+ * Temporary class used to inform the developer that the RemoteLogger has a new 
+ * activation method which involves module inheritance rather than the setting
+ * of a property.
  */
-public class NullLogger implements Logger {
-  // CHECKSTYLE_JAVADOC_OFF
+public class RemoteLoggerLegacyEnabled implements Logger {
+
+  public RemoteLoggerLegacyEnabled() {
+    DOMUtil.reportFatalAndThrowRuntimeException(
+        "Please update your project's .gwt.xml file and replace\n"
+            + "  <set-property name='log_RemoteLogger' value='ENABLED' />\n" + "with:\n"
+            + "  <inherits name='com.allen_sauer.gwt.log.gwt-log-RemoteLogger' />");
+  }
 
   public void clear() {
   }
 
   public boolean isSupported() {
-    return false;
+    return true;
   }
 
   public void log(LogRecord record) {
@@ -35,4 +46,5 @@ public class NullLogger implements Logger {
 
   public void setCurrentLogLevel(int level) {
   }
+
 }
