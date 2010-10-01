@@ -102,10 +102,21 @@
 
 		<copy todir="build/src">
 			<fileset dir="src">
+				<exclude name="**/*.java" />
 				<exclude name="**/package.html" />
 			</fileset>
 			<fileset dir="server">
+				<exclude name="**/*.java" />
 				<exclude name="**/package.html" />
+			</fileset>
+		</copy>
+
+		<copy todir="build/src">
+			<fileset dir="src">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="server">
+				<include name="**/*.java" />
 			</fileset>
 			<fileset dir=".">
 				<include name="LICENSE" />
@@ -127,7 +138,14 @@
 
 		<copy todir="build/demo">
 			<fileset dir="demo">
+				<exclude name="**/*.java" />
 				<exclude name="**/package.html" />
+			</fileset>
+		</copy>
+
+		<copy todir="build/demo">
+			<fileset dir="demo">
+				<include name="**/*.java" />
 			</fileset>
 			<fileset dir=".">
 				<include name="LICENSE" />
