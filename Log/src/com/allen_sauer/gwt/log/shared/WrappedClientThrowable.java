@@ -31,7 +31,7 @@ public class WrappedClientThrowable implements Serializable {
   private WrappedClientThrowable cause;
   private StackTraceElement[] clientStackTrace;
   private String message;
-  private String originalClassName;
+  private String originalToString;
 
   /**
    * Private default constructor for RPC serialization.
@@ -41,7 +41,7 @@ public class WrappedClientThrowable implements Serializable {
 
   private WrappedClientThrowable(Throwable ex) {
     if (ex != null) {
-      originalClassName = ex.getClass().getName();
+      originalToString = ex.toString();
       message = ex.getMessage();
       StackTraceElement[] stackTrace = ex.getStackTrace();
       clientStackTrace = new StackTraceElement[stackTrace.length];
@@ -66,8 +66,8 @@ public class WrappedClientThrowable implements Serializable {
     return message;
   }
 
-  public String getOriginalClassName() {
-    return originalClassName;
+  public String getOriginalToString() {
+    return originalToString;
   }
 
   private void setCause(WrappedClientThrowable cause) {

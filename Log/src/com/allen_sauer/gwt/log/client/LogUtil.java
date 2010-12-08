@@ -113,7 +113,7 @@ public class LogUtil {
     if (throwable != null) {
       while (throwable != null) {
         String text1 = "";
-        text1 += throwable.getClass().getName() + ":\n" + throwable.getMessage() + "\n";
+        text1 += throwable.toString() + "\n";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         for (StackTraceElement element : stackTraceElements) {
           text1 += "    at " + element + "\n";

@@ -28,7 +28,7 @@ public class UnwrappedClientThrowable extends Throwable {
 
   private String message;
 
-  private String originalClassName;
+  private String originalToString;
 
   /**
    * Default constructor, required for RPC.
@@ -42,7 +42,7 @@ public class UnwrappedClientThrowable extends Throwable {
    * @param wrapped the wrapped client-side exception
    */
   private UnwrappedClientThrowable(WrappedClientThrowable wrapped) {
-    originalClassName = wrapped.getOriginalClassName();
+    originalToString = wrapped.getOriginalToString();
     message = wrapped.getMessage();
 
     StackTraceElement[] clientStackTrace = wrapped.getClientStackTrace();
@@ -111,22 +111,12 @@ public class UnwrappedClientThrowable extends Throwable {
   }
 
   /**
-   * Returns a string representation of the original exception.
+   * Returns the result of calling toString() on the original exception.
    * 
-   * The result is a concatenation of:
-   * <ul>
-   * <li>the {@link Class#getName() class name} of the original exception</li>
-   * <li> <code>": "</code> (a colon and a space)</li>
-   * <li>the result of {@link #getMessage()}</li>
-   * </ul>
-   * 
-   * If {@link #getMessage()} returns <code>null</code>, then just the {@link Class#getName() class
-   * name} of the original exception is returned
-   * 
-   * @return a string representation of the original exception
+   * @return the result of calling toString() on the original exception
    */
   @Override
   public String toString() {
-    return originalClassName + (message != null ? ": " + message : "");
+    return originalToString;
   }
 }

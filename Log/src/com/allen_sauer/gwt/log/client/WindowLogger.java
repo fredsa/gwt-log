@@ -73,7 +73,7 @@ public class WindowLogger implements Logger {
     if (throwable != null) {
       text += "\n";
       while (throwable != null) {
-        text += throwable.getClass().getName() + ":<br><b>" + throwable.getMessage() + "</b>";
+        text += "<b>" + throwable.toString() + "</b>";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         if (stackTraceElements.length > 0) {
           text += "<div class='log-stacktrace'>";

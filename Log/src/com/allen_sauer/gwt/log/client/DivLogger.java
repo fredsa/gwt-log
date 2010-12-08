@@ -279,7 +279,7 @@ public class DivLogger implements Logger {
     Throwable throwable = record.getThrowable();
     if (throwable != null) {
       while (throwable != null) {
-        text += throwable.getClass().getName() + ":<br><b>" + throwable.getMessage() + "</b>";
+        text += "<b>" + throwable.toString() + "</b>";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         if (stackTraceElements.length > 0) {
           text += "<div class='log-stacktrace'>";
