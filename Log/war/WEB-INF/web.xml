@@ -5,36 +5,40 @@
 
 <web-app>
 
-	<servlet>
-		<servlet-name>remoteLoggerServiceImpl</servlet-name>
-		<servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl</servlet-class>
-	</servlet>
+  <servlet>
+    <servlet-name>remoteLoggerServiceImpl</servlet-name>
+    <servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl</servlet-class>
+    <init-param>
+      <param-name>symbolMaps</param-name>
+      <param-value>WEB-INF/classes/clientserverdemo/symbolMaps</param-value>
+    </init-param>
+  </servlet>
 
-	<servlet>
-		<servlet-name>incrementServiceImpl</servlet-name>
-		<servlet-class>com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServiceImpl</servlet-class>
-	</servlet>
+  <servlet>
+    <servlet-name>incrementServiceImpl</servlet-name>
+    <servlet-class>com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServiceImpl</servlet-class>
+  </servlet>
 
 
-	<servlet-mapping>
-		<servlet-name>remoteLoggerServiceImpl</servlet-name>
-		<url-pattern>/demo/gwt-log</url-pattern>
-	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>remoteLoggerServiceImpl</servlet-name>
+    <url-pattern>/demo/gwt-log</url-pattern>
+  </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>remoteLoggerServiceImpl</servlet-name>
-		<url-pattern>/gettingstarted/gwt-log</url-pattern>
-	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>remoteLoggerServiceImpl</servlet-name>
+    <url-pattern>/gettingstarted/gwt-log</url-pattern>
+  </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>remoteLoggerServiceImpl</servlet-name>
-		<url-pattern>/clientserverdemo/gwt-log</url-pattern>
-	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>remoteLoggerServiceImpl</servlet-name>
+    <url-pattern>/clientserverdemo/gwt-log</url-pattern>
+  </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>incrementServiceImpl</servlet-name>
-		<url-pattern>/clientserverdemo/increment</url-pattern>
-	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>incrementServiceImpl</servlet-name>
+    <url-pattern>/clientserverdemo/increment</url-pattern>
+  </servlet-mapping>
 
 </web-app>
 
