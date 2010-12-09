@@ -15,10 +15,109 @@
  */
 package com.allen_sauer.gwt.log.client;
 
+import com.allen_sauer.gwt.log.shared.LogRecord;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * Fake RemoteLogger, which is used by default when the gwt-log-RemoteLogger
  * module has not been inherited by the application.
  */
 public class RemoteLogger extends NullLogger {
+  private final ArrayList<Logger> loggers = new ArrayList<Logger>();
+
+  /**
+   * Retrieves a previously added logger or null if the logger was not added.
+   * 
+   * @param <T> the type of logger to be retrieved
+   * @param clazz the class of the logger to retrieve
+   * @return the desired logger instance or null
+   */
+  @SuppressWarnings("unchecked")
+  public final <T extends Logger> T getLogger(Class<T> clazz) {
+    for (Logger logger : loggers) {
+      if (logger.getClass() == clazz) {
+        return (T) logger;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Adds a logger.
+   * 
+   * @param logger the logger to add
+   */
+  public void loggersAdd(Logger logger) {
+    if (logger.isSupported()) {
+      loggers.add(logger);
+    }
+  }
+
+  /**
+   * Call {@link #clear()} on all the loggers.
+   */
+  public final void loggersClear() {
+    //self
+    clear();
+
+    //others
+    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = iterator.next();
+      try {
+        logger.clear();
+      } catch (RuntimeException e) {
+        reportAndRemoteLogger(iterator, logger, e);
+      }
+    }
+  }
+
+  /**
+   * Call {@link #log(LogRecord)} on all the loggers. In this implementation we just pass the call
+   * to all our loggers immediately.
+   * 
+   * @see RemoteLoggerImpl#log(LogRecord)
+   * 
+   * @param record the LogRecord to log.
+   */
+  public void loggersLog(LogRecord record) {
+    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = iterator.next();
+      try {
+        logger.log(record);
+      } catch (RuntimeException e1) {
+        reportAndRemoteLogger(iterator, logger, e1);
+      }
+    }
+  }
+
+  /**
+   * Call {@link #setCurrentLogLevel(int)} on all the loggers.
+   * 
+   * @param level the new log level
+   */
+  public void loggersSetCurrentLogLevel(int level) {
+    //self
+    setCurrentLogLevel(level);
+
+    //others
+    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
+      Logger logger = iterator.next();
+      try {
+        logger.setCurrentLogLevel(level);
+      } catch (RuntimeException e) {
+        reportAndRemoteLogger(iterator, logger, e);
+      }
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  private void reportAndRemoteLogger(
+      final Iterator<Logger> iterator, final Logger logger, final RuntimeException e) {
+    iterator.remove();
+    loggers.remove(logger);
+    Log.diagnostic("Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e);
+  }
 
 }

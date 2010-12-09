@@ -70,6 +70,16 @@ public class WrappedClientThrowable implements Serializable {
     return originalToString;
   }
 
+  /**
+   * Replace the current client stack trace with a new one. This is used in the deobfuscation
+   * process.
+   * 
+   * @param clientStackTrace the new client stack trace
+   */
+  public void setClientStackTrace(StackTraceElement[] clientStackTrace) {
+    this.clientStackTrace = clientStackTrace;
+  }
+
   private void setCause(WrappedClientThrowable cause) {
     this.cause = cause;
   }

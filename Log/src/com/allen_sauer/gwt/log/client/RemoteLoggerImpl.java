@@ -23,6 +23,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.allen_sauer.gwt.log.shared.LogRecord;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Logger which sends output via RPC to the server where it can be logged and aggregated.
@@ -35,7 +36,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
   private static final int MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED = 5 * 60 * 1000; // 5 mins
   private static int messageQueueingDelayMillis = MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE;
   private static final String REMOTE_LOGGER_NAME = "Remote Logger";
-  private final AsyncCallback<Void> callback;
+  private final AsyncCallback<ArrayList<LogRecord>> callback;
   private boolean callInProgressOrScheduled = false;
   private Throwable failure;
   private final ArrayList<LogRecord> logMessageList = new ArrayList<LogRecord>();
@@ -67,7 +68,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
       target.setServiceEntryPoint(serviceEntryPointUrl);
     }
 
-    callback = new AsyncCallback<Void>() {
+    callback = new AsyncCallback<ArrayList<LogRecord>>() {
 
       public void onFailure(Throwable ex) {
         String serviceEntryPoint = ((ServiceDefTarget) service).getServiceEntryPoint();
@@ -81,6 +82,12 @@ public final class RemoteLoggerImpl extends RemoteLogger {
                   + (logMessageList.size() + queuedMessageList.size())
                   + " log message(s) not delivered", null);
           failure = ex;
+
+          // log queued messages to other loggers before purging
+          loggersLogToOthers(queuedMessageList);
+          loggersLogToOthers(logMessageList);
+
+          //purge
           logMessageList.clear();
           queuedMessageList.clear();
         } else {
@@ -97,11 +104,19 @@ public final class RemoteLoggerImpl extends RemoteLogger {
         messageQueueingDelayMillis += messageQueueingDelayMillis;
       }
 
-      public void onSuccess(Void result) {
-        messageQueueingDelayMillis = MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE;
+      public void onSuccess(ArrayList<LogRecord> deobfuscatedLogRecords) {
+        loggersLogToOthers(deobfuscatedLogRecords);
         queuedMessageList.clear();
+        messageQueueingDelayMillis = MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE;
         callInProgressOrScheduled = false;
         maybeTriggerRPC();
+      }
+
+      private void loggersLogToOthers(ArrayList<LogRecord> logRecords) {
+        for (Iterator<LogRecord> iterator = logRecords.iterator(); iterator.hasNext();) {
+          LogRecord record = iterator.next();
+          RemoteLoggerImpl.super.loggersLog(record);
+        }
       }
     };
   }
@@ -118,14 +133,22 @@ public final class RemoteLoggerImpl extends RemoteLogger {
   @Override
   public void log(LogRecord record) {
     if (failure != null) {
+      // remote logger has been disabled; just pass on log messages to other loggers
+      super.loggersLog(record);
       return;
     }
     if (record.getLevel() == Log.LOG_LEVEL_OFF) {
-      // don't forward gwt-log diagnostic messages
+      // don't forward gwt-log diagnostic messages to the server; just pass on log messages to others
+      super.loggersLog(record);
       return;
     }
     logMessageList.add(record);
     maybeTriggerRPC();
+  }
+
+  @Override
+  public void loggersLog(LogRecord record) {
+    log(record);
   }
 
   @Override

@@ -34,9 +34,6 @@ import com.allen_sauer.gwt.log.client.SystemLogger;
 import com.allen_sauer.gwt.log.client.WindowLogger;
 import com.allen_sauer.gwt.log.shared.LogRecord;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
  * Common implementation for all classes that are not expected to be compiled out, i.e. all
  * {@link LogImplInterface} subclasses except for {@link LogImplOff}).
@@ -109,28 +106,20 @@ public abstract class LogImplBase extends LogImpl {
 
   private int currentLogLevel = getLowestLogLevel();
 
-  private final ArrayList<Logger> loggers = new ArrayList<Logger>();
+  /**
+   * Either a real remote logger, or a proxy remote logger.
+   */
+  private final RemoteLogger remoteLogger = GWT.create(RemoteLogger.class);
 
   public LogImplBase() {
   }
 
   public final void addLogger(Logger logger) {
-    if (logger.isSupported()) {
-      loggers.add(logger);
-    }
+    remoteLogger.loggersAdd(logger);
   }
 
   public final void clear() {
-    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = iterator.next();
-      try {
-        logger.clear();
-      } catch (RuntimeException e1) {
-        iterator.remove();
-        diagnostic(
-            "Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
-      }
-    }
+    remoteLogger.loggersClear();
   }
 
   public final void debug(String category, String message, JavaScriptObject e) {
@@ -177,14 +166,8 @@ public abstract class LogImplBase extends LogImpl {
     return currentLogLevel;
   }
 
-  @SuppressWarnings("unchecked")
   public final <T extends Logger> T getLogger(Class<T> clazz) {
-    for (Logger logger : loggers) {
-      if (logger.getClass() == clazz) {
-        return (T) logger;
-      }
-    }
-    return null;
+    return remoteLogger.getLogger(clazz);
   }
 
   public final void info(String category, String message, JavaScriptObject e) {
@@ -204,7 +187,6 @@ public abstract class LogImplBase extends LogImpl {
     addLogger((Logger) GWT.create(SystemLogger.class));
     addLogger((Logger) GWT.create(FirebugLogger.class));
     addLogger((Logger) GWT.create(ConsoleLogger.class));
-    addLogger((Logger) GWT.create(RemoteLogger.class));
 
     // GWT hacking may prevent the DOM/UI from working properly
     try {
@@ -267,16 +249,7 @@ public abstract class LogImplBase extends LogImpl {
   }
 
   public void sendToLoggers(LogRecord record) {
-    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = iterator.next();
-      try {
-        logger.log(record);
-      } catch (RuntimeException e1) {
-        iterator.remove();
-        diagnostic(
-            "Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
-      }
-    }
+    remoteLogger.loggersLog(record);
   }
 
   public final int setCurrentLogLevel(int level) {
@@ -337,16 +310,7 @@ public abstract class LogImplBase extends LogImpl {
       level = getLowestLogLevel();
     }
 
-    for (Iterator<Logger> iterator = loggers.iterator(); iterator.hasNext();) {
-      Logger logger = iterator.next();
-      try {
-        logger.setCurrentLogLevel(level);
-      } catch (RuntimeException e1) {
-        iterator.remove();
-        diagnostic(
-            "Removing '" + logger.getClass().getName() + "' due to unexecpted exception", e1);
-      }
-    }
+    remoteLogger.loggersSetCurrentLogLevel(level);
     return level;
   }
 
