@@ -15,7 +15,6 @@
  */
 package com.allen_sauer.gwt.log.server;
 
-import com.google.gwt.logging.server.StackTraceDeobfuscator;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -46,6 +45,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
    */
   private static final String X_FORWARDED_FOR = "X-Forwarded-For";
 
+  // TODO Replace this class with the standard GWT version in GWT 2.2
   private StackTraceDeobfuscator deobfuscator;
 
   @Override
