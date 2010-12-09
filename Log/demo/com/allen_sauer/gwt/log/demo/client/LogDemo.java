@@ -14,9 +14,9 @@
 package com.allen_sauer.gwt.log.demo.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.Command;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -34,9 +34,8 @@ public class LogDemo implements EntryPoint {
     // set uncaught exception handler
     Log.setUncaughtExceptionHandler();
 
-    // use a deferred command so that the handler catches onModuleLoad2()
-    // exceptions
-    DeferredCommand.addCommand(new Command() {
+    // use deferred command to catch initialization exceptions in onModuleLoad2
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       public void execute() {
         onModuleLoad2();
       }
