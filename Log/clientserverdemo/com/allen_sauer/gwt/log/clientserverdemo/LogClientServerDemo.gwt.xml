@@ -26,7 +26,7 @@
   <!-- Enable RemoteLogger -->
   <inherits name="com.allen_sauer.gwt.log.gwt-log-RemoteLogger" />
 
-	<!--
+  <!--
     Disable client side loggers in development mode, so we can focus on the
     output from our RemoteLogger.
   -->
@@ -37,10 +37,23 @@
 	<!--
 		Specify the app entry point class.
 	-->
-	<entry-point
-		class="com.allen_sauer.gwt.log.clientserverdemo.client.LogClientServerDemo" />
+  <entry-point
+    class="com.allen_sauer.gwt.log.clientserverdemo.client.LogClientServerDemo" />
 
-	<servlet path="/increment"
-		class="com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServiceImpl" />
+  <!-- A simple RPC servlet for use in this demo -->
+  <servlet path="/increment"
+    class="com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServiceImpl" />
 
+  <!-- Improve raw JavaScript stack traces information in certain browser, but increases size of compiled JavaScript -->
+  <set-property name="compiler.emulatedStack" value="true" />
+
+  <!-- Adds more precise line number information to raw JavaScript or for server side stack trace deobfuscation -->
+  <set-configuration-property name="compiler.emulatedStack.recordLineNumbers"
+    value="true" />
+    
+  <!-- Not needed for deobfuscation, but would raw help JavaScript stack traces:
+  <set-configuration-property name="compiler.emulatedStack.recordFileNames"
+    value="true" />
+  -->
+    
 </module>
