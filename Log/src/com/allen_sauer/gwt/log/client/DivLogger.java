@@ -14,6 +14,8 @@
 package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasAllMouseHandlers;
@@ -26,9 +28,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -83,8 +83,8 @@ public class DivLogger implements Logger {
     }
 
     private void resize(int width, int height) {
-      scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)), Math.max(100,
-          (int) (Window.getClientHeight() * .3)));
+      scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)),
+          Math.max(100, (int) (Window.getClientHeight() * .3)));
     }
 
     private void setVisibleImpl(boolean visible) {
@@ -245,7 +245,7 @@ public class DivLogger implements Logger {
         dirty = false;
         logTextArea.setHTML(logTextArea.getHTML() + logText);
         logText = "";
-        DeferredCommand.addCommand(new Command() {
+        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
           public void execute() {
             scrollPanel.setScrollPosition(MAX_VERTICAL_SCROLL);
           }
@@ -279,6 +279,10 @@ public class DivLogger implements Logger {
     Throwable throwable = record.getThrowable();
     if (throwable != null) {
       while (throwable != null) {
+        /* Use throwable.toString() and not throwable.getClass().getName() and
+         * throwable.getMessage(), so that instances of UnwrappedClientThrowable, when stack trace
+         * deobfuscation is enabled) display properly
+         */
         text += "<b>" + throwable.toString() + "</b>";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         if (stackTraceElements.length > 0) {
@@ -295,10 +299,11 @@ public class DivLogger implements Logger {
       }
     }
     text = text.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText("<div class='" + LogClientBundle.INSTANCE.css().logMessage()
-        + "' onmouseover='className+=\" log-message-hover\"' "
-        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
-        + getColor(record.getLevel()) + "' title='" + title + "'>" + text + "</div>");
+    addLogText(
+        "<div class='" + LogClientBundle.INSTANCE.css().logMessage()
+            + "' onmouseover='className+=\" log-message-hover\"' "
+            + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
+            + getColor(record.getLevel()) + "' title='" + title + "'>" + text + "</div>");
   }
 
   public final void moveTo(int x, int y) {
@@ -312,11 +317,12 @@ public class DivLogger implements Logger {
       } else {
         String levelText = LogUtil.levelToString(levels[i]);
         boolean current = level == levels[i];
-        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
-            + "'" : "Set current (runtime) log level to '" + levelText + "'");
+        levelButtons[i].setTitle(
+            current ? "Current (runtime) log level is already '" + levelText + "'" :
+                "Set current (runtime) log level to '" + levelText + "'");
         boolean active = level <= levels[i];
-        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
-            : "#ccc");
+        DOM.setStyleAttribute(
+            levelButtons[i].getElement(), "color", active ? getColor(levels[i]) : "#ccc");
       }
     }
   }
@@ -438,8 +444,8 @@ public class DivLogger implements Logger {
             throwable.getClass().getName().replaceAll("^(.+\\.).+$", "$1"), "");
       }
     }
-    return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(
-        "'", "\"");
+    return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(
+        ">", "&gt;").replaceAll("'", "\"");
   }
 
 }

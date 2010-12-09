@@ -17,8 +17,6 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 
-import com.allen_sauer.gwt.log.rebind.LogMessageFormatterGenerator;
-
 import java.util.Date;
 
 // CHECKSTYLE_JAVADOC_OFF
@@ -41,8 +39,9 @@ public class LogUtil {
   }
 
   /**
-   * Helper method used by {@link LogMessageFormatterGenerator}. For example, the category
-   * "com.example.foo.MyClass" with precision 2 will result in "foo.Myclass" being returned.
+   * Helper method used by {@link com.allen_sauer.gwt.log.rebind.LogMessageFormatterGenerator}.
+   * For example, the category <code>com.example.foo.MyClass</code> with precision 2 will result in
+   * <code>foo.Myclass</code> being returned.
    */
   public static String formatCategory(String category, int precision) {
     if (precision < 1) {
@@ -56,7 +55,7 @@ public class LogUtil {
   }
 
   /**
-   * Helper method used by {@link LogMessageFormatterGenerator}
+   * Helper method used by {@link com.allen_sauer.gwt.log.rebind.LogMessageFormatterGenerator}
    */
   public static String formatDate(Date date, String formatMask) {
     // TODO don't instantiate a new DateTimeFormat each time this method is called
@@ -108,11 +107,16 @@ public class LogUtil {
     return len < minLength ? text + SPACES.substring(0, minLength - len) : text;
   }
 
+  // TODO move DivLogger/WindowLogger stack trace formatting to this class
   public static String stackTraceToString(Throwable throwable) {
     String text = "";
     if (throwable != null) {
       while (throwable != null) {
         String text1 = "";
+        /* Use throwable.toString() and not throwable.getClass().getName() and
+         * throwable.getMessage(), so that instances of UnwrappedClientThrowable, when stack trace
+         * deobfuscation is enabled) display properly
+         */
         text1 += throwable.toString() + "\n";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         for (StackTraceElement element : stackTraceElements) {

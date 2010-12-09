@@ -73,6 +73,10 @@ public class WindowLogger implements Logger {
     if (throwable != null) {
       text += "\n";
       while (throwable != null) {
+        /* Use throwable.toString() and not throwable.getClass().getName() and
+         * throwable.getMessage(), so that instances of UnwrappedClientThrowable, when stack trace
+         * deobfuscation is enabled) display properly
+         */
         text += "<b>" + throwable.toString() + "</b>";
         StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         if (stackTraceElements.length > 0) {
@@ -89,10 +93,11 @@ public class WindowLogger implements Logger {
       }
     }
     text = text.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText("<div class='" + LogClientBundle.INSTANCE.css().logMessage()
-        + "' onmouseover='className+=\" log-message-hover\"' "
-        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
-        + getColor(record.getLevel()) + "' title='" + title + "'>" + text + "</div>");
+    addLogText(
+        "<div class='" + LogClientBundle.INSTANCE.css().logMessage()
+            + "' onmouseover='className+=\" log-message-hover\"' "
+            + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
+            + getColor(record.getLevel()) + "' title='" + title + "'>" + text + "</div>");
   }
 
   public void setCurrentLogLevel(int level) {
@@ -154,8 +159,8 @@ public class WindowLogger implements Logger {
             throwable.getClass().getName().replaceAll("^(.+\\.).+$", "$1"), "");
       }
     }
-    return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(
-        "'", "\"");
+    return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(
+        ">", "&gt;").replaceAll("'", "\"");
   }
 
   private void openNewWindow() {
