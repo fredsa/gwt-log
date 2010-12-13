@@ -25,41 +25,41 @@ import com.allen_sauer.gwt.log.client.impl.LogImpl;
 public final class Log {
   private static LogImpl impl;
   /**
-   * Constant <code>int</code> value <CODE>10000</CODE>, representing <code>DEBUG</code> logging
+   * Constant <code>int</code> value <CODE>{@value}</CODE>, representing <code>DEBUG</code> logging
    * level, to display debugging messages or higher.
    */
   public static final int LOG_LEVEL_DEBUG = 10000;
   /**
-   * Constant <code>int</code> value <CODE>40000</CODE>, representing <code>ERROR</code> logging
+   * Constant <code>int</code> value <CODE>{@value}</CODE>, representing <code>ERROR</code> logging
    * level, to display error messages or higher.
    */
   public static final int LOG_LEVEL_ERROR = 40000;
 
   /**
-   * Constant <code>int</code> value <CODE>50000</CODE>, representing <code>FATAL</code> logging
+   * Constant <code>int</code> value <CODE>{@value}</CODE>, representing <code>FATAL</code> logging
    * level, to display fatal messages or higher.
    */
   public static final int LOG_LEVEL_FATAL = 50000;
 
   /**
-   * Constant <code>int</code> value <CODE>20000</CODE>, representing <code>INT</code> logging
+   * Constant <code>int</code> value <CODE>{@value}</CODE>, representing <code>INT</code> logging
    * level, to display informational messages or higher.
    */
   public static final int LOG_LEVEL_INFO = 20000;
 
   /**
-   * Logging disabled. Equivalent to <CODE>Integer.MAX_VALUE</CODE>.
+   * Logging disabled. Equivalent to <CODE>{@value}</CODE>.
    */
   public static final int LOG_LEVEL_OFF = Integer.MAX_VALUE;
 
   /**
-   * Constant <code>int</code> value <CODE>5000</CODE>, representing <code>TRACE</code> logging
+   * Constant <code>int</code> value <CODE>{@value}</CODE>, representing <code>TRACE</code> logging
    * level, to display trace messages or higher.
    */
   public static final int LOG_LEVEL_TRACE = 5000;
 
   /**
-   * Constant <code>int</code> value <CODE>30000</CODE>, representing <code>WARN</code> logging
+   * Constant <code>int</code> value <CODE>{@value}</CODE>, representing <code>WARN</code> logging
    * level, to display warning messages or higher.
    */
   public static final int LOG_LEVEL_WARN = 30000;
