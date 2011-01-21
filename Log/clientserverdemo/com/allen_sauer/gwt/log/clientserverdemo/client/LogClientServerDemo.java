@@ -72,5 +72,18 @@ public class LogClientServerDemo implements EntryPoint {
         Log.setCurrentLogLevel(Log.LOG_LEVEL_OFF); // should still output client side
       }
     }.schedule(2000);
+
+    new Timer() {
+      @Override
+      public void run() {
+        Log.setCurrentLogLevel(Log.LOG_LEVEL_FATAL);
+        Log.fatal("Here it comes...");
+        try {
+          throw new NullPointerException("catch me if you can");
+        } catch (Exception e) {
+          throw new RuntimeException("log me on the server if you will", e);
+        }
+      }
+    }.schedule(4000);
   }
 }
