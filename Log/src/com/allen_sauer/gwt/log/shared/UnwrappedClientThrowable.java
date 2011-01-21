@@ -26,6 +26,8 @@ public class UnwrappedClientThrowable extends Throwable {
     return wrapped == null ? null : new UnwrappedClientThrowable(wrapped);
   }
 
+  private UnwrappedClientThrowable cause;
+
   private String message;
 
   private String originalToString;
@@ -55,6 +57,10 @@ public class UnwrappedClientThrowable extends Throwable {
       }
       setStackTrace(stackTrace);
     }
+    WrappedClientThrowable wrappedcause = wrapped.getCause();
+    if (wrappedcause != null) {
+      this.cause = new UnwrappedClientThrowable(wrappedcause);
+    }
   }
 
   /**
@@ -68,13 +74,13 @@ public class UnwrappedClientThrowable extends Throwable {
   }
 
   /**
-   * Returns null.
+   * Returns an {@link UnwrappedClientThrowable}.
    * 
-   * @return null
+   * @return the {@link UnwrappedClientThrowable}
    */
   @Override
-  public Throwable getCause() {
-    return null;
+  public UnwrappedClientThrowable getCause() {
+    return cause;
   }
 
   /**
