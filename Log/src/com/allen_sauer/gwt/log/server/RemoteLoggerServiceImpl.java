@@ -13,6 +13,7 @@
  */
 package com.allen_sauer.gwt.log.server;
 
+import com.google.gwt.logging.server.StackTraceDeobfuscator;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -21,6 +22,7 @@ import com.allen_sauer.gwt.log.shared.LogRecord;
 import com.allen_sauer.gwt.log.shared.WrappedClientThrowable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.servlet.ServletConfig;
@@ -42,8 +44,9 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
    */
   private static final String X_FORWARDED_FOR = "X-Forwarded-For";
 
-  // TODO Replace this class with the standard GWT version in GWT 2.2
   private StackTraceDeobfuscator deobfuscator;
+
+  private final HashSet<String> permutationStrongNamesChecked = new HashSet<String>();
 
   @SuppressWarnings("deprecation")
   @Override
@@ -51,10 +54,9 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     super.init(config);
     String symbolMaps = config.getInitParameter(PARAMETER_SYMBOL_MAPS);
     if (symbolMaps == null) {
-      Log.diagnostic(
-          "In order to enable stack trace deobfuscation, please specify the '"
-              + PARAMETER_SYMBOL_MAPS + "' <init-param> for the "
-              + RemoteLoggerServiceImpl.class.getName() + " servlet in your web.xml", null);
+      Log.warn("In order to enable stack trace deobfuscation, please specify the '"
+          + PARAMETER_SYMBOL_MAPS + "' <init-param> for the "
+          + RemoteLoggerServiceImpl.class.getName() + " servlet in your web.xml");
       return;
     }
     deobfuscator = new StackTraceDeobfuscator(symbolMaps);
@@ -80,6 +82,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     return logRecords;
   }
 
+  @SuppressWarnings("deprecation")
   private void deobfuscate(LogRecord record) {
     WrappedClientThrowable wrappedClientThrowable = record.getModifiableWrappedClientThrowable();
 
@@ -88,9 +91,28 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
       return;
     }
 
-    StackTraceElement[] stackTrace = wrappedClientThrowable.getClientStackTrace();
-    stackTrace = deobfuscator.deobfuscateStackTrace(stackTrace, getPermutationStrongName());
+    String permutationStrongName = getPermutationStrongName();
+    StackTraceElement[] originalStackTrace = wrappedClientThrowable.getClientStackTrace();
+    StackTraceElement[] deobfuscatedStackTrace = deobfuscator.deobfuscateStackTrace(
+        originalStackTrace, permutationStrongName);
 
-    wrappedClientThrowable.setClientStackTrace(stackTrace);
+    // Verify each permutation once that a symbolMap is available
+    if (permutationStrongNamesChecked.add(permutationStrongName)) {
+      if (equal(originalStackTrace, deobfuscatedStackTrace)) {
+        Log.warn("Failed to deobfuscate stack trace for permutation " + permutationStrongName
+            + ". Verify that the corresponding symbolMap is available.");
+      }
+    }
+
+    wrappedClientThrowable.setClientStackTrace(deobfuscatedStackTrace);
+  }
+
+  private boolean equal(StackTraceElement[] st1, StackTraceElement[] st2) {
+    for (int i = 0; i < st2.length; i++) {
+      if (!st1[i].equals(st2[i])) {
+        return false;
+      }
+    }
+    return true;
   }
 }
