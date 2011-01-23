@@ -22,7 +22,6 @@ import com.allen_sauer.gwt.log.shared.WrappedClientThrowable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -90,17 +89,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     }
 
     StackTraceElement[] stackTrace = wrappedClientThrowable.getClientStackTrace();
-
-    // GWT 2.1 deobfuscation hack
-    Throwable t = new Throwable();
-    t.setStackTrace(stackTrace);
-    java.util.logging.LogRecord rec = new java.util.logging.LogRecord(Level.SEVERE, null);
-    rec.setThrown(t);
-    deobfuscator.deobfuscateLogRecord(rec, getPermutationStrongName());
-    stackTrace = rec.getThrown().getStackTrace();
-
-    // TODO switch to simplified GWT 2.2 deobfuscation code
-    // deobfuscator.deobfuscateStackTrace(stackTrace, getPermutationStrongName());
+    stackTrace = deobfuscator.deobfuscateStackTrace(stackTrace, getPermutationStrongName());
 
     wrappedClientThrowable.setClientStackTrace(stackTrace);
   }
