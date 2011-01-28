@@ -34,10 +34,8 @@ public final class FirebugLogger implements Logger {
   }-*/;
 
   public void log(LogRecord record) {
-    String[] lines = (record.getFormattedMessage() + LogUtil.stackTraceToString(record.getThrowable())).split("\n");
-    for (int i = 0; i < lines.length; i++) {
-      logMessage(record.getLevel(), lines[i]);
-    }
+    logMessage(record.getLevel(),
+        record.getFormattedMessage() + LogUtil.stackTraceToString(record.getThrowable()));
   }
 
   public void setCurrentLogLevel(int level) {
