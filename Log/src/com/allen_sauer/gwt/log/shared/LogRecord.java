@@ -1,16 +1,14 @@
 /*
  * Copyright 2010 Fred Sauer
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.log.shared;
@@ -33,8 +31,8 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class LogRecord implements Serializable {
 
-  static final LogMessageFormatter FORMATTER = (LogMessageFormatter) (GWT.isClient() ? GWT.create(
-      LogMessageFormatter.class) : null);
+  static final LogMessageFormatter FORMATTER = (LogMessageFormatter) (GWT.isClient()
+      ? GWT.create(LogMessageFormatter.class) : null);
   private static int gloablRecordSequence;
   private String category;
   private int level;
@@ -73,8 +71,8 @@ public class LogRecord implements Serializable {
    */
   public String getFormattedMessage() {
     assert GWT.isClient() : "Method should only be called in Client Code";
-    return level == Log.LOG_LEVEL_OFF ? message : FORMATTER.format(
-        LogUtil.levelToString(level), category, message);
+    return level == Log.LOG_LEVEL_OFF ? message : FORMATTER.format(LogUtil.levelToString(level),
+        category, message, throwable);
   }
 
   /**
@@ -105,6 +103,16 @@ public class LogRecord implements Serializable {
   }
 
   /**
+   * Get the wrapped client throwable, suitable for serialization with RPC serialization code
+   * penalty.
+   * 
+   * @return the wrapped client throwable
+   */
+  public WrappedClientThrowable getModifiableWrappedClientThrowable() {
+    return wrappedClientThrowable;
+  }
+
+  /**
    * Retrieve the global client-side or server-side sequence number for this log record.
    * 
    * @return the global client-side or server-side sequence number
@@ -119,18 +127,8 @@ public class LogRecord implements Serializable {
    * @return the original or reconstituted throwable
    */
   public Throwable getThrowable() {
-    return throwable != null ? throwable : UnwrappedClientThrowable.getInstanceOrNull(
-        wrappedClientThrowable);
-  }
-
-  /**
-   * Get the wrapped client throwable, suitable for serialization with RPC serialization code
-   * penalty.
-   * 
-   * @return the wrapped client throwable
-   */
-  public WrappedClientThrowable getModifiableWrappedClientThrowable() {
-    return wrappedClientThrowable;
+    return throwable != null ? throwable
+        : UnwrappedClientThrowable.getInstanceOrNull(wrappedClientThrowable);
   }
 
   /**

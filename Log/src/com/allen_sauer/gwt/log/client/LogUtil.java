@@ -1,16 +1,14 @@
 /*
  * Copyright 2009 Fred Sauer
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.log.client;
@@ -21,6 +19,11 @@ import java.util.Date;
 
 // CHECKSTYLE_JAVADOC_OFF
 public class LogUtil {
+  private static final String[] IGNORE_CLASSNAME_PREFIXES = {
+      "com.allen_sauer.gwt.log.client.", "com.allen_sauer.gwt.log.shared.",
+      "com.google.gwt.dev.shell.", "sun.reflect.", "java.lang.reflect.", "java.lang.Thread",
+      "com.google.gwt.core.client.impl.Impl"};
+
   private static final String LOG_LEVEL_TEXT_DEBUG = "DEBUG";
   private static final String LOG_LEVEL_TEXT_ERROR = "ERROR";
   private static final String LOG_LEVEL_TEXT_FATAL = "FATAL";
@@ -28,6 +31,7 @@ public class LogUtil {
   private static final String LOG_LEVEL_TEXT_OFF = "OFF";
   private static final String LOG_LEVEL_TEXT_TRACE = "TRACE";
   private static final String LOG_LEVEL_TEXT_WARN = "WARN";
+
   private static final String SPACES;
 
   static {
@@ -62,18 +66,29 @@ public class LogUtil {
     return DateTimeFormat.getFormat(formatMask).format(date);
   }
 
-  public static StackTraceElement getCallingStackTraceElement() {
-    StackTraceElement[] stackTrace = new Throwable().getStackTrace();
-    for (int i = 0; i < stackTrace.length; i++) {
-      if (stackTrace[i].getClassName().startsWith("com.allen_sauer.gwt.log.client.")) {
-        continue;
-      }
-      if (stackTrace[i].getClassName().startsWith("com.allen_sauer.gwt.log.shared.")) {
-        continue;
+  /**
+   * @param throwable optional exception
+   * @return the calling stack trace element
+   */
+  public static StackTraceElement getCallingStackTraceElement(Throwable throwable) {
+    if (throwable == null) {
+      throwable = new Throwable();
+    }
+    while (throwable.getCause() != null) {
+      throwable = throwable.getCause();
+    }
+    StackTraceElement[] stackTrace = throwable.getStackTrace();
+    stacktrace : for (int i = 0; i < stackTrace.length; i++) {
+      String className = stackTrace[i].getClassName();
+      for (int j = 0; j < IGNORE_CLASSNAME_PREFIXES.length; j++) {
+        if (className.startsWith(IGNORE_CLASSNAME_PREFIXES[j])) {
+          continue stacktrace;
+        }
       }
       return stackTrace[i];
     }
-    return stackTrace[stackTrace.length];
+    return new StackTraceElement("UnknownDeclaringClass", "UnknownMethodName", "UnknownFileName",
+        -1);
   }
 
   public static String levelToString(int level) {
