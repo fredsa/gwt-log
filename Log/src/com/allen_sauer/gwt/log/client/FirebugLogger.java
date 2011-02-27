@@ -13,45 +13,10 @@
  */
 package com.allen_sauer.gwt.log.client;
 
-import com.allen_sauer.gwt.log.shared.LogRecord;
-
 /**
- * Logger which sends output via <a href="http://www.getfirebug.com/">Firebug</a> or <a
- * href="http://www.getfirebug.com/lite.html">Firebug Lite</a> via <code>$wnd.console.debug()</code>
- * , <code>$wnd.console.info()</code>, <code>$wnd.console.warn()</code> and
- * <code>$wnd.console.error()</code> if <code>$wnd.console.firebug</code> is defined.
+ * Deprecated logger.
+ * @deprecated used {@link ConsoleLogger} instead
  */
-public final class FirebugLogger implements Logger {
-  // CHECKSTYLE_JAVADOC_OFF
-
-  public void clear() {
-  }
-
-  public native boolean isSupported() /*-{
-    // Consciously using 'window' rather than '$wnd'
-    // See http://code.google.com/p/fbug/issues/detail?id=2914
-    return !!(window.console && window.console.firebug);
-  }-*/;
-
-  public void log(LogRecord record) {
-    logMessage(record.getLevel(),
-        record.getFormattedMessage() + LogUtil.stackTraceToString(record.getThrowable()));
-  }
-
-  public void setCurrentLogLevel(int level) {
-  }
-
-  private native void logMessage(int logLevel, String message) /*-{
-    // Consciously using 'window' rather than '$wnd'
-    // See http://code.google.com/p/fbug/issues/detail?id=2914
-    if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_ERROR) {
-    window.console.error(message);
-    } else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_WARN) {
-    window.console.warn(message);
-    } else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_INFO) {
-    window.console.info(message);
-    } else {
-    window.console.debug(message);
-    }
-  }-*/;
+@Deprecated
+public final class FirebugLogger extends NullLogger {
 }

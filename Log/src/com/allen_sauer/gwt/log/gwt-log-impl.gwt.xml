@@ -99,6 +99,15 @@
   </replace-with>
 
 
+  <!-- FirebugLogger -->
+
+  <define-property name="log_FirebugLogger" values="ENABLED, DISABLED" />
+
+  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
+    <when-type-is class="com.allen_sauer.gwt.log.client.FirebugLogger" />
+  </replace-with>
+
+
   <!-- DivLogger -->
 
   <define-property name="log_DivLogger" values="ENABLED, DISABLED" />
@@ -107,21 +116,9 @@
     <when-type-is class="com.allen_sauer.gwt.log.client.DivLogger" />
     <none>
       <when-property-is name="log_DivLogger" value="ENABLED" />
-    </none>
-  </replace-with>
-
-
-  <!-- FirebugLogger -->
-
-  <define-property name="log_FirebugLogger" values="ENABLED, DISABLED" />
-
-  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
-    <when-type-is class="com.allen_sauer.gwt.log.client.FirebugLogger" />
-    <none>
       <when-property-is name="log_FirebugLogger" value="ENABLED" />
     </none>
   </replace-with>
-
 
   <!-- GWTLogger -->
 
