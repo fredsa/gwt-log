@@ -22,7 +22,6 @@ import com.google.gwt.user.client.Window.Location;
 
 import com.allen_sauer.gwt.log.client.ConsoleLogger;
 import com.allen_sauer.gwt.log.client.DivLogger;
-import com.allen_sauer.gwt.log.client.FirebugLogger;
 import com.allen_sauer.gwt.log.client.GWTLogger;
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.LogUtil;
@@ -71,26 +70,26 @@ public abstract class LogImplBase extends LogImpl {
 
   private static native boolean handleOnError(String msg, String url, int line)
   /*-{
-    @com.allen_sauer.gwt.log.client.Log::fatal(Ljava/lang/String;)("Uncaught JavaScript exception [" + msg + "] in " + url + ", line " + line);
-    return true;
+		@com.allen_sauer.gwt.log.client.Log::fatal(Ljava/lang/String;)("Uncaught JavaScript exception [" + msg + "] in " + url + ", line " + line);
+		return true;
   }-*/;
 
   private static native String javaScriptExceptionDescription(JavaScriptObject e)
   /*-{
-    try {
-     return e.message;
-    } catch(ex) {
-     return "[e has no message]";
-    }
+		try {
+			return e.message;
+		} catch (ex) {
+			return "[e has no message]";
+		}
   }-*/;
 
   private static native String javaScriptExceptionName(JavaScriptObject e)
   /*-{
-    try {
-     return e.name;
-    } catch(ex) {
-     return "[e has no name]";
-    }
+		try {
+			return e.name;
+		} catch (ex) {
+			return "[e has no name]";
+		}
   }-*/;
 
   /**
@@ -98,7 +97,7 @@ public abstract class LogImplBase extends LogImpl {
    */
   private static native void setVersion()
   /*-{
-    $wnd.$GWT_LOG_VERSION = "@GWT_LOG_VERSION@";
+		$wnd.$GWT_LOG_VERSION = "@GWT_LOG_VERSION@";
   }-*/;
 
   private int currentLogLevel = getLowestLogLevel();
@@ -182,7 +181,6 @@ public abstract class LogImplBase extends LogImpl {
   public void init() {
     addLogger((Logger) GWT.create(GWTLogger.class));
     addLogger((Logger) GWT.create(SystemLogger.class));
-    addLogger((Logger) GWT.create(FirebugLogger.class));
     addLogger((Logger) GWT.create(ConsoleLogger.class));
 
     // GWT hacking may prevent the DOM/UI from working properly
