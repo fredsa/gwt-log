@@ -22,7 +22,7 @@ public class LogUtil {
   private static final String[] IGNORE_CLASSNAME_PREFIXES = {
       "com.allen_sauer.gwt.log.client.", "com.allen_sauer.gwt.log.shared.",
       "com.google.gwt.dev.shell.", "sun.reflect.", "java.lang.reflect.", "java.lang.Thread",
-      "com.google.gwt.core.client.impl.Impl"};
+      "com.google.gwt.core.client.impl.Impl",};
 
   private static final String LOG_LEVEL_TEXT_DEBUG = "DEBUG";
   private static final String LOG_LEVEL_TEXT_ERROR = "ERROR";
@@ -71,9 +71,12 @@ public class LogUtil {
    * @return the calling stack trace element
    */
   public static StackTraceElement getCallingStackTraceElement(Throwable throwable) {
-    if (throwable == null) {
-      throwable = new Throwable();
-    }
+    /* Don't attempt to create a new Throwable here, as this method may be called
+     * after a deobfuscation round trip to the server, in which case we're no longer
+     * on the original call stack.
+     */
+    assert throwable != null;
+
     while (throwable.getCause() != null) {
       throwable = throwable.getCause();
     }

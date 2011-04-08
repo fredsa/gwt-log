@@ -34,12 +34,14 @@ public class LogRecord implements Serializable {
   static final LogMessageFormatter FORMATTER = (LogMessageFormatter) (GWT.isClient()
       ? GWT.create(LogMessageFormatter.class) : null);
   private static int gloablRecordSequence;
+  private transient Throwable bookmarkThrowable;
   private String category;
   private int level;
   private HashMap<String, String> map;
   private String message;
   private int recordSequence;
   private transient Throwable throwable;
+  private WrappedClientThrowable wrappedBookmarkThrowable;
   private WrappedClientThrowable wrappedClientThrowable;
 
   /**
@@ -57,6 +59,12 @@ public class LogRecord implements Serializable {
     this.level = level;
     this.message = message;
     wrappedClientThrowable = WrappedClientThrowable.getInstanceOrNull(throwable);
+
+    // If no throwable provided, bookmark the current stack here
+    if (throwable == null) {
+      bookmarkThrowable = new Throwable();
+      wrappedBookmarkThrowable = WrappedClientThrowable.getInstanceOrNull(bookmarkThrowable);
+    }
   }
 
   // For GWT serialization
@@ -71,8 +79,10 @@ public class LogRecord implements Serializable {
    */
   public String getFormattedMessage() {
     assert GWT.isClient() : "Method should only be called in Client Code";
+    Throwable callerThrowable = UnwrappedClientThrowable.getInstanceOrNull(wrappedClientThrowable != null
+        ? wrappedClientThrowable : wrappedBookmarkThrowable);
     return level == Log.LOG_LEVEL_OFF ? message : FORMATTER.format(LogUtil.levelToString(level),
-        category, message, throwable);
+        category, message, callerThrowable);
   }
 
   /**
