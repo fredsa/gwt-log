@@ -26,7 +26,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl LogClientServerDemo.html -logLevel INFO -war /fred/workspace/Log/war -server com.google.appengine.tools.development.gwt.AppEngineLauncher -codeServerPort 9997 -port 8888 -gen ../gen -bindAddress 0.0.0.0 com.allen_sauer.gwt.log.clientserverdemo.LogClientServerDemo"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl LogClientServerDemo.html -logLevel INFO -war /usr/local/google/users/fredsa/workspace/Log/war -server com.google.appengine.tools.development.gwt.AppEngineLauncher -codeServerPort 9997 -port 8888 -gen ../gen -bindAddress 0.0.0.0 com.allen_sauer.gwt.log.clientserverdemo.LogClientServerDemo"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Log"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-d32 -XstartOnFirstThread -Xmx1024m -javaagent:/Applications/eclipse3.6/plugins/com.google.appengine.eclipse.sdkbundle.1.4.2_1.4.2.v201102111811/appengine-java-sdk-1.4.2/lib/agent/appengine-agent.jar -ea -Dgwt-log.RemoteLogger=STDIO"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-d32 -Xmx1024m -javaagent:/usr/local/google/users/fredsa/eclipse36/stable/plugins/com.google.appengine.eclipse.sdkbundle_1.4.3.m1_r36v201103292116/appengine-java-sdk-1.4.3/lib/agent/appengine-agent.jar -ea -Dgwt-log.RemoteLogger=STDIO"/>
 </launchConfiguration>
