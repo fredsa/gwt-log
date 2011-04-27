@@ -286,9 +286,7 @@ public class DivLogger implements Logger {
 
     // Intended to run the first time a message is logged
     if (!logDockPanel.isAttached()) {
-      // Set panel sizes
-      scrollPanel.checkMinSize();
-      logDockPanel.resize(Window.getClientWidth(), Window.getClientHeight());
+      ensureInitialized();
 
       // Attach dock panel to the bottom of the window
       logDockPanel.getElement().getStyle().setVisibility(Visibility.HIDDEN);
@@ -301,6 +299,8 @@ public class DivLogger implements Logger {
   }
 
   public final void moveTo(int x, int y) {
+    // Need to ensure initialization, in case moveTo() is called before the first call to log()
+    ensureInitialized();
     RootPanel.get().add(logDockPanel, x, y);
   }
 
@@ -334,6 +334,11 @@ public class DivLogger implements Logger {
       dirty = true;
       timer.schedule(UPDATE_INTERVAL_MILLIS);
     }
+  }
+
+  private void ensureInitialized() {
+    scrollPanel.checkMinSize();
+    logDockPanel.resize(Window.getClientWidth(), Window.getClientHeight());
   }
 
   private String getColor(int logLevel) {
@@ -412,10 +417,18 @@ public class DivLogger implements Logger {
       }
     });
 
+    Button closeButton = new Button("X");
+    closeButton.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        logDockPanel.removeFromParent();
+      }
+    });
+
     masterPanel.add(titleLabel);
     masterPanel.add(buttonPanel);
     masterPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
     masterPanel.add(aboutButton);
+    masterPanel.add(closeButton);
 
     masterPanel.setCellHeight(titleLabel, "100%");
     masterPanel.setCellWidth(titleLabel, "50%");
