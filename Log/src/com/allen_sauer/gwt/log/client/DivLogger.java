@@ -16,6 +16,7 @@ package com.allen_sauer.gwt.log.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasAllMouseHandlers;
@@ -55,7 +56,6 @@ public class DivLogger implements Logger {
 
   private class LogDockPanel extends DockPanel {
     private HandlerRegistration resizeRegistration;
-    private boolean userHidden = false;
     private final ResizeHandler windowResizeListener = new ResizeHandler() {
       public void onResize(ResizeEvent event) {
         int width = event.getWidth();
@@ -63,12 +63,6 @@ public class DivLogger implements Logger {
         resize(width, height);
       }
     };
-
-    @Override
-    public void setVisible(boolean visible) {
-      userHidden = !visible;
-      setVisibleImpl(visible);
-    }
 
     @Override
     protected void onLoad() {
@@ -85,14 +79,6 @@ public class DivLogger implements Logger {
     private void resize(int width, int height) {
       scrollPanel.setPixelSize(Math.max(300, (int) (Window.getClientWidth() * .8)),
           Math.max(100, (int) (Window.getClientHeight() * .3)));
-    }
-
-    private void setVisibleImpl(boolean visible) {
-      super.setVisible(visible);
-      if (visible) {
-        scrollPanel.checkMinSize();
-        resize(Window.getClientWidth(), Window.getClientHeight());
-      }
     }
   }
 
@@ -236,9 +222,6 @@ public class DivLogger implements Logger {
 
     scrollPanel.setWidget(logTextArea);
 
-    logDockPanel.setVisibleImpl(false);
-    RootPanel.get().add(logDockPanel, 0, 0);
-
     timer = new Timer() {
       @Override
       public void run() {
@@ -267,13 +250,10 @@ public class DivLogger implements Logger {
   }
 
   public final boolean isVisible() {
-    return logDockPanel.isAttached() && logDockPanel.isVisible();
+    return logDockPanel.isAttached();
   }
 
   public void log(LogRecord record) {
-    if (!logDockPanel.userHidden) {
-      logDockPanel.setVisible(true);
-    }
     String text = record.getFormattedMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     String title = makeTitle(record);
     Throwable throwable = record.getThrowable();
@@ -299,11 +279,25 @@ public class DivLogger implements Logger {
       }
     }
     text = text.replaceAll("\r\n|\r|\n", "<BR>");
-    addLogText(
-        "<div class='" + LogClientBundle.INSTANCE.css().logMessage()
-            + "' onmouseover='className+=\" log-message-hover\"' "
-            + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
-            + getColor(record.getLevel()) + "' title='" + title + "'>" + text + "</div>");
+    addLogText("<div class='" + LogClientBundle.INSTANCE.css().logMessage()
+        + "' onmouseover='className+=\" log-message-hover\"' "
+        + "onmouseout='className=className.replace(/ log-message-hover/g,\"\")' style='color: "
+        + getColor(record.getLevel()) + "' title='" + title + "'>" + text + "</div>");
+
+    // Intended to run the first time a message is logged
+    if (!logDockPanel.isAttached()) {
+      // Set panel sizes
+      scrollPanel.checkMinSize();
+      logDockPanel.resize(Window.getClientWidth(), Window.getClientHeight());
+
+      // Attach dock panel to the bottom of the window
+      logDockPanel.getElement().getStyle().setVisibility(Visibility.HIDDEN);
+      moveTo(0, 0);
+      int x = Math.max(0, (Window.getClientWidth() - logDockPanel.getOffsetWidth()) / 2);
+      int y = Math.max(0, Window.getClientHeight() - logDockPanel.getOffsetHeight());
+      moveTo(x, y);
+      logDockPanel.getElement().getStyle().setVisibility(Visibility.VISIBLE);
+    }
   }
 
   public final void moveTo(int x, int y) {
@@ -317,12 +311,11 @@ public class DivLogger implements Logger {
       } else {
         String levelText = LogUtil.levelToString(levels[i]);
         boolean current = level == levels[i];
-        levelButtons[i].setTitle(
-            current ? "Current (runtime) log level is already '" + levelText + "'" :
-                "Set current (runtime) log level to '" + levelText + "'");
+        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
+            + "'" : "Set current (runtime) log level to '" + levelText + "'");
         boolean active = level <= levels[i];
-        DOM.setStyleAttribute(
-            levelButtons[i].getElement(), "color", active ? getColor(levels[i]) : "#ccc");
+        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
+            : "#ccc");
       }
     }
   }
@@ -444,8 +437,8 @@ public class DivLogger implements Logger {
             throwable.getClass().getName().replaceAll("^(.+\\.).+$", "$1"), "");
       }
     }
-    return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(
-        ">", "&gt;").replaceAll("'", "\"");
+    return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(
+        "'", "\"");
   }
 
 }
