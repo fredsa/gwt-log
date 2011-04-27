@@ -79,22 +79,22 @@ public class InteractiveDemoPanel extends AbsolutePanel {
           String msg = "This is a '" + levelString + "' test message";
           switch (level) {
             case Log.LOG_LEVEL_TRACE:
-                      Log.trace(msg);
+              Log.trace(msg);
               break;
             case Log.LOG_LEVEL_DEBUG:
-                      Log.debug(msg);
+              Log.debug(msg);
               break;
             case Log.LOG_LEVEL_INFO:
-                      Log.info(msg);
+              Log.info(msg);
               break;
             case Log.LOG_LEVEL_WARN:
-                      Log.warn(msg);
+              Log.warn(msg);
               break;
             case Log.LOG_LEVEL_ERROR:
-                      Log.error(msg);
+              Log.error(msg);
               break;
             case Log.LOG_LEVEL_FATAL:
-                      Log.fatal(msg);
+              Log.fatal(msg);
               break;
           }
         }
@@ -137,13 +137,14 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       }
     });
 
-    jsTimeoutExceptionButtonFatal = new Button("JavaScript setTimeout() exception [FF/IE/Chrome only]");
+    jsTimeoutExceptionButtonFatal = new Button(
+        "JavaScript setTimeout() exception [FF/IE/Chrome only]");
     add(jsTimeoutExceptionButtonFatal);
     jsTimeoutExceptionButtonFatal.addClickHandler(new ClickHandler() {
       public native void onClick(ClickEvent event)
-            /*-{
+      /*-{
     setTimeout(function() {
-    my_non_existant_variable.my_non_existant_method();
+      my_non_existant_variable.my_non_existant_method();
     }, 1);
   }-*/;
     });
@@ -215,16 +216,15 @@ public class InteractiveDemoPanel extends AbsolutePanel {
    */
   private void initDivLogger() {
     final DivLogger divLogger = Log.getLogger(DivLogger.class);
-    divLogger.moveTo(10, 10);
     new Timer() {
       @Override
       public void run() {
         if (!divLogger.isVisible()) {
           LogRecord record = new LogRecord("gwt-log", Log.LOG_LEVEL_OFF,
               "This is the draggable 'DivLogger' panel, just one of the available loggers.\n"
-              + "The above buttons control the current (runtime) logging level.\n"
-              + "Use the other buttons on this page to send test messages or trap exceptions."
-              , null);
+                  + "The above buttons control the current (runtime) logging level.\n"
+                  + "Use the other buttons on this page to send test messages or trap exceptions.",
+              null);
           divLogger.log(record);
         }
       }
@@ -238,7 +238,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   /*-{
     try {
       my_non_existant_variable.my_non_existant_method();
-    } catch(e) {
+    } catch (e) {
       @com.allen_sauer.gwt.log.client.Log::fatal(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)("Caught JSNI Exception", e);
     }
   }-*/;
@@ -257,7 +257,8 @@ public class InteractiveDemoPanel extends AbsolutePanel {
   private native String makePageURL(String logLevelText)
   /*-{
     var url = $wnd.location.href.replace(/([\\?&]log_level=[^&]*)/, "");
-    return url + (url.indexOf('?') == -1 ? "?" : "&") + "log_level=" + logLevelText;
+    return url + (url.indexOf('?') == -1 ? "?" : "&") + "log_level="
+        + logLevelText;
   }-*/;
 
   /**
