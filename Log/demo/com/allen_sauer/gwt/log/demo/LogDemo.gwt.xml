@@ -24,10 +24,10 @@
   <entry-point class="com.allen_sauer.gwt.log.demo.client.LogDemo" />
 
   <!--
-    Extend property to include all six compile time log levels. Note:
+    Extend property to include all seven compile time log levels. Note:
     Normally you would not do this because this increases the number of
-    compile time combinations six fold. However, for this demo, we do
-    desire pre-compiled versions for all six levels.
+    compile time combinations seven fold. However, for this demo, we do
+    desire pre-compiled versions for all seven levels.
   -->
   <extend-property name="log_level"
     values="TRACE,DEBUG,INFO,WARN,ERROR,FATAL,OFF" />
