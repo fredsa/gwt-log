@@ -31,25 +31,25 @@ public final class ConsoleLogger implements Logger {
   }
 
   public native boolean isSupported() /*-{
-		// Consciously using 'window' rather than '$wnd'
-		// See http://code.google.com/p/fbug/issues/detail?id=2914
-		if (window.console == null
-				|| (typeof (window.console.log) != 'function' && typeof (window.console.log) == 'object')) {
-			return false;
-		}
-		if (typeof window.console.error == "undefined") {
-			window.console.error = window.console.log;
-		}
-		if (typeof window.console.warn == "undefined") {
-			window.console.warn = window.console.log;
-		}
-		if (typeof window.console.info == "undefined") {
-			window.console.info = window.console.log;
-		}
-		if (typeof window.console.debug == "undefined") {
-			window.console.debug = window.console.log;
-		}
-		return true;
+    // Consciously using 'window' rather than '$wnd'
+    // See http://code.google.com/p/fbug/issues/detail?id=2914
+    if (window.console == null
+        || (typeof (window.console.log) != 'function' && typeof (window.console.log) != 'object')) {
+      return false;
+    }
+    if (typeof window.console.error == "undefined") {
+      window.console.error = window.console.log;
+    }
+    if (typeof window.console.warn == "undefined") {
+      window.console.warn = window.console.log;
+    }
+    if (typeof window.console.info == "undefined") {
+      window.console.info = window.console.log;
+    }
+    if (typeof window.console.debug == "undefined") {
+      window.console.debug = window.console.log;
+    }
+    return true;
   }-*/;
 
   public void log(LogRecord record) {
@@ -61,16 +61,16 @@ public final class ConsoleLogger implements Logger {
   }
 
   private native void logMessage(int logLevel, String message) /*-{
-		// Consciously using 'window' rather than '$wnd'
-		// See http://code.google.com/p/fbug/issues/detail?id=2914
-		if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_ERROR) {
-			window.console.error(message);
-		} else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_WARN) {
-			window.console.warn(message);
-		} else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_INFO) {
-			window.console.info(message);
-		} else {
-			window.console.debug(message);
-		}
+    // Consciously using 'window' rather than '$wnd'
+    // See http://code.google.com/p/fbug/issues/detail?id=2914
+    if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_ERROR) {
+      window.console.error(message);
+    } else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_WARN) {
+      window.console.warn(message);
+    } else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_INFO) {
+      window.console.info(message);
+    } else {
+      window.console.debug(message);
+    }
   }-*/;
 }
