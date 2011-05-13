@@ -23,7 +23,6 @@ import com.allen_sauer.gwt.log.shared.WrappedClientThrowable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -48,7 +47,6 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
 
   private final HashSet<String> permutationStrongNamesChecked = new HashSet<String>();
 
-  @SuppressWarnings("deprecation")
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
@@ -63,8 +61,7 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
   }
 
   public final ArrayList<LogRecord> log(ArrayList<LogRecord> logRecords) {
-    for (Iterator<LogRecord> iterator = logRecords.iterator(); iterator.hasNext();) {
-      LogRecord record = iterator.next();
+    for (LogRecord record : logRecords) {
       try {
         HttpServletRequest request = getThreadLocalRequest();
         record.set("remoteAddr", request.getRemoteAddr());
@@ -82,7 +79,6 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
     return logRecords;
   }
 
-  @SuppressWarnings("deprecation")
   private void deobfuscate(LogRecord record) {
     WrappedClientThrowable wrappedClientThrowable = record.getModifiableWrappedClientThrowable();
 
