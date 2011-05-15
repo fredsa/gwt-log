@@ -48,13 +48,13 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
   private final HashSet<String> permutationStrongNamesChecked = new HashSet<String>();
 
   @Override
-  public void init(ServletConfig config) throws ServletException {
+  public final void init(ServletConfig config) throws ServletException {
     super.init(config);
     String symbolMaps = config.getInitParameter(PARAMETER_SYMBOL_MAPS);
     if (symbolMaps == null) {
       Log.warn("In order to enable stack trace deobfuscation, please specify the '"
-          + PARAMETER_SYMBOL_MAPS + "' <init-param> for the "
-          + RemoteLoggerServlet.class.getName() + " servlet in your web.xml");
+          + PARAMETER_SYMBOL_MAPS + "' <init-param> for the " + RemoteLoggerServlet.class.getName()
+          + " servlet in your web.xml");
       return;
     }
     deobfuscator = new StackTraceDeobfuscator(symbolMaps);
@@ -76,7 +76,7 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
         e.printStackTrace();
       }
     }
-    return logRecords;
+    return isClientStackTraceDeobfuscationPermitted() ? logRecords : null;
   }
 
   private void deobfuscate(LogRecord record) {
@@ -116,6 +116,16 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
         return false;
       }
     }
+    return true;
+  }
+
+  /**
+   * Override this method to prevent clients from receiving deobfuscated JavaScript stack traces.
+   * For example, you may choose to only allow developers to access resymbolized stack traces.
+   * 
+   * @return true if the deobfuscated stack traces should be returned to the client
+   */
+  private boolean isClientStackTraceDeobfuscationPermitted() {
     return true;
   }
 }
