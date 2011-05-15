@@ -17,6 +17,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -201,6 +202,9 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     }
 
     add(new HTML("<br>"));
+    add(new HTML("Launch server side JavaScript stack trace deobfuscation demo:"));
+    add(new HTML("<a href='LogClientServerDemo.html" + Window.Location.getQueryString()
+        + "'>Client server demo</a>"));
 
     updateLogLevelLabels();
 
