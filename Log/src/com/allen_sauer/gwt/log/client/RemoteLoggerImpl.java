@@ -15,6 +15,7 @@ package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestTimeoutException;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;
@@ -32,16 +33,32 @@ public final class RemoteLoggerImpl extends RemoteLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
   private static class MyRpcRequestBuilder extends RpcRequestBuilder {
+    private static final int RPC_TIMEOUT_MILLIS_INITIAL = 500;
+    private static final int RPC_TIMEOUT_MILLIS_MAX = 4000;
+    private int rpcTimeoutMillis = RPC_TIMEOUT_MILLIS_INITIAL;
+
     @Override
     protected void doFinish(RequestBuilder rb) {
       super.doFinish(rb);
-      rb.setTimeoutMillis(RPC_TIMEOUT_MILLIS);
+      rb.setTimeoutMillis(rpcTimeoutMillis);
+    }
+
+    boolean maybeIncrementRpcTimeOut() {
+      if (rpcTimeoutMillis == RPC_TIMEOUT_MILLIS_MAX) {
+        // caller should give up
+        return false;
+      }
+
+      // exponential back off
+      rpcTimeoutMillis = Math.min(RPC_TIMEOUT_MILLIS_MAX, rpcTimeoutMillis * 2);
+
+      // caller should try again
+      return true;
     }
   }
 
   private static final RemoteLoggerConfig config = GWT.create(RemoteLoggerConfig.class);
   private static final int MESSAGE_QUEUEING_DELAY_MILLIS = 50;
-  private static final int RPC_TIMEOUT_MILLIS = 500;
   private static final String REMOTE_LOGGER_NAME = "RemoteLogger";
   private final AsyncCallback<ArrayList<LogRecord>> callback;
   private boolean callInProgressOrScheduled = false;
@@ -70,7 +87,8 @@ public final class RemoteLoggerImpl extends RemoteLogger {
     }
     service = (RemoteLoggerServiceAsync) GWT.create(RemoteLoggerService.class);
     final ServiceDefTarget target = (ServiceDefTarget) service;
-    target.setRpcRequestBuilder(new MyRpcRequestBuilder());
+    final MyRpcRequestBuilder rpcRequestBuilder = new MyRpcRequestBuilder();
+    target.setRpcRequestBuilder(rpcRequestBuilder);
     String serviceEntryPointUrl = config.serviceEntryPointUrl();
     if (serviceEntryPointUrl != null) {
       target.setServiceEntryPoint(serviceEntryPointUrl);
@@ -80,7 +98,45 @@ public final class RemoteLoggerImpl extends RemoteLogger {
 
       @SuppressWarnings("deprecation")
       public void onFailure(Throwable ex) {
-        failure = ex;
+
+        if (ex instanceof RequestTimeoutException) {
+          if (rpcRequestBuilder.maybeIncrementRpcTimeOut()) {
+            // RequestTimeoutException: We should try again
+            Log.diagnostic(
+                REMOTE_LOGGER_NAME + " will reattempt delivery and stack trace deobfuscation of "
+                    + (logMessageList.size() + queuedMessageList.size()) + " log messages in "
+                    + rpcRequestBuilder.rpcTimeoutMillis + " milliseconds using "
+                    + target.getServiceEntryPoint(), null);
+            callInProgressOrScheduled = false;
+            maybeTriggerRPC();
+            return;
+          }
+
+          // RequestTimeoutException: We should give up
+          Log.diagnostic(
+              REMOTE_LOGGER_NAME + " has PERMANENTLY FAILED with "
+                  + (logMessageList.size() + queuedMessageList.size())
+                  + " log messages undelivered to " + target.getServiceEntryPoint(), null);
+
+          // log queued messages to other loggers before purging
+          loggersLogToOthers(queuedMessageList);
+          loggersLogToOthers(logMessageList);
+
+          //purge
+          logMessageList.clear();
+          queuedMessageList.clear();
+
+          failure = ex;
+          return;
+        }
+
+        // Something other than a RequestTimeoutException
+        Log.diagnostic(
+            REMOTE_LOGGER_NAME + " has PERMANENTLY FAILED with "
+                + (logMessageList.size() + queuedMessageList.size())
+                + " log messages undelivered to " + target.getServiceEntryPoint() + " due to "
+                + ex.toString(), null);
+        callInProgressOrScheduled = false;
 
         // log queued messages to other loggers before purging
         loggersLogToOthers(queuedMessageList);
@@ -90,12 +146,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
         logMessageList.clear();
         queuedMessageList.clear();
 
-        Log.diagnostic(
-            REMOTE_LOGGER_NAME + " has been suspended with "
-                + (logMessageList.size() + queuedMessageList.size())
-                + " log messages undelivered; failed to to receive response from "
-                + target.getServiceEntryPoint() + " due to " + ex.toString(), null);
-        callInProgressOrScheduled = false;
+        failure = ex;
       }
 
       public void onSuccess(ArrayList<LogRecord> deobfuscatedLogRecords) {
