@@ -41,6 +41,10 @@
     <url-pattern>/clientserverdemo/increment</url-pattern>
   </servlet-mapping>
 
+  <welcome-file-list>
+    <welcome-file>LogDemo.html</welcome-file>
+  </welcome-file-list>
+  
 </web-app>
 
 
