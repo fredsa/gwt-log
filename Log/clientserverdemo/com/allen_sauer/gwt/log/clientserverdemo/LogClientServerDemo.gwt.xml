@@ -30,7 +30,6 @@
     Disable client side loggers in development mode, so we can focus on the
     output from our RemoteLogger.
   -->
-  <set-property name="log_ConsoleLogger" value="DISABLED" />
   <set-property name="log_GWTLogger" value="DISABLED" />
   <set-property name="log_SystemLogger" value="DISABLED" />
 
@@ -55,5 +54,9 @@
   <set-configuration-property name="compiler.emulatedStack.recordFileNames"
     value="true" />
   -->
-    
+  
+  <!-- For debugging:
+  <set-property name="user.agent" value="safari"/>
+  <set-property name="log_level" value="DEBUG"/>
+   -->
 </module>
