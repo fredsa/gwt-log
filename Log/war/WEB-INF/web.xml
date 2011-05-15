@@ -10,7 +10,8 @@
     <servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl</servlet-class>
     <init-param>
       <param-name>symbolMaps</param-name>
-      <param-value>WEB-INF/classes/clientserverdemo/symbolMaps</param-value>
+      <!-- This value assumes a GWT compile with '-deploy war/WEB-INF/deploy/' -->
+      <param-value>WEB-INF/deploy/clientserverdemo/symbolMaps</param-value>
     </init-param>
   </servlet>
 
