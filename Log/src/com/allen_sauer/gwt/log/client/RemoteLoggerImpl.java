@@ -14,8 +14,10 @@
 package com.allen_sauer.gwt.log.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RpcRequestBuilder;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 import com.allen_sauer.gwt.log.shared.LogRecord;
@@ -29,11 +31,18 @@ import java.util.Iterator;
 public final class RemoteLoggerImpl extends RemoteLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  private static class MyRpcRequestBuilder extends RpcRequestBuilder {
+    @Override
+    protected void doFinish(RequestBuilder rb) {
+      super.doFinish(rb);
+      rb.setTimeoutMillis(RPC_TIMEOUT_MILLIS);
+    }
+  }
+
   private static final RemoteLoggerConfig config = GWT.create(RemoteLoggerConfig.class);
-  private static final int MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE = 300;
-  private static final int MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED = 5 * 60 * 1000; // 5 mins
-  private static int messageQueueingDelayMillis = MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE;
-  private static final String REMOTE_LOGGER_NAME = "Remote Logger";
+  private static final int MESSAGE_QUEUEING_DELAY_MILLIS = 50;
+  private static final int RPC_TIMEOUT_MILLIS = 500;
+  private static final String REMOTE_LOGGER_NAME = "RemoteLogger";
   private final AsyncCallback<ArrayList<LogRecord>> callback;
   private boolean callInProgressOrScheduled = false;
   private Throwable failure;
@@ -61,6 +70,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
     }
     service = (RemoteLoggerServiceAsync) GWT.create(RemoteLoggerService.class);
     final ServiceDefTarget target = (ServiceDefTarget) service;
+    target.setRpcRequestBuilder(new MyRpcRequestBuilder());
     String serviceEntryPointUrl = config.serviceEntryPointUrl();
     if (serviceEntryPointUrl != null) {
       target.setServiceEntryPoint(serviceEntryPointUrl);
@@ -68,37 +78,24 @@ public final class RemoteLoggerImpl extends RemoteLogger {
 
     callback = new AsyncCallback<ArrayList<LogRecord>>() {
 
+      @SuppressWarnings("deprecation")
       public void onFailure(Throwable ex) {
-        String serviceEntryPoint = ((ServiceDefTarget) service).getServiceEntryPoint();
-        if (messageQueueingDelayMillis > MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED) {
+        failure = ex;
 
-          GWT.log(REMOTE_LOGGER_NAME
-              + " has encountered too many failures while trying to contact servlet at "
-              + serviceEntryPoint, ex);
-          GWT.log(REMOTE_LOGGER_NAME + " has suspended with "
-              + (logMessageList.size() + queuedMessageList.size())
-              + " log message(s) not delivered", null);
-          failure = ex;
+        // log queued messages to other loggers before purging
+        loggersLogToOthers(queuedMessageList);
+        loggersLogToOthers(logMessageList);
 
-          // log queued messages to other loggers before purging
-          loggersLogToOthers(queuedMessageList);
-          loggersLogToOthers(logMessageList);
+        //purge
+        logMessageList.clear();
+        queuedMessageList.clear();
 
-          //purge
-          logMessageList.clear();
-          queuedMessageList.clear();
-        } else {
-          GWT.log(REMOTE_LOGGER_NAME
-              + " encountered possibly transient communication failure with servlet at "
-              + serviceEntryPoint, ex);
-          GWT.log(REMOTE_LOGGER_NAME + " will attempt redelivery of " + queuedMessageList.size()
-              + " log message(s) in " + messageQueueingDelayMillis + "ms", null);
-        }
+        Log.diagnostic(
+            REMOTE_LOGGER_NAME + " has been suspended with "
+                + (logMessageList.size() + queuedMessageList.size())
+                + " log messages undelivered; failed to to receive response from "
+                + target.getServiceEntryPoint() + " due to " + ex.toString(), null);
         callInProgressOrScheduled = false;
-        maybeTriggerRPC();
-
-        // exponential back-off
-        messageQueueingDelayMillis += messageQueueingDelayMillis;
       }
 
       public void onSuccess(ArrayList<LogRecord> deobfuscatedLogRecords) {
@@ -109,7 +106,6 @@ public final class RemoteLoggerImpl extends RemoteLogger {
           loggersLogToOthers(queuedMessageList);
         }
         queuedMessageList.clear();
-        messageQueueingDelayMillis = MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE;
         callInProgressOrScheduled = false;
         maybeTriggerRPC();
       }
@@ -161,7 +157,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
     if (failure == null && !callInProgressOrScheduled
         && (!logMessageList.isEmpty() || !queuedMessageList.isEmpty())) {
       callInProgressOrScheduled = true;
-      timer.schedule(messageQueueingDelayMillis);
+      timer.schedule(MESSAGE_QUEUEING_DELAY_MILLIS);
     }
   }
 }
