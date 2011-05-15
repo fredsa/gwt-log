@@ -82,10 +82,17 @@ public class RemoteLoggerServiceImpl extends RemoteServiceServlet implements Rem
   private void deobfuscate(LogRecord record) {
     WrappedClientThrowable wrappedClientThrowable = record.getModifiableWrappedClientThrowable();
 
+    deobfuscate(wrappedClientThrowable);
+  }
+
+  private void deobfuscate(WrappedClientThrowable wrappedClientThrowable) {
     if (wrappedClientThrowable == null) {
       // no throwable to deobfuscate
       return;
     }
+
+    // recursive
+    deobfuscate(wrappedClientThrowable.getCause());
 
     String permutationStrongName = getPermutationStrongName();
     StackTraceElement[] originalStackTrace = wrappedClientThrowable.getClientStackTrace();
