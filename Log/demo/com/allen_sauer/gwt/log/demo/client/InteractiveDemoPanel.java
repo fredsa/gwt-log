@@ -13,10 +13,12 @@
  */
 package com.allen_sauer.gwt.log.demo.client;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 
@@ -101,7 +103,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       });
     }
 
-    add(new HTML("<BR>"));
+    add(new HTML("<br>"));
     add(new HTML("Catch some exceptions:"));
 
     jsniCatchButtonFatal = new Button("JSNI with try/catch");
@@ -128,7 +130,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       }
     });
 
-    add(new HTML("<BR>"));
+    add(new HTML("<br>"));
     npeButtonFatal = new Button("NullPointerException");
     add(npeButtonFatal);
     npeButtonFatal.addClickHandler(new ClickHandler() {
@@ -157,7 +159,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       }
     });
 
-    add(new HTML("<BR>"));
+    add(new HTML("<br>"));
     add(new HTML("Clear log output (on supported destinations):"));
 
     Button clearButton = new Button("clear()");
@@ -168,7 +170,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       }
     });
 
-    // add(new HTML("<BR>"));
+    // add(new HTML("<br>"));
     // add(new HTML("Set runtime log level to:"));
     //
     // for (int i = 0; i < levels.length; i++) {
@@ -183,26 +185,22 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     // add(levelButtons[i]);
     // }
 
-    add(new HTML("<BR>"));
+    add(new HTML("<br>"));
     add(new HTML("Change the compile time <code>log_level</code> URL parameter to:"));
 
     for (int i = 0; i < levels.length; i++) {
       final int level = levels[i];
       final String url = makePageURL(levelTexts[i]);
-      Button button = new Button(levelTexts[i]);
-      button.addClickHandler(new ClickHandler() {
-        public void onClick(ClickEvent event) {
-          setLocation(url);
-        }
-      });
-      button.setTitle("Switch to '" + levelTexts[i] + "' compile time log level");
-      add(button);
+      Anchor anchor = new Anchor(levelTexts[i], url);
+      anchor.getElement().getStyle().setPadding(0.3, Unit.EM);
+      anchor.setTitle("Switch to '" + levelTexts[i] + "' compile time log level");
+      add(anchor);
       if (level == Log.getLowestLogLevel()) {
-        button.addStyleDependentName(CSS_CURRENT);
+        anchor.addStyleDependentName(CSS_CURRENT);
       }
     }
 
-    add(new HTML("<BR>"));
+    add(new HTML("<br>"));
 
     updateLogLevelLabels();
 
