@@ -76,7 +76,19 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
         e.printStackTrace();
       }
     }
-    return isClientStackTraceDeobfuscationPermitted() ? logRecords : null;
+    return shouldReturnDeobfuscatedStackTraceToClient() ? logRecords : null;
+  }
+
+  /**
+   * Override this method to prevent clients from receiving deobfuscated JavaScript stack traces.
+   * For example, you may choose to only allow (logged in) developers to access resymbolized stack
+   * traces.
+   * 
+   * @see #getThreadLocalRequest()
+   * @return true if the deobfuscated stack traces should be returned to the client
+   */
+  protected boolean shouldReturnDeobfuscatedStackTraceToClient() {
+    return true;
   }
 
   private void deobfuscate(LogRecord record) {
@@ -116,16 +128,6 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
         return false;
       }
     }
-    return true;
-  }
-
-  /**
-   * Override this method to prevent clients from receiving deobfuscated JavaScript stack traces.
-   * For example, you may choose to only allow developers to access resymbolized stack traces.
-   * 
-   * @return true if the deobfuscated stack traces should be returned to the client
-   */
-  private boolean isClientStackTraceDeobfuscationPermitted() {
     return true;
   }
 }
