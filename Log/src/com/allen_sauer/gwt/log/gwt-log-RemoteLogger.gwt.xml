@@ -25,8 +25,11 @@
     <when-property-is name="log_RemoteLogger" value="NOT_SET_BY_APPLICATION" />
   </replace-with>
 
+  <!--
+   Commented out due to http://code.google.com/p/google-web-toolkit/issues/detail?id=6377
   <servlet path="/gwt-log"
-    class="com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl" />
+    class="com.allen_sauer.gwt.log.server.RemoteLoggerServlet" />
+  -->
 
   <!--
     Allows developer to override RemoteLogger servlet URL
