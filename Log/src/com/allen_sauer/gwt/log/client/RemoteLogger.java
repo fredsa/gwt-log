@@ -68,7 +68,7 @@ public class RemoteLogger extends NullLogger {
       try {
         logger.clear();
       } catch (RuntimeException e) {
-        reportAndRemoteLogger(iterator, logger, e);
+        reportAndRemoveLogger(iterator, logger, e);
       }
     }
   }
@@ -87,7 +87,7 @@ public class RemoteLogger extends NullLogger {
       try {
         logger.log(record);
       } catch (RuntimeException e1) {
-        reportAndRemoteLogger(iterator, logger, e1);
+        reportAndRemoveLogger(iterator, logger, e1);
       }
     }
   }
@@ -107,13 +107,13 @@ public class RemoteLogger extends NullLogger {
       try {
         logger.setCurrentLogLevel(level);
       } catch (RuntimeException e) {
-        reportAndRemoteLogger(iterator, logger, e);
+        reportAndRemoveLogger(iterator, logger, e);
       }
     }
   }
 
   @SuppressWarnings("deprecation")
-  private void reportAndRemoteLogger(
+  private void reportAndRemoveLogger(
       final Iterator<Logger> iterator, final Logger logger, final RuntimeException e) {
     iterator.remove();
     loggers.remove(logger);
