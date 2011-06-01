@@ -22,7 +22,9 @@ import com.allen_sauer.gwt.log.shared.LogRecord;
 import com.allen_sauer.gwt.log.shared.WrappedClientThrowable;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -43,21 +45,29 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
    */
   private static final String X_FORWARDED_FOR = "X-Forwarded-For";
 
-  private StackTraceDeobfuscator deobfuscator;
+  private List<StackTraceDeobfuscator> deobfuscatorList;
 
   private final HashSet<String> permutationStrongNamesChecked = new HashSet<String>();
 
   @Override
   public final void init(ServletConfig config) throws ServletException {
     super.init(config);
-    String symbolMaps = config.getInitParameter(PARAMETER_SYMBOL_MAPS);
-    if (symbolMaps == null) {
+
+    deobfuscatorList = new ArrayList<StackTraceDeobfuscator>();
+    for (@SuppressWarnings("unchecked")
+    Enumeration<String> e = config.getInitParameterNames(); e.hasMoreElements();) {
+      String name = e.nextElement();
+      if (name.startsWith(PARAMETER_SYMBOL_MAPS)) {
+        String path = config.getInitParameter(name);
+        deobfuscatorList.add(new StackTraceDeobfuscator(path));
+      }
+    }
+    if (deobfuscatorList.isEmpty()) {
       Log.warn("In order to enable stack trace deobfuscation, please specify the '"
           + PARAMETER_SYMBOL_MAPS + "' <init-param> for the " + RemoteLoggerServlet.class.getName()
           + " servlet in your web.xml");
       return;
     }
-    deobfuscator = new StackTraceDeobfuscator(symbolMaps);
   }
 
   public final ArrayList<LogRecord> log(ArrayList<LogRecord> logRecords) {
@@ -108,8 +118,11 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
 
     String permutationStrongName = getPermutationStrongName();
     StackTraceElement[] originalStackTrace = wrappedClientThrowable.getClientStackTrace();
-    StackTraceElement[] deobfuscatedStackTrace = deobfuscator.deobfuscateStackTrace(
-        originalStackTrace, permutationStrongName);
+    StackTraceElement[] deobfuscatedStackTrace = originalStackTrace;
+    for (StackTraceDeobfuscator deobf : deobfuscatorList) {
+      deobfuscatedStackTrace = deobf.deobfuscateStackTrace(deobfuscatedStackTrace,
+          permutationStrongName);
+    }
 
     // Verify each permutation once that a symbolMap is available
     if (permutationStrongNamesChecked.add(permutationStrongName)) {

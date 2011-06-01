@@ -17,10 +17,10 @@
 -->
 <module rename-to="demo">
 
-  <!-- Inherit the core Web Toolkit stuff.       -->
+  <!-- Inherit the core Web Toolkit stuff. -->
   <inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
 
-  <!-- Specify the app entry point class.                        -->
+  <!-- Specify the app entry point class. -->
   <entry-point class="com.allen_sauer.gwt.log.demo.client.LogDemo" />
 
   <!--
@@ -32,11 +32,8 @@
   <extend-property name="log_level"
     values="TRACE,DEBUG,INFO,WARN,ERROR,FATAL,OFF" />
 
-  <!--
-    Enable Remote logging:
-    
-      <inherits name="com.allen_sauer.gwt.log.gwt-log-RemoteLogger" />
-  -->
+  <!-- Enable Remote logging: -->
+  <inherits name="com.allen_sauer.gwt.log.gwt-log-RemoteLogger" />
 
   <set-property name="compiler.emulatedStack" value="true" />
   <set-configuration-property name="compiler.emulatedStack.recordLineNumbers"
