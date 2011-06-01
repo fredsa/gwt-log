@@ -117,6 +117,11 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
     deobfuscate(wrappedClientThrowable.getCause());
 
     String permutationStrongName = getPermutationStrongName();
+    if ("HostedMode".equals(permutationStrongName)) {
+      // For Development Mode
+      return;
+    }
+
     StackTraceElement[] originalStackTrace = wrappedClientThrowable.getClientStackTrace();
     StackTraceElement[] deobfuscatedStackTrace = originalStackTrace;
     for (StackTraceDeobfuscator deobf : deobfuscatorList) {
