@@ -6,8 +6,8 @@
 		<property name="projectdescription" value="Logging for your Google-Web-Toolkit Projects" />
 		<property name="googlecode-libsummary" value="Logging capabilities for Google-Web-Toolkit (GWT)" />
 		<property name="googlecode-javadocsummary" value="Javadoc for ${ant.project.name} source and demos (examples)" />
-		<property name="googlecode-liblabels" value="Type-Library, OpSys-All, GWT-GWT_2.2.0, Java-1.5, ReleaseCandidate" />
-		<property name="googlecode-javadoclabels" value="Type-Docs, OpSys-All, GWT-GWT_2.2.0, Java-1.5, ReleaseCandidate" />
+		<property name="googlecode-liblabels" value="Type-Library, OpSys-All, GWT-GWT_2.3.0, Java-1.6, ReleaseCandidate" />
+		<property name="googlecode-javadoclabels" value="Type-Docs, OpSys-All, GWT-GWT_2.3.0, Java-1.6, ReleaseCandidate" />
 		<property name="filtertoken" value="GWT_LOG_VERSION" />
 
 		<!-- Global Properties -->
@@ -37,8 +37,8 @@
 		<property name="javac.debuglevel" value="lines,vars,source" />
 		<property name="javac.encoding" value="utf-8" />
 		<property name="javac.nowarn" value="true" />
-		<property name="javac.source" value="1.5" />
-		<property name="javac.target" value="1.5" />
+		<property name="javac.source" value="1.6" />
+		<property name="javac.target" value="1.6" />
 		<property name="javac.memoryMaximumSize" value="1g" />
 
 		<!-- gwt jars -->
@@ -164,7 +164,7 @@
 
 		<echo message="Compiling build/src ..." />
 
-		<javac compiler="javac1.5" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+		<javac compiler="javac1.6" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/src" />
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-dev.jar}" />
@@ -198,7 +198,7 @@
 
 		<echo message="Compiling build/demo ..." />
 
-		<javac compiler="javac1.5" listfiles="false" destdir="build/demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+		<javac compiler="javac1.6" listfiles="false" destdir="build/demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/demo" />
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-dev.jar}" />
@@ -243,7 +243,7 @@
 	</target>
 
 	<target name="javadoc" description="Generate Javadoc" depends="javac">
-		<javadoc access="protected" classpath="${gwt-user.jar}:${gwt-dev.jar}:${log4j.location}" destdir="build/javadoc" doctitle="${ant.project.name} - ${projectdescription}" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
+		<javadoc access="protected" classpath="${gwt-user.jar}:${gwt-dev.jar}:${log4j.location}" destdir="build/javadoc" doctitle="${ant.project.name} - ${projectdescription}" encoding="UTF-8" failonerror="true" source="1.6" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
 	</target>
 
 	<target name="stat">
