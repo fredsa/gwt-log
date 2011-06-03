@@ -141,7 +141,7 @@ public class DivLogger implements Logger {
     public void onMouseMove(MouseMoveEvent event) {
       if (dragging) {
         scrollPanel.incrementPixelSize(event.getX() - dragStartX, event.getY() - dragStartY);
-        scrollPanel.setScrollPosition(MAX_VERTICAL_SCROLL);
+        scrollPanel.setVerticalScrollPosition(MAX_VERTICAL_SCROLL);
       }
     }
 
@@ -230,7 +230,7 @@ public class DivLogger implements Logger {
         logText = "";
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
           public void execute() {
-            scrollPanel.setScrollPosition(MAX_VERTICAL_SCROLL);
+            scrollPanel.setVerticalScrollPosition(MAX_VERTICAL_SCROLL);
           }
         });
       }
