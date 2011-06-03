@@ -16,6 +16,7 @@ package com.allen_sauer.gwt.log.server;
 /**
  * @deprecated Use {@link RemoteLoggerServlet} instead
  */
+@SuppressWarnings("serial")
 @Deprecated
 public class RemoteLoggerServiceImpl extends RemoteLoggerServlet {
 }
