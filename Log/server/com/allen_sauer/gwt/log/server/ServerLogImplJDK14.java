@@ -27,6 +27,7 @@ public final class ServerLogImplJDK14 implements ServerLog {
     logger = Logger.getLogger("gwt-log");
   }
 
+  @Override
   public int getCurrentLogLevel() {
     if (!isFatalEnabled()) {
       return Log.LOG_LEVEL_OFF;
@@ -45,43 +46,53 @@ public final class ServerLogImplJDK14 implements ServerLog {
     }
   }
 
+  @Override
   public boolean isDebugEnabled() {
     return logger.isLoggable(Level.CONFIG);
   }
 
+  @Override
   public boolean isErrorEnabled() {
     return logger.isLoggable(Level.SEVERE);
   }
 
+  @Override
   public boolean isFatalEnabled() {
     return logger.isLoggable(Level.SEVERE);
   }
 
+  @Override
   public boolean isInfoEnabled() {
     return logger.isLoggable(Level.INFO);
   }
 
+  @Override
   public boolean isLoggingEnabled() {
     return logger.isLoggable(Level.OFF);
   }
 
+  @Override
   public boolean isTraceEnabled() {
     return logger.isLoggable(Level.FINE);
   }
 
+  @Override
   public boolean isWarnEnabled() {
     return logger.isLoggable(Level.WARNING);
   }
 
+  @Override
   public void log(LogRecord record) {
     logger.log(mapGWTLogLevelToImplLevelObject(record.getLevel()), record.getMessage(),
         record.getThrowable());
   }
 
+  @Override
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     return mapGWTLogLevelToImplLevelObject(gwtLogLevel).intValue();
   }
 
+  @Override
   public void setCurrentImplLogLevel(int level) {
     logger.setLevel(Level.parse("" + level));
   }

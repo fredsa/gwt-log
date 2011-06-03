@@ -30,12 +30,14 @@ public class LogDemo implements EntryPoint {
   /**
    * Main entry point method.
    */
+  @Override
   public void onModuleLoad() {
     // set uncaught exception handler
     Log.setUncaughtExceptionHandler();
 
     // use deferred command to catch initialization exceptions in onModuleLoad2
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
       public void execute() {
         onModuleLoad2();
       }

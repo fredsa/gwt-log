@@ -23,16 +23,20 @@ import com.allen_sauer.gwt.log.shared.LogRecord;
 public class NullLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  @Override
   public void clear() {
   }
 
+  @Override
   public boolean isSupported() {
     return false;
   }
 
+  @Override
   public void log(LogRecord record) {
   }
 
+  @Override
   public void setCurrentLogLevel(int level) {
   }
 }

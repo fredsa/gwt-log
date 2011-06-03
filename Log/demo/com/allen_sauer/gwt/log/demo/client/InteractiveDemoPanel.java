@@ -78,6 +78,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
       messageButtons[i] = new Button("Log." + levelString.toLowerCase() + "(...)");
       add(messageButtons[i]);
       messageButtons[i].addClickHandler(new ClickHandler() {
+        @Override
         public void onClick(ClickEvent event) {
           String msg = "This is a '" + levelString + "' test message";
           switch (level) {
@@ -110,6 +111,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     jsniCatchButtonFatal = new Button("JSNI with try/catch");
     add(jsniCatchButtonFatal);
     jsniCatchButtonFatal.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         jsniCatch();
       }
@@ -118,6 +120,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     jsniNoCatchButtonFatal = new Button("JSNI without try/catch");
     add(jsniNoCatchButtonFatal);
     jsniNoCatchButtonFatal.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         jsniNoCatch();
       }
@@ -126,6 +129,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     clinitButtonFatal = new Button("static (class) initialization failure");
     add(clinitButtonFatal);
     clinitButtonFatal.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         new Broken();
       }
@@ -135,6 +139,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     npeButtonFatal = new Button("NullPointerException");
     add(npeButtonFatal);
     npeButtonFatal.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         throw new NullPointerException();
       }
@@ -144,6 +149,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
         "JavaScript setTimeout() exception [FF/IE/Chrome only]");
     add(jsTimeoutExceptionButtonFatal);
     jsTimeoutExceptionButtonFatal.addClickHandler(new ClickHandler() {
+      @Override
       public native void onClick(ClickEvent event)
       /*-{
     setTimeout(function() {
@@ -155,6 +161,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     nullButtonDebug = new Button("Log.debug(null)");
     add(nullButtonDebug);
     nullButtonDebug.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         Log.debug(null);
       }
@@ -166,6 +173,7 @@ public class InteractiveDemoPanel extends AbsolutePanel {
     Button clearButton = new Button("clear()");
     add(clearButton);
     clearButton.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         Log.clear();
       }

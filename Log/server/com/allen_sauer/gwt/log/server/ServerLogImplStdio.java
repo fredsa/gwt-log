@@ -21,38 +21,47 @@ public final class ServerLogImplStdio implements ServerLog {
 
   private int level;
 
+  @Override
   public int getCurrentLogLevel() {
     return level;
   }
 
+  @Override
   public boolean isDebugEnabled() {
     return level >= Log.LOG_LEVEL_DEBUG;
   }
 
+  @Override
   public boolean isErrorEnabled() {
     return level >= Log.LOG_LEVEL_ERROR;
   }
 
+  @Override
   public boolean isFatalEnabled() {
     return level >= Log.LOG_LEVEL_FATAL;
   }
 
+  @Override
   public boolean isInfoEnabled() {
     return level >= Log.LOG_LEVEL_INFO;
   }
 
+  @Override
   public boolean isLoggingEnabled() {
     return level >= Log.LOG_LEVEL_OFF;
   }
 
+  @Override
   public boolean isTraceEnabled() {
     return level >= Log.LOG_LEVEL_TRACE;
   }
 
+  @Override
   public boolean isWarnEnabled() {
     return level >= Log.LOG_LEVEL_WARN;
   }
 
+  @Override
   public void log(LogRecord record) {
     System.err.println(record.getMessage());
     Throwable e = record.getThrowable();
@@ -61,10 +70,12 @@ public final class ServerLogImplStdio implements ServerLog {
     }
   }
 
+  @Override
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     return gwtLogLevel;
   }
 
+  @Override
   public void setCurrentImplLogLevel(int level) {
     this.level = level;
   }

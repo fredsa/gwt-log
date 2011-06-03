@@ -27,9 +27,11 @@ import com.allen_sauer.gwt.log.shared.LogRecord;
 public final class ConsoleLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  @Override
   public void clear() {
   }
 
+  @Override
   public native boolean isSupported() /*-{
     // Consciously using 'window' rather than '$wnd'
     // See http://code.google.com/p/fbug/issues/detail?id=2914
@@ -52,11 +54,13 @@ public final class ConsoleLogger implements Logger {
     return true;
   }-*/;
 
+  @Override
   public void log(LogRecord record) {
     logMessage(record.getLevel(),
         record.getFormattedMessage() + LogUtil.stackTraceToString(record.getThrowable()));
   }
 
+  @Override
   public void setCurrentLogLevel(int level) {
   }
 

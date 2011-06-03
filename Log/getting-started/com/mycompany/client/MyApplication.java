@@ -33,6 +33,7 @@ public class MyApplication implements EntryPoint {
    * Note, we defer all application initialization code to {@link #onModuleLoad2()} so that the
    * UncaughtExceptionHandler can catch any unexpected exceptions.
    */
+  @Override
   public void onModuleLoad() {
     /*
      * Install an UncaughtExceptionHandler which will produce <code>FATAL</code> log messages
@@ -41,6 +42,7 @@ public class MyApplication implements EntryPoint {
 
     // use deferred command to catch initialization exceptions in onModuleLoad2
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
       public void execute() {
         onModuleLoad2();
       }

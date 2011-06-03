@@ -30,6 +30,7 @@ public class IncrementServiceImpl extends RemoteServiceServlet implements Increm
    * @param counter the counter to increment
    * @return the updated counter
    */
+  @Override
   public Counter increment(Counter counter) {
     try {
       Log.debug("Counter has getCount() '" + counter.getCount() + "'");

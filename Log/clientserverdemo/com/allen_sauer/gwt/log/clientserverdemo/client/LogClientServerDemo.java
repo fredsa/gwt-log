@@ -29,12 +29,14 @@ public class LogClientServerDemo implements EntryPoint {
   /**
    * Main entry point method.
    */
+  @Override
   public void onModuleLoad() {
     // set uncaught exception handler
     Log.setUncaughtExceptionHandler();
 
     // use deferred command to catch initialization exceptions in onModuleLoad2
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
       public void execute() {
         onModuleLoad2();
       }
@@ -48,10 +50,12 @@ public class LogClientServerDemo implements EntryPoint {
     IncrementServiceAsync service = (IncrementServiceAsync) GWT.create(IncrementService.class);
 
     AsyncCallback<Counter> callback = new AsyncCallback<Counter>() {
+      @Override
       public void onFailure(Throwable ex) {
         Log.fatal("onFailure", ex);
       }
 
+      @Override
       public void onSuccess(Counter counter) {
         Log.debug("onSuccess result counter is at " + counter.getCount());
       }

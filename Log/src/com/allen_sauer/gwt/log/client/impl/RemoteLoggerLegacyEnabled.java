@@ -34,16 +34,20 @@ public class RemoteLoggerLegacyEnabled implements Logger {
             + "  <inherits name='com.allen_sauer.gwt.log.gwt-log-RemoteLogger' />");
   }
 
+  @Override
   public void clear() {
   }
 
+  @Override
   public boolean isSupported() {
     return true;
   }
 
+  @Override
   public void log(LogRecord record) {
   }
 
+  @Override
   public void setCurrentLogLevel(int level) {
   }
 

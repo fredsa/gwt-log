@@ -32,38 +32,47 @@ public final class ServerLogImplLog4J implements ServerLog {
     logger = Logger.getLogger("gwt-log");
   }
 
+  @Override
   public int getCurrentLogLevel() {
     return logger.getEffectiveLevel().toInt();
   }
 
+  @Override
   public boolean isDebugEnabled() {
     return logger.isDebugEnabled();
   }
 
+  @Override
   public boolean isErrorEnabled() {
     return logger.isEnabledFor(Level.ERROR);
   }
 
+  @Override
   public boolean isFatalEnabled() {
     return logger.isEnabledFor(Level.FATAL);
   }
 
+  @Override
   public boolean isInfoEnabled() {
     return logger.isEnabledFor(Level.INFO);
   }
 
+  @Override
   public boolean isLoggingEnabled() {
     return logger.getLevel().toInt() >= Level.OFF_INT;
   }
 
+  @Override
   public boolean isTraceEnabled() {
     return logger.isTraceEnabled();
   }
 
+  @Override
   public boolean isWarnEnabled() {
     return logger.isEnabledFor(Level.WARN);
   }
 
+  @Override
   public void log(LogRecord record) {
     Set<Entry<String, String>> set = record.getMapEntrySet();
     for (Entry<String, String> entry : set) {
@@ -76,10 +85,12 @@ public final class ServerLogImplLog4J implements ServerLog {
     }
   }
 
+  @Override
   public int mapGWTLogLevelToImplLevel(int gwtLogLevel) {
     return gwtLogLevel;
   }
 
+  @Override
   public void setCurrentImplLogLevel(int level) {
     logger.setLevel(Level.toLevel(level));
   }

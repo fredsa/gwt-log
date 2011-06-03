@@ -25,17 +25,21 @@ import com.allen_sauer.gwt.log.shared.LogRecord;
 public final class GWTLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  @Override
   public void clear() {
   }
 
+  @Override
   public boolean isSupported() {
     return !GWT.isScript();
   }
 
+  @Override
   public void log(LogRecord record) {
     GWT.log(record.getFormattedMessage(), record.getThrowable());
   }
 
+  @Override
   public void setCurrentLogLevel(int level) {
   }
 }

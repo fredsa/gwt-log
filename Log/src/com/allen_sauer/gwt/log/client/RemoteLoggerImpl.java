@@ -68,6 +68,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
 
     callback = new AsyncCallback<ArrayList<LogRecord>>() {
 
+      @Override
       public void onFailure(Throwable ex) {
         String serviceEntryPoint = ((ServiceDefTarget) service).getServiceEntryPoint();
         if (messageQueueingDelayMillis > MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED) {
@@ -101,6 +102,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
         messageQueueingDelayMillis += messageQueueingDelayMillis;
       }
 
+      @Override
       public void onSuccess(ArrayList<LogRecord> deobfuscatedLogRecords) {
         if (deobfuscatedLogRecords != null) {
           loggersLogToOthers(deobfuscatedLogRecords);

@@ -39,6 +39,7 @@ public class WindowLogger implements Logger {
   private JavaScriptObject window = null;
 
   private final CloseHandler<Window> windowCloseListener = new CloseHandler<Window>() {
+    @Override
     public void onClose(CloseEvent<Window> event) {
       closeWindowIfOpen();
     }
@@ -51,6 +52,7 @@ public class WindowLogger implements Logger {
     Window.addCloseHandler(windowCloseListener);
   }
 
+  @Override
   public final void clear() {
     if (ready) {
       try {
@@ -61,10 +63,12 @@ public class WindowLogger implements Logger {
     }
   }
 
+  @Override
   public final boolean isSupported() {
     return true;
   }
 
+  @Override
   public void log(LogRecord record) {
     String message = record.getFormattedMessage();
     Throwable throwable = record.getThrowable();
@@ -100,6 +104,7 @@ public class WindowLogger implements Logger {
             + getColor(record.getLevel()) + "' title='" + title + "'>" + text + "</div>");
   }
 
+  @Override
   public void setCurrentLogLevel(int level) {
     // do no
   }

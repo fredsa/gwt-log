@@ -26,13 +26,16 @@ import com.allen_sauer.gwt.log.shared.LogRecord;
 public final class SystemLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
 
+  @Override
   public void clear() {
   }
 
+  @Override
   public boolean isSupported() {
     return !GWT.isScript();
   }
 
+  @Override
   public void log(LogRecord record) {
     if (record.getLevel() >= Log.LOG_LEVEL_ERROR) {
       System.err.print(record.getFormattedMessage()
@@ -43,6 +46,7 @@ public final class SystemLogger implements Logger {
     }
   }
 
+  @Override
   public void setCurrentLogLevel(int level) {
   }
 

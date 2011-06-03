@@ -57,6 +57,7 @@ public class DivLogger implements Logger {
   private class LogDockPanel extends DockPanel {
     private HandlerRegistration resizeRegistration;
     private final ResizeHandler windowResizeListener = new ResizeHandler() {
+      @Override
       public void onResize(ResizeEvent event) {
         int width = event.getWidth();
         int height = event.getHeight();
@@ -95,6 +96,7 @@ public class DivLogger implements Logger {
       dragHandle.addMouseMoveHandler(this);
     }
 
+    @Override
     public void onMouseDown(MouseDownEvent event) {
       dragging = true;
       dragStartX = event.getRelativeX(dragHandle.getElement());
@@ -102,6 +104,7 @@ public class DivLogger implements Logger {
       DOM.setCapture(dragHandle.getElement());
     }
 
+    @Override
     public void onMouseMove(MouseMoveEvent event) {
       if (dragging) {
         int absX = event.getRelativeX(dragHandle.getElement()) + logDockPanel.getAbsoluteLeft();
@@ -110,6 +113,7 @@ public class DivLogger implements Logger {
       }
     }
 
+    @Override
     public void onMouseUp(MouseUpEvent event) {
       dragging = false;
       DOM.releaseCapture(dragHandle.getElement());
@@ -130,6 +134,7 @@ public class DivLogger implements Logger {
       hamh.addMouseUpHandler(this);
     }
 
+    @Override
     public void onMouseDown(MouseDownEvent event) {
       dragging = true;
       DOM.setCapture(resizePanel.getElement());
@@ -138,6 +143,7 @@ public class DivLogger implements Logger {
       DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
     }
 
+    @Override
     public void onMouseMove(MouseMoveEvent event) {
       if (dragging) {
         scrollPanel.incrementPixelSize(event.getX() - dragStartX, event.getY() - dragStartY);
@@ -145,6 +151,7 @@ public class DivLogger implements Logger {
       }
     }
 
+    @Override
     public void onMouseUp(MouseUpEvent event) {
       dragging = false;
       DOM.releaseCapture(resizePanel.getElement());
@@ -229,6 +236,7 @@ public class DivLogger implements Logger {
         logTextArea.setHTML(logTextArea.getHTML() + logText);
         logText = "";
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+          @Override
           public void execute() {
             scrollPanel.setVerticalScrollPosition(MAX_VERTICAL_SCROLL);
           }
@@ -237,6 +245,7 @@ public class DivLogger implements Logger {
     };
   }
 
+  @Override
   public final void clear() {
     logTextArea.setHTML("");
   }
@@ -245,6 +254,7 @@ public class DivLogger implements Logger {
     return logDockPanel;
   }
 
+  @Override
   public final boolean isSupported() {
     return true;
   }
@@ -253,6 +263,7 @@ public class DivLogger implements Logger {
     return logDockPanel.isAttached();
   }
 
+  @Override
   public void log(LogRecord record) {
     String text = record.getFormattedMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     String title = makeTitle(record);
@@ -304,6 +315,7 @@ public class DivLogger implements Logger {
     RootPanel.get().add(logDockPanel, x, y);
   }
 
+  @Override
   public void setCurrentLogLevel(int level) {
     for (int i = 0; i < levels.length; i++) {
       if (levels[i] < Log.getLowestLogLevel()) {
@@ -384,6 +396,7 @@ public class DivLogger implements Logger {
       levelButtons[i] = new Button(LogUtil.levelToString(level));
       buttonPanel.add(levelButtons[i]);
       levelButtons[i].addClickHandler(new ClickHandler() {
+        @Override
         public void onClick(ClickEvent event) {
           ((Button) event.getSource()).setFocus(false);
           Log.setCurrentLogLevel(level);
@@ -395,6 +408,7 @@ public class DivLogger implements Logger {
     clearButton.addStyleName(LogClientBundle.INSTANCE.css().logClearButton());
     DOM.setStyleAttribute(clearButton.getElement(), "color", "#00c");
     clearButton.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         ((Button) event.getSource()).setFocus(false);
         Log.clear();
@@ -405,6 +419,7 @@ public class DivLogger implements Logger {
     Button aboutButton = new Button("About");
     aboutButton.addStyleName(LogClientBundle.INSTANCE.css().logClearAbout());
     aboutButton.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         ((Button) event.getSource()).setFocus(false);
 
@@ -419,6 +434,7 @@ public class DivLogger implements Logger {
 
     Button closeButton = new Button("X");
     closeButton.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         logDockPanel.removeFromParent();
       }

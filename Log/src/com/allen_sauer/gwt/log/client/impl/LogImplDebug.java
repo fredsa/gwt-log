@@ -21,6 +21,7 @@ import com.allen_sauer.gwt.log.client.Log;
 public final class LogImplDebug extends LogImplBase {
   // CHECKSTYLE_JAVADOC_OFF
 
+  @Override
   public int getLowestLogLevel() {
     return Log.LOG_LEVEL_DEBUG;
   }

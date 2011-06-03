@@ -110,74 +110,88 @@ public abstract class LogImplBase extends LogImpl {
   public LogImplBase() {
   }
 
+  @Override
   public final void addLogger(Logger logger) {
     remoteLogger.loggersAdd(logger);
   }
 
+  @Override
   public final void clear() {
     remoteLogger.loggersClear();
   }
 
+  @Override
   public final void debug(String category, String message, JavaScriptObject e) {
     if (isDebugEnabled()) {
       log(Log.LOG_LEVEL_DEBUG, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
+  @Override
   public final void debug(String category, String message, Throwable e) {
     if (isDebugEnabled()) {
       log(Log.LOG_LEVEL_DEBUG, category, message, e);
     }
   }
 
+  @Override
   public void diagnostic(String message, final Throwable e) {
     log(Log.LOG_LEVEL_OFF, "gwt-log", message, e);
   }
 
+  @Override
   public final void error(String category, String message, JavaScriptObject e) {
     if (isErrorEnabled()) {
       log(Log.LOG_LEVEL_ERROR, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
+  @Override
   public final void error(String category, String message, Throwable e) {
     if (isErrorEnabled()) {
       log(Log.LOG_LEVEL_ERROR, category, message, e);
     }
   }
 
+  @Override
   public final void fatal(String category, String message, JavaScriptObject e) {
     if (isFatalEnabled()) {
       log(Log.LOG_LEVEL_FATAL, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
+  @Override
   public final void fatal(String category, String message, Throwable e) {
     if (isFatalEnabled()) {
       log(Log.LOG_LEVEL_FATAL, category, message, e);
     }
   }
 
+  @Override
   public final int getCurrentLogLevel() {
     return currentLogLevel;
   }
 
+  @Override
   public final <T extends Logger> T getLogger(Class<T> clazz) {
     return remoteLogger.getLogger(clazz);
   }
 
+  @Override
   public final void info(String category, String message, JavaScriptObject e) {
     if (isInfoEnabled()) {
       log(Log.LOG_LEVEL_INFO, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
+  @Override
   public final void info(String category, String message, Throwable e) {
     if (isInfoEnabled()) {
       log(Log.LOG_LEVEL_INFO, category, message, e);
     }
   }
 
+  @Override
   public void init() {
     addLogger((Logger) GWT.create(GWTLogger.class));
     addLogger((Logger) GWT.create(SystemLogger.class));
@@ -205,38 +219,46 @@ public abstract class LogImplBase extends LogImpl {
     clear();
   }
 
+  @Override
   public boolean isDebugEnabled() {
     return getLowestLogLevel() <= Log.LOG_LEVEL_DEBUG
         && getCurrentLogLevel() <= Log.LOG_LEVEL_DEBUG;
   }
 
+  @Override
   public boolean isErrorEnabled() {
     return getLowestLogLevel() <= Log.LOG_LEVEL_ERROR
         && getCurrentLogLevel() <= Log.LOG_LEVEL_ERROR;
   }
 
+  @Override
   public final boolean isFatalEnabled() {
     return getLowestLogLevel() <= Log.LOG_LEVEL_FATAL
         && getCurrentLogLevel() <= Log.LOG_LEVEL_FATAL;
   }
 
+  @Override
   public boolean isInfoEnabled() {
     return getLowestLogLevel() <= Log.LOG_LEVEL_INFO && getCurrentLogLevel() <= Log.LOG_LEVEL_INFO;
   }
 
+  @Override
   public final boolean isLoggingEnabled() {
     return getLowestLogLevel() != Log.LOG_LEVEL_OFF && getCurrentLogLevel() != Log.LOG_LEVEL_OFF;
   }
 
+  @Override
   public boolean isTraceEnabled() {
     return getLowestLogLevel() <= Log.LOG_LEVEL_TRACE
         && getCurrentLogLevel() <= Log.LOG_LEVEL_TRACE;
   }
 
+  @Override
   public boolean isWarnEnabled() {
     return getLowestLogLevel() <= Log.LOG_LEVEL_WARN && getCurrentLogLevel() <= Log.LOG_LEVEL_WARN;
   }
 
+  @Override
   public void log(LogRecord record) {
     if (record.getLevel() >= getLowestLogLevel()) {
       sendToLoggers(record);
@@ -247,6 +269,7 @@ public abstract class LogImplBase extends LogImpl {
     remoteLogger.loggersLog(record);
   }
 
+  @Override
   public final int setCurrentLogLevel(int level) {
     level = setCurrentLogLevelLoggers(level);
 
@@ -260,8 +283,10 @@ public abstract class LogImplBase extends LogImpl {
     return currentLogLevel;
   }
 
+  @Override
   public final void setUncaughtExceptionHandler() {
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
+      @Override
       public void onUncaughtException(Throwable e) {
         Log.fatal("Uncaught Exception:", e);
       }
@@ -269,24 +294,28 @@ public abstract class LogImplBase extends LogImpl {
     setErrorHandler();
   }
 
+  @Override
   public final void trace(String category, String message, JavaScriptObject e) {
     if (isTraceEnabled()) {
       log(Log.LOG_LEVEL_TRACE, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
+  @Override
   public final void trace(String category, String message, Throwable e) {
     if (isTraceEnabled()) {
       log(Log.LOG_LEVEL_TRACE, category, message, e);
     }
   }
 
+  @Override
   public final void warn(String category, String message, JavaScriptObject e) {
     if (isWarnEnabled()) {
       log(Log.LOG_LEVEL_WARN, category, message, convertJavaScriptObjectToException(e));
     }
   }
 
+  @Override
   public final void warn(String category, String message, Throwable e) {
     if (isWarnEnabled()) {
       log(Log.LOG_LEVEL_WARN, category, message, e);

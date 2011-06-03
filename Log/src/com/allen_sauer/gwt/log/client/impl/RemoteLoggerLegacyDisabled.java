@@ -33,16 +33,20 @@ public class RemoteLoggerLegacyDisabled implements Logger {
             + "  <set-property name='log_RemoteLogger' value='DISABLED' />");
   }
 
+  @Override
   public void clear() {
   }
 
+  @Override
   public boolean isSupported() {
     return true;
   }
 
+  @Override
   public void log(LogRecord record) {
   }
 
+  @Override
   public void setCurrentLogLevel(int level) {
   }
 

@@ -70,6 +70,7 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
     }
   }
 
+  @Override
   public final ArrayList<LogRecord> log(ArrayList<LogRecord> logRecords) {
     for (LogRecord record : logRecords) {
       try {
