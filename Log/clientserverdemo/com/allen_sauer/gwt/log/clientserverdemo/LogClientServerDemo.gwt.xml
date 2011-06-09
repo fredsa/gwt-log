@@ -26,6 +26,17 @@
   <!-- Enable RemoteLogger -->
   <inherits name="com.allen_sauer.gwt.log.gwt-log-RemoteLogger" />
 
+  <set-property name="compiler.emulatedStack" value="true" />
+  <set-configuration-property name="compiler.emulatedStack.recordLineNumbers"
+    value="true" />
+  <set-configuration-property name="compiler.emulatedStack.recordFileNames"
+    value="true" />
+
+  <!--
+    Test cross-domain logging, which requires Access-Control-Allow-Origin HTTP response headers
+  -->
+  <set-configuration-property name="log_url" value="http://gwt-log.appspot.com/crossdomain/gwt-log" />
+
   <!--
     Disable client side loggers in development mode, so we can focus on the
     output from our RemoteLogger.
@@ -41,7 +52,7 @@
 
   <!-- A simple RPC servlet for use in this demo -->
   <servlet path="/increment"
-    class="com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServiceImpl" />
+    class="com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServlet" />
 
   <!-- Improve raw JavaScript stack traces information in certain browser, but increases size of compiled JavaScript -->
   <set-property name="compiler.emulatedStack" value="true" />
@@ -56,7 +67,7 @@
   -->
   
   <!-- For debugging:
-  <set-property name="user.agent" value="safari"/>
+  <set-property name="user.agent" value="gecko1_8"/>
   <set-property name="log_level" value="DEBUG"/>
    -->
 </module>

@@ -42,9 +42,14 @@
     value="true" />
 
   <!--
+    Test cross-domain logging, which requires Access-Control-Allow-Origin HTTP response headers
+  -->
+  <set-configuration-property name="log_url" value="http://gwt-log.appspot.com/crossdomain/gwt-log" />
+
+  <!--
     For debugging
     
-      <set-property name="user.agent" value="gecko"/>
+      <set-property name="user.agent" value="gecko1_8"/>
       <set-property name="log_level" value="DEBUG"/>
       <set-configuration-property name="log_url" value="/foo" />
   -->
