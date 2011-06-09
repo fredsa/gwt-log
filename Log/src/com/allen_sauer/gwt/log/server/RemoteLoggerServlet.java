@@ -122,7 +122,7 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
   @Override
   protected void doOptions(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    if (!maybeSetAccessControlAllowHeaders(response)) {
+    if (!maybeSetAccessControlAllowHeaders(request, response)) {
       super.doOptions(request, response);
       return;
     }
@@ -134,10 +134,11 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
    * {@link #ACCESS_CONTROL_ALLOW_ORIGIN} {@code init-param} configuration parameter. Subclasses may
    * override this method implementation.
    * 
+   * @param request the current HTTP request
    * @return the {@value #ACCESS_CONTROL_ALLOW_ORIGIN} which should be set in response to the
    *         current {@link #getThreadLocalResponse()}
    */
-  protected String getAccessControlAllowOriginHeader() {
+  protected String getAccessControlAllowOriginHeader(HttpServletRequest request) {
     return accessControlAllowOriginHeader;
   }
 
@@ -150,7 +151,7 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
   @Override
   protected void onAfterResponseSerialized(String serializedResponse) {
     super.onAfterResponseSerialized(serializedResponse);
-    maybeSetAccessControlAllowHeaders(getThreadLocalResponse());
+    maybeSetAccessControlAllowHeaders(getThreadLocalRequest(), getThreadLocalResponse());
   }
 
   /**
@@ -219,15 +220,18 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
    * when cross-domain is enabled via the {@code init-param} parameter in {@code web.xml}. Returns
    * {@code true} of the headers were set, otherwise {@code false}.
    * 
-   * @param response the HTTP servlet response on which the headers should be set
+   * @param request the current HTTP request
+   * @param response the current HTTP servlet response to which the headers can be added
    * @return true if access control headers were set
    */
-  private boolean maybeSetAccessControlAllowHeaders(HttpServletResponse response) {
-    if (getAccessControlAllowOriginHeader() == null) {
+  private boolean maybeSetAccessControlAllowHeaders(HttpServletRequest request,
+      HttpServletResponse response) {
+    String origin = getAccessControlAllowOriginHeader(request);
+    if (origin == null) {
       return false;
     }
 
-    response.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, getAccessControlAllowOriginHeader());
+    response.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
     response.setHeader(ACCESS_CONTROL_ALLOW_METHODS, "POST");
     response.setHeader(ACCESS_CONTROL_ALLOW_HEADERS,
         "X-GWT-Module-Base, X-GWT-Permutation, Content-Type");
