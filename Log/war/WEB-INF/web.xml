@@ -21,8 +21,8 @@
   </servlet>
 
   <servlet>
-    <servlet-name>incrementServiceImpl</servlet-name>
-    <servlet-class>com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServiceImpl</servlet-class>
+    <servlet-name>increment-servlet</servlet-name>
+    <servlet-class>com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServlet</servlet-class>
   </servlet>
 
 
@@ -42,7 +42,7 @@
   </servlet-mapping>
 
   <servlet-mapping>
-    <servlet-name>remote-logger-servlet</servlet-name>
+    <servlet-name>increment-servlet</servlet-name>
     <url-pattern>/clientserverdemo/increment</url-pattern>
   </servlet-mapping>
 
