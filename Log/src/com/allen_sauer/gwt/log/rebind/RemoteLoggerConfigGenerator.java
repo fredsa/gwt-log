@@ -26,13 +26,11 @@ import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
-import com.allen_sauer.gwt.log.client.LogMessageFormatter;
-
 import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Generator for {@link LogMessageFormatter}.
+ * Generator for {@link com.allen_sauer.gwt.log.client.LogMessageFormatter}.
  */
 public class RemoteLoggerConfigGenerator extends Generator {
   // CHECKSTYLE_JAVADOC_OFF

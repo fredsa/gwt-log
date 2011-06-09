@@ -30,7 +30,6 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
 import com.allen_sauer.gwt.log.client.LogUtil;
-import com.allen_sauer.gwt.log.client.RemoteLoggerConfig;
 
 import java.io.PrintWriter;
 import java.util.Date;
@@ -41,7 +40,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Generator for {@link RemoteLoggerConfig}.
+ * Generator for {@link com.allen_sauer.gwt.log.client.RemoteLoggerConfig}.
  */
 public class LogMessageFormatterGenerator extends Generator {
   // CHECKSTYLE_JAVADOC_OFF
