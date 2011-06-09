@@ -45,6 +45,8 @@
 		<property name="gwt-user.jar" location="${gwt.location}/gwt-user.jar" />
 		<property name="gwt-servlet.jar" location="${gwt.location}/gwt-servlet.jar" />
 		<property name="gwt-dev.jar" location="${gwt.location}/gwt-dev.jar" />
+		<property name="validation-api-1.0.0.GA.jar" location="${gwt.location}/validation-api-1.0.0.GA.jar" />
+		<property name="validation-api-1.0.0.GA-sources.jar" location="${gwt.location}/validation-api-1.0.0.GA-sources.jar" />
 
 		<!-- Pulls in tasks defined in ant-contrib, i.e. foreach -->
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -167,8 +169,8 @@
 		<javac compiler="javac1.6" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/src" />
 			<classpath location="${gwt-user.jar}" />
-			<classpath location="${gwt-dev.jar}" />
 			<classpath location="${gwt-servlet.jar}" />
+			<classpath location="${gwt-dev.jar}" />
 			<classpath location="${log4j.location}" />
 		</javac>
 
@@ -215,6 +217,8 @@
 				<fileset dir="build/demo" />
 				<fileset file="${gwt-user.jar}" />
 				<fileset file="${gwt-dev.jar}" />
+				<fileset file="${validation-api-1.0.0.GA.jar}" />
+				<fileset file="${validation-api-1.0.0.GA-sources.jar}" />
 			</sourcefiles>
 
 			<targetfiles path="build/war/demo/demo.nocache.js" />
@@ -222,7 +226,7 @@
 			<sequential>
 				<mkdir dir="build/war" />
 
-				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.Compiler" classpath="build/super:build/out:build/demo:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
+				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.Compiler" classpath="build/super:build/out:build/demo:${gwt-user.jar}:${gwt-dev.jar}:${validation-api-1.0.0.GA.jar}:${validation-api-1.0.0.GA-sources.jar}" fork="yes" failonerror="true">
 					<arg value="-war" />
 					<arg path="build/war" />
 					<arg value="${packagename}" />
@@ -243,7 +247,7 @@
 	</target>
 
 	<target name="javadoc" description="Generate Javadoc" depends="javac">
-		<javadoc access="protected" classpath="${gwt-user.jar}:${gwt-dev.jar}:${log4j.location}" destdir="build/javadoc" doctitle="${ant.project.name} - ${projectdescription}" encoding="UTF-8" failonerror="true" source="1.6" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
+		<javadoc access="protected" classpath="${gwt-user.jar}:${log4j.location}" destdir="build/javadoc" doctitle="${ant.project.name} - ${projectdescription}" encoding="UTF-8" failonerror="true" source="1.6" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
 	</target>
 
 	<target name="stat">
