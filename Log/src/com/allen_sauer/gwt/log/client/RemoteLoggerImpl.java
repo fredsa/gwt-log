@@ -1,15 +1,10 @@
 /*
- * Copyright 2010 Fred Sauer
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Copyright 2010 Fred Sauer Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in
+ * writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
  */
 package com.allen_sauer.gwt.log.client;
 
@@ -30,8 +25,13 @@ public final class RemoteLoggerImpl extends RemoteLogger {
   // CHECKSTYLE_JAVADOC_OFF
 
   private static final RemoteLoggerConfig config = GWT.create(RemoteLoggerConfig.class);
-  private static final int MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE = 300;
-  private static final int MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED = 5 * 60 * 1000; // 5 mins
+  private static final int MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE = 250;
+
+  /**
+   * When RemoteLogger is enabled, output to other loggers may be delayed for up to {@value} ms.
+   * This time delay must be kept fairly low, otherwise logging will appear to be entirely broken!
+   */
+  private static final int MESSAGE_QUEUEING_DELAY_MILLIS_MAX_QUEUED = 1000;
   private static int messageQueueingDelayMillis = MESSAGE_QUEUEING_DELAY_MILLIS_BASELINE;
   private static final String REMOTE_LOGGER_NAME = "Remote Logger";
   private final AsyncCallback<ArrayList<LogRecord>> callback;
