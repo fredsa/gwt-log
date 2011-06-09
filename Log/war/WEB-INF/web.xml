@@ -6,7 +6,7 @@
 <web-app>
 
   <servlet>
-    <servlet-name>remoteLoggerServiceImpl</servlet-name>
+    <servlet-name>remote-logger-servlet</servlet-name>
     <servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServlet</servlet-class>
     <init-param>
       <param-name>symbolMaps_1</param-name>
@@ -27,22 +27,22 @@
 
 
   <servlet-mapping>
-    <servlet-name>remoteLoggerServiceImpl</servlet-name>
+    <servlet-name>remote-logger-servlet</servlet-name>
     <url-pattern>/demo/gwt-log</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
-    <servlet-name>remoteLoggerServiceImpl</servlet-name>
+    <servlet-name>remote-logger-servlet</servlet-name>
     <url-pattern>/gettingstarted/gwt-log</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
-    <servlet-name>remoteLoggerServiceImpl</servlet-name>
+    <servlet-name>remote-logger-servlet</servlet-name>
     <url-pattern>/clientserverdemo/gwt-log</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
-    <servlet-name>incrementServiceImpl</servlet-name>
+    <servlet-name>remote-logger-servlet</servlet-name>
     <url-pattern>/clientserverdemo/increment</url-pattern>
   </servlet-mapping>
 
