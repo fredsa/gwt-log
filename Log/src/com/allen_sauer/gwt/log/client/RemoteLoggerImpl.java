@@ -42,6 +42,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
       if (maxRpcLatency != 0) {
         giveUpTimer.schedule(maxRpcLatency);
       } else {
+        loggersLogToOthers(queuedLogRecordList);
         queuedLogRecordList.clear();
       }
     }
