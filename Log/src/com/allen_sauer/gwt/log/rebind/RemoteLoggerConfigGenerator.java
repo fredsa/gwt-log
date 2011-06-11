@@ -28,6 +28,7 @@ import java.util.List;
  * Generator for {@link com.allen_sauer.gwt.log.client.RemoteLoggerConfig}.
  */
 public class RemoteLoggerConfigGenerator extends Generator {
+  private static final String PROPERTY_LOG_MAX_LATENCY = "log_max_latency";
   // CHECKSTYLE_JAVADOC_OFF
   private static final String PROPERTY_LOG_URL = "log_url";
 
@@ -76,6 +77,34 @@ public class RemoteLoggerConfigGenerator extends Generator {
         throw new UnableToCompleteException();
       }
 
+      int logMaxLatency;
+      try {
+        ConfigurationProperty logPatternProperty = propertyOracle.getConfigurationProperty(PROPERTY_LOG_MAX_LATENCY);
+        List<String> values = logPatternProperty.getValues();
+        logMaxLatency = Integer.parseInt(values.get(0));
+      } catch (BadPropertyValueException e) {
+        logger.log(TreeLogger.ERROR, "Unable to find value for '" + PROPERTY_LOG_MAX_LATENCY + "'",
+            e);
+        throw new UnableToCompleteException();
+      } catch (NumberFormatException e) {
+        logger.log(TreeLogger.ERROR, "Value for '" + PROPERTY_LOG_MAX_LATENCY
+            + "' must be an integer", e);
+        throw new UnableToCompleteException();
+      }
+      if (logMaxLatency < 0) {
+        logger.log(TreeLogger.ERROR, "Value for '" + PROPERTY_LOG_MAX_LATENCY + "' must be > 0");
+        throw new UnableToCompleteException();
+      }
+
+      sw.println();
+      sw.println("public int maxRemoteLoggerGwtRpcLatencyMillis() {");
+      sw.indent();
+
+      sw.println("return " + logMaxLatency + ";");
+
+      sw.outdent();
+      sw.println("}");
+
       sw.println();
       sw.println("public String serviceEntryPointUrl() {");
       sw.indent();
@@ -87,7 +116,7 @@ public class RemoteLoggerConfigGenerator extends Generator {
       }
 
       sw.outdent();
-      sw.println("}\n");
+      sw.println("}");
 
       sw.commit(logger);
     }

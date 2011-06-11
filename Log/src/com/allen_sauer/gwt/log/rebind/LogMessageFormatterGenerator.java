@@ -258,7 +258,7 @@ public class LogMessageFormatterGenerator extends Generator {
       sw.println("}");
       sw.println(logPatternToCode(logPattern));
       sw.outdent();
-      sw.println("}\n");
+      sw.println("}");
 
       sw.commit(logger);
     }
