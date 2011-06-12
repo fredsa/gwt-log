@@ -111,6 +111,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
         logRecordList.clear();
 
         callInProgressOrScheduled = false;
+        giveUpTimer.cancel();
       }
 
       @Override
@@ -125,6 +126,7 @@ public final class RemoteLoggerImpl extends RemoteLogger {
           queuedLogRecordList.clear();
         }
         callInProgressOrScheduled = false;
+        giveUpTimer.cancel();
         maybeTriggerRPC();
       }
 

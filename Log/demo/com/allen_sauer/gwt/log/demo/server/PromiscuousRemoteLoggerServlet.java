@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Remote logger servlet which allows cross domain logging from any origin. It'll eat your logs.
  */
+@SuppressWarnings("serial")
 public class PromiscuousRemoteLoggerServlet extends RemoteLoggerServlet {
   @Override
   protected String getAccessControlAllowOriginHeader(HttpServletRequest request) {

@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Default remote logger servlet, which can be configured as a {@code web.xml} servlet.
  */
+@SuppressWarnings("serial")
 public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteLoggerService {
 
   /**
