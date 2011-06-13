@@ -41,12 +41,4 @@
       class="com.allen_sauer.gwt.log.client.RemoteLoggerConfig" />
   </generate-with>
 
-  <!--
-    Allows the developer to set the maximum number of milliseconds they are
-    willing to wait for log message output on the client before giving up
-    on server side deobfuscation.
-  -->
-  <define-configuration-property name="log_max_latency" is-multi-valued="false" />
-  <set-configuration-property name="log_max_latency" value="0"/>
-  
 </module>

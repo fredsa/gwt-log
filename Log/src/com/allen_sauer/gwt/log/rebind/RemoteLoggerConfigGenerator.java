@@ -1,10 +1,17 @@
 /*
- * Copyright 2009 Fred Sauer Licensed under the Apache License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in
- * writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
- * language governing permissions and limitations under the License.
+ * Copyright 2009 Fred Sauer
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.allen_sauer.gwt.log.rebind;
 
@@ -28,7 +35,6 @@ import java.util.List;
  * Generator for {@link com.allen_sauer.gwt.log.client.RemoteLoggerConfig}.
  */
 public class RemoteLoggerConfigGenerator extends Generator {
-  private static final String PROPERTY_LOG_MAX_LATENCY = "log_max_latency";
   // CHECKSTYLE_JAVADOC_OFF
   private static final String PROPERTY_LOG_URL = "log_url";
 
@@ -76,34 +82,6 @@ public class RemoteLoggerConfigGenerator extends Generator {
         logger.log(TreeLogger.ERROR, "Unable to find value for '" + PROPERTY_LOG_URL + "'", e);
         throw new UnableToCompleteException();
       }
-
-      int logMaxLatency;
-      try {
-        ConfigurationProperty logPatternProperty = propertyOracle.getConfigurationProperty(PROPERTY_LOG_MAX_LATENCY);
-        List<String> values = logPatternProperty.getValues();
-        logMaxLatency = Integer.parseInt(values.get(0));
-      } catch (BadPropertyValueException e) {
-        logger.log(TreeLogger.ERROR, "Unable to find value for '" + PROPERTY_LOG_MAX_LATENCY + "'",
-            e);
-        throw new UnableToCompleteException();
-      } catch (NumberFormatException e) {
-        logger.log(TreeLogger.ERROR, "Value for '" + PROPERTY_LOG_MAX_LATENCY
-            + "' must be an integer", e);
-        throw new UnableToCompleteException();
-      }
-      if (logMaxLatency < 0) {
-        logger.log(TreeLogger.ERROR, "Value for '" + PROPERTY_LOG_MAX_LATENCY + "' must be > 0");
-        throw new UnableToCompleteException();
-      }
-
-      sw.println();
-      sw.println("public int maxRemoteLoggerGwtRpcLatencyMillis() {");
-      sw.indent();
-
-      sw.println("return " + logMaxLatency + ";");
-
-      sw.outdent();
-      sw.println("}");
 
       sw.println();
       sw.println("public String serviceEntryPointUrl() {");

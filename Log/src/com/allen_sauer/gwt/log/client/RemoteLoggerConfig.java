@@ -20,14 +20,6 @@ package com.allen_sauer.gwt.log.client;
  */
 public interface RemoteLoggerConfig {
   /**
-   * Number of milliseconds {@link RemoteLogger} should wait for a response from the server before
-   * just returning the obfuscated stack trace.
-   * 
-   * @return max GWT RPC wait time in milliseconds
-   */
-  int maxRemoteLoggerGwtRpcLatencyMillis();
-
-  /**
    * Override the server side logging end point or {@code null} to use the default
    * {@code /<module_name>/gwt-log}.
    * 
