@@ -55,6 +55,15 @@ public final class Log {
     }
 
     if (impl == null) {
+      try {
+        // On Google App Engine, use JDK logging by default
+        Class.forName("com.google.appengine.api.utils.SystemProperty");
+        impl = tryJDK14();
+      } catch (Exception ignore) {
+      }
+    }
+
+    if (impl == null) {
       impl = tryLog4J();
     }
 
