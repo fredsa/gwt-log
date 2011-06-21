@@ -25,8 +25,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * Wrapper class to capture a single log message and optional stack trace, used
- * primarily for transfer between client and server.
+ * Wrapper class to capture a single log message and optional stack trace, used primarily for
+ * transfer between client and server.
  */
 @SuppressWarnings("serial")
 public class LogRecord implements Serializable {
@@ -36,6 +36,7 @@ public class LogRecord implements Serializable {
   private static int gloablRecordSequence;
   private transient Throwable bookmarkThrowable;
   private String category;
+  private transient String formattedMessage;
   private int level;
   private HashMap<String, String> map;
   private String message;
@@ -79,10 +80,15 @@ public class LogRecord implements Serializable {
    */
   public String getFormattedMessage() {
     assert GWT.isClient() : "Method should only be called in Client Code";
+    if (formattedMessage != null) {
+      // avoid recomputing message for each logger
+      return formattedMessage;
+    }
     Throwable callerThrowable = UnwrappedClientThrowable.getInstanceOrNull(wrappedClientThrowable != null
         ? wrappedClientThrowable : wrappedBookmarkThrowable);
-    return level == Log.LOG_LEVEL_OFF ? message : FORMATTER.format(LogUtil.levelToString(level),
-        category, message, callerThrowable);
+    formattedMessage = level == Log.LOG_LEVEL_OFF ? message : FORMATTER.format(
+        LogUtil.levelToString(level), category, message, callerThrowable);
+    return formattedMessage;
   }
 
   /**
