@@ -6,8 +6,8 @@
 		<property name="projectdescription" value="Logging for your Google-Web-Toolkit Projects" />
 		<property name="googlecode-libsummary" value="Logging capabilities for Google-Web-Toolkit (GWT)" />
 		<property name="googlecode-javadocsummary" value="Javadoc for ${ant.project.name} source and demos (examples)" />
-		<property name="googlecode-liblabels" value="Type-Library, OpSys-All, GWT-GWT_2.3.0, Java-1.6, ReleaseCandidate" />
-		<property name="googlecode-javadoclabels" value="Type-Docs, OpSys-All, GWT-GWT_2.3.0, Java-1.6, ReleaseCandidate" />
+		<property name="googlecode-liblabels" value="Type-Library, OpSys-All, GWT-GWT_2.4.0, Java-1.6, ReleaseCandidate" />
+		<property name="googlecode-javadoclabels" value="Type-Docs, OpSys-All, GWT-GWT_2.4.0, Java-1.6, ReleaseCandidate" />
 		<property name="filtertoken" value="GWT_LOG_VERSION" />
 
 		<!-- Global Properties -->
