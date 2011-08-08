@@ -16,13 +16,13 @@ package com.allen_sauer.gwt.log.client;
 import com.allen_sauer.gwt.log.shared.LogRecord;
 
 /**
- * Logger which sends output via <code>window.console</code>. This logger is compatible with
- * <a href="http://www.getfirebug.com/">Firebug</a>, <a
+ * Logger which sends output via <code>$wnd.console</code>. This logger is compatible with <a
+ * href="http://www.getfirebug.com/">Firebug</a>, <a
  * href="http://www.getfirebug.com/lite.html">Firebug Lite</a>, Chrome Developer Tools, Safari Web
  * Inspector, IE Developer Toolbar and any others. Messages are logged via
- * <code>window.console.debug()</code>, <code>window.console.info()</code>,
- * <code>window.console.warn()</code>, <code>window.console.error()</code> and, as a fallback,
- * <code>window.console.log()</code>.
+ * <code>$wnd.console.debug()</code>, <code>$wnd.console.info()</code>,
+ * <code>$wnd.console.warn()</code>, <code>$wnd.console.error()</code> and, as a fallback,
+ * <code>$wnd.console.log()</code>.
  */
 public final class ConsoleLogger implements Logger {
   // CHECKSTYLE_JAVADOC_OFF
@@ -33,23 +33,21 @@ public final class ConsoleLogger implements Logger {
 
   @Override
   public native boolean isSupported() /*-{
-    // Consciously using 'window' rather than '$wnd'
-    // See http://code.google.com/p/fbug/issues/detail?id=2914
-    if (window.console == null
-        || (typeof (window.console.log) != 'function' && typeof (window.console.log) != 'object')) {
+    if ($wnd.console == null
+        || (typeof ($wnd.console.log) != 'function' && typeof ($wnd.console.log) != 'object')) {
       return false;
     }
-    if (typeof window.console.error == "undefined") {
-      window.console.error = window.console.log;
+    if (typeof $wnd.console.error == "undefined") {
+      $wnd.console.error = $wnd.console.log;
     }
-    if (typeof window.console.warn == "undefined") {
-      window.console.warn = window.console.log;
+    if (typeof $wnd.console.warn == "undefined") {
+      $wnd.console.warn = $wnd.console.log;
     }
-    if (typeof window.console.info == "undefined") {
-      window.console.info = window.console.log;
+    if (typeof $wnd.console.info == "undefined") {
+      $wnd.console.info = $wnd.console.log;
     }
-    if (typeof window.console.debug == "undefined") {
-      window.console.debug = window.console.log;
+    if (typeof $wnd.console.debug == "undefined") {
+      $wnd.console.debug = $wnd.console.log;
     }
     return true;
   }-*/;
@@ -65,16 +63,14 @@ public final class ConsoleLogger implements Logger {
   }
 
   private native void logMessage(int logLevel, String message) /*-{
-    // Consciously using 'window' rather than '$wnd'
-    // See http://code.google.com/p/fbug/issues/detail?id=2914
     if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_ERROR) {
-      window.console.error(message);
+      $wnd.console.error(message);
     } else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_WARN) {
-      window.console.warn(message);
+      $wnd.console.warn(message);
     } else if (logLevel >= @com.allen_sauer.gwt.log.client.Log::LOG_LEVEL_INFO) {
-      window.console.info(message);
+      $wnd.console.info(message);
     } else {
-      window.console.debug(message);
+      $wnd.console.debug(message);
     }
   }-*/;
 }
