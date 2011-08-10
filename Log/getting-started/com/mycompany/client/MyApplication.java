@@ -71,6 +71,10 @@ public class MyApplication implements EntryPoint {
     Log.error("This is a 'ERROR' test message");
     Log.fatal("This is a 'FATAL' test message");
 
+    Log.fatal("This is what an exception might look like", new RuntimeException("2 + 2 = 5"));
+
+    Log.debug("foo.bar.baz", "Using logging categories", (Exception) null);
+
     /*
      * Again, we need a guard here, otherwise <code>log_level=OFF</code> would still produce the
      * following useless JavaScript: <pre> var durationSeconds, endTimeMillis; endTimeMillis =
