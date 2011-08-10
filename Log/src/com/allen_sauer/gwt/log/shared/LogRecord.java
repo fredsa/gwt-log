@@ -73,6 +73,10 @@ public class LogRecord implements Serializable {
   private LogRecord() {
   }
 
+  public String getCategory() {
+    return category;
+  }
+
   /**
    * Retrieve a formatted message for this log record.
    * 
@@ -87,7 +91,7 @@ public class LogRecord implements Serializable {
     Throwable callerThrowable = UnwrappedClientThrowable.getInstanceOrNull(wrappedClientThrowable != null
         ? wrappedClientThrowable : wrappedBookmarkThrowable);
     formattedMessage = level == Log.LOG_LEVEL_OFF ? message : FORMATTER.format(
-        LogUtil.levelToString(level), category, message, callerThrowable);
+        LogUtil.levelToString(level), getCategory(), message, callerThrowable);
     return formattedMessage;
   }
 

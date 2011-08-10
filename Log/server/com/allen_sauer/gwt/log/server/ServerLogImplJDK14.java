@@ -83,7 +83,9 @@ public final class ServerLogImplJDK14 implements ServerLog {
 
   @Override
   public void log(LogRecord record) {
-    logger.log(mapGWTLogLevelToImplLevelObject(record.getLevel()), record.getMessage(),
+    String category = record.getCategory();
+    Logger log = category != null ? Logger.getLogger(category) : logger;
+    log.log(mapGWTLogLevelToImplLevelObject(record.getLevel()), record.getMessage(),
         record.getThrowable());
   }
 
