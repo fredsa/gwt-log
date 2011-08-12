@@ -245,44 +245,9 @@ public class DivLogger implements Logger {
     };
   }
 
-  private void addLogText(String logTest) {
-    logText += logTest;
-    if (!dirty) {
-      dirty = true;
-      timer.schedule(UPDATE_INTERVAL_MILLIS);
-    }
-  }
-
   @Override
   public final void clear() {
     logTextArea.setHTML("");
-  }
-
-  private void ensureInitialized() {
-    scrollPanel.checkMinSize();
-    logDockPanel.resize(Window.getClientWidth(), Window.getClientHeight());
-  }
-
-  private String getColor(int logLevel) {
-    if (logLevel == Log.LOG_LEVEL_OFF) {
-      return "#000"; // black
-    }
-    if (logLevel >= Log.LOG_LEVEL_FATAL) {
-      return "#F00"; // bright red
-    }
-    if (logLevel >= Log.LOG_LEVEL_ERROR) {
-      return "#C11B17"; // dark red
-    }
-    if (logLevel >= Log.LOG_LEVEL_WARN) {
-      return "#E56717"; // dark orange
-    }
-    if (logLevel >= Log.LOG_LEVEL_INFO) {
-      return "#2B60DE"; // blue
-    }
-    if (logLevel >= Log.LOG_LEVEL_DEBUG) {
-      return "#20b000"; // green
-    }
-    return "#F0F"; // purple
   }
 
   public final Widget getWidget() {
@@ -345,6 +310,84 @@ public class DivLogger implements Logger {
     }
   }
 
+  public final void moveTo(int x, int y) {
+    // Need to ensure initialization, in case moveTo() is called before the first call to log()
+    ensureInitialized();
+    RootPanel.get().add(logDockPanel, x, y);
+  }
+
+  @Override
+  public void setCurrentLogLevel(int level) {
+    for (int i = 0; i < levels.length; i++) {
+      if (levels[i] < Log.getLowestLogLevel()) {
+        levelButtons[i].setEnabled(false);
+      } else {
+        String levelText = LogUtil.levelToString(levels[i]);
+        boolean current = level == levels[i];
+        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
+            + "'" : "Set current (runtime) log level to '" + levelText + "'");
+        boolean active = level <= levels[i];
+        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
+            : "#ccc");
+      }
+    }
+  }
+
+  /**
+   * Set explicit size of log scroll panel area.
+   * 
+   * @param width width in pixels
+   * @param height height in pixels
+   */
+  public final void setPixelSize(int width, int height) {
+    scrollPanel.setPixelSize(width, height);
+  }
+
+  /**
+   * Set explicit size of log scroll panel area.
+   * 
+   * @param width width
+   * @param height height
+   */
+  public final void setSize(String width, String height) {
+    scrollPanel.setSize(width, height);
+  }
+
+  private void addLogText(String logTest) {
+    logText += logTest;
+    if (!dirty) {
+      dirty = true;
+      timer.schedule(UPDATE_INTERVAL_MILLIS);
+    }
+  }
+
+  private void ensureInitialized() {
+    scrollPanel.checkMinSize();
+    logDockPanel.resize(Window.getClientWidth(), Window.getClientHeight());
+  }
+
+  private String getColor(int logLevel) {
+    if (logLevel == Log.LOG_LEVEL_OFF) {
+      return "#000"; // black
+    }
+    if (logLevel >= Log.LOG_LEVEL_FATAL) {
+      return "#F00"; // bright red
+    }
+    if (logLevel >= Log.LOG_LEVEL_ERROR) {
+      return "#C11B17"; // dark red
+    }
+    if (logLevel >= Log.LOG_LEVEL_WARN) {
+      return "#E56717"; // dark orange
+    }
+    if (logLevel >= Log.LOG_LEVEL_INFO) {
+      return "#2B60DE"; // blue
+    }
+    if (logLevel >= Log.LOG_LEVEL_DEBUG) {
+      return "#20b000"; // green
+    }
+    return "#F0F"; // purple
+  }
+
   /**
    * @deprecated
    */
@@ -396,7 +439,7 @@ public class DivLogger implements Logger {
         Log.diagnostic("\n" //
             + "gwt-log-" + Log.getVersion() //
             + " - Runtime logging for your Google Web Toolkit projects\n" + //
-            "Copyright 2007-2008 Fred Sauer\n" + //
+            "Copyright 2007 Fred Sauer\n" + //
             "The original software is available from:\n" + //
             "\u00a0\u00a0\u00a0\u00a0http://allen-sauer.com/gwt/\n", null);
       }
@@ -438,49 +481,6 @@ public class DivLogger implements Logger {
     }
     return DOMUtil.adjustTitleLineBreaks(message).replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll(
         "'", "\"");
-  }
-
-  public final void moveTo(int x, int y) {
-    // Need to ensure initialization, in case moveTo() is called before the first call to log()
-    ensureInitialized();
-    RootPanel.get().add(logDockPanel, x, y);
-  }
-
-  @Override
-  public void setCurrentLogLevel(int level) {
-    for (int i = 0; i < levels.length; i++) {
-      if (levels[i] < Log.getLowestLogLevel()) {
-        levelButtons[i].setEnabled(false);
-      } else {
-        String levelText = LogUtil.levelToString(levels[i]);
-        boolean current = level == levels[i];
-        levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
-            + "'" : "Set current (runtime) log level to '" + levelText + "'");
-        boolean active = level <= levels[i];
-        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
-            : "#ccc");
-      }
-    }
-  }
-
-  /**
-   * Set explicit size of log scroll panel area.
-   * 
-   * @param width width in pixels
-   * @param height height in pixels
-   */
-  public final void setPixelSize(int width, int height) {
-    scrollPanel.setPixelSize(width, height);
-  }
-
-  /**
-   * Set explicit size of log scroll panel area.
-   * 
-   * @param width width
-   * @param height height
-   */
-  public final void setSize(String width, String height) {
-    scrollPanel.setSize(width, height);
   }
 
 }
