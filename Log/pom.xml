@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.allen-sauer.gwt.log</groupId>
+  <artifactId>gwt-log</artifactId>
+  <version>@GWT_LOG_VERSION@</version>
+  <packaging>jar</packaging>
+
+  <name>gwt-log</name>
+  <description>Library providing easy to use logging capabilities to Google Web Toolkit (GWT) projects.</description>
+  <url>http://code.google.com/p/gwt-log/</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:svn:http://gwt-log.googlecode.com/svn/</connection>
+    <url>http://gwt-log.googlecode.com/svn/</url>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>fredsa</id>
+      <name>Fred Sauer</name>
+      <email>fred@allen-sauer.com</email>
+      <url>google.com/profiles/fredsa</url>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-7</timezone>
+      <properties>
+        <picUrl>https://lh5.googleusercontent.com/-71i1rz1ATl8/AAAAAAAAAAI/AAAAAAABhHU/tyyCD9lBnig/photo.jpg</picUrl>
+      </properties>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>2.4.0</version>
+    </dependency>
+  </dependencies>
+</project>
