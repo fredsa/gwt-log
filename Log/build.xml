@@ -176,7 +176,7 @@
 
 		<echo message="Compiling build/src ..." />
 
-		<javac compiler="javac1.6" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+		<javac compiler="javac1.6" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}" includeantruntime="false">
       <src path="build/src" />
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-servlet.jar}" />
