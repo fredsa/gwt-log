@@ -1,0 +1,37 @@
+
+# /Log/
+/Log/tomcat
+/Log/www
+/Log/.gwt-cache
+/Log/javadoc
+/Log/build
+/Log/bin
+/Log/gen
+/Log/stuff
+/Log/.gwt
+
+# /Log/war/
+/Log/war/com.allen_sauer.gwt.log.demo.LogDemo
+/Log/war/com.mycompany.MyApplication
+/Log/war/clientserverdemo
+/Log/war/demo
+/Log/war/gettingstarted
+
+# /Log/war/WEB-INF/
+/Log/war/WEB-INF/classes
+/Log/war/WEB-INF/deploy
+
+# /Log/war/WEB-INF/lib/
+/Log/war/WEB-INF/lib/appengine-api-*.jar
+/Log/war/WEB-INF/lib/datanucleus-appengine-*.jar
+/Log/war/WEB-INF/lib/geronimo-*.jar
+/Log/war/WEB-INF/lib/datanucleus-*.jar
+/Log/war/WEB-INF/lib/jdo2-api-*.jar
+/Log/war/WEB-INF/lib/gwt-servlet.jar
+/Log/war/WEB-INF/lib/appengine-jsr107cache-1.3.8.jar
+/Log/war/WEB-INF/lib/jsr107cache-1.1.jar
+/Log/war/WEB-INF/lib/appengine-jsr107cache-1.4.0.jar
+/Log/war/WEB-INF/lib/appengine-jsr107cache-1.4.3.jar
+/Log/war/WEB-INF/lib/appengine-jsr107cache-1.5.0.1.jar
+/Log/war/WEB-INF/lib/appengine-jsr107cache-1.5.1.jar
+/Log/war/WEB-INF/lib/appengine-jsr107cache-1.5.2.jar
