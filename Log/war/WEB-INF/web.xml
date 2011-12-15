@@ -23,7 +23,7 @@
     <!-- 
     <init-param>
       <param-name>Access-Control-Allow-Origin</param-name>
-      <param-value>http://crossdomain.gwt-log.appspot.com</param-value>
+      <param-value>http://crossdomain.gwt-log-hrd.appspot.com</param-value>
     </init-param>
     -->
   </servlet>

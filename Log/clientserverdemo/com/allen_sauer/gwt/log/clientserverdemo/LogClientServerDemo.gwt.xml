@@ -35,7 +35,7 @@
   <!--
     Test cross-domain logging, which requires Access-Control-Allow-Origin HTTP response headers
   -->
-  <set-configuration-property name="log_url" value="http://gwt-log.appspot.com/crossdomain/gwt-log" />
+  <set-configuration-property name="log_url" value="http://gwt-log-hrd.appspot.com/crossdomain/gwt-log" />
 
   <!--
     Disable client side loggers in development mode, so we can focus on the
