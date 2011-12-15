@@ -1,0 +1,15 @@
+# Ant build
+/build/
+
+# GWT launch '-gen' files
+/gen/
+
+# App Engine
+/war/WEB-INF/appengine-generated/
+/war/WEB-INF/deploy/
+
+# Compiled output
+/war/demo/
+/war/clientserverdemo/
+/war/gettingstarted/
+

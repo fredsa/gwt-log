@@ -1,37 +1,17 @@
+# GWT Cache
+/gwt-unitCache/
 
-# /Log/
-/Log/tomcat
-/Log/www
-/Log/.gwt-cache
-/Log/javadoc
-/Log/build
-/Log/bin
-/Log/gen
-/Log/stuff
-/Log/.gwt
+# App Engine SDK
+appengine-api-1.0-sdk-*.jar
+appengine-api-labs-*.jar
+appengine-jsr107cache-*.jar
+datanucleus-appengine-1.0.10.final.jar
+datanucleus-core-1.1.5.jar
+datanucleus-jpa-1.1.5.jar
+geronimo-jpa_3.0_spec-1.1.1.jar
+geronimo-jta_1.1_spec-1.1.1.jar
+jdo2-api-2.3-eb.jar
+jsr107cache-1.1.jar
 
-# /Log/war/
-/Log/war/com.allen_sauer.gwt.log.demo.LogDemo
-/Log/war/com.mycompany.MyApplication
-/Log/war/clientserverdemo
-/Log/war/demo
-/Log/war/gettingstarted
-
-# /Log/war/WEB-INF/
-/Log/war/WEB-INF/classes
-/Log/war/WEB-INF/deploy
-
-# /Log/war/WEB-INF/lib/
-/Log/war/WEB-INF/lib/appengine-api-*.jar
-/Log/war/WEB-INF/lib/datanucleus-appengine-*.jar
-/Log/war/WEB-INF/lib/geronimo-*.jar
-/Log/war/WEB-INF/lib/datanucleus-*.jar
-/Log/war/WEB-INF/lib/jdo2-api-*.jar
-/Log/war/WEB-INF/lib/gwt-servlet.jar
-/Log/war/WEB-INF/lib/appengine-jsr107cache-1.3.8.jar
-/Log/war/WEB-INF/lib/jsr107cache-1.1.jar
-/Log/war/WEB-INF/lib/appengine-jsr107cache-1.4.0.jar
-/Log/war/WEB-INF/lib/appengine-jsr107cache-1.4.3.jar
-/Log/war/WEB-INF/lib/appengine-jsr107cache-1.5.0.1.jar
-/Log/war/WEB-INF/lib/appengine-jsr107cache-1.5.1.jar
-/Log/war/WEB-INF/lib/appengine-jsr107cache-1.5.2.jar
+# GWT SDK
+gwt-servlet.jar
