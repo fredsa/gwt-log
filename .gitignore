@@ -1,6 +1,9 @@
 # GWT Cache
 gwt-unitCache/
 
+# Eclispe compiled output
+classes/
+
 # App Engine SDK
 appengine-api-1.0-sdk-*.jar
 appengine-api-labs-*.jar
