@@ -16,6 +16,7 @@ import com.allen_sauer.gwt.log.client.RemoteLoggerService;
 import com.allen_sauer.gwt.log.shared.LogRecord;
 import com.allen_sauer.gwt.log.shared.WrappedClientThrowable;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -72,13 +73,29 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
   public final void init(ServletConfig config) throws ServletException {
     super.init(config);
 
+    String cwd = "<unknown>";
+    try {
+      cwd = new File(".").getCanonicalPath();
+    } catch (IOException ignore) {
+    }
+
     deobfuscatorList = new ArrayList<StackTraceDeobfuscator>();
     for (@SuppressWarnings("unchecked")
     Enumeration<String> e = config.getInitParameterNames(); e.hasMoreElements();) {
       String name = e.nextElement();
       if (name.startsWith(PARAMETER_SYMBOL_MAPS)) {
         String path = config.getInitParameter(name);
-        deobfuscatorList.add(new StackTraceDeobfuscator(path));
+        File symbolMapsDirectory = new File(path);
+        if (symbolMapsDirectory.isDirectory()) {
+          deobfuscatorList.add(new StackTraceDeobfuscator(path));
+        } else {
+          Log.warn("Servlet configuration parameter '"
+              + name
+              + "' specifies directory '"
+              + path
+              + "' which does not exist or is not relative to your server's current working directory '"
+              + cwd + "'");
+        }
       }
     }
     if (deobfuscatorList.isEmpty()) {
