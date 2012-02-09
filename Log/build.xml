@@ -128,12 +128,24 @@
 		<mkdir dir="build/demo" />
 		<mkdir dir="build/server" />
 
+                <!-- unfiltered files -->
+
 		<copy todir="build/src">
 			<fileset dir="src">
-				<exclude name="**/package.html" />
+				<include name="**/*.css" />
+				<include name="**/*.png" />
+			</fileset>
+		</copy>
+
+		<!-- filtered files -->
+
+		<copy todir="build/src">
+			<fileset dir="src">
+				<include name="**/*.java" />
+				<include name="**/*.gwt.xml" />
 			</fileset>
 			<fileset dir="server">
-				<exclude name="**/package.html" />
+				<include name="**/*.java" />
 			</fileset>
 			<filterset>
 				<filter token="${filtertoken}" value="${libversion}" />
@@ -142,7 +154,7 @@
 
 		<copy todir="build/super">
 			<fileset dir="super">
-				<exclude name="**/package.html" />
+				<include name="**/*.java" />
 			</fileset>
 			<filterset>
 				<filter token="${filtertoken}" value="${libversion}" />
@@ -151,7 +163,8 @@
 
 		<copy todir="build/demo">
 			<fileset dir="demo">
-				<exclude name="**/package.html" />
+				<include name="**/*.java" />
+				<include name="**/*.gwt.xml" />
 			</fileset>
 			<fileset dir=".">
 				<include name="LICENSE" />
