@@ -17,13 +17,35 @@ package com.allen_sauer.gwt.log.client;
 
 import com.allen_sauer.gwt.log.shared.LogRecord;
 
+/**
+ * Interface implemented by all loggers.
+ */
 public interface Logger {
+  /**
+   * Clear the output, if possible.
+   */
   void clear();
 
+  /**
+   * Determine whether this logger is supported in the current configuration and environment.
+   * 
+   * @return true if this logger is supported
+   */
   boolean isSupported();
 
+  /**
+   * Log an event.
+   * 
+   * @param record the event to log
+   */
   void log(LogRecord record);
 
+  /**
+   * Set the current runtime log level. Setting the runtime log level to a lower level than the
+   * current compile time log level will not result in any additional information being logged.
+   * 
+   * @param level new runtime log level.
+   */
   void setCurrentLogLevel(int level);
 
 }
