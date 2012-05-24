@@ -1,5 +1,6 @@
 # GWT Cache
 gwt-unitCache/
+.gwt/
 
 # Eclispe compiled output
 classes/
