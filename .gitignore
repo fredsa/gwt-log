@@ -11,6 +11,8 @@ appengine-api-labs-*.jar
 appengine-jsr107cache-*.jar
 jsr107cache-1.1.jar
 google_sql.jar
+appengine-api-labs.jar
+appengine-endpoints.jar
 
 # GWT SDK
 gwt-servlet.jar
