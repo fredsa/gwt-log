@@ -13,7 +13,7 @@
  */
 package com.allen_sauer.gwt.log.shared;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.shared.GWT;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.allen_sauer.gwt.log.client.LogMessageFormatter;
@@ -31,8 +31,8 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class LogRecord implements Serializable {
 
-  static final LogMessageFormatter FORMATTER = (LogMessageFormatter) (GWT.isClient()
-      ? GWT.create(LogMessageFormatter.class) : null);
+  static final LogMessageFormatter FORMATTER = (LogMessageFormatter) (GWT.isClient() ? GWT.create(
+      LogMessageFormatter.class) : null);
   private static int gloablRecordSequence;
   private transient Throwable bookmarkThrowable;
   private String category;
@@ -45,9 +45,14 @@ public class LogRecord implements Serializable {
   private WrappedClientThrowable wrappedBookmarkThrowable;
   private WrappedClientThrowable wrappedClientThrowable;
 
+  // For GWT serialization
+  @SuppressWarnings("unused")
+  private LogRecord() {
+  }
+
   /**
    * Constructor.
-   * 
+   *
    * @param category The category in which this message should be logged
    * @param level the level at which this message should be logged
    * @param message the message to be logged
@@ -68,18 +73,13 @@ public class LogRecord implements Serializable {
     }
   }
 
-  // For GWT serialization
-  @SuppressWarnings("unused")
-  private LogRecord() {
-  }
-
   public String getCategory() {
     return category;
   }
 
   /**
    * Retrieve a formatted message for this log record.
-   * 
+   *
    * @return the formatted message
    */
   public String getFormattedMessage() {
@@ -88,16 +88,24 @@ public class LogRecord implements Serializable {
       // avoid recomputing message for each logger
       return formattedMessage;
     }
-    Throwable callerThrowable = UnwrappedClientThrowable.getInstanceOrNull(wrappedClientThrowable != null
-        ? wrappedClientThrowable : wrappedBookmarkThrowable);
+    Throwable callerThrowable = UnwrappedClientThrowable.getInstanceOrNull(
+        wrappedClientThrowable != null ? wrappedClientThrowable : wrappedBookmarkThrowable);
     formattedMessage = level == Log.LOG_LEVEL_OFF ? message : FORMATTER.format(
         LogUtil.levelToString(level), getCategory(), message, callerThrowable);
     return formattedMessage;
   }
 
+  private HashMap<String, String> getHashMap() {
+    if (map == null) {
+      map = new HashMap<String, String>();
+      map.put("logSequence", "" + getRecordSequence());
+    }
+    return map;
+  }
+
   /**
    * Retrieve the log level for this log record.
-   * 
+   *
    * @return the log level
    */
   public int getLevel() {
@@ -106,7 +114,7 @@ public class LogRecord implements Serializable {
 
   /**
    * Retrieve the Set of key/value pairs for this log record, used for logging arbitrary data.
-   * 
+   *
    * @return the Set of key/value pairs
    */
   public Set<Entry<String, String>> getMapEntrySet() {
@@ -115,7 +123,7 @@ public class LogRecord implements Serializable {
 
   /**
    * Retrieve this raw log record.
-   * 
+   *
    * @return the raw log message
    */
   public String getMessage() {
@@ -125,7 +133,7 @@ public class LogRecord implements Serializable {
   /**
    * Get the wrapped client throwable, suitable for serialization with RPC serialization code
    * penalty.
-   * 
+   *
    * @return the wrapped client throwable
    */
   public WrappedClientThrowable getModifiableWrappedClientThrowable() {
@@ -134,7 +142,7 @@ public class LogRecord implements Serializable {
 
   /**
    * Retrieve the global client-side or server-side sequence number for this log record.
-   * 
+   *
    * @return the global client-side or server-side sequence number
    */
   public int getRecordSequence() {
@@ -143,29 +151,21 @@ public class LogRecord implements Serializable {
 
   /**
    * Retrieves either the original (server side) throwable or a reconstituted client-side throwable.
-   * 
+   *
    * @return the original or reconstituted throwable
    */
   public Throwable getThrowable() {
-    return throwable != null ? throwable
-        : UnwrappedClientThrowable.getInstanceOrNull(wrappedClientThrowable);
+    return throwable != null ? throwable : UnwrappedClientThrowable.getInstanceOrNull(
+        wrappedClientThrowable);
   }
 
   /**
    * Set a key/value pair associated with this log record.
-   * 
+   *
    * @param key the unique key under which to store the supplied value
    * @param value the value to be stored under the provided key
    */
   public void set(String key, String value) {
     getHashMap().put(key, value);
-  }
-
-  private HashMap<String, String> getHashMap() {
-    if (map == null) {
-      map = new HashMap<String, String>();
-      map.put("logSequence", "" + getRecordSequence());
-    }
-    return map;
   }
 }
