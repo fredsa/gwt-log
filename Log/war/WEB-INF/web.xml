@@ -20,12 +20,10 @@
       <!-- This value assumes a GWT compile with '-deploy war/WEB-INF/deploy/' -->
       <param-value>WEB-INF/deploy/demo/symbolMaps</param-value>
     </init-param>
-    <!-- 
     <init-param>
       <param-name>Access-Control-Allow-Origin</param-name>
-      <param-value>http://crossdomain.gwt-log-hrd.appspot.com</param-value>
+      <param-value>http://gwt-log.appspot.com</param-value>
     </init-param>
-    -->
   </servlet>
 
   <servlet-mapping>
