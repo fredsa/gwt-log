@@ -7,9 +7,9 @@
 		<property name="googlecode-libsummary" value="Logging capabilities for Google-Web-Toolkit (GWT)" />
 		<property name="googlecode-javadocsummary" value="Javadoc for ${ant.project.name} source and demos (examples)" />
 		<property name="googlecode-sourcessummary" value="Sources for ${ant.project.name}" />
-		<property name="googlecode-liblabels" value="Type-Library, OpSys-All, GWT-GWT_2.5.1, Java-1.6, ReleaseCandidate" />
-		<property name="googlecode-javadoclabels" value="Type-Docs, OpSys-All, GWT-GWT_2.5.1, Java-1.6, ReleaseCandidate" />
-		<property name="googlecode-sourceslabels" value="Type-Sources, OpSys-All, GWT-GWT_2.5.1, Java-1.6, Deprecated" />
+		<property name="googlecode-liblabels" value="Type-Library, OpSys-All, GWT-GWT_2.6.0, Java-1.6, ReleaseCandidate" />
+		<property name="googlecode-javadoclabels" value="Type-Docs, OpSys-All, GWT-GWT_2.6.0, Java-1.6, ReleaseCandidate" />
+		<property name="googlecode-sourceslabels" value="Type-Sources, OpSys-All, GWT-GWT_2.6.0, Java-1.6, Deprecated" />
 		<property name="filtertoken" value="GWT_LOG_VERSION" />
 
 		<!-- define Maven staging repository id and url -->
