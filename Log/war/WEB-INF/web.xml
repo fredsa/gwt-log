@@ -11,12 +11,12 @@
     <servlet-name>remote-logger-servlet</servlet-name>
     <servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServlet</servlet-class>
     <init-param>
-      <param-name>symbolMaps_1</param-name>
+      <param-name>symbolMapsFileSystem_1</param-name>
       <!-- This value assumes a GWT compile with '-deploy war/WEB-INF/deploy/' -->
       <param-value>WEB-INF/deploy/clientserverdemo/symbolMaps</param-value>
     </init-param>
     <init-param>
-      <param-name>symbolMaps_2</param-name>
+      <param-name>symbolMapsFileSystem_2</param-name>
       <!-- This value assumes a GWT compile with '-deploy war/WEB-INF/deploy/' -->
       <param-value>WEB-INF/deploy/demo/symbolMaps</param-value>
     </init-param>
@@ -47,12 +47,12 @@
     <servlet-name>cross-domain-remote-logger-servlet</servlet-name>
     <servlet-class>com.allen_sauer.gwt.log.demo.server.PromiscuousRemoteLoggerServlet</servlet-class>
     <init-param>
-      <param-name>symbolMaps_1</param-name>
+      <param-name>symbolMapsFileSystem_1</param-name>
       <!-- This value assumes a GWT compile with '-deploy war/WEB-INF/deploy/' -->
       <param-value>WEB-INF/deploy/clientserverdemo/symbolMaps</param-value>
     </init-param>
     <init-param>
-      <param-name>symbolMaps_2</param-name>
+      <param-name>symbolMapsFileSystem_2</param-name>
       <!-- This value assumes a GWT compile with '-deploy war/WEB-INF/deploy/' -->
       <param-value>WEB-INF/deploy/demo/symbolMaps</param-value>
     </init-param>
