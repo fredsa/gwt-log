@@ -87,14 +87,6 @@
   </property-provider>
 
 
-  <!-- (DEPRECATED) FirebugLogger -->
-  <define-property name="log_FirebugLogger" values="ENABLED, DISABLED" />
-  <set-property name="log_FirebugLogger" value="DISABLED" />
-  <replace-with class="com.allen_sauer.gwt.log.client.NullLogger">
-    <when-type-is class="com.allen_sauer.gwt.log.client.FirebugLogger" />
-  </replace-with>
-
-
   <!-- ConsoleLogger -->
 
   <define-property name="log_ConsoleLogger" values="ENABLED, DISABLED" />
@@ -103,7 +95,6 @@
     <when-type-is class="com.allen_sauer.gwt.log.client.ConsoleLogger" />
     <none>
       <when-property-is name="log_ConsoleLogger" value="ENABLED" />
-      <when-property-is name="log_FirebugLogger" value="ENABLED" />
     </none>
   </replace-with>
 
