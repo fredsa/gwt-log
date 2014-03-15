@@ -5,6 +5,9 @@ gwt-unitCache/
 # Eclispe compiled output
 classes/
 
+# Sublime
+gwt-log.sublime-workspace
+
 # App Engine SDK
 appengine-api-1.0-sdk-*.jar
 appengine-api-labs-*.jar
