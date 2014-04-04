@@ -15,13 +15,15 @@
  */
 package com.allen_sauer.gwt.log.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import java.io.Serializable;
 
 /**
  * Representation of a client-side thrown exception, which can be serialized via RPC.
  */
 @SuppressWarnings("serial")
-public class WrappedClientThrowable implements Serializable {
+public class WrappedClientThrowable implements Serializable, IsSerializable {
   // CHECKSTYLE_JAVADOC_OFF
 
   public static WrappedClientThrowable getInstanceOrNull(Throwable ex) {
@@ -73,7 +75,7 @@ public class WrappedClientThrowable implements Serializable {
   /**
    * Replace the current client stack trace with a new one. This is used in the deobfuscation
    * process.
-   * 
+   *
    * @param clientStackTrace the new client stack trace
    */
   public void setClientStackTrace(StackTraceElement[] clientStackTrace) {
