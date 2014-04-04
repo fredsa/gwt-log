@@ -16,7 +16,6 @@ import com.allen_sauer.gwt.log.client.RemoteLoggerService;
 import com.allen_sauer.gwt.log.shared.LogRecord;
 import com.allen_sauer.gwt.log.shared.WrappedClientThrowable;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -98,12 +97,6 @@ public class RemoteLoggerServlet extends RemoteServiceServlet implements RemoteL
   @Override
   public final void init(ServletConfig config) throws ServletException {
     super.init(config);
-
-    String cwd = "<unknown>";
-    try {
-      cwd = new File(".").getCanonicalPath();
-    } catch (IOException ignore) {
-    }
 
     deobfuscatorList = new ArrayList<StackTraceDeobfuscator>();
     for (@SuppressWarnings("unchecked")
