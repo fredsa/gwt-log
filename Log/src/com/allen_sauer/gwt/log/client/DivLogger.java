@@ -16,6 +16,7 @@ package com.allen_sauer.gwt.log.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -140,7 +141,7 @@ public class DivLogger implements Logger {
       DOM.setCapture(resizePanel.getElement());
       dragStartX = event.getX();
       dragStartY = event.getY();
-      DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
+      event.preventDefault();
     }
 
     @Override
@@ -224,7 +225,7 @@ public class DivLogger implements Logger {
     logDockPanel.add(headerPanel, DockPanel.NORTH);
     logDockPanel.add(scrollPanel, DockPanel.CENTER);
     logDockPanel.add(resizePanel, DockPanel.SOUTH);
-    DOM.setStyleAttribute(DOM.getParent(resizePanel.getElement()), "lineHeight", "1px");
+    resizePanel.getElement().getStyle().setLineHeight(1, Unit.PX);
     logDockPanel.setCellHorizontalAlignment(resizePanel, HasHorizontalAlignment.ALIGN_RIGHT);
 
     scrollPanel.setWidget(logTextArea);
@@ -327,8 +328,7 @@ public class DivLogger implements Logger {
         levelButtons[i].setTitle(current ? "Current (runtime) log level is already '" + levelText
             + "'" : "Set current (runtime) log level to '" + levelText + "'");
         boolean active = level <= levels[i];
-        DOM.setStyleAttribute(levelButtons[i].getElement(), "color", active ? getColor(levels[i])
-            : "#ccc");
+        levelButtons[i].getElement().getStyle().setColor(active ? getColor(levels[i]) : "#ccc");
       }
     }
   }

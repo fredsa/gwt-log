@@ -16,7 +16,6 @@ package com.allen_sauer.gwt.log.demo.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -49,7 +48,7 @@ public class LogDemo implements EntryPoint {
    */
   private void onModuleLoad2() {
     RootPanel mainPanel = RootPanel.get(DEMO_MAIN_PANEL);
-    DOM.setInnerHTML(mainPanel.getElement(), "");
+    mainPanel.getElement().setInnerHTML("");
     mainPanel.add(new InteractiveDemoPanel());
   }
 }
