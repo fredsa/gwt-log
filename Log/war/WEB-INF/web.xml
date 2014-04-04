@@ -26,21 +26,6 @@
     </init-param>
   </servlet>
 
-  <servlet-mapping>
-    <servlet-name>remote-logger-servlet</servlet-name>
-    <url-pattern>/demo/gwt-log</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>remote-logger-servlet</servlet-name>
-    <url-pattern>/gettingstarted/gwt-log</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>remote-logger-servlet</servlet-name>
-    <url-pattern>/clientserverdemo/gwt-log</url-pattern>
-  </servlet-mapping>
-
   <!--Cross domain remote logger service -->
 
   <servlet>
@@ -58,17 +43,34 @@
     </init-param>
   </servlet>
 
-  <servlet-mapping>
-    <servlet-name>cross-domain-remote-logger-servlet</servlet-name>
-    <url-pattern>/crossdomain/gwt-log</url-pattern>
-  </servlet-mapping>
-
   <!-- Increment service -->
 
   <servlet>
     <servlet-name>increment-servlet</servlet-name>
     <servlet-class>com.allen_sauer.gwt.log.clientserverdemo.server.IncrementServlet</servlet-class>
   </servlet>
+
+  <!-- Servlet mappings -->
+  
+  <servlet-mapping>
+    <servlet-name>remote-logger-servlet</servlet-name>
+    <url-pattern>/demo/gwt-log</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>remote-logger-servlet</servlet-name>
+    <url-pattern>/gettingstarted/gwt-log</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>remote-logger-servlet</servlet-name>
+    <url-pattern>/clientserverdemo/gwt-log</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>cross-domain-remote-logger-servlet</servlet-name>
+    <url-pattern>/crossdomain/gwt-log</url-pattern>
+  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>increment-servlet</servlet-name>
