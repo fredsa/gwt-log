@@ -3,13 +3,14 @@
   [
     {
       "follow_symlinks": true,
-      "path": "Log",
+      "path": "/fred/src/gwt-log",
       "folder_exclude_patterns": [
           "build",
           "gen",
           "gwt-unitCache",
           "war/WEB-INF/classes",
           "war/WEB-INF/deploy",
+          "war/WEB-INF/lib",
           "war/demo",
           "war/clientserverdemo",
           "war/gettingstarted"
