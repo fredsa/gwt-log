@@ -1,11 +1,11 @@
 /*
  * Copyright 2009 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -18,6 +18,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.allen_sauer.gwt.log.server.ServerLog;
 import com.allen_sauer.gwt.log.server.ServerLogImplJDK14;
 import com.allen_sauer.gwt.log.server.ServerLogImplLog4J;
+import com.allen_sauer.gwt.log.server.ServerLogImplSLF4J;
 import com.allen_sauer.gwt.log.server.ServerLogImplStdio;
 import com.allen_sauer.gwt.log.shared.LogRecord;
 
@@ -39,7 +40,9 @@ public final class Log {
   static {
     String remoteLoggerPreference = System.getProperty(GWT_LOG_REMOTE_LOGGER_PREFERENCE);
     if (remoteLoggerPreference != null) {
-      if (remoteLoggerPreference.equals("LOG4J")) {
+      if (remoteLoggerPreference.equals("SLF4J")) {
+        impl = trySLF4J();
+      } else if (remoteLoggerPreference.equals("LOG4J")) {
         impl = tryLog4J();
       } else if (remoteLoggerPreference.equals("JDK14")) {
         impl = tryJDK14();
@@ -61,6 +64,10 @@ public final class Log {
         impl = tryJDK14();
       } catch (Exception ignore) {
       }
+    }
+
+    if (impl == null) {
+      impl = trySLF4J();
     }
 
     if (impl == null) {
@@ -300,6 +307,17 @@ public final class Log {
       // Likely no log4j present; ignore and move on
     } catch (Throwable e) {
       // Unexpected
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private static ServerLog trySLF4J() {
+    try {
+      return new ServerLogImplSLF4J();
+    } catch (NoClassDefFoundError e) {
+      // Likely no SLF4J present; ignore and move on
+    } catch (Throwable e) {
       e.printStackTrace();
     }
     return null;

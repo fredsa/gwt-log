@@ -38,6 +38,9 @@
 		<!-- log4j stuff -->
 		<input addproperty="log4j.location" defaultvalue="war/WEB-INF/lib/log4j-1.2.15.jar" message="Location of Apache log4j jar" />
 
+		<!-- SLF4J stuff -->
+		<input addproperty="slf4j.location" defaultvalue="war/WEB-INF/lib/slf4j-api-1.7.7.jar" message="Location of SLF4J jar" />
+
 		<!-- javac defaults -->
 		<property name="javac.debug" value="true" />
 		<property name="javac.debuglevel" value="lines,vars,source" />
@@ -198,6 +201,7 @@
 			<classpath location="${gwt-servlet.jar}" />
 			<classpath location="${gwt-dev.jar}" />
 			<classpath location="${log4j.location}" />
+			<classpath location="${slf4j.location}" />
 		</javac>
 
 		<!-- build demo files as a sanity check -->
@@ -231,6 +235,7 @@
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-dev.jar}" />
 			<classpath location="${log4j.location}" />
+			<classpath location="${slf4j.location}" />
 		</javac>
 
 	</target>
@@ -273,7 +278,7 @@
 	</target>
 
 	<target name="javadoc" description="Generate Javadoc" depends="javac">
-		<javadoc access="protected" classpath="${gwt-user.jar}:${log4j.location}" destdir="build/javadoc" doctitle="${ant.project.name} - ${projectdescription}" encoding="UTF-8" failonerror="true" source="1.7" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
+		<javadoc access="protected" classpath="${gwt-user.jar}:${log4j.location}:${slf4j.location}" destdir="build/javadoc" doctitle="${ant.project.name} - ${projectdescription}" encoding="UTF-8" failonerror="true" source="1.7" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.log.rebind" />
 	</target>
 
 	<target name="stat">
