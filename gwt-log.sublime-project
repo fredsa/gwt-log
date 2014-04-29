@@ -5,19 +5,21 @@
       "follow_symlinks": true,
       "path": "/fred/src/gwt-log",
       "folder_exclude_patterns": [
+          "Voices",
+          "VoicesCrowd"
+        ]
+    },
+    {
+      "follow_symlinks": true,
+      "path": "/fred/src/gwt-log/Log",
+      "folder_exclude_patterns": [
           "build",
-          "gen",
           "gwt-unitCache",
-          "war/WEB-INF/classes",
-          "war/WEB-INF/deploy",
-          "war/WEB-INF/lib",
           "war/demo",
-          "war/clientserverdemo",
-          "war/gettingstarted"
-        ],
-      "file_exclude_patterns": [
-        "war/WEB-INF/classes/.*"
-      ]
+          "war/test",
+          "war/WEB-INF/classes",
+          "war/WEB-INF/deploy"
+        ]
     }
   ]
 }
