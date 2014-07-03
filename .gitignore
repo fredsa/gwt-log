@@ -19,3 +19,6 @@ appengine-endpoints*.jar
 
 # GWT SDK
 gwt-servlet.jar
+
+# OSX
+.DS_Store
