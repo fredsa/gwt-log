@@ -3,7 +3,7 @@
   [
     {
       "follow_symlinks": true,
-      "path": "/fred/src/gwt-log",
+      "path": ".",
       "folder_exclude_patterns": [
           "Voices",
           "VoicesCrowd"
@@ -11,7 +11,7 @@
     },
     {
       "follow_symlinks": true,
-      "path": "/fred/src/gwt-log/Log",
+      "path": "Log",
       "folder_exclude_patterns": [
           "build",
           "gwt-unitCache",
