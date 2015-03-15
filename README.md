@@ -13,15 +13,15 @@ Library, provides easy to use logging capabilities, which works transparently on
   * Both client side and server side logging work seamlessly with [Google App Engine](https://cloud.google.com/appengine)
   * Wide variety of context sensitive log destinations:
 
-| **Logger** | **Description** |
-|:-----------|:----------------|
-| `ConsoleLogger` | Utilizes `console.log()` for supporting browsers and installed JavaScript libraries. |
-| `FirebugLogger` | Utilizes [Firebug](http://www.getfirebug.com/) console [API](http://getfirebug.com/logging) logging. |
-| `DivLogger` | Utilizes a floating/draggable `DIV` for log messages. |
-| `GWTLogger` | Utilizes `GWT.log()`, which will appear in the development shell in Development Mode. |
-| `SystemLogger` | Utilizes `System.err` and `System.out`. |
-| `RemoteLogger` | Sends copies of client log messages to the server, with optional deobfuscation. |
-| `WindowLogger` | (Experimental) Logs messages to a separate window. |
+    | **Logger** | **Description** |
+    |:-----------|:----------------|
+    | `ConsoleLogger` | Utilizes `console.log()` for supporting browsers and installed JavaScript libraries. |
+    | `FirebugLogger` | Utilizes [Firebug](http://www.getfirebug.com/) console [API](http://getfirebug.com/logging) logging. |
+    | `DivLogger` | Utilizes a floating/draggable `DIV` for log messages. |
+    | `GWTLogger` | Utilizes `GWT.log()`, which will appear in the development shell in Development Mode. |
+    | `SystemLogger` | Utilizes `System.err` and `System.out`. |
+    | `RemoteLogger` | Sends copies of client log messages to the server, with optional deobfuscation. |
+    | `WindowLogger` | (Experimental) Logs messages to a separate window. |
 
 <sup>+ Unless your logging parameters are determined by the GWT compiler to have </sup>_<sup>side effects</sup>_
 
@@ -43,6 +43,7 @@ Read the wiki here: https://github.com/fredsa/gwt-log/blob/wiki/GettingStarted.m
 Please let me know what you think. Suggestions are always welcome.
 
 # Other GWT projects by the same author #
+
 | **Project** | **Description** |
 |:------------|:----------------|
 | [gwt-dnd](https://github.com/fredsa/gwt-dnd/) | Provides drag and drop support for your GWT applications. |
