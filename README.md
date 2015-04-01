@@ -37,7 +37,7 @@ Try the [logging demo](http://allen-sauer.com/com.allen_sauer.gwt.log.demo.LogDe
 [![](http://storage.googleapis.com/gwt-log/2008-10-28-log-panel-click-here.png)](http://allen-sauer.com/com.allen_sauer.gwt.log.demo.LogDemo/LogDemo.html)
 
 # Getting started with your own gwt-log project #
-Read the wiki here: https://github.com/fredsa/gwt-log/blob/wiki/GettingStarted.md
+Read the wiki here: https://github.com/fredsa/gwt-log/wiki/GettingStarted
 
 # Feedback #
 Please let me know what you think. Suggestions are always welcome.
