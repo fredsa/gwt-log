@@ -1,3 +1,7 @@
+![status: inactive](https://img.shields.io/badge/status-inactive-red.svg)
+
+This project is no longer actively developed or maintained.
+
 # Summary #
 Library, provides easy to use logging capabilities, which works transparently on both the client and the server, while providing compile time elimination of client logging code via deferred binding for [Google Web Toolkit](http://www.gwtproject.org/) (GWT).
 
